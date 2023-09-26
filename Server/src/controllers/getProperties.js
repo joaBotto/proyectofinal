@@ -5,7 +5,7 @@ const getProperties = async () => {
     if (properties) {
         return properties
     } else {
-        throw new Error ("there are no properties")
+        throw new Error ("There are no properties")
     }
 }
 
