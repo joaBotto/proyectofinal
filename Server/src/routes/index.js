@@ -67,10 +67,21 @@ router.post("/property", async (req, res) => {
     } 
 })
 //PEDIDO DE LAS PROPIEDADES
-router.get("/allproperties", async (req,res) => {
+router.get("/property", async (req,res) => {
     try {
         const properties = await getProperties();
         return res.status(200).json(properties)
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+})
+
+//PEDIDO DEL DETAIL
+router.get("/detail/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const propertyDetail = await detailingProperty(id);
+        return res.status(200).json(propertyDetail)
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }

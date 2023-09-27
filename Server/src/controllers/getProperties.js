@@ -1,7 +1,7 @@
 const property = require('../models/property');
 
 const getProperties = async () => {
-    const properties = await property.find()
+    const properties = await property.find().lean()
     if (properties) {
         return properties
     } else {
