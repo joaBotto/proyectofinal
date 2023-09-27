@@ -1,51 +1,62 @@
 const { Router } = require("express");
 const router = Router();
-const creatingUser = require("../controllers/creatingUser");
-const creatingProperty = require("../controllers/creatingProperty");
-const getProperties = require("../controllers/getProperties");
-const detailingProperty = require("../controllers/detailingProperty");
+//const creatingUser = require("../controllers/creatingUser");
+//const creatingProperty = require("../controllers/creatingProperty");
+//const getProperties = require("../controllers/getProperties");
+//const detailingProperty = require("../controllers/detailingProperty");
+
+const propertiesRouter = require("./propertiesRouter");
+const usersRouter = require("./usersRouter");
+
+// Configurar los routers
+router.use("/property", propertiesRouter); // ruta_backend/properties -> Te lleva al router de propiedades
+router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de useres
+
+module.exports = router;
+
 // CREANDO USUARIO
-router.post("/users", async (req, res) => {
-	try {
-		const {
-			email,
-			password,
-			name,
-			lastName,
-			country,
-			city,
-			address,
-			phoneNumber,
-		} = req.body;
-		const user = {
-			email,
-			password,
-			name,
-			lastName,
-			country,
-			city,
-			address,
-			phoneNumber,
-		};
-		if (
-			email &&
-			password &&
-			name &&
-			lastName &&
-			country &&
-			city &&
-			address &&
-			phoneNumber
-		) {
-			const newUser = await creatingUser(user);
-			return res.status(201).json(newUser);
-		} else {
-			return res.status(400).json({ error: "missing data" });
-		}
-	} catch (error) {
-		return res.status(500).json({ error: error.message });
-	}
-});
+// router.post("/users", async (req, res) => {
+// 	try {
+// 		const {
+// 			email,
+// 			password,
+// 			name,
+// 			lastName,
+// 			country,
+// 			city,
+// 			address,
+// 			phoneNumber,
+// 		} = req.body;
+// 		const user = {
+// 			email,
+// 			password,
+// 			name,
+// 			lastName,
+// 			country,
+// 			city,
+// 			address,
+// 			phoneNumber,
+// 		};
+// 		if (
+// 			email &&
+// 			password &&
+// 			name &&
+// 			lastName &&
+// 			country &&
+// 			city &&
+// 			address &&
+// 			phoneNumber
+// 		) {
+// 			const newUser = await creatingUser(user);
+// 			return res.status(201).json(newUser);
+// 		} else {
+// 			return res.status(400).json({ error: "missing data" });
+// 		}
+// 	} catch (error) {
+// 		return res.status(500).json({ error: error.message });
+// 	}
+// });
+
 // CREANDO PROPIEDAD
 router.post("/property", async (req, res) => {
 	try {
@@ -86,7 +97,4 @@ router.get("/property", async (req, res) => {
 });
 
 //PEDIDO DEL DETAIL
-//comment
 router.get("/detail/:id", detailingProperty);
-
-module.exports = router;
