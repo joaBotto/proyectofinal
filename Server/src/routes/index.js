@@ -2,7 +2,8 @@ const { Router } = require("express");
 const router = Router();
 const creatingUser = require("../controllers/creatingUser");
 const creatingProperty = require("../controllers/creatingProperty");
-const getProperties = require("../controllers/getProperties")
+const getProperties = require("../controllers/getProperties");
+const detailingProperty = require("../controllers/detailingProperty")
 // CREANDO USUARIO
 router.post("/users", async (req, res) => {
   try {
@@ -77,16 +78,8 @@ router.get("/property", async (req,res) => {
 })
 
 //PEDIDO DEL DETAIL
-router.get("/detail/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const propertyDetail = await detailingProperty(id);
-        return res.status(200).json(propertyDetail)
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
-})
 
+ router.get("/detail/:id", detailingProperty)
 
 
 module.exports = router;
