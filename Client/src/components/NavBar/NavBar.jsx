@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import Searchbar from '../SearchBar/SearchBar';
 
 const user = {
 	name: 'Tom Cook',
@@ -10,10 +11,9 @@ const user = {
 };
 const navigation = [
 	{ name: 'Dashboard', href: '#', current: true },
-	{ name: 'Team', href: '#', current: false },
-	{ name: 'Projects', href: '#', current: false },
-	{ name: 'Calendar', href: '#', current: false },
-	{ name: 'Reports', href: '#', current: false },
+	{ name: 'HOME', href: '#', current: false },
+	{ name: 'ABOUT', href: '#', current: false },
+	{ name: 'SAVED', href: '#', current: false },
 ];
 const userNavigation = [
 	{ name: 'Your Profile', href: '#' },
@@ -46,7 +46,7 @@ export default function NavBar() {
 										<div className='flex-shrink-0'>
 											<img
 												className='h-8 w-8'
-												src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
+												src='../../img/logo.png'
 												alt='Your Company'
 											/>
 										</div>
@@ -211,7 +211,7 @@ export default function NavBar() {
 				<header className='bg-white shadow'>
 					<div className='mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8'>
 						<h1 className='text-3xl font-bold tracking-tight text-gray-900'>
-							Dashboard
+							<Searchbar />
 						</h1>
 					</div>
 				</header>
