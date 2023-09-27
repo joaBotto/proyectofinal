@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 
-const propertiesRouter = require("./propertiesRouter");
+const { propertiesRouter } = require("./propertiesRouter");
 const { usersRouter } = require("./usersRouter");
 
 // Configurar los routers
