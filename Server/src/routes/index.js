@@ -9,7 +9,3 @@ router.use("/property", propertiesRouter); // ruta_backend/properties -> Te llev
 router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de useres
 
 module.exports = router;
-
-
-
-
