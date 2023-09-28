@@ -1,17 +1,15 @@
-// App.js
-import React from 'react';
-import Navbar from './components/NavBar/NavBar';
-import Footer from './components/Footer/Footer';
-import Cards from './components/Cards/Cards';
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Login from "./components/login/login";
 
 function App() {
-	return (
-		<div>
-			<Navbar />
-			<Cards />
-			<Footer />
-		</div>
-	);
+  return (
+    <>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
