@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const authRouter = Router();
 const passport = require('passport')
-require("../../middlewares/middlewares.js");
+require("../../middlewares/google");
 
 authRouter.get("/google",passport.authenticate("auth-google", {
     scope: [

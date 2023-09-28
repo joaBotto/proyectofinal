@@ -1,15 +1,16 @@
-import Users from '../src/models/user'
-import { use } from 'passport';
-import { OAuth2Strategy as GoogleStrategy } from "passport-google-oauth";
-import bcrypt from 'bcrypt';
+const Users = require('../src/models/user');
+require('dotenv').config();
+const passport = require('passport');
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+const bcrypt = require('bcrypt');
 
 
 
-use("auth-google",
+passport.use("auth-google",
     new GoogleStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000"
+    clientID: "394324508634-dekdd0gut3m661r1krmphogn2ncsqgg9.apps.googleusercontent.com",
+    clientSecret: "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",
+    callbackURL: "http://localhost:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     const email = profile.emails[0].value; // Obtener el correo electrónico
