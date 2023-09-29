@@ -1,58 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-// Supongamos que tienes una base de datos de productos en formato JSON
-const database = [
+const exampleData = [
 	{
 		id: 1,
-		name: 'casa quinta',
-		description: 'Descripción del Producto 1',
-		price: 10,
-		location: 'tachira',
+		name: 'Ejemplo 1',
+		description: 'Descripción de Ejemplo 1',
+		price: 100,
+		location: 'Ejemplo Location 1',
 	},
 	{
 		id: 2,
-		name: 'departamento duplex',
-		description: 'Descripción del Producto 2',
-		price: 20,
-		location: 'buenos aires',
+		name: 'Ejemplo 2',
+		description: 'Descripción de Ejemplo 2',
+		price: 200,
+		location: 'Ejemplo Location 2',
 	},
-	// Agrega más productos aquí...
+	// Agrega más datos de ejemplo según sea necesario
 ];
 
-const itemsPerPage = 5; // Cantidad de productos por página
-
-const Searchbar = () => {
+const SearchBar = () => {
+	// Estado para el término de búsqueda
 	const [searchTerm, setSearchTerm] = useState('');
+	// Estado para la página actual
 	const [currentPage, setCurrentPage] = useState(1);
-	const [products, setProducts] = useState([]); // Estado para almacenar los productos
+	const itemsPerPage = 10;
 
-	useEffect(() => {
-		// Simulamos una solicitud a la base de datos, por ejemplo, usando fetch o Axios
-		// En este ejemplo, simplemente establecemos los productos de la base de datos ficticia en el estado.
-		setProducts(database);
-	}, []);
-
-	// Función para realizar la búsqueda de productos por nombre, precio o ubicación
-	const searchProducts = () => {
-		return products.filter(
-			(product) =>
-				product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				product.price.toString().includes(searchTerm) ||
-				product.location.toLowerCase().includes(searchTerm.toLowerCase())
-		);
-	};
+	// Función para buscar productos por nombre, precio o ubicación
+	// Comentamos esta función para evitar errores por ahora
+	// const searchProducts = () => {
+	//   // En lugar de utilizar 'products', usarías tus datos reales cuando estén disponibles
+	//   // return products.filter(
+	//   //   (product) =>
+	//   //     product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+	//   //     product.price.toString().includes(searchTerm) ||
+	//   //     product.location.toLowerCase().includes(searchTerm.toLowerCase())
+	//   // );
+	// };
 
 	// Función para cambiar de página
 	const handlePageChange = (page) => {
 		setCurrentPage(page);
 	};
 
-	const filteredProducts = searchProducts();
-	const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
-	const paginatedProducts = filteredProducts.slice(
-		(currentPage - 1) * itemsPerPage,
-		currentPage * itemsPerPage
-	);
+	// Filtrar productos y paginar
+	// Comentamos estas líneas para evitar errores por ahora
+	// const filteredProducts = searchProducts();
+	// const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
+	// const paginatedProducts = filteredProducts.slice(
+	//   (currentPage - 1) * itemsPerPage,
+	//   currentPage * itemsPerPage
+	// );
 
 	return (
 		<div className='p-4'>
@@ -63,7 +60,8 @@ const Searchbar = () => {
 				value={searchTerm}
 				onChange={(e) => setSearchTerm(e.target.value)}
 			/>
-			{paginatedProducts.length === 0 ? (
+			{/* Mantenemos este bloque comentado para evitar errores */}
+			{/* {paginatedProducts.length === 0 ? (
 				<p>No se encontraron resultados.</p>
 			) : (
 				<ul>
@@ -74,8 +72,9 @@ const Searchbar = () => {
 						</li>
 					))}
 				</ul>
-			)}
-			{pageCount > 1 && (
+			)} */}
+			{/* Mantenemos este bloque comentado para evitar errores */}
+			{/* {pageCount > 1 && (
 				<div className='mt-4'>
 					<span className='mr-2'>
 						Página {currentPage} de {pageCount}
@@ -84,17 +83,17 @@ const Searchbar = () => {
 						<button
 							key={index}
 							onClick={() => handlePageChange(index + 1)}
-							className={`px-2 py-1 border ${
-								currentPage === index + 1 ? 'bg-gray-500 text-white' : ''
+							className={`btn btn-sm btn-primary mr-2 ${
+								currentPage === index + 1 ? 'active' : ''
 							}`}
 						>
 							{index + 1}
 						</button>
 					))}
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 };
 
-export default Searchbar;
+export default SearchBar;
