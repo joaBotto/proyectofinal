@@ -1,10 +1,9 @@
 import "./login.css";
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 
 export default function Login() {
-  let regExPassword =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
+  let regExPassword = /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{1,15}$/;
   let regExEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
   return (
     <>
@@ -21,22 +20,20 @@ export default function Login() {
           // Validamos el email y ademas testeamos con una expresion regular para que el email escrito sea formato correcto de email
           if (!valores.email) {
             errores.email = "Please, put an email";
-            if (regExEmail.test(valores.email)) {
-              errores.email = "Invalid email";
-            }
+          } else if (!regExEmail.test(valores.email)) {
+            errores.email = "Invalid email";
           }
           if (!valores.password) {
             errores.password = "Please, put your password";
-            if (regExPassword.test(valores.password)) {
-              errores.email = "Invalid password";
-            }
+          } else if (!regExPassword.test(valores.password)) {
+            errores.password = "Invalid password";
           }
 
           return errores;
         }}
-        onSubmit={(valores) => {
-          console.log(valores);
-          alert("Formulario enviado");
+        onSubmit={(valores, { resetForm }) => {
+          console.log("Formulario enviado");
+          resetForm();
         }}
       >
         {({
@@ -80,13 +77,10 @@ export default function Login() {
               )}
             </div>
             <button type="submit">Log In</button>
-            <button type="text" className="button">
+            <button type="submit" className="button">
               Log In with google
             </button>
-            <a
-              href="https://www.flaticon.es/iconos-gratis/google"
-              title="google iconos"
-            ></a>
+            {/* <img src="google.png" alt="google" /> */}
           </form>
         )}
       </Formik>
