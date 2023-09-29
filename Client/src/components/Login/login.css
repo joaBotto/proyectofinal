@@ -70,9 +70,10 @@ body {
   border: none;
   cursor: pointer;
   width: 100%;
-  padding: 10px;
+  /* padding: 10px; */
   border-radius: 5px;
   color: #fff;
+  margin: 5px;
   font-size: 16px;
   transition: 0.3s ease all;
 }
