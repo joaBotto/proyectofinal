@@ -21,17 +21,32 @@ export default function Login() {
           // Validamos el email y ademas testeamos con una expresion regular para que el email escrito sea formato correcto de email
           if (!valores.email) {
             errores.email = "Please, put an email";
-          } else if (regExEmail.test(valores.email)) {
-            errores.email = "El email debe ser correcto";
+            if (regExEmail.test(valores.email)) {
+              errores.email = "Invalid email";
+            }
           }
+          if (!valores.password) {
+            errores.password = "Please, put your password";
+            if (regExPassword.test(valores.password)) {
+              errores.email = "Invalid password";
+            }
+          }
+
           return errores;
         }}
         onSubmit={(valores) => {
           console.log(valores);
-          console.log("Formulario enviado");
+          alert("Formulario enviado");
         }}
       >
-        {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
+        {({
+          values,
+          errors,
+          touched,
+          handleSubmit,
+          handleChange,
+          handleBlur,
+        }) => (
           <form className="formulario" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email">Email</label>
@@ -45,7 +60,9 @@ export default function Login() {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.email && <div className="error">{errors.email}</div>}
+              {touched.email && errors.email && (
+                <div className="error">{errors.email}</div>
+              )}
             </div>
             <div>
               <label htmlFor="password">Password</label>
@@ -58,11 +75,18 @@ export default function Login() {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.password && (
+              {touched.password && errors.password && (
                 <div className="error">{errors.password}</div>
               )}
             </div>
-            <button type="submit">Send</button>
+            <button type="submit">Log In</button>
+            <button type="text" className="button">
+              Log In with google
+            </button>
+            <a
+              href="https://www.flaticon.es/iconos-gratis/google"
+              title="google iconos"
+            ></a>
           </form>
         )}
       </Formik>
