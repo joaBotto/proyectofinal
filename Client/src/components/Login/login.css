@@ -36,7 +36,7 @@ body {
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 5px;
-  color: #1f1f1f;
+  color: #181212;
 }
 
 .formulario input,
@@ -48,7 +48,7 @@ body {
   font-size: 18px;
   padding: 10px;
   margin-bottom: 5px;
-  color: #1f1f1f;
+  color: #d8d8d8;
 }
 
 .formulario input:focus {
