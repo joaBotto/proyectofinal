@@ -1,30 +1,33 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/login/login";
-//import Home from "./views/Home/Home";
-import Dashboard from "./components/dashboard/visualDashboard"
-import PersonalDate from "./components/dashboard/editPersonalDate"
-import Security from "./components/dashboard/editSecurity"
-import Payment from "./components/dashboard/editPayment"
-//import Property from "./components/dashboard/editProperty"
-//import EmailNotification from "./components/dashboard/emailNotification"
+import Home from "./views/Home/Home";
+import AccountEdit from "./components/accountEdit/visualAccount";
+import PersonalDate from "./components/accountEdit/editPersonalDate";
+import Security from "./components/accountEdit/editSecurity";
+import Payment from "./components/accountEdit/editPayment";
+//import EmailNotification from "./components/account/emailNotification"
+/////////////////
+import Property from "./components/propertyAdmin/listProperty"
 
 
 function App() {
-	return (
-		<>
-			<Routes>
-				<Route path="/login" element={<Login />} />
-			{/* 	<Route path="/" element={<Home />} /> */}
-				<Route path="/" element={<Dashboard/>} />
-				<Route path="edit_personal_date" element={<PersonalDate/>} />
-				<Route path="edit_security" element={<Security/>} />
-				<Route path="edit_payment" element={<Payment/>} />
-		{/* 		<Route path="/edit_property" element={<Property/>} />
-				<Route path="/email_notification" element={<EmailNotification/>} /> */}
-			</Routes>
-		</>
-	);
+  return (
+    <>
+      <Routes>
+        <Route path="/login" element={<Login/>} />
+        <Route path="/" element={<Home/>} />
+		<Route path="/property" element={<Property/>} />
+        <Route path="/accountEdit" element={<AccountEdit/>} />
+		<Route path="/dashboard/edit_personal_date" element={<PersonalDate/>}/>
+		<Route path="/dashboard/edit_security" element={<Security/>} />
+		<Route path="/dashboard/edit_payment" element={<Payment/>} />
+
+      </Routes>
+    </>
+  );
 }
 
 export default App;
+
+//<Route path="/email_notification" element={<EmailNotification/>} /> 
