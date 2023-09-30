@@ -11,7 +11,7 @@ const authUser = async (email, password, done) => {
     if (user.password !== password) {
       return done(null, false, { message: 'Invalid Password' });
     }
-
+    
     return done(null, user, { message: 'Valid authentication' });
   } catch (err) {
     return done(err);
