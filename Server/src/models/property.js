@@ -32,6 +32,7 @@ const propertySchema = new mongoose.Schema({
 		},
 	],
 	images: [imageSchema],
+	type: String, // property.type (ph house dept)
 	/*   owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
