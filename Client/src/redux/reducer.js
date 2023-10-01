@@ -12,12 +12,17 @@ import {
     ORDER_BY_RESENA,
     FILTER_BY_CATEGORIA,
     ERROR,
-  } from "./actions";
+    ADD_USER,
+    USER_LOGIN,
+    ADD_PROPERTY,
+  } from "./actions-types";
   
   const initialState = {
     inmuebles: [], //almacena todo los inmuebles
     filteredData: [],//almacena los inmuebles filtrados
     selectinmuebles: [],
+    propertyDetail: {},
+	  user: {},
     inmueblecreado:[],
     details: [],
     error: "",
@@ -25,7 +30,7 @@ import {
     currentPage: 1,
   };
   
-  const rootReducer = (state = initialState, type, payload ) => {
+  const rootReducer = (state = initialState, action ) => {
     switch (action.type) {
       case GET_ALL_PRODUCTO:
         // Lógica para obtener todos los inmuebles
@@ -55,7 +60,17 @@ import {
       ...state,
       error: action.payload,
     };
-  
+    case ADD_PROPERTY:
+			return {
+				...state,
+				properties: [...state.properties, payload],
+				inmuebles: [...state.inmuebles, payload],
+      };
+      case ADD_USER:
+			return {
+				...state,
+				user: payload,
+			};
       case SEARCH_PRODUCTO:
         // Lógica para buscar inmuebles por nombre o descripción
         return {
@@ -79,13 +94,13 @@ import {
     //               ...state,
     //               filteredData: searchResults,
     //             };
-      case CREATE_PRODUCTO:
-        // Lógica para crear un nuevo inmueble
-        return {
-            ...state,
-            inmueblecreado: action.payload,
-            loading: false
-          };
+      // case CREATE_PRODUCTO:
+      //   // Lógica para crear un nuevo inmueble
+      //   return {
+      //       ...state,
+      //       inmueblecreado: action.payload,
+      //       loading: false
+      //     };
   
       case ORDER_BY_UBICACION:
         // Lógica para ordenar inmuebles por ubicación

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {orderByResena } from './redux/actions';
+import {orderByResena } from '.../redux/actions';
 
 function FilterResena() {
   const dispatch = useDispatch()

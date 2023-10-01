@@ -13,14 +13,17 @@ import {
     ORDER_BY_RESENA,
     FILTER_BY_CATEGORIA,
     ERROR,
+    ADD_USER,
+    USER_LOGIN,
+    ADD_PROPERTY,
   } from "./actions-types"; 
 
-  const URL = "http://localhost:3000";
+  const URL = "http://localhost:3001";
 
 export const getAllInmuebles = () => {
     return async (dispatch) => {
         try {
-          const response = await axios.get(`${URL}`);
+          const response = await axios.get(`${URL}/properties`);
           dispatch({
             type: GET_ALL_PRODUCTO,
             payload: response.data,
@@ -36,10 +39,10 @@ export const getAllInmuebles = () => {
    
 
   
-  export const getProductoDetail = (inmuebleId) => {
+  export const getProductoDetail = (Id) => {
     return async (dispatch) => {
         try {
-          const response = await axios.get(`${URL}//${id}`);
+          const response = await axios.get(`${URL}/properties/${id}`);
           dispatch({
             type: GET_PRODUCTO_DETAIL,
             payload: response.data,
@@ -63,7 +66,32 @@ export const getAllInmuebles = () => {
     };
   }
    
+  export const addUser = (user) => async (dispatch) => {
+    try {
+      const { data } = await axios.post(`${URL}/users`, user);
+      dispatch({ type: ADD_USER, payload: data });
+    } catch (error) {
+      return { type: ERROR, payload: error.message };
+    }
+  };
+
+  export const userLogin = (user) => async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${URL}/users`, user);
+      dispatch({ type: USER_LOGIN, payload: data });
+    } catch (error) {
+      return { type: ERROR, payload: error.message };
+    }
+  };
   
+  export const addProperty = (property) => async (dispatch) => {
+    try {
+      const { data } = await axios.post(`${URL}/properties`, property);
+      dispatch({ type: ADD_PROPERTY, payload: data });
+    } catch (error) {
+      return { type: ERROR, payload: error.message };
+    }
+  };
   export const searchProducto = (query) => {
 
     return async (dispatch) => {

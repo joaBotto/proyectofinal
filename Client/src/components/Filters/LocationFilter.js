@@ -58,14 +58,6 @@ const LocationFilter = () => {//permite a los usuarios seleccionar una ubicació
   };
 
   
-  
-
-
-
-
-
-
-
 
 
   return (

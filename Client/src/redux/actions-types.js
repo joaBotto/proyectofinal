@@ -12,3 +12,6 @@ export const FILTER_BY_FONDO = "FILTER_BY_FONDO";
 export const ORDER_BY_RESENA = "ORDER_BY_RESENA";
 export const ERROR= "ERROR"
 export const FILTER_BY_CATEGORIA = "FILTER_BY_CATEGORIA";
+export const ADD_USER = "ADD_USER"
+export const USER_LOGIN = "USER_LOGIN"
+export const ADD_PROPERTY = "ADD_PROPERTY"
