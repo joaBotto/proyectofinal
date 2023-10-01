@@ -15,7 +15,7 @@ export function fetchUserPropertiesSuccess(userProperties) {
 export function fetchUserProperties(userId) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/users/${userId}/properties`); // Reemplaza con tu URL de API
+      const response = await axios.get(`/users/${userId}/properties`); // Reemplaza con tu URL de API
       dispatch(fetchUserPropertiesSuccess(response.data)); // Despacha la acción con los datos obtenidos.
     } catch (error) {
       // Manejar errores aquí (por ejemplo, enviarlos a la tienda Redux o mostrar mensajes de error).
@@ -38,7 +38,7 @@ export function updatePropertySuccess(updatedProperty) {
 export function updateProperty(propertyId, updatedData) {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`/api/properties/${propertyId}`, updatedData); // Reemplaza con tu URL de API
+      const response = await axios.put(`/property/${propertyId}`, updatedData); // Reemplaza con tu URL de API
       dispatch(updatePropertySuccess(response.data)); // Despacha la acción con los datos actualizados.
     } catch (error) {
       // Manejar errores aquí (por ejemplo, enviarlos a la tienda Redux o mostrar mensajes de error).
@@ -61,7 +61,7 @@ export function deletePropertySuccess(deletedPropertyId) {
 export function deleteProperty(propertyId) {
   return async (dispatch) => {
     try {
-      await axios.delete(`/api/properties/${propertyId}`); // Reemplaza con tu URL de API
+      await axios.delete(`/property/${propertyId}`); // Reemplaza con tu URL de API
       dispatch(deletePropertySuccess(propertyId)); // Despacha la acción con el ID de la propiedad eliminada.
     } catch (error) {
       // Manejar errores aquí (por ejemplo, enviarlos a la tienda Redux o mostrar mensajes de error).
