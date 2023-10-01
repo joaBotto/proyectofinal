@@ -1,15 +1,18 @@
-//import React, { useState, useEffect } from 'react';
-//import axios from 'axios';
-import React from 'react'; // Importa React, useEffect y useState solo si los necesitas más adelante
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom'; // Importa el componente Link y useLocation de React Router
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt, faBars } from '@fortawesome/free-solid-svg-icons'; // Importa los íconos de inicio de sesión y hamburguesa
+
 import SearchBar from '../SearchBar/SearchBar';
 import fondo from '../../img/fondoHerp.jpeg';
 import logo from '../../img/logo.png';
-import { Link } from 'react-router-dom'; // Importa el componente Link de React Router
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'; // Importa el ícono de inicio de sesión
 
 const NavBar = () => {
-	// Puedes mantener useState y useEffect si planeas usarlos más adelante
+	//const [buttonLogin, setButtonLogin] = useState(false);
+	//useEffect(() => {
+	//setButtonLogin(buttonLogin(), [user]);
+	//});
+
 	// const [properties, setProperties] = useState([]);
 	// const [loading, setLoading] = useState(true);
 
@@ -26,10 +29,13 @@ const NavBar = () => {
 	// 		});
 	// }, []);
 
-	const handleLoginButtonClick = () => {
-		// Redirige a la página de inicio de sesión cuando se hace clic en el botón
-		window.location.href = '/login';
-	};
+	const location = useLocation(); // Obtiene la ubicación actual
+	const [showHamburgerButton, setShowHamburgerButton] = useState(false);
+
+	useEffect(() => {
+		// Verifica si la ruta actual es '/login' y muestra el botón de hamburguesa en ese caso
+		setShowHamburgerButton(location.pathname === '/login');
+	}, [location.pathname]);
 
 	return (
 		<div className='bg-gray-800 text-white'>
@@ -45,6 +51,9 @@ const NavBar = () => {
 				{/* Enlaces en la esquina superior derecha */}
 				<div className='absolute top-0 right-0 mt-4 mr-4 space-x-4'>
 					<a href='#' className='text-white'>
+						CREATE
+					</a>
+					<a href='#' className='text-white'>
 						HOME
 					</a>
 					<a href='#' className='text-white'>
@@ -53,10 +62,16 @@ const NavBar = () => {
 					<a href='#' className='text-white'>
 						SAVED
 					</a>
-					{/* Botón de inicio de sesión */}
-					<Link to='/login' className='text-white'>
-						<FontAwesomeIcon icon={faSignInAlt} /> LOGIN
-					</Link>
+					{/* Botón de inicio de sesión o botón de hamburguesa */}
+					{showHamburgerButton ? (
+						<button className='text-white'>
+							<FontAwesomeIcon icon={faBars} /> MENU
+						</button>
+					) : (
+						<Link to='/login' className='text-white'>
+							<FontAwesomeIcon icon={faSignInAlt} /> LOGIN
+						</Link>
+					)}
 				</div>
 				<h4 className='text-2xl font-semibold text-purple-600 mt-8 ml-4'>
 					FIND A HOME THAT
