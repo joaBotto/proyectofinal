@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -29,6 +29,12 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
+const [buttonLogin, setButtonLogin] = useState(false)
+useEffect(()=>{
+	setButtonLogin(!buttonLogin)
+},[user])
+
+
 	return (
 		<>
 			{/*
