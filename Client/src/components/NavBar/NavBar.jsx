@@ -16,6 +16,7 @@ const navigation = [
 	{ name: "Projects", href: "#", current: false },
 	{ name: "Calendar", href: "#", current: false },
 	{ name: "Reports", href: "#", current: false },
+	{ name: "Sign up", href: "/signUp" },
 ];
 const userNavigation = [
 	{ name: "Your Profile", href: "#" },
