@@ -9,11 +9,6 @@ import { createProperty } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-// cloudName:ddupuyeko
-// apiKey:658737721611119
-// apiSecret:eSNh4zfR7yPVJ88YhOd5ln9S3R4
-
-
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("El título es requerido"),
   description: Yup.string().required("La descripción es requerida")
@@ -56,7 +51,7 @@ const uploadImagesToCloudinary = async (file) => {
     bathrooms: 0,
     price:0,
     type: "casa",
-    availableDays: [],
+    availableDays: new Date(),
     images: [],
     owner: "651459f5da45532a97080dee"
   };
@@ -138,7 +133,7 @@ const uploadImagesToCloudinary = async (file) => {
             <div className="form-field">
               <label htmlFor="availableDays">Available days:</label>
               <DatePicker
-                selected={values.vacationDate}
+                selected={values.availableDays}
                 onChange={(date) => setFieldValue("availableDays", [...values.availableDays, date])}
                 name="availableDays"
                 dateFormat="dd/MM/yyyy"

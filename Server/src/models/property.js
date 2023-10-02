@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const imageSchema = new mongoose.Schema({
-	url: {
+	imageUrl: {
 		type: String,
 		required: true,
 	},
@@ -20,7 +20,7 @@ const propertySchema = new mongoose.Schema({
 		street: String,
 		city: String,
 		state: String,
-		zipCode: String,
+		zipcode: String,
 	},
 	bedrooms: Number,
 	bathrooms: Number,

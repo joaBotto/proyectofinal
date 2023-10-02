@@ -1,7 +1,6 @@
 const creatingProperty = require("../controllers/creatingProperty");
 const getProperties = require("../controllers/getProperties");
 const detailingProperty = require("../controllers/detailingProperty");
-const cloudinary = require('cloudinary').v2;
 
 
 const getPropertiesHandler = async (req, res) => {
@@ -39,7 +38,7 @@ const creatingPropertyHandler = async (req, res) => {
       images,
       owner,
     };
-    console.log(newProperty)
+    
     const propertyCreated = await creatingProperty(newProperty);
     return res.status(201).json(propertyCreated);
   } catch (error) {
