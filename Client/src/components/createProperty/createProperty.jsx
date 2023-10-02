@@ -53,15 +53,13 @@ const uploadImagesToCloudinary = async (file) => {
     type: "casa",
     availableDays: new Date(),
     images: [],
-    owner: "651459f5da45532a97080dee"
+    owner: "651459f5da45532a97080dee"// CAMBIAR A "user._id" cuando este terminado el login
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    // Realizar acciones con los valores del formulario
+    
     console.log("soy la info a mandar",values);
-    console.log(values.images)
     dispatch(createProperty(values))
-    // No olvides llamar a setSubmitting(false) cuando hayas terminado con las acciones asincrónicas
     setSubmitting(false);
   };
 
@@ -161,10 +159,13 @@ const uploadImagesToCloudinary = async (file) => {
                 className="dropzone"
                 >
                   <input {...getInputProps()} />
-                  <p>
+                  {values.images && values.images.map((e) => e && e.imageUrl && (
+                    <img style={{maxWidth:'10em', maxHeight:'10em'}} key= {e.imageUrl} src={e.imageUrl} alt={e.imageUrl}/>
+                  ))}
+                  {!values.images && (<p>
                     Arrastra y suelta archivos aquí o haz clic para seleccionar
                     (máximo 5 imágenes)
-                  </p>
+                  </p>)}
                 </div>
               )}
             </Dropzone>
