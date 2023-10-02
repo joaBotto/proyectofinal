@@ -1,0 +1,106 @@
+/* Estilos CSS personalizados para el formulario de propiedad */
+.property-form {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  
+  /* Estilos CSS personalizados para el contenido interno del formulario */
+  .property-form-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  /* Estilos CSS para los campos del formulario */
+  .form-field {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  
+  /* Estilos CSS para el componente Dropzone */
+  .dropzone {
+    background: white;
+    width: 200px;
+    height: 200px;
+    margin: 1em 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+  }
+  
+  /* Estilos CSS para el botón de enviar */
+  .submit-button {
+    background: blue;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+ /* Estilo para el contenedor principal del calendario */
+.react-datepicker {
+    display:inline-block;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 300px;
+    text-align: center;
+  }
+  
+  /* Estilo para el encabezado del calendario */
+  .react-datepicker__header {
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+    border-radius: 4px 4px 0 0;
+    padding: 10px;
+  }
+  
+  /* Estilo para los nombres de los días de la semana */
+  .react-datepicker__day-name {
+    font-weight: bold;
+    margin: 0.5em;
+  }
+  
+  /* Estilo para los días del mes */
+  .react-datepicker__day {
+    margin: 0.2em;
+    cursor: pointer;
+  }
+  
+  /* Estilo para el día actual */
+  .react-datepicker__day--today {
+    font-weight: bold;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+  }
+  
+  /* Estilo para los días seleccionados */
+  .react-datepicker__day--selected {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+  }
+  
+  /* Estilo para los días en el rango de selección */
+  .react-datepicker__day--in-range {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  /* Estilo para los días fuera del mes */
+  .react-datepicker__day--outside-month {
+    color: #ccc;
+  }
+  
