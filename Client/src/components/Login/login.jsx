@@ -5,29 +5,13 @@ import React from "react";
 export default function Login() {
   let regExPassword = /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{1,15}$/;
   let regExEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-  return (
-    <>
-      <Formik
-        // Declaramos los valores iniciales
-        initialValues={{
-          email: "",
-          password: "",
-        }}
-        // Funcion para validar email y passwords
-        validate={(valores) => {
-          let errores = {};
 
-          // Validamos el email y ademas testeamos con una expresion regular para que el email escrito sea formato correcto de email
-          if (!valores.email) {
-            errores.email = "Please, put an email";
-          } else if (!regExEmail.test(valores.email)) {
-            errores.email = "Invalid email";
-          }
-          if (!valores.password) {
-            errores.password = "Please, put your password";
-          } else if (!regExPassword.test(valores.password)) {
-            errores.password = "Invalid password";
-          }
+// const dispatch = useDispatch()
+// const onSubmit = (event) => {
+//   event.preventDefault()
+//   dispatch(actions que mande el mail, y password (www.localhost:3001/auth/login))
+// }
+
 
           return errores;
         }}
@@ -88,5 +72,5 @@ export default function Login() {
         )}
       </Formik>
     </>
-  );
+
 }
