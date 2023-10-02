@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+/* import { Link } from 'react-router-dom';
 
 const VisualDashboard = () => {
   return (
@@ -21,3 +21,4 @@ const VisualDashboard = () => {
 };
 
 export default VisualDashboard;
+ */

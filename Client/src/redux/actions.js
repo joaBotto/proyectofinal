@@ -1,4 +1,60 @@
-import axios from 'axios';
+import axios from 'axios'; // Asumiendo que estás utilizando Axios para hacer llamadas a la API.
+
+export const loadUserPosts = (userId) => {
+  return async (dispatch) => {
+    try {
+      // Hacer una llamada a la API para obtener las publicaciones del usuario con el ID proporcionado.
+      const response = await axios.get(`/api/posts?userId=${userId}`); // Ajusta la URL de la API según tu configuración.
+
+      // Una vez que hayas obtenido las publicaciones, dispatch una acción con las publicaciones obtenidas.
+      dispatch({
+        type: 'LOAD_USER_POSTS',
+        payload: response.data,
+      });
+    } catch (error) {
+      // Manejar errores en caso de que la llamada a la API falle.
+      console.error('Error al cargar las publicaciones del usuario:', error);
+    }
+  };
+};
+
+// Acción para eliminar una publicación por su ID
+export const deletePost = (postId) => {
+  return async (dispatch) => {
+    try {
+      // Realiza una llamada a la API para eliminar la publicación
+      await axios.delete(`/api/posts/${postId}`);
+
+      // Dispara una acción para actualizar el estado de Redux después de la eliminación
+      dispatch({
+        type: 'DELETE_POST',
+        payload: postId,
+      });
+    } catch (error) {
+      console.error('Error al eliminar la publicación:', error);
+    }
+  };
+};
+
+// Acción para actualizar una publicación
+export const updatePost = (postId, updatedData) => {
+  return async (dispatch) => {
+    try {
+      // Realiza una llamada a la API para actualizar la publicación
+      const response = await axios.put(`/api/posts/${postId}`, updatedData);
+
+      // Dispara una acción para actualizar el estado de Redux después de la actualización
+      dispatch({
+        type: 'UPDATE_POST',
+        payload: response.data, // Puedes devolver la publicación actualizada desde el servidor
+      });
+    } catch (error) {
+      console.error('Error al actualizar la publicación:', error);
+    }
+  };
+};
+
+/* import axios from 'axios';
 
 // Acción: Indica que se han obtenido las propiedades del usuario con éxito.
 export const FETCH_USER_PROPERTIES_SUCCESS = 'FETCH_USER_PROPERTIES_SUCCESS';
@@ -84,3 +140,6 @@ export const updatePayment = (paymentData) => {
     payload: paymentData,
   };
 };
+ */
+
+// actions/postsActions.js

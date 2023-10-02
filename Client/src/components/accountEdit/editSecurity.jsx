@@ -1,4 +1,4 @@
-// import React from 'react';
+/* // import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../../redux/actions'; // Asegúrate de tener una acción adecuada para actualizar la contraseña
@@ -73,3 +73,4 @@ const ChangePassword = () => {
 };
 
 export default ChangePassword;
+ */

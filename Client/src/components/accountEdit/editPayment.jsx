@@ -1,4 +1,4 @@
-// import React from 'react';
+/* // import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePayment } from '../../redux/actions';
@@ -55,3 +55,4 @@ const EditPayment = () => {
 };
 
 export default EditPayment;
+ */

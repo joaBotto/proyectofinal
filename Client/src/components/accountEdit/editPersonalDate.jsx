@@ -1,4 +1,4 @@
-// import React from 'react';
+/* // import React from 'react';
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../redux/actions";
@@ -87,3 +87,4 @@ const EditAccount = () => {
 };
 
 export default EditAccount;
+ */

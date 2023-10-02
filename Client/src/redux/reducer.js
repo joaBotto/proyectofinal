@@ -1,4 +1,42 @@
-import {
+const initialState = {
+  userPosts: [], // Un array para almacenar las publicaciones del usuario actual
+};
+
+const postsReducer = (state = initialState, action) => {
+  let updatedUserPosts; // Declarar la variable fuera del bloque
+  let updatedIndex;     // Declarar la variable fuera del bloque
+
+  switch (action.type) {
+    case 'LOAD_USER_POSTS':
+      return {
+        ...state,
+        userPosts: action.payload, // Actualiza el estado con las publicaciones del usuario
+      };
+    // Otros casos y reducciones de acciones relacionadas con las publicaciones
+    case 'DELETE_POST':
+      // Filtra las publicaciones del usuario para eliminar la que tiene el ID especificado
+      updatedUserPosts = state.userPosts.filter((post) => post.id !== action.payload);
+      return {
+        ...state,
+        userPosts: updatedUserPosts,
+      };
+
+    case 'UPDATE_POST':
+      // Encuentra la publicación actualizada en el array de publicaciones del usuario
+      updatedIndex = state.userPosts.findIndex((post) => post.id === action.payload.id);
+      // Reemplaza la publicación antigua con la actualizada en el array de publicaciones del usuario
+      state.userPosts[updatedIndex] = action.payload;
+      return { ...state };
+    default:
+      return state;
+  }
+};
+
+export default postsReducer;
+
+
+
+/* import {
   FETCH_USER_PROPERTIES_SUCCESS,
   UPDATE_PROPERTY_SUCCESS,
   DELETE_PROPERTY_SUCCESS,
@@ -64,3 +102,6 @@ const userReducer = (state = initialState, action) => {
 };
 
 export default userReducer;
+ */
+
+// reducers/postsReducer.js
