@@ -31,7 +31,9 @@ const propertySchema = new mongoose.Schema({
 		},
 	],
 	images: [imageSchema],
+
 	type: String,
+
 });
 
 const Property = mongoose.model("Property", propertySchema);
