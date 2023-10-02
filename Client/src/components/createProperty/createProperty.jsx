@@ -51,14 +51,19 @@ const uploadImagesToCloudinary = async (file) => {
     bathrooms: 0,
     price:0,
     type: "casa",
-    availableDays: new Date(),
+    availableDays:[],
     images: [],
     owner: "651459f5da45532a97080dee"// CAMBIAR A "user._id" cuando este terminado el login
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
     
+    const convertToDate = values.availableDays.map((e) => new Date(e))
+    values.availableDays = convertToDate
+
+
     console.log("soy la info a mandar",values);
+
     dispatch(createProperty(values))
     setSubmitting(false);
   };
@@ -131,7 +136,7 @@ const uploadImagesToCloudinary = async (file) => {
             <div className="form-field">
               <label htmlFor="availableDays">Available days:</label>
               <DatePicker
-                selected={values.availableDays}
+                selected={null}
                 onChange={(date) => setFieldValue("availableDays", [...values.availableDays, date])}
                 name="availableDays"
                 dateFormat="dd/MM/yyyy"
