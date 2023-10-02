@@ -1,41 +1,36 @@
 import React, { useState } from 'react';
-
-const exampleData = [
-	{
-		id: 1,
-		name: 'Ejemplo 1',
-		description: 'Descripción de Ejemplo 1',
-		price: 100,
-		location: 'Ejemplo Location 1',
-	},
-	{
-		id: 2,
-		name: 'Ejemplo 2',
-		description: 'Descripción de Ejemplo 2',
-		price: 200,
-		location: 'Ejemplo Location 2',
-	},
-	// Agrega más datos de ejemplo según sea necesario
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { searchProducto } from '../../redux/actions';
 
 const SearchBar = () => {
-	// Estado para el término de búsqueda
-	const [searchTerm, setSearchTerm] = useState('');
-	// Estado para la página actual
+	const dispatch = useDispatch();
+	const searchTermRedux = useSelector((state) => state.searchTerm);
+
+	const [searchTerm, setSearchTerm] = useState(searchTermRedux || ''); // Inicializar con un valor predeterminado si searchTermRedux es undefined
+
+	// Estado local para el término de búsqueda y los resultados
+
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 10;
 
 	// Función para buscar productos por nombre, precio o ubicación
-	// Comentamos esta función para evitar errores por ahora
-	// const searchProducts = () => {
-	//   // En lugar de utilizar 'products', usarías tus datos reales cuando estén disponibles
-	//   // return products.filter(
-	//   //   (product) =>
-	//   //     product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-	//   //     product.price.toString().includes(searchTerm) ||
-	//   //     product.location.toLowerCase().includes(searchTerm.toLowerCase())
-	//   // );
-	// };
+	const inmuebles = useSelector((state) => state.inmuebles);
+
+	const searchProducts = () => {
+		return inmuebles.filter(
+			(inmueble) =>
+				inmueble.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				inmueble.precio.toString().includes(searchTerm) ||
+				inmueble.ubicacion.toLowerCase().includes(searchTerm.toLowerCase())
+		);
+	};
+
+	// Función para cambiar el término de búsqueda en el estado de Redux
+	const handleSearchTermChange = (e) => {
+		const newSearchTerm = e.target.value;
+		setSearchTerm(newSearchTerm);
+		dispatch(searchProducto(newSearchTerm));
+	};
 
 	// Función para cambiar de página
 	const handlePageChange = (page) => {
@@ -43,13 +38,12 @@ const SearchBar = () => {
 	};
 
 	// Filtrar productos y paginar
-	// Comentamos estas líneas para evitar errores por ahora
-	// const filteredProducts = searchProducts();
-	// const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
-	// const paginatedProducts = filteredProducts.slice(
-	//   (currentPage - 1) * itemsPerPage,
-	//   currentPage * itemsPerPage
-	// );
+	const filteredProducts = searchProducts();
+	const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
+	const paginatedProducts = filteredProducts.slice(
+		(currentPage - 1) * itemsPerPage,
+		currentPage * itemsPerPage
+	);
 
 	return (
 		<div className='p-4'>
@@ -58,10 +52,11 @@ const SearchBar = () => {
 				className='border p-2 w-full mb-4'
 				placeholder='Buscar inmuebles...'
 				value={searchTerm}
-				onChange={(e) => setSearchTerm(e.target.value)}
+				onChange={handleSearchTermChange}
 			/>
-			{/* Mantenemos este bloque comentado para evitar errores */}
-			{/* {paginatedProducts.length === 0 ? (
+			<button onClick={searchProducts}>Buscar</button>
+
+			{paginatedProducts.length === 0 ? (
 				<p>No se encontraron resultados.</p>
 			) : (
 				<ul>
@@ -72,9 +67,9 @@ const SearchBar = () => {
 						</li>
 					))}
 				</ul>
-			)} */}
-			{/* Mantenemos este bloque comentado para evitar errores */}
-			{/* {pageCount > 1 && (
+			)}
+
+			{pageCount > 1 && (
 				<div className='mt-4'>
 					<span className='mr-2'>
 						Página {currentPage} de {pageCount}
@@ -91,7 +86,7 @@ const SearchBar = () => {
 						</button>
 					))}
 				</div>
-			)} */}
+			)}
 		</div>
 	);
 };
