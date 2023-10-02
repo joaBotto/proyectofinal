@@ -1,6 +1,6 @@
 import "./login.css";
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 
 export default function Login() {
   let regExPassword = /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{1,15}$/;
@@ -80,6 +80,9 @@ export default function Login() {
             <button type="submit" className="button">
               Log In with google
             </button>
+            <p>
+              You still don't have an account? <a href="./signUp"> Sign up</a>
+            </p>
             {/* <img src="google.png" alt="google" /> */}
           </form>
         )}
