@@ -1,14 +1,51 @@
-import React, { useState } from "react";
 
+import React, { useState } from "react";
+import { connect, useSelector, useDispatch } from 'react-redux';
+import { useDropzone } from 'react-dropzone'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import { addUser } from '../../redux/actions';
 import register from "../../assets/img/loginRegister.jpg"
+import axios from "axios";
+
+const URL = "http://localhost:3000";
+
 
 
 const SignUpForm = () => {
   const [isFormValid, setFormValid] = useState(false);
-  
+  const [image, setImage] = useState(null)
+  const [imagePreview, setImagePreview] = useState("");
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+const onDrop = (acceptedFiles) => {
+    // `acceptedFiles` contiene la lista de archivos seleccionados por el usuario
+    const file = acceptedFiles[0];
+    setImage(file);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader.result);
+    };
+
+    reader.onload = () => {
+      // Al cargar el archivo, establecer la URL de la imagen en el estado
+      setImagePreview(reader.result);
+    };
+
+    // Leer el archivo como URL
+    reader.readAsDataURL(file);
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/png', // Aceptar solo archivos de imagen
+    onDrop,
+  });
+
+
+
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -16,9 +53,10 @@ const SignUpForm = () => {
     password: "",
     confirmPassword: "",
     country: "",
-    addres: "",
+    address: "",
     city: "",
     phonenumber: "",
+    avatar: null,
   };
 
   const validationSchema = Yup.object({
@@ -39,9 +77,47 @@ const SignUpForm = () => {
     setFormValid(isValid);
   };
 
-  const handleSubmit = (values) => {
-    console.log(values);
+  const uploadImagesToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file[0]);
+    try {
+      const { data } = await axios.post(`${URL}/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return data;
+    } catch (error) {
+      console.error("Error al cargar la imagen:", error);
+      throw error; 
+    }
   };
+  
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      if (values.images) {
+        const cloudinaryResponse = await uploadImagesToCloudinary(values.images);
+        values.avatar = cloudinaryResponse.secure_url;
+        setImagePreview(values.avatar);
+      }
+  
+      // Solicitud al backend
+      const response = await axios.post(`${URL}/users`, values);
+      console.log('Datos enviados al servidor:', values);
+  
+      // Aquí puedes despachar una acción de Redux si es necesario
+      dispatch(addUser(values));
+  
+      console.log('Respuesta del servidor:', response.data);
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+    } finally {
+      setSubmitting(false);
+      setImage(null);
+      setImagePreview("");
+    }
+  };
+
 
 
   return (
@@ -82,6 +158,16 @@ const SignUpForm = () => {
           }}
       >
         <Form className="space-y-4">
+        <div {...getRootProps()} className="dropzone">
+                  <input {...getInputProps()} />
+                  <p className="cursor-pointer">Arraste o seleciones una foto de perfil.</p>
+              </div>
+              {/* Mostrar la vista previa de la imagen */}
+        {imagePreview && (
+          <div className="mt-4">
+            <img src={imagePreview} alt="vista previa" className="  h-32 max-w-full mt-2" />
+          </div>
+        )}
           <div>
             <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
               Nombre:
@@ -172,4 +258,4 @@ const SignUpForm = () => {
     );
   };
 
-export default SignUpForm;
+export default connect(null, { addUser })(SignUpForm);
