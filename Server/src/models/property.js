@@ -15,7 +15,6 @@ const propertySchema = new mongoose.Schema({
 	description: String,
 	price: {
 		type: Number,
-		required: true,
 	},
 	address: {
 		street: String,
@@ -25,18 +24,14 @@ const propertySchema = new mongoose.Schema({
 	},
 	bedrooms: Number,
 	bathrooms: Number,
-	availableDates: [
+	availableDays: [
 		{
 			type: Date,
-			required: true,
+			
 		},
 	],
 	images: [imageSchema],
-	/*   owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-      }, */
+	type: String,
 });
 
 const Property = mongoose.model("Property", propertySchema);

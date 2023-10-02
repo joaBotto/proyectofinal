@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const morgan = require('morgan');
 const routes = require("./routes/index");
 
 const passport = require("passport"); //La biblioteca de autenticación para Node.js.
@@ -12,10 +13,13 @@ const Users = require("../src/models/user");
 const flash = require("connect-flash");
 const session = require("express-session");
 
+const multer = require('multer');
+const storage = multer.memoryStorage(); // Almacenamiento en memoria (puedes cambiarlo para guardar en disco si lo prefieres)
+
 const server = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000", // Solo permite este dominio
+  origin: "*", 
   methods: "GET, POST, OPTIONS, PUT, DELETE",
   allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept", // Solo permite estos encabezados
   credentials: true, // Permite enviar cookies
@@ -24,6 +28,7 @@ const corsOptions = {
 server.use(bodyParser.json({ limit: "50mb" }));
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(cookieParser());
+server.use(morgan('dev'));
 server.use(cors(corsOptions));
 
 //CONFIG DE EXPRESS-SESSION
@@ -76,4 +81,4 @@ server.use((err, req, res, next) => {
   res.status(status).send(message);
 });
 
-module.exports = server;
+module.exports = server
