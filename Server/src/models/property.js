@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const imageSchema = new mongoose.Schema({
-	url: {
+	imageUrl: {
 		type: String,
 		required: true,
 	},
@@ -15,29 +15,25 @@ const propertySchema = new mongoose.Schema({
 	description: String,
 	price: {
 		type: Number,
-		required: true,
 	},
 	address: {
 		street: String,
 		city: String,
 		state: String,
-		zipCode: String,
+		zipcode: String,
 	},
 	bedrooms: Number,
 	bathrooms: Number,
-	availableDates: [
+	availableDays: [
 		{
 			type: Date,
-			required: true,
+			
 		},
 	],
 	images: [imageSchema],
-	type: String, // property.type (ph house dept)
-	/*   owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-      }, */
+
+	type: String,
+
 });
 
 const Property = mongoose.model("Property", propertySchema);
