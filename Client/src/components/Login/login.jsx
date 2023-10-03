@@ -1,7 +1,7 @@
 import "./login.css";
 import { Formik } from "formik";
 import React from "react";
-
+// Cambios actualizados
 export default function Login() {
   let regExPassword = /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{1,15}$/;
   let regExEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
