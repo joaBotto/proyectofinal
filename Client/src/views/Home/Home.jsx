@@ -1,9 +1,7 @@
 
 import { React, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
-import { getProperty } from "../../redux/actions";
 import Container from '@mui/material/Container';
 import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/Cards"
@@ -28,9 +26,7 @@ useEffect(()=>{
 
 	return (
 		<div>
-			<div>
-				{/* <NavBar /> */}
-			</div>
+		
 			<div>
                 <Cards properties={properties}/>
             </div>
