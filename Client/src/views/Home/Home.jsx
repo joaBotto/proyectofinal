@@ -1,54 +1,38 @@
-
 import { React, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import Footer from "../../components/Footer/Footer";
-import Container from '@mui/material/Container';
+import Container from "@mui/material/Container";
 import Paginado from "../../components/Paginado/paginado";
-import Cards from "../../components/Cards/Cards"
+import Cards from "../../components/Cards/Cards";
 
 export default function Home() {
-  
+	const properties = useSelector((state) => state.properties);
+	console.log("Soy prop en el home", properties);
 
-const properties = useSelector(state => state.properties)
-console.log("Soy prop en el home", properties)
+	useEffect(() => {
+		setPage(1);
+	}, [properties]);
 
-
-useEffect(()=>{
-	setPage(1)
-},[properties])
-  
-  
-	const [page, setPage] = useState(1)
-    const [perPage, setPerPage] = useState(8)
-    const maxPage = Math.ceil(properties.length / perPage)
-	
-
+	const [page, setPage] = useState(1);
+	const [perPage, setPerPage] = useState(8);
+	const maxPage = Math.ceil(properties.length / perPage);
 
 	return (
-		<div>
-		
-			<div>
-                <Cards properties={properties}/>
-            </div>
-			<div>
+		<div className="h-screen bg-gray-100">
+			<div className="p-4">
+				<Cards properties={properties} />
+			</div>
+			<div className="p-4">
 				<Footer />
 			</div>
-			<Container
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    bgcolor: 'background.paper',
-                    borderRadius: 1,
-                    p: 1,
-                }}>
-                <Paginado
-                    page={page}
-                    setPage={setPage}
-                    maxPage={maxPage}
-                    products={properties}
-                    >
-                </Paginado>
-            </Container>
+			<Container className="flex justify-center bg-white rounded-lg p-4 shadow-md">
+				<Paginado
+					page={page}
+					setPage={setPage}
+					maxPage={maxPage}
+					products={properties}
+				/>
+			</Container>
 		</div>
 	);
 }
