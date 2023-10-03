@@ -35,10 +35,11 @@ const NavBar = () => {
 	};
 
 	return (
-		<div className="bg-gray-800 text-white ">
+		<div className="text-white mb-10">
 			<div
-				style={{ backgroundImage: `url(${fondo})`}}
-				className="bg-cover bg-center min-h-[400px] flex items-center justify-between relative">
+				style={{ backgroundImage: `url(${fondo})` }}
+				className="bg-cover bg-center min-h-[400px] flex items-center justify-between relative"
+			>
 				<div className="absolute top-0 left-0 mt-4 ml-4">
 					<img className="w-60 pt-4 pl-4" src={logo} alt="Your Company" />
 				</div>
@@ -63,24 +64,31 @@ const NavBar = () => {
 					)}
 				</div>
 			</div>
-			<header className="bg-white shadow py-4">
+			<div className="bg-white shadow py-2 w-1/3 rounded-full absolute top-[350px] left-[50%] transform translate-x-[-50%] -translate-y-[-50%]">
 				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-					<h1 className="text-3xl font-bold text-gray-900">
-						<input></input>
-						<select onChange={handleChange} name="type">
-							<option value="default">filtrar por tipo</option>
-							<option value="depto">Apartament</option>
+					<p className="text-xl font-semibold text-indigo-950 flex items-center justify-center space-x-4">
+						<select
+							onChange={handleChange}
+							name="type"
+							className="px-3 py-1 rounded-full"
+						>
+							<option value="default">Filter by type</option>
+							<option value="depto">Apartment</option>
 							<option value="house">House</option>
 							<option value="ph">PH</option>
 						</select>
-						<select onChange={handleChange} name="price">
-							<option value="default">ordenar por precio</option>
-							<option value="-">from smallest to largest</option>
-							<option value="+">from highest to lowest</option>
+						<select
+							onChange={handleChange}
+							name="price"
+							className="px-3 py-1 rounded-full"
+						>
+							<option value="default">Sort by price</option>
+							<option value="-">Lowest to highest</option>
+							<option value="+">Highest to lowest</option>
 						</select>
-					</h1>
+					</p>
 				</div>
-			</header>
+			</div>
 		</div>
 	);
 };
