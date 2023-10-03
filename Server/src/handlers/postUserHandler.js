@@ -22,9 +22,9 @@ const getUserPostsHandler = async (req, res) =>{
 const deletePostHandler = async (req, res) => {
     const { postId } = req.params;
     try {
-        const deletedPost = await deletePost(postId);
+        const deletedPostUser = await deletePost(postId);
     
-        if (!deletedPost) {
+        if (!deletedPostUser) {
           return res.status(404).json({ message: 'Publicación no encontrada' });
         }
     
