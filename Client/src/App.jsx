@@ -11,24 +11,24 @@ import Detail from "../src/views/Detail/Detail";
 import NavBar from "./components/NavBar/NavBar";
 
 function App() {
-	const location = useLocation();
-	const dispatch = useDispatch();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(getProperty());
-	}, [dispatch]);
+  useEffect(() => {
+    dispatch(getProperty());
+  }, [dispatch]);
 
-	return (
-		<div className="bg-gray-100">
-			{location.pathname === "/" && <NavBar />}
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/create" element={<CreateProperty />} />
-				<Route path="/detail/:id" element={<Detail />} />
-				{/* <Route path="/signUp" element={<SignUpForm />} /> */}
-			</Routes>
-		</div>
-	);
+  return (
+    <div className="bg-gray-100">
+      {location.pathname === "/" && <NavBar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/create" element={<CreateProperty />} />
+        <Route path="/detail/:id" element={<Detail />} />
+        {/* <Route path="/signUp" element={<SignUpForm />} /> */}
+      </Routes>
+    </div>
+  );
 }
 export default App;
