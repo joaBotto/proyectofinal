@@ -10,90 +10,79 @@ import { useSelector, useDispatch } from "react-redux";
 import { filters } from "../../redux/actions";
 
 const NavBar = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user); //ME TRAIGO EL USER DEL ESTAGO GLOBAL. SI HAY USER(TRUE) USUARIO LOGUEADO, SI ESTA EN VACIO (FALSE) USUARIO DESLOGUEADO
-  const [showHamburgerButton, setShowHamburgerButton] = useState(true); // cambiar cuando este login hecho
+	const dispatch = useDispatch();
+	const user = useSelector((state) => state.user); //ME TRAIGO EL USER DEL ESTAGO GLOBAL. SI HAY USER(TRUE) USUARIO LOGUEADO, SI ESTA EN VACIO (FALSE) USUARIO DESLOGUEADO
+	const [showHamburgerButton, setShowHamburgerButton] = useState(true); // cambiar cuando este login hecho
 
-  useEffect(() => {
-    //
-    setShowHamburgerButton(!showHamburgerButton); //SI NO HAY USER SETEA BOTN HAMB EN FALSE Y MUESTRA BOTON LOGIN. SI HAY USER SETEA BOTN HAMB Y MUESTRA BOTON LOGIN
-  }, [user]);
+	useEffect(() => {
+		//
+		setShowHamburgerButton(!showHamburgerButton); //SI NO HAY USER SETEA BOTN HAMB EN FALSE Y MUESTRA BOTON LOGIN. SI HAY USER SETEA BOTN HAMB Y MUESTRA BOTON LOGIN
+	}, [user]);
 
-  const [type, setType] = useState("");
-  const [orderPrice, setOrderPrice] = useState("");
+	const [type, setType] = useState("");
+	const [orderPrice, setOrderPrice] = useState("");
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    if (name === "type") {
-      setType(event.target.value);
-      dispatch(filters(event.target.value, orderPrice));
-    }
-    if (name === "price") {
-      setOrderPrice(event.target.value);
-      dispatch(filters(type, event.target.value));
-    }
-  };
+	const handleChange = (event) => {
+		const name = event.target.name;
+		if (name === "type") {
+			setType(event.target.value);
+			dispatch(filters(event.target.value, orderPrice));
+		}
+		if (name === "price") {
+			setOrderPrice(event.target.value);
+			dispatch(filters(type, event.target.value));
+		}
+	};
 
-  return (
-    <div className="bg-gray-800 text-white">
-      {/* Hero con imagen de fondo */}
-      <div
-        style={{ backgroundImage: `url(${fondo})` }}
-        className="bg-cover bg-center min-h-[200px] flex items-center relative"
-      >
-        <div className="absolute top-0 left-0 mt-4 ml-4">
-          <img className="h-12 w-12" src={logo} alt="Your Company" />
-        </div>
-        <div className="absolute top-0 right-0 mt-4 mr-4 space-x-4">
-          <a href="/create" className="text-white">
-            CREATE
-          </a>
-          {/* <a href='/' className='text-white'>
-						HOME
+	return (
+		<div className="bg-gray-800 text-white ">
+			<div
+				style={{ backgroundImage: `url(${fondo})`}}
+				className="bg-cover bg-center min-h-[400px] flex items-center justify-between relative">
+				<div className="absolute top-0 left-0 mt-4 ml-4">
+					<img className="w-60 pt-4 pl-4" src={logo} alt="Your Company" />
+				</div>
+				<div className="absolute top-10 right-10 mt-4 space-x-4 flex items-center">
+					<a
+						href="/create"
+						className="text-indigo-950 hover:text-indigo-50 hover:underline mr-10"
+					>
+						CREATE
 					</a>
-					<a href='#' className='text-white'>
-						ABOUT
-					</a>
-					<a href='#' className='text-white'>
-						SAVED
-					</a> */}
-          {showHamburgerButton ? (
-            <button className="text-white">
-              <FontAwesomeIcon icon={faBars} /> MENU
-            </button>
-          ) : (
-            <Link to="/login" className="text-white">
-              <FontAwesomeIcon icon={faSignInAlt} /> LOGIN
-            </Link>
-          )}
-        </div>
-        <h4 className="text-2xl font-semibold text-purple-600 mt-8 ml-4">
-          FIND A HOME THAT
-          <br /> SUITS YOU
-        </h4>
-      </div>
-
-      {/* Resto de tu código */}
-      <header className="bg-white shadow py-4">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            <input></input>
-            <select onChange={handleChange} name="type">
-              <option value="default">filtrar por tipo</option>
-              <option value="depto">Apartament</option>
-              <option value="house">House</option>
-              <option value="ph">PH</option>
-            </select>
-            <select onChange={handleChange} name="price">
-              <option value="default">ordenar por precio</option>
-              <option value="-">from smallest to largest</option>
-              <option value="+">from highest to lowest</option>
-            </select>
-          </h1>
-        </div>
-      </header>
-    </div>
-  );
+					{showHamburgerButton ? (
+						<button className="pt-2 pb-2 pr-10 pl-10 text-white bg-fuchsia-900 rounded-full mr-10">
+							<FontAwesomeIcon icon={faBars} /> MENU
+						</button>
+					) : (
+						<Link
+							to="/login"
+							className="pt-2 pb-2 pr-10 pl-10 text-white bg-fuchsia-900 rounded-full"
+						>
+							<FontAwesomeIcon icon={faSignInAlt} /> LOGIN
+						</Link>
+					)}
+				</div>
+			</div>
+			<header className="bg-white shadow py-4">
+				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<h1 className="text-3xl font-bold text-gray-900">
+						<input></input>
+						<select onChange={handleChange} name="type">
+							<option value="default">filtrar por tipo</option>
+							<option value="depto">Apartament</option>
+							<option value="house">House</option>
+							<option value="ph">PH</option>
+						</select>
+						<select onChange={handleChange} name="price">
+							<option value="default">ordenar por precio</option>
+							<option value="-">from smallest to largest</option>
+							<option value="+">from highest to lowest</option>
+						</select>
+					</h1>
+				</div>
+			</header>
+		</div>
+	);
 };
 
 export default NavBar;
