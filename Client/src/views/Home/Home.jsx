@@ -29,7 +29,7 @@ useEffect(()=>{
 	return (
 		<div>
 			<div>
-				<NavBar />
+				{/* <NavBar /> */}
 			</div>
 			<div>
                 <Cards properties={properties}/>

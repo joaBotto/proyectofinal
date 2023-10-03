@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("El título es requerido"),
   description: Yup.string().required("La descripción es requerida")
+  
 });
 
 

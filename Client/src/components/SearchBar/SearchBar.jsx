@@ -14,7 +14,7 @@ const SearchBar = () => {
 	const itemsPerPage = 10;
 
 	// Función para buscar productos por nombre, precio o ubicación
-	const inmuebles = useSelector((state) => state.inmuebles);
+	const inmuebles = useSelector((state) => state.properties);
 
 	const searchProducts = () => {
 		return inmuebles.filter(
