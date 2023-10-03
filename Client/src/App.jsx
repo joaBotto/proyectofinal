@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Login from "./components/login/login";
+import Login from "./components/Login/login";
 import Home from "./views/Home/Home";
 import CreateProperty from "./components/createProperty/createProperty";
 //import SignUpForm from "./components/Singup/singUp";

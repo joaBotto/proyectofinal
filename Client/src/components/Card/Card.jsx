@@ -16,7 +16,7 @@ const Card = ({
 				<Link to={`/detail/${_id}`}>
 					<div className="relative rounded-xl shadow-md overflow-hidden">
 						<img
-							src={images.imageUrl}
+							src={images.imageUrl || "No hay img disponible"}
 							alt={title}
 							className="h-[300px] object-cover w-full"
 						/>

@@ -13,7 +13,7 @@ export default function Cards({ properties }) {
 							title={property.title}
 							description={property.description}
 							price={property.price}
-							images={property.images[0]}
+							images={property.images[0] || "Sin img"}
 							location={property.address.city}
 							bedrooms={property.bedrooms}
 						/>
