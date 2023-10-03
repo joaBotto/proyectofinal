@@ -64,7 +64,6 @@ export default function CreateProperty() {
 		dispatch(createProperty(values));
 		setSubmitting(false);
 	};
-
 	const validationSchema = Yup.object().shape({
 		title: Yup.string()
 			.required('El título es requerido')
