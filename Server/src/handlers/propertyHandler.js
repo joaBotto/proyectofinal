@@ -17,6 +17,7 @@ const creatingPropertyHandler = async (req, res) => {
   try {
     const {
       title,
+      description,
       price,
       type,
       address,
@@ -29,6 +30,7 @@ const creatingPropertyHandler = async (req, res) => {
 
     const newProperty = {
       title,
+      description,
       price,
       type,
       address,
