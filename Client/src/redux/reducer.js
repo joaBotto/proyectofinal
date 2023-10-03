@@ -5,7 +5,7 @@ import {
   // 	ADD_USER,
   // 	USER_LOGIN,
   // 	ADD_PROPERTY,
-  // 	CLEAN_FILTERS,
+  FILTERS,
   // 	ERROR,
   SEARCH_PRODUCTO,
 } from "./actions_types";
@@ -18,6 +18,29 @@ const initialState = {
   propertyDetail: {},
   searchTerm: "",
 };
+
+const filterPropertyType = (state, payload) => {
+  if (payload.type === "default") {
+    return state.allproperties;
+  } else {
+    return state.allproperties.filter((property) => property.type === payload.type);
+  }
+};
+
+
+const orderPropertyPrice = (state, payload) => {
+  let propertyOrdenated = [...state.properties];
+  if (payload.orderPrice === "default") {
+    return propertyOrdenated;
+  } else if (payload.orderPrice === "-") {
+    propertyOrdenated = propertyOrdenated.slice().sort((a, b) => a.price - b.price);
+  } else if (payload.orderPrice === "+") {
+    propertyOrdenated = propertyOrdenated.slice().sort((a, b) => b.price - a.price);
+  }
+  return propertyOrdenated;
+};
+
+
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -49,6 +72,17 @@ const rootReducer = (state = initialState, { type, payload }) => {
         loading: false,
         error: "",
       };
+
+      case FILTERS:
+        const filterPropertyForType = filterPropertyType(state, payload)
+        const orderPropertyForPrice = orderPropertyPrice({
+          ...state,
+          properties:filterPropertyForType
+        }, payload) 
+        return {
+          ...state,
+          properties:orderPropertyForPrice 
+        }
 
     default:
       return {

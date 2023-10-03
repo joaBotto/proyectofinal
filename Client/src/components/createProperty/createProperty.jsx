@@ -128,7 +128,7 @@ const uploadImagesToCloudinary = async (file) => {
 
             <div className="form-field">
               <Field as="select" name="type">
-                <option value="casa">casa</option>
+                <option value="house">casa</option>
                 <option value="depto">depto</option>
                 <option value="ph">PH</option>
               </Field>
