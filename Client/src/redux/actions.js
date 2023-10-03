@@ -6,7 +6,7 @@ import {
   // 	ADD_USER,
   // 	USER_LOGIN,
   // 	ADD_PROPERTY,
-  // 	CLEAN_FILTERS,
+    FILTERS,
   // 	ERROR,
   SEARCH_PRODUCTO,
   } from "./actions_types";
@@ -54,6 +54,14 @@ export const createProperty = (values) => {
             }
         }
     }
+}
+
+export const filters = (type, orderPrice) => {
+    return {
+        type:FILTERS,
+        payload: {type, orderPrice}
+    }
+
 }
 
 export const searchProducto = (query) => {
