@@ -1,32 +1,64 @@
+import {
+  // 	GET_PROPERTIES,
+  GET_PROPERTY_DETAIL,
+  // 	CLEAN_DETAIL,
+  // 	ADD_USER,
+  // 	USER_LOGIN,
+  // 	ADD_PROPERTY,
+  // 	CLEAN_FILTERS,
+  // 	ERROR,
+  SEARCH_PRODUCTO,
+} from "./actions_types";
 
 const initialState = {
-    error:"",
-    user:{},
-    allproperties:[],
-    properties:[]
-  
-    switch(type) {
+  error: "",
+  user: {},
+  allproperties: [],
+  properties: [],
+  propertyDetail: {},
+  searchTerm: "",
+};
 
+const rootReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case "GET_PROPERTY":
-        return {
-            ...state,
-            allproperties:[...payload],
-            properties:[...payload]
-        }
-    
+      return {
+        ...state,
+        allproperties: [...payload],
+        properties: [...payload],
+      };
+
     case "CREATE_PROPERTY":
-        return {
-            ...state,
-            allproperties:[...state.allproperties, payload],
-            properties:[...state.properties, payload]
-        } 
+      return {
+        ...state,
+        allproperties: [...state.allproperties, payload],
+        properties: [...state.properties, payload],
+      };
+
+    case GET_PROPERTY_DETAIL:
+      return {
+        ...state,
+        propertyDetail: payload,
+      };
+
+    case SEARCH_PRODUCTO: // Maneja la acción SEARCH_PRODUCTO
+      return {
+        ...state,
+        searchTerm: payload, // Actualiza searchTerm con el valor de la acción
+        selectinmuebles: payload, // Actualiza selectinmuebles si es necesario
+        loading: false,
+        error: "",
+      };
 
     default:
-        return {
-            ...state
-        }
-    }
-}
+      return {
+        ...state,
+      };
+  }
+};
+
+export default rootReducer;
+
 // import {
 // 	GET_PROPERTIES,
 // 	GET_PROPERTY_DETAIL,
@@ -90,9 +122,6 @@ const initialState = {
 
 // export default rootReducer;
 
-
-
-
 // import {
 //     GET_ALL_PRODUCTO,
 //     GET_PRODUCTO_DETAIL,
@@ -111,7 +140,7 @@ const initialState = {
 //     USER_LOGIN,
 //     ADD_PROPERTY,
 //   } from "./actions-types";
-  
+
 //   const initialState = {
 //     inmuebles: [], //almacena todo los inmuebles
 //     filteredData: [],//almacena los inmuebles filtrados
@@ -124,7 +153,7 @@ const initialState = {
 //     loading: false,
 //     currentPage: 1,
 //   };
-  
+
 //   const rootReducer = (state = initialState, action ) => {
 //     switch (action.type) {
 //       case GET_ALL_PRODUCTO:
@@ -134,7 +163,7 @@ const initialState = {
 //             filteredData:action.payload,
 //             loading: false
 //     }
-  
+
 //       case GET_PRODUCTO_DETAIL:
 //         // Lógica para obtener los detalles de un inmueble
 //         return {
@@ -142,7 +171,7 @@ const initialState = {
 //             details: action.payload,
 //             loading: false
 //           };
-  
+
 //       case CLEAN_DETAIL:
 //         // Lógica para limpiar los detalles del inmueble
 //         return {
@@ -175,16 +204,14 @@ const initialState = {
 //             error: ""
 //           };
 //     //       const searchTerm = payload.toLowerCase();
-  
- 
+
 //     //       const searchResults = state.producto.filter((inmubles) =>
 //     //               inmuebles.
-                 
+
 //     //       nombre.toLowerCase().includes(searchTerm) ||
 //     //               inmuebles.descripcion.toLowerCase().includes(searchTerm)
 //     //             );
-                
-               
+
 //     //       return {
 //     //               ...state,
 //     //               filteredData: searchResults,
@@ -196,7 +223,7 @@ const initialState = {
 //       //       inmueblecreado: action.payload,
 //       //       loading: false
 //       //     };
-  
+
 //       case ORDER_BY_UBICACION:
 //         // Lógica para ordenar inmuebles por ubicación
 //      const sortByUbicacion = [...state.filteredData].sort((a, b) =>
@@ -215,16 +242,16 @@ const initialState = {
 //      return {
 //     ...state,
 //     filteredData: filteredByPrecio};
-  
+
 //       case SET_CURRENT_PAGE:
 //         // Lógica para actualizar la página actual
 //         return { ...state, currentPage: payload };
-  
+
 //       case FILTER_BY_PILETA:
 //         // Lógica para filtrar inmuebles por la presencia de una pileta
 //         const filteredByPileta = state.inmuebles.filter((inmuebles) => inmuebles.detalle.pileta === action.payload
 //           );
-          
+
 //           return {
 //             ...state,
 //             filteredData: filteredByPileta,
@@ -232,7 +259,7 @@ const initialState = {
 //         return {...state,
 //             filteredData:state.filteredData
 //     };
-  
+
 //       case FILTER_BY_FONDO:
 //         // Lógica para filtrar inmuebles por la presencia de un fondo
 //         const filteredByFondo = state.producto.filter((inmuebles) => producto.detalle.fondo === action.payload);
@@ -250,7 +277,7 @@ const initialState = {
 //         ...state,
 //         filteredData: sortByResena,
 //       };
-  
+
 //       case FILTER_BY_CATEGORIA:
 //         // Lógica para filtrar inmuebles por categoría (casa o departamento)
 //         const categoria = action.payload;
@@ -261,12 +288,8 @@ const initialState = {
 //           ...state,
 //           filteredData: filteredByCategoria,
 //         };
-  
+
 //       default:
 //         return state;
 //     }
 //   };
-
-export default rootReducer;
-
-

@@ -1,30 +1,28 @@
 
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import { getProperty } from "../../redux/actions";
 import Container from '@mui/material/Container';
 import Paginado from "../../components/Paginado/paginado";
+import Cards from "../../components/Cards/Cards"
 
 export default function Home() {
   
-const dispatch = useDispatch();
+
 const properties = useSelector(state => state.properties)
+console.log("Soy prop en el home", properties)
+
 
 useEffect(()=>{
-	dispatch(getProperty())	
-	},[dispatch])
-
-useEffect(()=>{
-	//// VOLVER A LA PAG 1 CUANDO CAMBIE EL ESTADO DE PROPERTIES
+	setPage(1)
 },[properties])
   
   
-// 	const inmuebles = useSelector((state) => state.inmuebles)
-// 	const [page, setPage] = React.useState(1)
-//     const [perPage, setPerPage] = React.useState(8)
-//     const maxPage = Math.ceil(inmuebles.length / perPage)
+	const [page, setPage] = useState(1)
+    const [perPage, setPerPage] = useState(8)
+    const maxPage = Math.ceil(properties.length / perPage)
 	
 
 
@@ -33,7 +31,9 @@ useEffect(()=>{
 			<div>
 				<NavBar />
 			</div>
-			<div></div>
+			<div>
+                <Cards properties={properties}/>
+            </div>
 			<div>
 				<Footer />
 			</div>
@@ -49,7 +49,7 @@ useEffect(()=>{
                     page={page}
                     setPage={setPage}
                     maxPage={maxPage}
-                    products={inmuebles}
+                    products={properties}
                     >
                 </Paginado>
             </Container>
