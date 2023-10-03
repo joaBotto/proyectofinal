@@ -5,3 +5,9 @@
 .read-the-docs {
 	color: #888;
 }
+/* App.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Resto de tus estilos aquí */
