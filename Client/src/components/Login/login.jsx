@@ -19,7 +19,7 @@ export default function Login() {
 				backgroundRepeat: 'no-repeat',
 			}}
 		>
-			<div className='w-1/3'>
+			<div className='w-1/3 mt-14'>
 				<Formik
 					// Declaramos los valores iniciales
 					initialValues={{
