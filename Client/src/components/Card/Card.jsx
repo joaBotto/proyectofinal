@@ -9,36 +9,33 @@ const Card = ({
 	location,
 	bedrooms,
 }) => {
-	console.log("card", _id);
+	console.log("card", description);
 	return (
 		<div className="">
-			<div className="px-4 py-5 sm:px-6">
+			<div className="px-4 pt-5 sm:px-6">
 				<Link to={`/detail/${_id}`}>
-					<img src={images.imageUrl} className="rounded-xl shadow-md" />
-					<h3 className="pt-4 text-lg leading-6 font-medium text-indigo-950">
+					<div className="relative rounded-xl shadow-md overflow-hidden">
+						<img
+							src={images.imageUrl}
+							alt={title}
+							className="h-[300px] object-cover w-full"
+						/>
+					</div>
+					<h3 className="pt-4 text-lg leading-6 font-extrabold text-indigo-950">
 						{title}
 					</h3>
 				</Link>
 			</div>
-			<div className="border-t">
-				<dl>
-					<div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-						<dt className="text-sm font-medium text-indigo-950">Price</dt>
-						<dd className="mt-1 text-sm text-indigo-950 sm:mt-0 sm:col-span-2">
-							{price}
-						</dd>
-						<dt className="text-sm font-medium text-indigo-950">Location</dt>
-						<dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-							{location}
-						</dd>
-						<dt className="text-sm font-medium text-indigo-950">
-							Number of Bedrooms
-						</dt>
-						<dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-							{bedrooms}
-						</dd>
-					</div>
-				</dl>
+			<div className="ml-6 grid grid-rows-3 gap-y-2">
+				<p className="text-sm mt-1 pb-0 mb-0 font-medium text-indigo-950">
+					Where: {location}
+				</p>
+				<p className="text-3xl pt-0 font-bold text-indigo-950">U$D {price}</p>
+				<div className="rounded-full bg-cyan-200 inline-block w-4/12">
+					<p className="text-sm my-3 mx-3 font-medium text-indigo-950">
+						Bedrooms: {bedrooms}
+					</p>
+				</div>
 			</div>
 		</div>
 	);
