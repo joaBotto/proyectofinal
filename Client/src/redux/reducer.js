@@ -1,107 +1,320 @@
+import {
+  // 	GET_PROPERTIES,
+  GET_PROPERTY_DETAIL,
+  // 	CLEAN_DETAIL,
+  // 	ADD_USER,
+  // 	USER_LOGIN,
+  // 	ADD_PROPERTY,
+  // 	CLEAN_FILTERS,
+  // 	ERROR,
+  SEARCH_PRODUCTO,
+  LOAD_USER_POSTS,
+  DELETE_POST,
+  UPDATE_POST,
+} from "./actions_types";
+
 const initialState = {
+  error: "",
+  user: {},
+  allproperties: [],
+  properties: [],
+  propertyDetail: {},
+  searchTerm: "",
   userPosts: [], // Un array para almacenar las publicaciones del usuario actual
 };
 
-const postsReducer = (state = initialState, action) => {
-  let updatedUserPosts; // Declarar la variable fuera del bloque
-  let updatedIndex;     // Declarar la variable fuera del bloque
-
-  switch (action.type) {
-    case 'LOAD_USER_POSTS':
+const rootReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
+    case "GET_PROPERTY":
       return {
         ...state,
-        userPosts: action.payload, // Actualiza el estado con las publicaciones del usuario
+        allproperties: [...payload],
+        properties: [...payload],
       };
-    // Otros casos y reducciones de acciones relacionadas con las publicaciones
-    case 'DELETE_POST':
+
+    case "CREATE_PROPERTY":
+      return {
+        ...state,
+        allproperties: [...state.allproperties, payload],
+        properties: [...state.properties, payload],
+      };
+
+    case GET_PROPERTY_DETAIL:
+      return {
+        ...state,
+        propertyDetail: payload,
+      };
+
+    case SEARCH_PRODUCTO: // Maneja la acción SEARCH_PRODUCTO
+      return {
+        ...state,
+        searchTerm: payload, // Actualiza searchTerm con el valor de la acción
+        selectinmuebles: payload, // Actualiza selectinmuebles si es necesario
+        loading: false,
+        error: "",
+      };
+
+      case LOAD_USER_POSTS:
+      return {
+        ...state,
+        userPosts: payload, // Actualiza el estado con las publicaciones del usuario
+      };
+
+    case DELETE_POST:
       // Filtra las publicaciones del usuario para eliminar la que tiene el ID especificado
-      updatedUserPosts = state.userPosts.filter((post) => post.id !== action.payload);
+      const updatedUserPosts = state.userPosts.filter((post) => post.id !== payload);
       return {
         ...state,
         userPosts: updatedUserPosts,
       };
 
-    case 'UPDATE_POST':
+    case UPDATE_POST:
       // Encuentra la publicación actualizada en el array de publicaciones del usuario
-      updatedIndex = state.userPosts.findIndex((post) => post.id === action.payload.id);
+      const updatedIndex = state.userPosts.findIndex((post) => post.id === payload.id);
       // Reemplaza la publicación antigua con la actualizada en el array de publicaciones del usuario
-      state.userPosts[updatedIndex] = action.payload;
+      state.userPosts[updatedIndex] = payload;
       return { ...state };
+
     default:
-      return state;
+      return {
+        ...state,
+      };
   }
 };
 
-export default postsReducer;
+export default rootReducer;
 
+// import {
+// 	GET_PROPERTIES,
+// 	GET_PROPERTY_DETAIL,
+// 	CLEAN_DETAIL,
+// 	ADD_USER,
+// 	USER_LOGIN,
+// 	ADD_PROPERTY,
+// 	CLEAN_FILTERS,
+// 	ERROR,
+// } from "./actions_types";
 
+// const initialState = {
+// 	properties: [],
+// 	allProperties: [],
+// 	propertyDetail: {},
+// 	user: {},
 
-/* import {
-  FETCH_USER_PROPERTIES_SUCCESS,
-  UPDATE_PROPERTY_SUCCESS,
-  DELETE_PROPERTY_SUCCESS,
-} from "./actions";
+// 	filters: [],
+// 	errors: [],
+// };
 
-const initialState = {
-  userProperties: [], // El estado inicial contiene una lista vacía de propiedades del usuario.
-  user: {
-    email: "",
-    name: "",
-    lastName: "",
-    country: "",
-    city: "",
-    address: "",
-    phoneNumber: "",
-  },
-  payment: {
-    cardNumber: "",
-    expirationDate: "",
-    cvv: "",
-  },
-};
+// const rootReducer = (state = initialState, { type, payload }) => {
+// 	switch (type) {
+// 		case GET_PROPERTIES:
+// 			return {
+// 				...state,
+// 				properties: payload,
+// 				allProperties: payload,
+// 			};
+// 		case GET_PROPERTY_DETAIL:
+// 			return {
+// 				...state,
+// 				propertyDetail: payload,
+// 			};
+// 		case CLEAN_DETAIL:
+// 			return {
+// 				...state,
+// 				propertyDetail: {},
+// 			};
+// 		case ADD_USER:
+// 			return {
+// 				...state,
+// 				user: payload,
+// 			};
+// 		case ADD_PROPERTY:
+// 			return {
+// 				...state,
+// 				properties: [...state.properties, payload],
+// 				allProperties: [...state.allProperties, payload],
+// 			};
+// 		case CLEAN_FILTERS:
+// 			return {
+// 				...state,
+// 				properties: state.allProperties,
+// 				filters: [],
+// 			};
+// 		default:
+// 			return state;
+// 	}
+// };
 
-const userReducer = (state = initialState, action) => {
-  let updatedPropertiesUpdate; // Declara las variables fuera del switch
-  let updatedPropertiesDelete;
-  switch (action.type) {
-    case "UPDATE_USER":
-      // Simulamos la actualización del usuario en el estado de Redux
-      return {
-        ...state,
-        user: { ...state.user, ...action.payload },
-      };
-    case "UPDATE_PAYMENT":
-      // Simulamos la actualización de la información de pago en el estado de Redux
-      return {
-        ...state,
-        payment: { ...state.payment, ...action.payload },
-      };
+// export default rootReducer;
 
-      case FETCH_USER_PROPERTIES_SUCCESS: // Cuando se recibe la acción de éxito para obtener propiedades del usuario.
-      return { ...state, userProperties: action.userProperties }; // Actualiza el estado con las nuevas propiedades obtenidas.
+// import {
+//     GET_ALL_PRODUCTO,
+//     GET_PRODUCTO_DETAIL,
+//     CLEAN_DETAIL,
+//     SEARCH_PRODUCTO,
+//     CREATE_PRODUCTO,
+//     ORDER_BY_UBICACION,
+//     FILTER_BY_PRECIO,
+//     SET_CURRENT_PAGE,
+//     FILTER_BY_PILETA,
+//     FILTER_BY_FONDO,
+//     ORDER_BY_RESENA,
+//     FILTER_BY_CATEGORIA,
+//     ERROR,
+//     ADD_USER,
+//     USER_LOGIN,
+//     ADD_PROPERTY,
+//   } from "./actions-types";
 
-    case UPDATE_PROPERTY_SUCCESS:
-      // Encuentra la propiedad actualizada en la lista de propiedades y reemplázala con los datos actualizados.
-      updatedPropertiesUpdate = state.userProperties.map((property) =>
-        property.id === action.updatedProperty.id
-          ? action.updatedProperty
-          : property
-      );
-      return { ...state, userProperties: updatedPropertiesUpdate };
+//   const initialState = {
+//     inmuebles: [], //almacena todo los inmuebles
+//     filteredData: [],//almacena los inmuebles filtrados
+//     selectinmuebles: [],
+//     propertyDetail: {},
+// 	  user: {},
+//     inmueblecreado:[],
+//     details: [],
+//     error: "",
+//     loading: false,
+//     currentPage: 1,
+//   };
 
-    case DELETE_PROPERTY_SUCCESS:
-      // Filtra la propiedad eliminada de la lista de propiedades.
-      updatedPropertiesDelete = state.userProperties.filter(
-        (property) => property.id !== action.deletedPropertyId
-      );
-      return { ...state, userProperties: updatedPropertiesDelete };
+//   const rootReducer = (state = initialState, action ) => {
+//     switch (action.type) {
+//       case GET_ALL_PRODUCTO:
+//         // Lógica para obtener todos los inmuebles
+//         return {...state,
+//             inmuebles:action.payload,
+//             filteredData:action.payload,
+//             loading: false
+//     }
 
-    default:
-      return state; // En otros casos, devuelve el estado actual sin cambios.
-  }
-};
+//       case GET_PRODUCTO_DETAIL:
+//         // Lógica para obtener los detalles de un inmueble
+//         return {
+//             ...state,
+//             details: action.payload,
+//             loading: false
+//           };
 
-export default userReducer;
- */
+//       case CLEAN_DETAIL:
+//         // Lógica para limpiar los detalles del inmueble
+//         return {
+//             ...state,
+//             details: [],
+//             loading: false
+//           };
+//           case ERROR:
+//     return {
+//       ...state,
+//       error: action.payload,
+//     };
+//     case ADD_PROPERTY:
+// 			return {
+// 				...state,
+// 				properties: [...state.properties, payload],
+// 				inmuebles: [...state.inmuebles, payload],
+//       };
+//       case ADD_USER:
+// 			return {
+// 				...state,
+// 				user: payload,
+// 			};
+//       case SEARCH_PRODUCTO:
+//         // Lógica para buscar inmuebles por nombre o descripción
+//         return {
+//             ...state,
+//             selectinmuebles: action.payload,
+//             loading: false,
+//             error: ""
+//           };
+//     //       const searchTerm = payload.toLowerCase();
 
-// reducers/postsReducer.js
+//     //       const searchResults = state.producto.filter((inmubles) =>
+//     //               inmuebles.
+
+//     //       nombre.toLowerCase().includes(searchTerm) ||
+//     //               inmuebles.descripcion.toLowerCase().includes(searchTerm)
+//     //             );
+
+//     //       return {
+//     //               ...state,
+//     //               filteredData: searchResults,
+//     //             };
+//       // case CREATE_PRODUCTO:
+//       //   // Lógica para crear un nuevo inmueble
+//       //   return {
+//       //       ...state,
+//       //       inmueblecreado: action.payload,
+//       //       loading: false
+//       //     };
+
+//       case ORDER_BY_UBICACION:
+//         // Lógica para ordenar inmuebles por ubicación
+//      const sortByUbicacion = [...state.filteredData].sort((a, b) =>
+//         a.ubicacion.localeCompare(b.ubicacion)
+//       );
+//       return {
+//         ...state,
+//         filteredData: sortByUbicacion,
+//       };
+//       case FILTER_BY_PRECIO:
+//         // Lógica para filtrar inmuebles por precio
+//         const { minPrice, maxPrice } = payload;
+//          const filteredByPrecio = state.filteredData.filter((producto) =>
+//          inmuebles.precio >= minPrice && inmuebles.precio <= maxPrice
+//          );
+//      return {
+//     ...state,
+//     filteredData: filteredByPrecio};
+
+//       case SET_CURRENT_PAGE:
+//         // Lógica para actualizar la página actual
+//         return { ...state, currentPage: payload };
+
+//       case FILTER_BY_PILETA:
+//         // Lógica para filtrar inmuebles por la presencia de una pileta
+//         const filteredByPileta = state.inmuebles.filter((inmuebles) => inmuebles.detalle.pileta === action.payload
+//           );
+
+//           return {
+//             ...state,
+//             filteredData: filteredByPileta,
+//           };
+//         return {...state,
+//             filteredData:state.filteredData
+//     };
+
+//       case FILTER_BY_FONDO:
+//         // Lógica para filtrar inmuebles por la presencia de un fondo
+//         const filteredByFondo = state.producto.filter((inmuebles) => producto.detalle.fondo === action.payload);
+// >>>>>>> dev
+
+//         return {...state,
+//             filteredData: filteredByFondo };
+
+//       case ORDER_BY_RESENA:
+//         // Lógica para ordenar inmuebles por reseña
+//         const sortByResena = [...state.filteredData].sort((a, b) =>
+//         b.puntuacion - a.puntuacion
+//       );
+//       return {
+//         ...state,
+//         filteredData: sortByResena,
+//       };
+
+//       case FILTER_BY_CATEGORIA:
+//         // Lógica para filtrar inmuebles por categoría (casa o departamento)
+//         const categoria = action.payload;
+//         const filteredByCategoria = state.filteredData.filter(
+//           (inmuebles) => inmuebles.categoria === categoria
+//         );
+//         return {
+//           ...state,
+//           filteredData: filteredByCategoria,
+//         };
+
+//       default:
+//         return state;
+//     }
+//   };

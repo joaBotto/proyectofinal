@@ -1,145 +1,337 @@
-import axios from 'axios'; // Asumiendo que estás utilizando Axios para hacer llamadas a la API.
+import axios from "axios";
+import {
+  // 	GET_PROPERTIES,
+  GET_PROPERTY_DETAIL,
+  // 	CLEAN_DETAIL,
+  // 	ADD_USER,
+  // 	USER_LOGIN,
+  // 	ADD_PROPERTY,
+  // 	CLEAN_FILTERS,
+  ERROR,
+  SEARCH_PRODUCTO,
+  LOAD_USER_POSTS,
+  DELETE_POST,
+  UPDATE_POST,
+} from "./actions_types";
+
+export const getProperty = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("http://localhost:3001/properties");
+      console.log("soy data", data);
+      return dispatch({
+        type: "GET_PROPERTY",
+        payload: data,
+      });
+    } catch (error) {
+      return {
+        type: "ERROR",
+        payload: error.message,
+      };
+    }
+  };
+};
+
+export const getPropertyDetail = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`http://localhost:3001/properties/${id}`);
+    return dispatch({ type: GET_PROPERTY_DETAIL, payload: data });
+  } catch (error) {
+    return { type: ERROR, payload: error.message };
+  }
+};
+
+export const createProperty = (values) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3001/properties",
+        values
+      );
+      return dispatch({
+        type: "CREATE_PROPERTY",
+        payload: data,
+      });
+    } catch (error) {
+      return {
+        type: "ERROR",
+        payload: error.message,
+      };
+    }
+  };
+};
+
+export const searchProducto = (query) => {
+  return async (dispatch) => {
+    try {
+      let response;
+      if (!query) {
+        // Si no se proporciona una ciudad, obtén todos los inmuebles
+        response = await axios.get(`${URL}//`);
+      } else {
+        // Si se proporciona una ciudad, realiza la búsqueda por ciudades
+        response = await axios.get(`${URL}/${query}`);
+      }
+      const inmuebles = response.data; // Cambio 'countries' a 'inmuebles'
+      dispatch({
+        type: SEARCH_PRODUCTO,
+        payload: inmuebles, // Cambio 'countries' a 'inmuebles'
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: "City not found",
+      });
+    }
+  };
+};
 
 export const loadUserPosts = (userId) => {
   return async (dispatch) => {
     try {
-      // Hacer una llamada a la API para obtener las publicaciones del usuario con el ID proporcionado.
-      const response = await axios.get(`/api/posts?userId=${userId}`); // Ajusta la URL de la API según tu configuración.
-
-      // Una vez que hayas obtenido las publicaciones, dispatch una acción con las publicaciones obtenidas.
+      const response = await axios.get(`/api/posts?userId=${userId}`);
       dispatch({
-        type: 'LOAD_USER_POSTS',
+        type: LOAD_USER_POSTS,
         payload: response.data,
       });
     } catch (error) {
-      // Manejar errores en caso de que la llamada a la API falle.
-      console.error('Error al cargar las publicaciones del usuario:', error);
+      console.error("Error al cargar las publicaciones del usuario:", error);
+      dispatch({
+        type: "ERROR",
+        payload: "Error al cargar las publicaciones del usuario",
+      });
     }
   };
 };
 
-// Acción para eliminar una publicación por su ID
 export const deletePost = (postId) => {
   return async (dispatch) => {
     try {
-      // Realiza una llamada a la API para eliminar la publicación
       await axios.delete(`/api/posts/${postId}`);
-
-      // Dispara una acción para actualizar el estado de Redux después de la eliminación
       dispatch({
-        type: 'DELETE_POST',
+        type: DELETE_POST,
         payload: postId,
       });
     } catch (error) {
-      console.error('Error al eliminar la publicación:', error);
+      console.error("Error al eliminar la publicación:", error);
+      dispatch({
+        type: "ERROR",
+        payload: "Error al eliminar la publicación",
+      });
     }
   };
 };
 
-// Acción para actualizar una publicación
 export const updatePost = (postId, updatedData) => {
   return async (dispatch) => {
     try {
-      // Realiza una llamada a la API para actualizar la publicación
       const response = await axios.put(`/api/posts/${postId}`, updatedData);
-
-      // Dispara una acción para actualizar el estado de Redux después de la actualización
       dispatch({
-        type: 'UPDATE_POST',
-        payload: response.data, // Puedes devolver la publicación actualizada desde el servidor
+        type: UPDATE_POST,
+        payload: response.data,
       });
     } catch (error) {
-      console.error('Error al actualizar la publicación:', error);
+      console.error("Error al actualizar la publicación:", error);
+      dispatch({
+        type: "ERROR",
+        payload: "Error al actualizar la publicación",
+      });
     }
   };
 };
+/////////////////////////////
 
-/* import axios from 'axios';
+//   export const cleanDetail = () => {
+//     return (dispatch) => {
+//         return dispatch({
+//           type: CLEAN_DETAIL,
+//           payload: [],
+//         });
+//     };
+//   }
 
-// Acción: Indica que se han obtenido las propiedades del usuario con éxito.
-export const FETCH_USER_PROPERTIES_SUCCESS = 'FETCH_USER_PROPERTIES_SUCCESS';
+//   export const addUser = (user) => async (dispatch) => {
+//     try {
+//       const { data } = await axios.post(`${URL}/users`, user);
+//       dispatch({ type: ADD_USER, payload: data });
+//     } catch (error) {
+//       return { type: ERROR, payload: error.message };
+//     }
+//   };
 
-// Esta función crea la acción para indicar que las propiedades del usuario se han obtenido con éxito.
-export function fetchUserPropertiesSuccess(userProperties) {
-  return {
-    type: FETCH_USER_PROPERTIES_SUCCESS,
-    userProperties, // Los datos obtenidos del servidor.
-  };
-}
+//   export const userLogin = (user) => async (dispatch) => {
+//     try {
+//       const { data } = await axios.get(`${URL}/users`, user);
+//       dispatch({ type: USER_LOGIN, payload: data });
+//     } catch (error) {
+//       return { type: ERROR, payload: error.message };
+//     }
+//   };
 
-// Esta función realiza una solicitud GET al servidor para obtener las propiedades de un usuario.
-export function fetchUserProperties(userId) {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`/users/${userId}/properties`); // Reemplaza con tu URL de API
-      dispatch(fetchUserPropertiesSuccess(response.data)); // Despacha la acción con los datos obtenidos.
-    } catch (error) {
-      // Manejar errores aquí (por ejemplo, enviarlos a la tienda Redux o mostrar mensajes de error).
-    }
-  };
-}
+//   export const addProperty = (property) => async (dispatch) => {
+//     try {
+//       const { data } = await axios.post(`${URL}/properties`, property);
+//       dispatch({ type: ADD_PROPERTY, payload: data });
+//     } catch (error) {
+//       return { type: ERROR, payload: error.message };
+//     }
+//   };
+//   export const searchProducto = (query) => {
 
-// Acción: Indica que se ha actualizado una propiedad con éxito.
-export const UPDATE_PROPERTY_SUCCESS = 'UPDATE_PROPERTY_SUCCESS';
+//     return async (dispatch) => {
+//         try {
+//           let response;
+//           if (!query) {
+//             // Si no se proporciona una ciudad, obtén todos los inmuebles
+//             response = await axios.get(`${URL}//`);
+//           } else {
+//             // Si se proporciona una ciudad, realiza la búsqueda por ciudades
+//             response = await axios.get(`${URL}/${query}`);
+//           }
+//           const inmuebles = response.data;
+//           dispatch({
+//             type: SEARCH_PRODUCTO,
+//             payload: countries,
+//           });
+//         } catch (error) {
+//           dispatch({
+//             type: ERROR,
+//             payload: 'Ciudad not found',
+//           });
+//         }
+//       };
+//     };
 
-// Esta función crea la acción para indicar que se ha actualizado una propiedad con éxito.
-export function updatePropertySuccess(updatedProperty) {
-  return {
-    type: UPDATE_PROPERTY_SUCCESS,
-    updatedProperty,
-  };
-}
+//   export const createInmueble = (inmuebleData) => {
+//     return async (dispatch) => {
+//         try {
+//           const response = await axios.post(`${URL}//`);
+//           dispatch({
+//             type: CREATE_PRODUCTO,
+//             payload: response.data,
+//           });
+//         } catch (error) {
+//           dispatch({
+//             type: ERROR,
+//             payload: 'Error creating Inmueble',
+//           });
+//         }
+//       };
+//     }
 
-// Esta función realiza una solicitud PUT al servidor para actualizar una propiedad.
-export function updateProperty(propertyId, updatedData) {
-  return async (dispatch) => {
-    try {
-      const response = await axios.put(`/property/${propertyId}`, updatedData); // Reemplaza con tu URL de API
-      dispatch(updatePropertySuccess(response.data)); // Despacha la acción con los datos actualizados.
-    } catch (error) {
-      // Manejar errores aquí (por ejemplo, enviarlos a la tienda Redux o mostrar mensajes de error).
-    }
-  };
-}
+//   export const orderByUbicacion = (ubicacion) => {
+//     return {
 
-// Acción: Indica que se ha eliminado una propiedad con éxito.
-export const DELETE_PROPERTY_SUCCESS = 'DELETE_PROPERTY_SUCCESS';
+//       type: ORDER_BY_UBICACION,
+//         payload: ubicacion,
+//     };
+// }
 
-// Esta función crea la acción para indicar que se ha eliminado una propiedad con éxito.
-export function deletePropertySuccess(deletedPropertyId) {
-  return {
-    type: DELETE_PROPERTY_SUCCESS,
-    deletedPropertyId,
-  };
-}
+//   export const filterByPrecio = (minPrice, maxPrice) =>{
+//     return{
+//     type: FILTER_BY_PRECIO,
+//     payload: { minPrice, maxPrice },
+//   };
+//   }
 
-// Esta función realiza una solicitud DELETE al servidor para eliminar una propiedad.
-export function deleteProperty(propertyId) {
-  return async (dispatch) => {
-    try {
-      await axios.delete(`/property/${propertyId}`); // Reemplaza con tu URL de API
-      dispatch(deletePropertySuccess(propertyId)); // Despacha la acción con el ID de la propiedad eliminada.
-    } catch (error) {
-      // Manejar errores aquí (por ejemplo, enviarlos a la tienda Redux o mostrar mensajes de error).
-    }
-  };
-}
+//   export const setCurrentPage = (page) => {
+//     return{
+//   type: SET_CURRENT_PAGE,
+//   payload: page,
+//   };
+// }
 
-//estas no son importantes de momento 
-export const updateUser = (formData) => {
-  return {
-    type: 'UPDATE_USER',
-    payload: formData,
-  };
-};
+//   export const filterByPileta = (pileta) => {
+//     return{
+//     type: FILTER_BY_PILETA,
+//     payload: pileta,
+//     }
+//   };
 
-// paymentActions.js
-export const updatePayment = (paymentData) => {
-  return {
-    type: 'UPDATE_PAYMENT',
-    payload: paymentData,
-  };
-};
- */
+//   export const filterByFondo = (fondo) => {
+//     return{
+//     type: FILTER_BY_FONDO,
+//     payload: fondo,
+//   }};
 
-// actions/postsActions.js
+//   export const orderByResena = (puntuacion) => {
+//     return{
+//     type: ORDER_BY_RESENA,
+//     payload: puntuacion,
+//   }
+// };
+
+//   export const filterByCategoria = (casa, departamento) => {
+//     return{
+//     type: FILTER_BY_CATEGORIA,
+//     payload: { casa, departamento },
+//   }
+// };
+/////////////////////////
+
+// import axios from "axios";
+// import {
+// 	GET_PROPERTIES,
+// 	GET_PROPERTY_DETAIL,
+// 	CLEAN_DETAIL,
+// 	ADD_USER,
+// 	USER_LOGIN,
+// 	ADD_PROPERTY,
+// 	CLEAN_FILTERS,
+// 	ERROR,
+// } from "./actions_types";
+
+// const URL = "http://localhost:3001";
+
+// export const getProperties = () => async (dispatch) => {
+// 	try {
+// 		const { data } = await axios.get(`${URL}/properties`);
+// 		dispatch({ type: GET_PROPERTIES, payload: data });
+// 	} catch (error) {
+// 		return { type: ERROR, payload: error.message };
+// 	}
+// };
+
+// export const getPropertyDetail = (id) => async (dispatch) => {
+// 	try {
+// 		const { data } = await axios.get(`${URL}/properties/${id}`);
+// 		dispatch({ type: GET_PROPERTY_DETAIL, payload: data });
+// 	} catch (error) {
+// 		return { type: ERROR, payload: error.message };
+// 	}
+// };
+
+// export const cleanDetail = () => (dispatch) => {
+// 	dispatch({ type: CLEAN_DETAIL });
+// };
+
+// export const addUser = (user) => async (dispatch) => {
+// 	try {
+// 		const { data } = await axios.post(`${URL}/users`, user);
+// 		dispatch({ type: ADD_USER, payload: data });
+// 	} catch (error) {
+// 		return { type: ERROR, payload: error.message };
+// 	}
+// };
+
+// export const userLogin = (user) => async (dispatch) => {
+// 	try {
+// 		const { data } = await axios.get(`${URL}/users`, user);
+// 		dispatch({ type: USER_LOGIN, payload: data });
+// 	} catch (error) {
+// 		return { type: ERROR, payload: error.message };
+// 	}
+// };
+
+// export const addProperty = (property) => async (dispatch) => {
+// 	try {
+// 		const { data } = await axios.post(`${URL}/properties`, property);
+// 		dispatch({ type: ADD_PROPERTY, payload: data });
+// 	} catch (error) {
+// 		return { type: ERROR, payload: error.message };
+// 	}
+// };
+
+// export const cleanFilters = () => (dispatch) => {
+// 	dispatch({ type: CLEAN_FILTERS });
+// };

@@ -1,33 +1,36 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Login from "./components/login/login";
 import Home from "./views/Home/Home";
-/* import AccountEdit from "./components/accountEdit/visualAccount";
-import PersonalDate from "./components/accountEdit/editPersonalDate";
-import Security from "./components/accountEdit/editSecurity";
-import Payment from "./components/accountEdit/editPayment"; */
-//import EmailNotification from "./components/account/emailNotification"
-/////////////////
-import Property from "./components/propertyAdmin/listProperty"
-
+import CreateProperty from "./components/createProperty/createProperty";
+//import SignUpForm from "./components/Singup/singUp";
+import { useEffect } from "react";
+import { getProperty } from "./redux/actions";
+import Detail from "../src/views/Detail/Detail";
+import NavBar from "./components/NavBar/NavBar";
 
 function App() {
-  return (
-    <>
-      <Routes>
-        <Route path="/login" element={<Login/>} />
-        <Route path="/" element={<Home/>} />
-		<Route path="/property" element={<Property/>} />
-{/*         <Route path="/accountEdit" element={<AccountEdit/>} />
-		<Route path="/dashboard/edit_personal_date" element={<PersonalDate/>}/>
-		<Route path="/dashboard/edit_security" element={<Security/>} />
-		<Route path="/dashboard/edit_payment" element={<Payment/>} /> */}
+	const location = useLocation();
+	const dispatch = useDispatch();
 
-      </Routes>
-    </>
-  );
+	useEffect(() => {
+		dispatch(getProperty());
+	}, [dispatch]);
+
+	return (
+		<div className="bg-gray-100">
+			{location.pathname === "/" && <NavBar />}
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/create" element={<CreateProperty />} />
+				<Route path="/detail/:id" element={<Detail />} />
+				{/* <Route path="/signUp" element={<SignUpForm />} /> */}
+			</Routes>
+		</div>
+	);
 }
-
 export default App;
 
 //<Route path="/email_notification" element={<EmailNotification/>} /> 
