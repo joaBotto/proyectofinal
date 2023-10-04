@@ -18,15 +18,15 @@ export default function Home() {
 	const maxPage = Math.ceil(properties.length / perPage);
 
 	return (
-		<div className="h-screen bg-gray-100 mt-5">
-			<h1 className="absolute text-5xl font-bold text-fuchsia-950 mt-10 top-40 left-7 leading-[1.2]">
+		<div className="mt-5 mx-0">
+			<h1 className="absolute sm:text-5xl text-xl font-black text-violet mt-10 top-40 left-7 leading-[1.2] font-onest">
 				FIND A HOME THAT
 				<br /> SUITS YOU
 			</h1>
-			<p className="absolute text-lg font-semibold text-white top-[320px] left-7">
+			<p className="absolute text-lg font-bold text-white top-[320px] left-7 font-onest">
 				+200 PROPERTIES
 			</p>
-			<p className="absolute text-lg font-semibold text-white mt-6 top-[320px] left-7">
+			<p className="absolute text-lg font-bold text-white mt-6 top-[320px] left-7 font-onest">
 				+400 HAPPY CUSTOMERS
 			</p>
 			<Paginado
@@ -46,7 +46,7 @@ export default function Home() {
 					products={properties}
 				/>
 			</Container>
-			<div className="p-4">
+			<div className="p-0">
 				<Footer />
 			</div>
 		</div>
