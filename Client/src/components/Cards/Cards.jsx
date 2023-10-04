@@ -16,6 +16,7 @@ export default function Cards({ properties }) {
 							images={property.images[0] || "Sin img"}
 							location={property.address.city}
 							bedrooms={property.bedrooms}
+							bathrooms={property.bathrooms}
 						/>
 					))
 				) : (

@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom"; // Importa el componente Link y useLocation de React Router
+import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignInAlt, faBars } from "@fortawesome/free-solid-svg-icons"; // Importa los íconos de inicio de sesión y hamburguesa
-/* import SearchBar from "../SearchBar/SearchBar"; */
+import { faSignInAlt, faBars } from "@fortawesome/free-solid-svg-icons";
 import fondo from "../../assets/img/fondo1.jpeg";
 import logo from "../../assets/img/logo.png";
-/* import { useSelect } from "@mui/base"; */
 import { useSelector, useDispatch } from "react-redux";
-import { filters } from "../../redux/actions";
 import CategoriaFilter from "../Filters/CategoriaFilter";
 import FondoFilter from "../Filters/FondoFilter"
 import PiletaFilter from "../Filters/PiletaFilter"
@@ -17,12 +14,11 @@ import UbicacionFilter from "../Filters/UbicacionFilter"
 
 const NavBar = () => {
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state.user); //ME TRAIGO EL USER DEL ESTAGO GLOBAL. SI HAY USER(TRUE) USUARIO LOGUEADO, SI ESTA EN VACIO (FALSE) USUARIO DESLOGUEADO
-	const [showHamburgerButton, setShowHamburgerButton] = useState(true); // cambiar cuando este login hecho
-	const filteredData = useSelector((state) => state.filteredData);
+	const user = useSelector((state) => state.user);
+	const [showHamburgerButton, setShowHamburgerButton] = useState(true);
+
 	useEffect(() => {
-		//
-		setShowHamburgerButton(!showHamburgerButton); //SI NO HAY USER SETEA BOTN HAMB EN FALSE Y MUESTRA BOTON LOGIN. SI HAY USER SETEA BOTN HAMB Y MUESTRA BOTON LOGIN
+		setShowHamburgerButton(!showHamburgerButton);
 	}, [user]);
 
 	
@@ -31,26 +27,28 @@ const NavBar = () => {
 		<div className="text-white mb-10">
 			<div
 				style={{ backgroundImage: `url(${fondo})` }}
-				className="bg-cover bg-center min-h-[400px] flex items-center justify-between relative"
+				className="bg-cover bg-center sm:min-h-[400px] min-h-[200px] flex items-center justify-between relative"
 			>
 				<div className="absolute top-0 left-0 mt-4 ml-4">
-					<img className="w-60 pt-4 pl-4" src={logo} alt="Your Company" />
+					<Link to="/">
+						<img className="w-60 pt-4 pl-4" src={logo} alt="Your Company" />
+					</Link>
 				</div>
 				<div className="absolute top-10 right-10 mt-4 space-x-4 flex items-center">
 					<a
 						href="/create"
-						className="text-indigo-950 hover:text-indigo-50 hover:underline mr-10"
+						className="font-onest font-black text-blue hover:text-white hover:underline mr-10"
 					>
 						CREATE
 					</a>
 					{showHamburgerButton ? (
-						<button className="pt-2 pb-2 pr-10 pl-10 text-white bg-fuchsia-900 rounded-full mr-10">
+						<button className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-10">
 							<FontAwesomeIcon icon={faBars} /> MENU
 						</button>
 					) : (
 						<Link
 							to="/login"
-							className="pt-2 pb-2 pr-10 pl-10 text-white bg-fuchsia-900 rounded-full"
+							className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full"
 						>
 							<FontAwesomeIcon icon={faSignInAlt} /> LOGIN
 						</Link>
@@ -66,15 +64,7 @@ const NavBar = () => {
         </div>
       </div>
       </div>
-    
-     
-				
-		 
-      
-      
-      
-				
-		
+
 	);
 };
 
