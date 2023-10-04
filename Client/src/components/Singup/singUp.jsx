@@ -158,7 +158,7 @@ const SignUpForm = () => {
           <Form className="space-y-4">
             <div {...getRootProps()} className="dropzone">
               <input {...getInputProps()} />
-              <p className="cursor-pointer">
+              <p className="cursor-pointer cursor-pointer pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase ">
                 Arraste o seleciones una foto de perfil.
               </p>
             </div>
