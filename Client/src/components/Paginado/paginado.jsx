@@ -1,63 +1,46 @@
-import * as React from 'react';
-import Pagination from '@mui/material/Pagination';// Esto permite utilizar el componente de paginación de Material-UI en este archivo.
-import Stack from '@mui/material/Stack';//. El componente Stack se utiliza para agrupar elementos con espaciado predefinido.
+import React, { useEffect } from "react";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
+export default function PaginationButtons({
+  page,
+  setPage,
+  maxPage,
+  data,
+}) {
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
-//Este componente acepta las siguientes props
-export default function PaginationButtons({spacing,page, setPage, maxPage, inmuebles }) {
-    function handleChange(page) {
-      setPage(page)
-    }
-    
-    React.useEffect(() => { // cada vez que cambie la prop products., se llama a setPage(1) para establecer la página actual en 1. Esto asegura que cuando cambie la lista de productos, la página se reinicie a la primera página.
-      setPage(1)
-    },[inmuebles])
-  
-    return (//Crea un componente Stack con un espaciado igual a la prop spacing si está definida; de lo contrario, utiliza un espaciado predeterminado de 2.
-        <Stack spacing={spacing?spacing:2} >
-        <Pagination count={maxPage} onChange={(event, page) => handleChange(page)} defaultPage={1} page={page} showFirstButton showLastButton />
-        </Stack>
-    );
-  }
+  useEffect(() => {
+    setPage(1);
+  }, [data]);
 
-  //onChange:se llama a la función handleChange con el número de página como argumento
+  return (
+    <div className="flex items-center justify-center space-x-2">
+      <Stack spacing={2}>
+        <Pagination
+          count={maxPage}
+          onChange={handleChange}
+          defaultPage={1}
+          page={page}
+          showFirstButton
+          showLastButton
+        />
+      </Stack>
+    </div>
+  );
+}
+
+//onChange:se llama a la función handleChange con el número de página como argumento
 //page: La página actual, que se toma de la prop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useEffect } from 'react'
 // import {useDispatch, useSelector} from 'react-redux'
 // import { getAllProducts,  } from ''
 
-
-
 //  const Paginated = () => {
-    
+
 //     const dispatch=useDispatch()
 //     const product = useSelector((state)=>state.products)
 //   const [currentData, setCurrentData] = useState([]);//almacena los datos que se muestran actualmente en la página
@@ -73,7 +56,7 @@ export default function PaginationButtons({spacing,page, setPage, maxPage, inmue
 //   const startIndex = (currentPage - 1 ) * itemsPerPage;//Restamos 1 de currentPage para que la página 1 tenga un startIndex de 0, la página 2 tenga un startIndex de itemsPerPage, la página 3 tenga un startIndex de 2 * itemsPerPage, y así sucesivamente.
 
 //   const endIndex = startIndex + itemsPerPage; //Sumamos para obtener el índice del elemento justo después del último elemento en la página actual.
-  
+
 //   const data = currentData.slice(startIndex, endIndex);
 
 //   // Funciones para cambiar de página
@@ -90,10 +73,9 @@ export default function PaginationButtons({spacing,page, setPage, maxPage, inmue
 //   };
 
 //   const handlePageChange = (currentPage) => {//esta función se llama cuando se produce un cambio de página
-//     setCurrentPage(currentPage);//actualiza el estado 
+//     setCurrentPage(currentPage);//actualiza el estado
 //   };
-    
-   
+
 //   return (
 //     <div>
 //             <SearchBar onPageChange={handlePageChange} />
@@ -122,9 +104,8 @@ export default function PaginationButtons({spacing,page, setPage, maxPage, inmue
 //                 </div>
 //             </div>
 //             )}
-            
+
 //             )
-  
 
 // };
 

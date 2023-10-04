@@ -9,15 +9,15 @@ const UbicacionFilter = () => {
   const [selectedUbicacion, setSelectedUbicacion] = useState(null);
   const [searchInput, setSearchInput] = useState('');
 
-  const inmuebles = useSelector((state) => state.inmuebles);
+  const inmuebles = useSelector((state) => state.filteredData);
 
   useEffect(() => {
     // Obtener ubicaciones únicas desde los inmuebles
-    const uniqueUbicaciones = Array.from(new Set(inmuebles.map((inmueble) => inmueble.ubicacion)));
+    const uniqueUbicaciones = Array.from(new Set(inmuebles.map((inmueble) => inmueble.location)));
     // Formatear las ubicaciones para react-select
-    const formattedUbicaciones = uniqueUbicaciones.map((ubicacion) => ({
-      value: ubicacion,
-      label: ubicacion,
+    const formattedUbicaciones = uniqueUbicaciones.map((location) => ({
+      value: location,
+      label: location,
     }));
     setUbicacionOptions(formattedUbicaciones);
   }, [inmuebles]);

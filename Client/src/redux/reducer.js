@@ -1,32 +1,176 @@
+import {
+  // 	GET_PROPERTIES,
+  GET_PROPERTY_DETAIL,
+  // 	CLEAN_DETAIL,
+  // 	ADD_USER,
+  // 	USER_LOGIN,
+  // 	ADD_PROPERTY,
+  FILTERS,
+  // 	ERROR,
+  SEARCH_PRODUCTO,
+
+  ORDER_BY_UBICACION,
+    FILTER_BY_PRECIO,
+    FILTER_BY_PILETA,
+    FILTER_BY_FONDO,
+    ORDER_BY_RESENA,
+    FILTER_BY_CATEGORIA,
+} from "./actions_types";
 
 const initialState = {
-    error:"",
-    user:{},
-    allproperties:[],
-    properties:[]
-  
-    switch(type) {
+  error: "",
+  user: {},
+  properties:[],
+  allproperties: [],
+  filteredData: [],//almacena los inmuebles filtrados
+  propertyDetail: {},
+  searchTerm: "",
+};
 
+// const filterPropertyType = (state, payload) => {
+//   if (payload.type === "default") {
+//     return state.allproperties;
+//   } else {
+//     return state.allproperties.filter((property) => property.type === payload.type);
+//   }
+// };
+
+
+// const orderPropertyPrice = (state, payload) => {
+//   let propertyOrdenated = [...state.properties];
+//   if (payload.orderPrice === "default") {
+//     return propertyOrdenated;
+//   } else if (payload.orderPrice === "-") {
+//     propertyOrdenated = propertyOrdenated.slice().sort((a, b) => a.price - b.price);
+//   } else if (payload.orderPrice === "+") {
+//     propertyOrdenated = propertyOrdenated.slice().sort((a, b) => b.price - a.price);
+//   }
+//   return propertyOrdenated;
+// };
+
+
+
+const rootReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case "GET_PROPERTY":
-        return {
-            ...state,
-            allproperties:[...payload],
-            properties:[...payload]
-        }
-    
+      return {
+        ...state,
+        allproperties: [...payload],
+        properties: [...payload],
+        filteredData:[...payload],
+      };
+
     case "CREATE_PROPERTY":
-        return {
+      return {
+        ...state,
+        allproperties: [...state.allproperties, payload],
+        properties: [...state.properties, payload],
+      };
+
+    case GET_PROPERTY_DETAIL:
+      return {
+        ...state,
+        propertyDetail: payload,
+      };
+
+    case SEARCH_PRODUCTO: // Maneja la acción SEARCH_PRODUCTO
+      return {
+        ...state,
+        searchTerm: payload, // Actualiza searchTerm con el valor de la acción
+        selectinmuebles: payload, // Actualiza selectinmuebles si es necesario
+        loading: false,
+        error: "",
+      };
+
+      // case FILTERS:
+      //   const filterPropertyForType = filterPropertyType(state, payload)
+      //   const orderPropertyForPrice = orderPropertyPrice({
+      //     ...state,
+      //     properties:filterPropertyForType
+      //   }, payload) 
+      //   return {
+      //     ...state,
+      //     properties:orderPropertyForPrice 
+      //   }
+        case ORDER_BY_UBICACION:
+        // Lógica para ordenar inmuebles por ubicación
+     const sortByUbicacion = [...state.filteredData].sort((a, b) =>
+        a.location.localeCompare(b.location)
+      );
+      return {
+        ...state,
+        filteredData: sortByUbicacion,
+      };
+      case FILTER_BY_PRECIO:
+        // Lógica para filtrar inmuebles por precio
+        const { minPrice, maxPrice } = payload;
+         const filteredByPrecio = state.filteredData.filter((properties) =>
+         properties.precio >= minPrice && properties.precio <= maxPrice
+         );
+     return {
+    ...state,
+    filteredData: filteredByPrecio};
+case FILTER_BY_PILETA:
+        // Lógica para filtrar inmuebles por la presencia de una pileta
+        const filteredByPileta = state.inmuebles.filter((properties) => properties.detalle.pileta === action.payload
+          );
+
+          return {
             ...state,
-            allproperties:[...state.allproperties, payload],
-            properties:[...state.properties, payload]
-        } 
+            filteredData: filteredByPileta,
+          };
+ 
+
+      case FILTER_BY_FONDO:
+        // Lógica para filtrar inmuebles por la presencia de un fondo
+        const filteredByFondo = state.producto.filter((properties) => properties.detalle.fondo === action.payload);
+
+
+        return {...state,
+            filteredData: filteredByFondo };
+
+      case ORDER_BY_RESENA:
+        // Lógica para ordenar inmuebles por reseña
+        const sortByResena = [...state.filteredData].sort((a, b) =>
+        b.puntuacion - a.puntuacion
+      );
+      return {
+        ...state,
+        filteredData: sortByResena,
+      };
+
+      
+        
+          case FILTER_BY_CATEGORIA:
+            // Lógica para filtrar inmuebles por categoría (casa o departamento)
+            const categoria = payload?.type; // Usamos el operador de encadenamiento opcional para manejar posibles valores nulos o indefinidos
+            console.log('Acción en reducer:', type);
+      
+            if (!categoria || categoria === "default") {
+              return {
+                ...state,
+                filteredData: state.allproperties, // Usamos allproperties en lugar de properties para obtener todos los elementos
+              };
+            } else {
+              const filteredByCategoria = state.allproperties.filter(
+                (property) => property.type === categoria
+              );
+              return {
+                ...state,
+                filteredData: filteredByCategoria,
+              };
+            }
 
     default:
-        return {
-            ...state
-        }
-    }
-}
+      return {
+        ...state,
+      };
+  }
+};
+
+
+export default rootReducer;
+
 // import {
 // 	GET_PROPERTIES,
 // 	GET_PROPERTY_DETAIL,
@@ -90,9 +234,6 @@ const initialState = {
 
 // export default rootReducer;
 
-
-
-
 // import {
 //     GET_ALL_PRODUCTO,
 //     GET_PRODUCTO_DETAIL,
@@ -111,7 +252,7 @@ const initialState = {
 //     USER_LOGIN,
 //     ADD_PROPERTY,
 //   } from "./actions-types";
-  
+
 //   const initialState = {
 //     inmuebles: [], //almacena todo los inmuebles
 //     filteredData: [],//almacena los inmuebles filtrados
@@ -124,7 +265,7 @@ const initialState = {
 //     loading: false,
 //     currentPage: 1,
 //   };
-  
+
 //   const rootReducer = (state = initialState, action ) => {
 //     switch (action.type) {
 //       case GET_ALL_PRODUCTO:
@@ -134,7 +275,7 @@ const initialState = {
 //             filteredData:action.payload,
 //             loading: false
 //     }
-  
+
 //       case GET_PRODUCTO_DETAIL:
 //         // Lógica para obtener los detalles de un inmueble
 //         return {
@@ -142,7 +283,7 @@ const initialState = {
 //             details: action.payload,
 //             loading: false
 //           };
-  
+
 //       case CLEAN_DETAIL:
 //         // Lógica para limpiar los detalles del inmueble
 //         return {
@@ -175,16 +316,14 @@ const initialState = {
 //             error: ""
 //           };
 //     //       const searchTerm = payload.toLowerCase();
-  
- 
+
 //     //       const searchResults = state.producto.filter((inmubles) =>
 //     //               inmuebles.
-                 
+
 //     //       nombre.toLowerCase().includes(searchTerm) ||
 //     //               inmuebles.descripcion.toLowerCase().includes(searchTerm)
 //     //             );
-                
-               
+
 //     //       return {
 //     //               ...state,
 //     //               filteredData: searchResults,
@@ -196,7 +335,7 @@ const initialState = {
 //       //       inmueblecreado: action.payload,
 //       //       loading: false
 //       //     };
-  
+
 //       case ORDER_BY_UBICACION:
 //         // Lógica para ordenar inmuebles por ubicación
 //      const sortByUbicacion = [...state.filteredData].sort((a, b) =>
@@ -215,16 +354,16 @@ const initialState = {
 //      return {
 //     ...state,
 //     filteredData: filteredByPrecio};
-  
+
 //       case SET_CURRENT_PAGE:
 //         // Lógica para actualizar la página actual
 //         return { ...state, currentPage: payload };
-  
+
 //       case FILTER_BY_PILETA:
 //         // Lógica para filtrar inmuebles por la presencia de una pileta
 //         const filteredByPileta = state.inmuebles.filter((inmuebles) => inmuebles.detalle.pileta === action.payload
 //           );
-          
+
 //           return {
 //             ...state,
 //             filteredData: filteredByPileta,
@@ -232,7 +371,7 @@ const initialState = {
 //         return {...state,
 //             filteredData:state.filteredData
 //     };
-  
+
 //       case FILTER_BY_FONDO:
 //         // Lógica para filtrar inmuebles por la presencia de un fondo
 //         const filteredByFondo = state.producto.filter((inmuebles) => producto.detalle.fondo === action.payload);
@@ -250,7 +389,7 @@ const initialState = {
 //         ...state,
 //         filteredData: sortByResena,
 //       };
-  
+
 //       case FILTER_BY_CATEGORIA:
 //         // Lógica para filtrar inmuebles por categoría (casa o departamento)
 //         const categoria = action.payload;
@@ -261,12 +400,8 @@ const initialState = {
 //           ...state,
 //           filteredData: filteredByCategoria,
 //         };
-  
+
 //       default:
 //         return state;
 //     }
 //   };
-
-export default rootReducer;
-
-

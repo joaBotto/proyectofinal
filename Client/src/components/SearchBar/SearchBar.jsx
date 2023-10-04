@@ -1,45 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchProducto } from '../../redux/actions';
 
-// Supongamos que tienes una base de datos de productos en formato JSON
-const database = [
-	{
-		id: 1,
-		name: 'casa quinta',
-		description: 'Descripción del Producto 1',
-		price: 10,
-		location: 'tachira',
-	},
-	{
-		id: 2,
-		name: 'departamento duplex',
-		description: 'Descripción del Producto 2',
-		price: 20,
-		location: 'buenos aires',
-	},
-	// Agrega más productos aquí...
-];
+const SearchBar = () => {
+	const dispatch = useDispatch();
+	const searchTermRedux = useSelector((state) => state.searchTerm);
 
-const itemsPerPage = 5; // Cantidad de productos por página
+	const [searchTerm, setSearchTerm] = useState(searchTermRedux || ''); // Inicializar con un valor predeterminado si searchTermRedux es undefined
 
-const Searchbar = () => {
-	const [searchTerm, setSearchTerm] = useState('');
+	// Estado local para el término de búsqueda y los resultados
+
 	const [currentPage, setCurrentPage] = useState(1);
-	const [products, setProducts] = useState([]); // Estado para almacenar los productos
+	const itemsPerPage = 10;
 
-	useEffect(() => {
-		// Simulamos una solicitud a la base de datos, por ejemplo, usando fetch o Axios
-		// En este ejemplo, simplemente establecemos los productos de la base de datos ficticia en el estado.
-		setProducts(database);
-	}, []);
+	// Función para buscar productos por nombre, precio o ubicación
+	const inmuebles = useSelector((state) => state.properties);
 
-	// Función para realizar la búsqueda de productos por nombre, precio o ubicación
 	const searchProducts = () => {
-		return products.filter(
-			(product) =>
-				product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				product.price.toString().includes(searchTerm) ||
-				product.location.toLowerCase().includes(searchTerm.toLowerCase())
+		return inmuebles.filter(
+			(inmueble) =>
+				inmueble.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				inmueble.precio.toString().includes(searchTerm) ||
+				inmueble.ubicacion.toLowerCase().includes(searchTerm.toLowerCase())
 		);
+	};
+
+	// Función para cambiar el término de búsqueda en el estado de Redux
+	const handleSearchTermChange = (e) => {
+		const newSearchTerm = e.target.value;
+		setSearchTerm(newSearchTerm);
+		dispatch(searchProducto(newSearchTerm));
 	};
 
 	// Función para cambiar de página
@@ -47,6 +37,7 @@ const Searchbar = () => {
 		setCurrentPage(page);
 	};
 
+	// Filtrar productos y paginar
 	const filteredProducts = searchProducts();
 	const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
 	const paginatedProducts = filteredProducts.slice(
@@ -61,8 +52,10 @@ const Searchbar = () => {
 				className='border p-2 w-full mb-4'
 				placeholder='Buscar inmuebles...'
 				value={searchTerm}
-				onChange={(e) => setSearchTerm(e.target.value)}
+				onChange={handleSearchTermChange}
 			/>
+			<button onClick={searchProducts}>Buscar</button>
+
 			{paginatedProducts.length === 0 ? (
 				<p>No se encontraron resultados.</p>
 			) : (
@@ -75,6 +68,7 @@ const Searchbar = () => {
 					))}
 				</ul>
 			)}
+
 			{pageCount > 1 && (
 				<div className='mt-4'>
 					<span className='mr-2'>
@@ -84,8 +78,8 @@ const Searchbar = () => {
 						<button
 							key={index}
 							onClick={() => handlePageChange(index + 1)}
-							className={`px-2 py-1 border ${
-								currentPage === index + 1 ? 'bg-gray-500 text-white' : ''
+							className={`btn btn-sm btn-primary mr-2 ${
+								currentPage === index + 1 ? 'active' : ''
 							}`}
 						>
 							{index + 1}
@@ -97,4 +91,4 @@ const Searchbar = () => {
 	);
 };
 
-export default Searchbar;
+export default SearchBar;
