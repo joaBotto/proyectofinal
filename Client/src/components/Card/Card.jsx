@@ -6,6 +6,7 @@ import {
 	faBath,
 	faRulerCombined,
 } from "@fortawesome/free-solid-svg-icons";
+import ImageCarousel from "./ImageCarousel";
 
 const Card = ({
 	_id,
@@ -20,16 +21,12 @@ const Card = ({
 	return (
 		<div className="flex-auto rounded-xl py-2">
 			<div className="px-4 pt-5 sm:px-6">
+				<div className="relative rounded-xl shadow overflow-hidden">
+					<ImageCarousel images={images} />
+				</div>
 				<Link to={`/detail/${_id}`}>
-					<div className="relative rounded-xl shadow overflow-hidden">
-						<img
-							src={images.imageUrl || "No hay img disponible"}
-							alt={title}
-							className="h-[300px] object-cover w-full"
-						/>
-					</div>
 					<h3 className="pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase">
-						{title}
+						{title?.slice(0, 20)}
 					</h3>
 				</Link>
 			</div>
@@ -59,7 +56,7 @@ const Card = ({
 				</div>
 			</div>
 			<p className="mx-6 text-sm pb-0 mt-3 text-justify font-noto font-medium text-blue">
-				{description}...
+				{description?.slice(0, 100)}...
 			</p>
 			<Link to={`/detail/${_id}`}>
 				<div className="flex justify-end items-center">
