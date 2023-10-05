@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
-
-
+import axios from "axios"; // Asegúrate de importar axios si aún no lo has hecho
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -26,11 +25,6 @@ const SignUpForm = () => {
       setImagePreview(reader.result);
     };
 
-    reader.onload = () => {
-      // Al cargar el archivo, establecer la URL de la imagen en el estado
-      setImagePreview(reader.result);
-    };
-
     // Leer el archivo como URL
     reader.readAsDataURL(file);
   };
@@ -41,7 +35,7 @@ const SignUpForm = () => {
   });
 
   const initialValues = {
-    firstName: "",
+    name: "",
     lastName: "",
     email: "",
     password: "",
@@ -49,12 +43,12 @@ const SignUpForm = () => {
     country: "",
     address: "",
     city: "",
-    phonenumber: "",
+    phoneNumber: "",
     avatar: null,
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string().required("Campo obligatorio"),
+    name: Yup.string().required("Campo obligatorio"),
     lastName: Yup.string().required("Campo obligatorio"),
     email: Yup.string()
       .email("Correo electrónico inválido")
@@ -68,7 +62,7 @@ const SignUpForm = () => {
     country: Yup.string().required("Campo obligatorio"),
     address: Yup.string().required("Campo obligatorio"),
     city: Yup.string().required("Campo obligatorio"),
-    phonenumber: Yup.string().required("Campo obligatorio"),
+    phoneNumber: Yup.string().required("Campo obligatorio"),
   });
 
   const handleValidation = (isValid) => {
@@ -77,13 +71,18 @@ const SignUpForm = () => {
 
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
-    formData.append("file", file[0]);
+    formData.append("file", file);
     try {
-      const { data } = await axios.post("http://localhost:3001/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const { data } = await axios.post(
+        "http://localhost:3001/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("soydata de uploadcloud", data)
       return data;
     } catch (error) {
       console.error("Error al cargar la imagen:", error);
@@ -93,12 +92,15 @@ const SignUpForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      if (values.images) {
-        const cloudinaryResponse = await uploadImagesToCloudinary(
-          values.images
-        );
-        values.avatar = cloudinaryResponse.secure_url;
-        setImagePreview(values.avatar);
+      if (image) {
+        const cloudinaryResponse = await uploadImagesToCloudinary(image);
+        console.log("soyresponsecloud", cloudinaryResponse)
+        if (cloudinaryResponse) {
+          values.avatar = cloudinaryResponse;
+          setImagePreview(values.avatar);
+        } else {
+          console.error("Error al cargar la imagen en Cloudinary.");
+        }
       }
 
       // Llamamos a la acción addUser para enviar datos al servidor
@@ -167,19 +169,19 @@ const SignUpForm = () => {
             )}
             <div>
               <label
-                htmlFor="firstName"
+                htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
               >
                 Nombre:
               </label>
               <Field
                 type="text"
-                id="firstName"
-                name="firstName"
+                id="name"
+                name="name"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
-                name="firstName"
+                name="name"
                 component="div"
                 className="text-red-600 text-sm"
               />
@@ -326,19 +328,19 @@ const SignUpForm = () => {
 
             <div>
               <label
-                htmlFor="phonenumber"
+                htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
               >
                 Número de teléfono:
               </label>
               <Field
                 type="text"
-                id="phonenumber"
-                name="phonenumber"
+                id="phoneNumber"
+                name="phoneNumber"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
-                name="phonenumber"
+                name="phoneNumber"
                 component="div"
                 className="text-red-600 text-sm"
               />

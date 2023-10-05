@@ -2,7 +2,7 @@ import {
   // 	GET_PROPERTIES,
   GET_PROPERTY_DETAIL,
   // 	CLEAN_DETAIL,
-  	ADD_USER,
+  ADD_USER,
   // 	USER_LOGIN,
   // 	ADD_PROPERTY,
   FILTERS,
@@ -23,24 +23,27 @@ const filterPropertyType = (state, payload) => {
   if (payload.type === "default") {
     return state.allproperties;
   } else {
-    return state.allproperties.filter((property) => property.type === payload.type);
+    return state.allproperties.filter(
+      (property) => property.type === payload.type
+    );
   }
 };
-
 
 const orderPropertyPrice = (state, payload) => {
   let propertyOrdenated = [...state.properties];
   if (payload.orderPrice === "default") {
     return propertyOrdenated;
   } else if (payload.orderPrice === "-") {
-    propertyOrdenated = propertyOrdenated.slice().sort((a, b) => a.price - b.price);
+    propertyOrdenated = propertyOrdenated
+      .slice()
+      .sort((a, b) => a.price - b.price);
   } else if (payload.orderPrice === "+") {
-    propertyOrdenated = propertyOrdenated.slice().sort((a, b) => b.price - a.price);
+    propertyOrdenated = propertyOrdenated
+      .slice()
+      .sort((a, b) => b.price - a.price);
   }
   return propertyOrdenated;
 };
-
-
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -73,22 +76,25 @@ const rootReducer = (state = initialState, { type, payload }) => {
         error: "",
       };
 
-      case FILTERS:
-        const filterPropertyForType = filterPropertyType(state, payload)
-        const orderPropertyForPrice = orderPropertyPrice({
+    case FILTERS:
+      const filterPropertyForType = filterPropertyType(state, payload);
+      const orderPropertyForPrice = orderPropertyPrice(
+        {
           ...state,
-          properties:filterPropertyForType
-        }, payload) 
-        return {
-          ...state,
-          properties:orderPropertyForPrice 
-        }
+          properties: filterPropertyForType,
+        },
+        payload
+      );
+      return {
+        ...state,
+        properties: orderPropertyForPrice,
+      };
 
-        case ADD_USER:
-			return {
-				...state,
-				user: payload,
-			};
+    case ADD_USER:
+      return {
+        ...state,
+        user: payload,
+      };
 
     default:
       return {
