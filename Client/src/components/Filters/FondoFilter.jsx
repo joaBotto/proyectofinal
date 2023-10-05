@@ -1,23 +1,31 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { filterByFondo } from '../../redux/actions';
 
-const FondoFilter = () => {
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { filterByPrecio } from '../../redux/actions';
+
+const PrecioFilter = () => {
   const dispatch = useDispatch();
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [order, setOrder] = useState('asc');
 
-  const handleChange = (hasFondo) => {
-    dispatch(filterByFondo(hasFondo === 'true'));
+  const handleFilter = () => {
+    dispatch(filterByPrecio(parseInt(minPrice), parseInt(maxPrice), order));
   };
 
   return (
     <div>
-      <label>Tiene Fondo:</label>
-      <select onChange={(e) => handleChange(e.target.value)}>
-        <option value="true">Sí</option>
-        <option value="false">No</option>
+      <label>Orden por Precio:</label>
+      <input type="number" placeholder="Mínimo" onChange={(e) => setMinPrice(e.target.value)} />
+      <input type="number" placeholder="Máximo" onChange={(e) => setMaxPrice(e.target.value)} />
+      <select onChange={(e) => setOrder(e.target.value)}>
+        <option value="asc">Ascendente</option>
+        <option value="desc">Descendente</option>
       </select>
+      <button onClick={handleFilter}>Filtrar</button>
     </div>
   );
 };
 
-export default FondoFilter;
+export default PrecioFilter;
+

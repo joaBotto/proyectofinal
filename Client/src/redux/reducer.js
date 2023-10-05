@@ -6,7 +6,7 @@ import {
     CLEAN_DETAIL,
     ERROR,
     SEARCH_PRODUCTO,
-    ORDER_BY_UBICACION,
+    FILTER_BY_UBICACION,
     FILTER_BY_PRECIO,
     FILTER_BY_PILETA,
     FILTER_BY_FONDO,
@@ -86,26 +86,41 @@ const rootReducer = (state = initialState, { type, payload }) => {
         error: "",
       };
 
-        case ORDER_BY_UBICACION:
-        // Lógica para ordenar inmuebles por ubicación
-     const sortByUbicacion = [...state.filteredData].sort((a, b) =>
-        a.location.localeCompare(b.location)
+     
+      case FILTER_BY_UBICACION:
+     const ubicacion = payload;
+      const filteredByUbicacion = state.allproperties.filter(
+    (property) => property.address.city === ubicacion
       );
-      return {
-        ...state,
-        filteredData: sortByUbicacion,
-      };
-
-
-      case FILTER_BY_PRECIO:
-        // Lógica para filtrar inmuebles por precio
-        const { minPrice, maxPrice } = payload;
-         const filteredByPrecio = state.filteredData.filter((properties) =>
-         properties.precio >= minPrice && properties.precio <= maxPrice
-         );
-     return {
+  return {
     ...state,
-    filteredData: filteredByPrecio};
+    filteredData: filteredByUbicacion,
+  };
+
+
+
+     
+case FILTER_BY_PRECIO:
+  const { minPrice, maxPrice, order } = payload;
+  let filteredByPrecio = [...state.filteredData];
+
+  // Lógica para filtrar inmuebles por precio
+  if (order === 'asc') {
+    filteredByPrecio = filteredByPrecio.sort((a, b) => a.precio - b.precio);
+  } else if (order === 'desc') {
+    filteredByPrecio = filteredByPrecio.sort((a, b) => b.precio - a.precio);
+  }
+
+  filteredByPrecio = filteredByPrecio.filter(
+    (property) => property.precio >= minPrice && property.precio <= maxPrice
+  );
+
+  return {
+    ...state,
+    filteredData: filteredByPrecio,
+  };
+
+
 
      
      case FILTER_BY_PILETA:

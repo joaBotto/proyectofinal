@@ -7,7 +7,7 @@ import {
   ADD_USER,
 	CREATE_PROPERTY,
 	ERROR,
-	ORDER_BY_UBICACION,
+	FILTER_BY_UBICACION,
   FILTER_BY_PRECIO,
   FILTER_BY_PILETA,
   FILTER_BY_FONDO,
@@ -111,22 +111,25 @@ export const addUser = (user) => async (dispatch) => {
 };
 
 
-    
 
-  export const orderByUbicacion = (location) => {
-    return {
-         
-      type: ORDER_BY_UBICACION,
-        payload: location,
-    };
-}
-  
-  export const filterByPrecio = (minPrice, maxPrice) =>{
-    return{
-    type: FILTER_BY_PRECIO,
-    payload: { minPrice, maxPrice },
+
+export const filterByUbicacion = (ubicacion) => {
+
+  return {
+    type: FILTER_BY_UBICACION,
+    payload: ubicacion,
   };
-  }
+};
+
+  
+  
+export const filterByPrecio = (minPrice, maxPrice, order) => {
+  return {
+    type: FILTER_BY_PRECIO,
+    payload: { minPrice, maxPrice, order },
+  };
+};
+
   
   
   export const filterByPileta = (pileta) => {
@@ -150,7 +153,7 @@ export const addUser = (user) => async (dispatch) => {
 };
   
   export const filterByCategoria = (type) => {
-    console.log('Tipo en action creator:', type);
+    
     return{
     type: FILTER_BY_CATEGORIA,
     payload: { type },

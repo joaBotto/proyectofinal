@@ -59,7 +59,9 @@ const NavBar = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-xl font-semibold text-indigo-950 flex items-center justify-center space-x-4">
             <CategoriaFilter />
-            {/* Otros componentes de filtro */}
+			<UbicacionFilter />
+			<PrecioFilter />
+		
           </div>
         </div>
       </div>
