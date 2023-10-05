@@ -8,8 +8,7 @@ import { createProperty } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import fondo from "../../assets/img/loginRegister.jpg";
 import { Link } from "react-router-dom";
-import { DateRangePicker } from "react-date-range";
-import "react-date-range/dist/styles.css";
+
 
 
 export default function CreateProperty() {
@@ -35,6 +34,19 @@ export default function CreateProperty() {
     }
   };
 
+  function generateDatesInRange(startDate, endDate) {
+    const dates = [];
+    let currentDate = new Date(startDate);
+    while (currentDate <= endDate) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1); // Avanza un día
+    }
+    return dates;
+  }
+
+
+
+
   const initialValues = {
     title: "",
     description: "",
@@ -49,8 +61,8 @@ export default function CreateProperty() {
     price: 0,
     type: "casa",
     availableDays: {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate:"",
+      endDate:"",
     },
     images: [],
     amenities: {
@@ -84,10 +96,17 @@ export default function CreateProperty() {
     dispatch(createProperty(values));
     setSubmitting(false);
   };
+
+
+  ///// VALIDACIONES DEL FORMULARIO
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("El título es requerido").min(5, "Título muy corto, debe tener al menos 5 caracteres"), // Agregar la validación min
     description: Yup.string().required("La descripción es requerida"),
-    // ... Otras validaciones
+    availableDays: Yup.object().shape({
+      startDate: Yup.date().required("Fecha de inicio requerida"),
+      endDate: Yup.date().required("Fecha de finalización requerida")
+        .min(Yup.ref("startDate"), "La fecha de finalización debe ser posterior a la fecha de inicio"),
+    }),
   });
 
   return (
@@ -297,21 +316,21 @@ export default function CreateProperty() {
 
 ////////////FECHAS
             <div className="block text-left text-gray-700">
-            <label htmlFor="availableDays">Fecha de inicio:</label>
-            <Field name="availableDays">
-              {({field})=> (
-                <DateRangePicker
-                  startDate={values.availableDays.startDate}
-                  startDateId="startDate"
-                  endDate={values.availableDays.endDate}
-                  endDateId="endDate"
-                  onDatesChange={({startDate, endDate})=>{
-                      setFieldValue('availableDays.startDate',startDate)
-                      setFieldValue('availableDays.endDate',endDate)
-                  }}
-                />
-              )}
-            </Field>
+            <label htmlFor="availableDays.startDate">Fecha de inicio:</label>
+            <Field name="availableDays.startDate" type="date"/>
+            <ErrorMessage name="availableDays.startDate" component="div"/>
+            <label htmlFor="availableDays.endDate">Fecha de finalizacion:</label>
+            <Field name="availableDays.endDate" type="date"
+            onChange={(event) => {
+              setFieldValue("availableDays.endDate", event.target.value);
+              if (values.availableDays.startDate){
+                const dates = generateDatesInRange(values.availableDays.startDate, event.target.value)
+              } else {
+                
+              }
+            }}
+            />
+            <ErrorMessage name="availableDays.endDate" component="div"/>
             </div>
 
 
@@ -373,7 +392,7 @@ export default function CreateProperty() {
   );
 }
 
-/* function generateDatesInRange(startDate, endDate) {
+function generateDatesInRange(startDate, endDate) {
   const dates = [];
   let currentDate = new Date(startDate);
   while (currentDate <= endDate) {
@@ -381,4 +400,4 @@ export default function CreateProperty() {
     currentDate.setDate(currentDate.getDate() + 1); // Avanza un día
   }
   return dates;
-} */
+}
