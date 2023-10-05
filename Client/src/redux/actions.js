@@ -4,7 +4,7 @@ import {
   GET_PROPERTY_DETAIL,
   // 	CLEAN_DETAIL,
   ADD_USER,
-  // 	USER_LOGIN,
+  USER_LOGIN,
   // 	ADD_PROPERTY,
   FILTERS,
   ERROR,
@@ -17,12 +17,12 @@ export const getProperty = () => {
       const { data } = await axios.get("http://localhost:3001/properties");
       console.log("soy data", data);
       return dispatch({
-        type: "GET_PROPERTY",
+        type: GET_PROPERTY,
         payload: data,
       });
     } catch (error) {
       return {
-        type: "ERROR",
+        type: ERROR,
         payload: error.message,
       };
     }
@@ -46,12 +46,12 @@ export const createProperty = (values) => {
         values
       );
       return dispatch({
-        type: "CREATE_PROPERTY",
+        type: CREATE_PROPERTY,
         payload: data,
       });
     } catch (error) {
       return {
-        type: "ERROR",
+        type: ERROR,
         payload: error.message,
       };
     }
@@ -98,6 +98,25 @@ export const addUser = (user) => async (dispatch) => {
     return { type: ERROR, payload: error.message };
   }
 };
+
+export const userLogin = (valores) => {
+  const url = "http://localhost:3001/auth/login";
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(url, valores);
+      dispatch({
+        type: USER_LOGIN,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
 /////////////////////////////
 
 //   export const cleanDetail = () => {
@@ -108,7 +127,6 @@ export const addUser = (user) => async (dispatch) => {
 //         });
 //     };
 //   }
-
 
 //   export const userLogin = (user) => async (dispatch) => {
 //     try {
