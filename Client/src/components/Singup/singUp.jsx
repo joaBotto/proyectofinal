@@ -1,24 +1,23 @@
 import React, { useState } from "react";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
 import axios from "axios";
 
-const URL = "http://localhost:3000";
-
 const SignUpForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isFormValid, setFormValid] = useState(false);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [userCreated, setUserCreated] = useState(false); // Estado para el mensaje de éxito
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const onDrop = (acceptedFiles) => {
-    // `acceptedFiles` contiene la lista de archivos seleccionados por el usuario
     const file = acceptedFiles[0];
     setImage(file);
 
@@ -27,22 +26,16 @@ const SignUpForm = () => {
       setImagePreview(reader.result);
     };
 
-    reader.onload = () => {
-      // Al cargar el archivo, establecer la URL de la imagen en el estado
-      setImagePreview(reader.result);
-    };
-
-    // Leer el archivo como URL
     reader.readAsDataURL(file);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/png", // Aceptar solo archivos de imagen
+    accept: "image/png",
     onDrop,
   });
 
   const initialValues = {
-    firstName: "",
+    name: "",
     lastName: "",
     email: "",
     password: "",
@@ -50,18 +43,18 @@ const SignUpForm = () => {
     country: "",
     address: "",
     city: "",
-    phonenumber: "",
+    phoneNumber: "",
     avatar: null,
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string().required("Campo obligatorio"),
+    name: Yup.string().required("Campo obligatorio"),
     lastName: Yup.string().required("Campo obligatorio"),
     email: Yup.string()
       .email("Correo electrónico inválido")
       .required("Campo obligatorio"),
     password: Yup.string()
-      .min(6, "La contraseña debe tener al menos 6 caracteres")
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
       .required("Campo obligatorio"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir")
@@ -69,7 +62,7 @@ const SignUpForm = () => {
     country: Yup.string().required("Campo obligatorio"),
     address: Yup.string().required("Campo obligatorio"),
     city: Yup.string().required("Campo obligatorio"),
-    phonenumber: Yup.string().required("Campo obligatorio"),
+    phoneNumber: Yup.string().required("Campo obligatorio"),
   });
 
   const handleValidation = (isValid) => {
@@ -78,13 +71,18 @@ const SignUpForm = () => {
 
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
-    formData.append("file", file[0]);
+    formData.append("file", file);
     try {
-      const { data } = await axios.post(`${URL}/upload`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const { data } = await axios.post(
+        "http://localhost:3001/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("soydata de uploadcloud", data);
       return data;
     } catch (error) {
       console.error("Error al cargar la imagen:", error);
@@ -94,22 +92,24 @@ const SignUpForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      if (values.images) {
-        const cloudinaryResponse = await uploadImagesToCloudinary(
-          values.images
-        );
-        values.avatar = cloudinaryResponse.secure_url;
-        setImagePreview(values.avatar);
+      if (image) {
+        const cloudinaryResponse = await uploadImagesToCloudinary(image);
+        console.log("soyresponsecloud", cloudinaryResponse);
+        if (cloudinaryResponse) {
+          values.avatar = cloudinaryResponse;
+          setImagePreview(values.avatar);
+        } else {
+          console.error("Error al cargar la imagen en Cloudinary.");
+        }
       }
 
-      // Solicitud al backend
-      const response = await axios.post(`${URL}/users`, values);
-      console.log("Datos enviados al servidor:", values);
+      await dispatch(addUser(values));
+      
+      // Después de que el usuario se haya creado con éxito, establece userCreated en true
+      setUserCreated(true);
 
-      // Aquí puedes despachar una acción de Redux si es necesario
-      dispatch(addUser(values));
-
-      console.log("Respuesta del servidor:", response.data);
+      // Redirige al usuario a la página de inicio ("/")
+      navigate("/login");
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
     } finally {
@@ -138,31 +138,28 @@ const SignUpForm = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
-          validateOnChange={false} // Evitar la validación automática en cada cambio
-          validateOnBlur={false} // Evitar la validación automática al salir de un campo
+          validateOnChange={false}
+          validateOnBlur={false}
           validate={(values) => {
             const errors = {};
-            // Validación adicional: Verificar la complejidad de la contraseña
             const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[/*-]).{8,}$/;
             if (!passwordPattern.test(values.password)) {
               errors.password =
                 "La contraseña debe contener al menos 8 caracteres, una letra mayúscula, un número y uno de los siguientes signos: /, * o -";
             }
-            // Calcula si el formulario es válido
             const isValid = Object.keys(errors).length === 0;
             handleValidation(isValid);
-
             return errors;
           }}
         >
           <Form className="space-y-4">
             <div {...getRootProps()} className="dropzone">
               <input {...getInputProps()} />
-              <p className="cursor-pointer">
-                Arraste o seleciones una foto de perfil.
+              <p className="cursor-pointer cursor-pointer pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase ">
+                Arrastre o seleciones una foto de perfil.
               </p>
             </div>
-            {/* Mostrar la vista previa de la imagen */}
+
             {imagePreview && (
               <div className="mt-4">
                 <img
@@ -172,21 +169,22 @@ const SignUpForm = () => {
                 />
               </div>
             )}
+
             <div>
               <label
-                htmlFor="firstName"
+                htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
               >
                 Nombre:
               </label>
               <Field
                 type="text"
-                id="firstName"
-                name="firstName"
-                className="mt-1 p-2 w-full border rounded"
+                id="name"
+                name="name"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
-                name="firstName"
+                name="name"
                 component="div"
                 className="text-red-600 text-sm"
               />
@@ -203,7 +201,7 @@ const SignUpForm = () => {
                 type="text"
                 id="lastName"
                 name="lastName"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="lastName"
@@ -223,7 +221,7 @@ const SignUpForm = () => {
                 type="email"
                 id="email"
                 name="email"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="email"
@@ -243,12 +241,12 @@ const SignUpForm = () => {
                 type="password"
                 id="password"
                 name="password"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="password"
                 component="div"
-                className="text-red-600 text-sm"
+                className="text-red-600 text-sm "
               />
             </div>
 
@@ -263,7 +261,7 @@ const SignUpForm = () => {
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="confirmPassword"
@@ -282,7 +280,7 @@ const SignUpForm = () => {
                 type="text"
                 id="country"
                 name="country"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="country"
@@ -302,7 +300,7 @@ const SignUpForm = () => {
                 type="text"
                 id="address"
                 name="address"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="address"
@@ -322,7 +320,7 @@ const SignUpForm = () => {
                 type="text"
                 id="city"
                 name="city"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="city"
@@ -333,36 +331,39 @@ const SignUpForm = () => {
 
             <div>
               <label
-                htmlFor="phonenumber"
+                htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
               >
                 Número de teléfono:
               </label>
               <Field
                 type="text"
-                id="phonenumber"
-                name="phonenumber"
-                className="mt-1 p-2 w-full border rounded"
+                id="phoneNumber"
+                name="phoneNumber"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
-                name="phonenumber"
+                name="phoneNumber"
                 component="div"
                 className="text-red-600 text-sm"
               />
             </div>
 
+            {userCreated && (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                El usuario ha sido creado con éxito.
+              </div>
+            )}
+
             <div className="flex justify-between">
               <button
                 type="submit"
-                className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-md"
               >
                 Registrarse
               </button>
-              <Link
-                to="/"
-                className=" absolute top-0 left-0 text-blue-500 hover:text-blue-700 font-bold p-2 "
-              >
-                Dashboard
+              <Link to="/" className="text-blue-500 hover:text-blue-700 font-bold p-2">
+                home
               </Link>
             </div>
           </Form>
@@ -372,4 +373,4 @@ const SignUpForm = () => {
   );
 };
 
-export default connect(null, { addUser })(SignUpForm);
+export default SignUpForm;
