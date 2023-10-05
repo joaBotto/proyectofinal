@@ -1,6 +1,7 @@
 // tailwind.config.js
+import withMT from "@material-tailwind/react/utils/withMT";
 
-module.exports = {
+export default withMT({
 	content: [
 		"./src/**/*.js", // Archivos JavaScript
 		"./src/**/*.jsx", // Archivos JSX
@@ -37,4 +38,4 @@ module.exports = {
 		// ...
 		require("@tailwindcss/forms"),
 	],
-};
+});
