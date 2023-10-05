@@ -60,10 +60,11 @@ export default function CreateProperty() {
     bathrooms: 0,
     price: 0,
     type: "casa",
-    availableDays: {
+    availableDates: {
       startDate:"",
       endDate:"",
     },
+    availableDays:[],
     images: [],
     amenities: {
       covered_area:0,
@@ -316,17 +317,21 @@ export default function CreateProperty() {
 
 ////////////FECHAS
             <div className="block text-left text-gray-700">
-            <label htmlFor="availableDays.startDate">Fecha de inicio:</label>
-            <Field name="availableDays.startDate" type="date"/>
-            <ErrorMessage name="availableDays.startDate" component="div"/>
-            <label htmlFor="availableDays.endDate">Fecha de finalizacion:</label>
-            <Field name="availableDays.endDate" type="date"
+            <label htmlFor="availableDates.startDate">Fecha de inicio:</label>
+            <Field name="availableDates.startDate" type="date"/>
+            <ErrorMessage name="availableDates.startDate" component="div"/>
+            <label htmlFor="availableDates.endDate">Fecha de finalizacion:</label>
+            <Field name="availableDates.endDate" type="date"
             onChange={(event) => {
-              setFieldValue("availableDays.endDate", event.target.value);
-              if (values.availableDays.startDate){
-                const dates = generateDatesInRange(values.availableDays.startDate, event.target.value)
-              } else {
-                
+              const endDateValue = event.target.value;
+              setFieldValue("availableDates.endDate", endDateValue);
+              const startDateValue = values.availableDates.startDate;
+              
+              if (startDateValue && endDateValue) {
+                const startDate = new Date(startDateValue);
+                const endDate = new Date(endDateValue);
+                const dates = generateDatesInRange(startDate, endDate);
+                console.log(dates)
               }
             }}
             />
@@ -392,12 +397,3 @@ export default function CreateProperty() {
   );
 }
 
-function generateDatesInRange(startDate, endDate) {
-  const dates = [];
-  let currentDate = new Date(startDate);
-  while (currentDate <= endDate) {
-    dates.push(new Date(currentDate));
-    currentDate.setDate(currentDate.getDate() + 1); // Avanza un día
-  }
-  return dates;
-}
