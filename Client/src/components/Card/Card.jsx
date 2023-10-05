@@ -1,4 +1,11 @@
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faLocationDot,
+	faBed,
+	faBath,
+	faRulerCombined,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Card = ({
 	_id,
@@ -11,10 +18,10 @@ const Card = ({
 	bathrooms,
 }) => {
 	return (
-		<div className="flex-auto bg-indigo-100 rounded-xl py-2">
+		<div className="flex-auto rounded-xl py-2">
 			<div className="px-4 pt-5 sm:px-6">
 				<Link to={`/detail/${_id}`}>
-					<div className="relative rounded-xl  overflow-hidden">
+					<div className="relative rounded-xl shadow overflow-hidden">
 						<img
 							src={images.imageUrl || "No hay img disponible"}
 							alt={title}
@@ -28,24 +35,26 @@ const Card = ({
 			</div>
 			<div className="mx-6 grid grid-rows-3 gap-y-2 font-onest">
 				<p className="text-sm mt-1 pb-0 mb-0 font-medium text-blue">
-					@: {location}
+					<FontAwesomeIcon icon={faLocationDot} /> {location}
 				</p>
 				<p className="text-3xl text-right mb-2 font-bold text-blue">
 					U$D {price}
 				</p>
 				<div className="grid grid-cols-3 gap-3 place-items-stretch">
-					<div className="flex justify-center items-center rounded-full bg-cyan">
+					<div className="flex justify-center items-center rounded-md bg-cyan">
 						<p className="text-sm font-medium text-blue text-center">
-							{bedrooms} Bedrooms
+							{bedrooms} <FontAwesomeIcon icon={faBed} />
 						</p>
 					</div>
-					<div className="flex justify-center items-center rounded-full bg-cyan">
+					<div className="flex justify-center items-center rounded-md bg-cyan">
 						<p className="text-sm font-medium text-blue text-center">
-							{bathrooms} Bathrooms
+							{bathrooms} <FontAwesomeIcon icon={faBath} />
 						</p>
 					</div>
-					<div className="flex justify-center items-center rounded-full bg-cyan">
-						<p className="text-sm font-medium text-blue text-center">x m2</p>
+					<div className="flex justify-center items-center rounded-md bg-cyan">
+						<p className="text-sm font-medium text-blue text-center">
+							<FontAwesomeIcon icon={faRulerCombined} /> x m²
+						</p>
 					</div>
 				</div>
 			</div>
