@@ -3,20 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
-import axios from "axios"; // Asegúrate de importar axios si aún no lo has hecho
+import axios from "axios";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isFormValid, setFormValid] = useState(false);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [userCreated, setUserCreated] = useState(false); // Estado para el mensaje de éxito
   const user = useSelector((state) => state.user);
 
   const onDrop = (acceptedFiles) => {
-    // `acceptedFiles` contiene la lista de archivos seleccionados por el usuario
     const file = acceptedFiles[0];
     setImage(file);
 
@@ -25,12 +26,11 @@ const SignUpForm = () => {
       setImagePreview(reader.result);
     };
 
-    // Leer el archivo como URL
     reader.readAsDataURL(file);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/png", // Aceptar solo archivos de imagen
+    accept: "image/png",
     onDrop,
   });
 
@@ -82,7 +82,7 @@ const SignUpForm = () => {
           },
         }
       );
-      console.log("soydata de uploadcloud", data)
+      console.log("soydata de uploadcloud", data);
       return data;
     } catch (error) {
       console.error("Error al cargar la imagen:", error);
@@ -94,7 +94,7 @@ const SignUpForm = () => {
     try {
       if (image) {
         const cloudinaryResponse = await uploadImagesToCloudinary(image);
-        console.log("soyresponsecloud", cloudinaryResponse)
+        console.log("soyresponsecloud", cloudinaryResponse);
         if (cloudinaryResponse) {
           values.avatar = cloudinaryResponse;
           setImagePreview(values.avatar);
@@ -103,8 +103,13 @@ const SignUpForm = () => {
         }
       }
 
-      // Llamamos a la acción addUser para enviar datos al servidor
       await dispatch(addUser(values));
+      
+      // Después de que el usuario se haya creado con éxito, establece userCreated en true
+      setUserCreated(true);
+
+      // Redirige al usuario a la página de inicio ("/")
+      navigate("/login");
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
     } finally {
@@ -133,20 +138,17 @@ const SignUpForm = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
-          validateOnChange={false} // Evitar la validación automática en cada cambio
-          validateOnBlur={false} // Evitar la validación automática al salir de un campo
+          validateOnChange={false}
+          validateOnBlur={false}
           validate={(values) => {
             const errors = {};
-            // Validación adicional: Verificar la complejidad de la contraseña
             const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[/*-]).{8,}$/;
             if (!passwordPattern.test(values.password)) {
               errors.password =
                 "La contraseña debe contener al menos 8 caracteres, una letra mayúscula, un número y uno de los siguientes signos: /, * o -";
             }
-            // Calcula si el formulario es válido
             const isValid = Object.keys(errors).length === 0;
             handleValidation(isValid);
-
             return errors;
           }}
         >
@@ -154,10 +156,10 @@ const SignUpForm = () => {
             <div {...getRootProps()} className="dropzone">
               <input {...getInputProps()} />
               <p className="cursor-pointer cursor-pointer pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase ">
-                Arraste o seleciones una foto de perfil.
+                Arrastre o seleciones una foto de perfil.
               </p>
             </div>
-            {/* Mostrar la vista previa de la imagen */}
+
             {imagePreview && (
               <div className="mt-4">
                 <img
@@ -167,6 +169,7 @@ const SignUpForm = () => {
                 />
               </div>
             )}
+
             <div>
               <label
                 htmlFor="name"
@@ -346,6 +349,12 @@ const SignUpForm = () => {
               />
             </div>
 
+            {userCreated && (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                El usuario ha sido creado con éxito.
+              </div>
+            )}
+
             <div className="flex justify-between">
               <button
                 type="submit"
@@ -353,11 +362,8 @@ const SignUpForm = () => {
               >
                 Registrarse
               </button>
-              <Link
-                to="/"
-                className=" absolute top-0 left-0 text-blue-500 hover:text-blue-700 font-bold p-2 "
-              >
-                Dashboard
+              <Link to="/" className="text-blue-500 hover:text-blue-700 font-bold p-2">
+                home
               </Link>
             </div>
           </Form>
