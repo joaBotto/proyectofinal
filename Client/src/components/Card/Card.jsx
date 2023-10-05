@@ -29,7 +29,7 @@ const Card = ({
 						/>
 					</div>
 					<h3 className="pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase">
-						{title?.slice(0, 25)}
+						{title}
 					</h3>
 				</Link>
 			</div>
@@ -59,7 +59,7 @@ const Card = ({
 				</div>
 			</div>
 			<p className="mx-6 text-sm pb-0 mt-3 text-justify font-noto font-medium text-blue">
-				{description?.slice(0, 70)}...
+				{description}...
 			</p>
 			<Link to={`/detail/${_id}`}>
 				<div className="flex justify-end items-center">
