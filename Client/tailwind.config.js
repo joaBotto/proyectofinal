@@ -1,32 +1,41 @@
 // tailwind.config.js
-module.exports = {
+import withMT from "@material-tailwind/react/utils/withMT";
+
+export default withMT({
 	content: [
-		'./src/**/*.js', // Archivos JavaScript
-		'./src/**/*.jsx', // Archivos JSX
-		'./src/**/*.html', // Archivos HTML
+		"./src/**/*.js", // Archivos JavaScript
+		"./src/**/*.jsx", // Archivos JSX
+		"./src/**/*.html", // Archivos HTML
 	],
 	theme: {
 		extend: {
+			fontFamily: {
+				noto: ["Noto Serif NP Hmong, serif"],
+				onest: ["Onest, sans-serif"],
+			},
 			colors: {
 				indigo: {
-					50: '#f0f4ff',
+					50: "#f0f4ff",
 					// Define otros tonos de azul indigo aquí según sea necesario.
 				},
 				fuchsia: {
-					900: '#a700ff',
+					900: "#a700ff",
 					// Define otros tonos de fuchsia aquí según sea necesario.
 				},
 				gray: {
-					900: '#333333',
+					900: "#333333",
 					// Define otros tonos de gris aquí según sea necesario.
 				},
-				white: '#ffffff',
-				// Define otros colores aquí según sea necesario.
+				white: "#ffffff",
+				violet: "#54086B",
+				pink: "#FF0BAC",
+				cyan: "#00BEC5",
+				blue: "#050833",
 			},
 		},
 	},
 	plugins: [
 		// ...
-		require('@tailwindcss/forms'),
+		require("@tailwindcss/forms"),
 	],
-};
+});

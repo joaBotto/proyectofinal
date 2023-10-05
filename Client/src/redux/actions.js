@@ -1,103 +1,123 @@
 import axios from "axios";
 import {
-  // 	GET_PROPERTIES,
-  GET_PROPERTY_DETAIL,
-  // 	CLEAN_DETAIL,
-  ADD_USER,
-  // 	USER_LOGIN,
-  // 	ADD_PROPERTY,
-  FILTERS,
-  ERROR,
-  SEARCH_PRODUCTO,
+	// 	GET_PROPERTIES,
+	GET_PROPERTY,
+	GET_PROPERTY_DETAIL,
+	// 	CLEAN_DETAIL,
+	ADD_USER,
+	USER_LOGIN,
+	// 	ADD_PROPERTY,
+	FILTERS,
+	ERROR,
+	SEARCH_PRODUCTO,
 } from "./actions_types";
 
 export const getProperty = () => {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.get("http://localhost:3001/properties");
-      console.log("soy data", data);
-      return dispatch({
-        type: "GET_PROPERTY",
-        payload: data,
-      });
-    } catch (error) {
-      return {
-        type: "ERROR",
-        payload: error.message,
-      };
-    }
-  };
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.get("http://localhost:3001/properties");
+			console.log("soy data", data);
+			return dispatch({
+				type: GET_PROPERTY,
+				payload: data,
+			});
+		} catch (error) {
+			return {
+				type: ERROR,
+				payload: error.message,
+			};
+		}
+	};
 };
 
 export const getPropertyDetail = (id) => async (dispatch) => {
-  try {
-    const { data } = await axios.get(`http://localhost:3001/properties/${id}`);
-    return dispatch({ type: GET_PROPERTY_DETAIL, payload: data });
-  } catch (error) {
-    return { type: ERROR, payload: error.message };
-  }
+	try {
+		const { data } = await axios.get(`http://localhost:3001/properties/${id}`);
+		return dispatch({ type: GET_PROPERTY_DETAIL, payload: data });
+	} catch (error) {
+		return { type: ERROR, payload: error.message };
+	}
 };
 
 export const createProperty = (values) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.post(
-        "http://localhost:3001/properties",
-        values
-      );
-      return dispatch({
-        type: "CREATE_PROPERTY",
-        payload: data,
-      });
-    } catch (error) {
-      return {
-        type: "ERROR",
-        payload: error.message,
-      };
-    }
-  };
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.post(
+				"http://localhost:3001/properties",
+				values
+			);
+			return dispatch({
+				type: CREATE_PROPERTY,
+				payload: data,
+			});
+		} catch (error) {
+			return {
+				type: ERROR,
+				payload: error.message,
+			};
+		}
+	};
 };
 
 export const filters = (type, orderPrice) => {
-  return {
-    type: FILTERS,
-    payload: { type, orderPrice },
-  };
+	return {
+		type: FILTERS,
+		payload: { type, orderPrice },
+	};
 };
 
 export const searchProducto = (query) => {
-  return async (dispatch) => {
-    try {
-      let response;
-      if (!query) {
-        // Si no se proporciona una ciudad, obtén todos los inmuebles
-        response = await axios.get(`${URL}//`);
-      } else {
-        // Si se proporciona una ciudad, realiza la búsqueda por ciudades
-        response = await axios.get(`${URL}/${query}`);
-      }
-      const inmuebles = response.data; // Cambio 'countries' a 'inmuebles'
-      dispatch({
-        type: SEARCH_PRODUCTO,
-        payload: inmuebles, // Cambio 'countries' a 'inmuebles'
-      });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: "City not found",
-      });
-    }
-  };
+	return async (dispatch) => {
+		try {
+			let response;
+			if (!query) {
+				// Si no se proporciona una ciudad, obtén todos los inmuebles
+				response = await axios.get(`${URL}//`);
+			} else {
+				// Si se proporciona una ciudad, realiza la búsqueda por ciudades
+				response = await axios.get(`${URL}/${query}`);
+			}
+			const inmuebles = response.data; // Cambio 'countries' a 'inmuebles'
+			dispatch({
+				type: SEARCH_PRODUCTO,
+				payload: inmuebles, // Cambio 'countries' a 'inmuebles'
+			});
+		} catch (error) {
+			dispatch({
+				type: ERROR,
+				payload: "City not found",
+			});
+		}
+	};
 };
 
 export const addUser = (user) => async (dispatch) => {
-  try {
-    const { data } = await axios.post(`${URL}/users`, user);
-    dispatch({ type: ADD_USER, payload: data });
-  } catch (error) {
-    return { type: ERROR, payload: error.message };
-  }
+	try {
+		const { data } = await axios.post(`${URL}/users`, user);
+		dispatch({ type: ADD_USER, payload: data });
+	} catch (error) {
+		return { type: ERROR, payload: error.message };
+	}
 };
+
+export const userLogin = (valores) => {
+	const url = "http://localhost:3001/auth/login";
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.post(url, valores);
+			dispatch({
+				type: USER_LOGIN,
+				payload: data,
+			});
+		} catch (error) {
+			dispatch({
+				type: ERROR,
+				payload: error.message,
+			});
+		}
+	};
+};
+
 /////////////////////////////
 
 //   export const cleanDetail = () => {
@@ -108,7 +128,6 @@ export const addUser = (user) => async (dispatch) => {
 //         });
 //     };
 //   }
-
 
 //   export const userLogin = (user) => async (dispatch) => {
 //     try {

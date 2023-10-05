@@ -1,6 +1,14 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^1.5.1",
     "react-date-range": "^1.4.0"
+=======
+    "@material-tailwind/react": "^2.1.2",
+    "axios": "^1.5.1",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
+    "tw-elements": "^1.0.0"
+>>>>>>> origin/dev
   }
 }
