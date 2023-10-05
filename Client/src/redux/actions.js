@@ -92,7 +92,7 @@ export const searchProducto = (query) => {
 
 export const addUser = (user) => async (dispatch) => {
   try {
-    const { data } = await axios.post(`${URL}/users`, user);
+    const { data } = await axios.post("http://localhost:3001/users", user);
     dispatch({ type: ADD_USER, payload: data });
   } catch (error) {
     return { type: ERROR, payload: error.message };

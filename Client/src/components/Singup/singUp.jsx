@@ -6,16 +6,15 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
-import axios from "axios";
 
-const URL = "http://localhost:3000";
+
 
 const SignUpForm = () => {
+  const dispatch = useDispatch();
   const [isFormValid, setFormValid] = useState(false);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const onDrop = (acceptedFiles) => {
     // `acceptedFiles` contiene la lista de archivos seleccionados por el usuario
@@ -61,7 +60,7 @@ const SignUpForm = () => {
       .email("Correo electrónico inválido")
       .required("Campo obligatorio"),
     password: Yup.string()
-      .min(6, "La contraseña debe tener al menos 6 caracteres")
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
       .required("Campo obligatorio"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir")
@@ -80,7 +79,7 @@ const SignUpForm = () => {
     const formData = new FormData();
     formData.append("file", file[0]);
     try {
-      const { data } = await axios.post(`${URL}/upload`, formData, {
+      const { data } = await axios.post("http://localhost:3001/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -102,14 +101,8 @@ const SignUpForm = () => {
         setImagePreview(values.avatar);
       }
 
-      // Solicitud al backend
-      const response = await axios.post(`${URL}/users`, values);
-      console.log("Datos enviados al servidor:", values);
-
-      // Aquí puedes despachar una acción de Redux si es necesario
-      dispatch(addUser(values));
-
-      console.log("Respuesta del servidor:", response.data);
+      // Llamamos a la acción addUser para enviar datos al servidor
+      await dispatch(addUser(values));
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
     } finally {
@@ -183,7 +176,7 @@ const SignUpForm = () => {
                 type="text"
                 id="firstName"
                 name="firstName"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="firstName"
@@ -203,7 +196,7 @@ const SignUpForm = () => {
                 type="text"
                 id="lastName"
                 name="lastName"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="lastName"
@@ -223,7 +216,7 @@ const SignUpForm = () => {
                 type="email"
                 id="email"
                 name="email"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="email"
@@ -243,12 +236,12 @@ const SignUpForm = () => {
                 type="password"
                 id="password"
                 name="password"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="password"
                 component="div"
-                className="text-red-600 text-sm"
+                className="text-red-600 text-sm "
               />
             </div>
 
@@ -263,7 +256,7 @@ const SignUpForm = () => {
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="confirmPassword"
@@ -282,7 +275,7 @@ const SignUpForm = () => {
                 type="text"
                 id="country"
                 name="country"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="country"
@@ -302,7 +295,7 @@ const SignUpForm = () => {
                 type="text"
                 id="address"
                 name="address"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="address"
@@ -322,7 +315,7 @@ const SignUpForm = () => {
                 type="text"
                 id="city"
                 name="city"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="city"
@@ -342,7 +335,7 @@ const SignUpForm = () => {
                 type="text"
                 id="phonenumber"
                 name="phonenumber"
-                className="mt-1 p-2 w-full border rounded"
+                className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="phonenumber"
@@ -354,7 +347,7 @@ const SignUpForm = () => {
             <div className="flex justify-between">
               <button
                 type="submit"
-                className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-md"
               >
                 Registrarse
               </button>
@@ -372,4 +365,4 @@ const SignUpForm = () => {
   );
 };
 
-export default connect(null, { addUser })(SignUpForm);
+export default SignUpForm;

@@ -2,7 +2,7 @@ import {
   // 	GET_PROPERTIES,
   GET_PROPERTY_DETAIL,
   // 	CLEAN_DETAIL,
-  // 	ADD_USER,
+  	ADD_USER,
   // 	USER_LOGIN,
   // 	ADD_PROPERTY,
   FILTERS,
@@ -83,6 +83,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
           ...state,
           properties:orderPropertyForPrice 
         }
+
+        case ADD_USER:
+			return {
+				...state,
+				user: payload,
+			};
 
     default:
       return {
