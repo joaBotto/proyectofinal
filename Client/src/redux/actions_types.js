@@ -27,3 +27,4 @@ export {
     ORDER_BY_RESENA,
     FILTER_BY_CATEGORIA,
 };
+
