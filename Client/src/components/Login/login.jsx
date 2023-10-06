@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import React, { useEffect } from "react";
 import fondo from "../../assets/img/loginRegister.jpg";
 import logo from "../../assets/img/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,15 +14,19 @@ export default function Login() {
   let regExEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  console.log(user);
 
   const handleSubmit = (valores) => {
     console.log(valores);
     dispatch(userLogin(valores));
   };
-
- 
-  const user = useSelector((state) => state.user);
-  console.log(user);
+ useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   return (
     <div
