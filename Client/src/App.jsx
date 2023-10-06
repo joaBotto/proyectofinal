@@ -19,7 +19,7 @@ function App() {
 	}, [dispatch]);
 
 	return (
-		<div className="bg-indigo-50">
+		<div className="bg-indigo-50 w-full">
 			{location.pathname === "/" && <NavBar />}
 			<Routes>
 				<Route path="/" element={<Home />} />
