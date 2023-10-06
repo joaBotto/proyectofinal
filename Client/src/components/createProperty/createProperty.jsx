@@ -118,48 +118,44 @@ export default function CreateProperty() {
     setSubmitting(false);
   };
 
-
-   const validationSchema = Yup.object().shape({
-        title: Yup.string()
-          .required("El título es requerido")
-          .min(5, "Título muy corto, debe tener al menos 5 caracteres"),
-        description: Yup.string().required("La descripción es requerida"),
-        address: Yup.object().shape({
-          street: Yup.string().required("La calle es requerida"),
-          city: Yup.string().required("La ciudad es requerida"),
-          state: Yup.string().required("El estado es requerido"),
-          zipcode: Yup.number().required("El código postal es requerido"),
-        }),
-        bedrooms: Yup.number()
-.required("El número de habitaciones es requerido")
-          .min(0)
-          .max(10),
-        bathrooms: Yup.number()
-          .required("El número de baños es requerido")
-          .min(0)
-          .max(10),
-        price: Yup.number().required("El precio es requerido").min(1).max(100000),
-      
-      });
-    availableDates:Yup.object().shape({
-      startDate:Yup.date().required("Fecha de inicio requerida").min(new Date(), "La fecha de inicio debe ser a partir de hoy"),
-      endDate:Yup.date().required("Fecha de finalización requerida").min(Yup.ref("startDate"),"La fecha de finalización debe ser posterior a la fecha de inicio")  
-    }),
-   address: Yup.object().shape({
+  const validationSchema = Yup.object().shape({
+    title: Yup.string()
+      .required("El título es requerido")
+      .min(5, "Título muy corto, debe tener al menos 5 caracteres"),
+    description: Yup.string().required("La descripción es requerida"),
+    address: Yup.object().shape({
       street: Yup.string().required("La calle es requerida"),
       city: Yup.string().required("La ciudad es requerida"),
       state: Yup.string().required("El estado es requerido"),
-      zipcode: Yup.string().required("El código postal es requerido"),
+      zipcode: Yup.number().required("El código postal es requerido"),
     }),
-    images: Yup.array().required("Debe agregar 5 imágenes al menos").test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
-    return images && images.length === 5;
-  }),
+    bedrooms: Yup.number()
+      .required("El número de habitaciones es requerido")
+      .min(0)
+      .max(10),
+    bathrooms: Yup.number()
+      .required("El número de baños es requerido")
+      .min(0)
+      .max(10),
+    price: Yup.number().required("El precio es requerido").min(1).max(100000),
+    availableDates: Yup.object().shape({
+      startDate: Yup.date()
+        .required("Fecha de inicio requerida")
+        .min(new Date(), "La fecha de inicio debe ser a partir de hoy"),
+      endDate: Yup.date()
+        .required("Fecha de finalización requerida")
+        .min(Yup.ref("startDate"), "La fecha de finalización debe ser posterior a la fecha de inicio"),
+    }),
+    images: Yup.array()
+      .required("Debe agregar 5 imágenes al menos")
+      .test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
+        return images && images.length === 5;
+      }),
   });
+  
 
 
   return (
-
-    
     <div
       className="min-h-screen w-screen flex items-center justify-center bg-fuchsia-900"
       style={{
@@ -168,19 +164,11 @@ export default function CreateProperty() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="flex justify-end items-center absolute top-0 left-0 px-6 py-6  ">
-  <img
-    src={logo}
-    alt="Logo"
-    className="w-auto h-16 "
-  />
-
-</div>
-<Formik
-  initialValues={initialValues}
-  validationSchema={validationSchema}
-  onSubmit={handleSubmit}
->
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
         {({ values, isSubmitting, setFieldValue }) => (
           <Form className="bg-white rounded-lg p-6 shadow-lg my-10">
             <h1 className="text-5xl font-semibold text-left mb-4 text-gray-700">
@@ -191,22 +179,16 @@ export default function CreateProperty() {
                 Home
               </button>
             </Link>
-          {/* TITULO DE LA PUBLICACION */}
+            /////////TITULO DE LA PUBLICACION
             <div className="block text-left text-gray-700">
               <label htmlFor="title">Title:</label>
               <Field
                 type="text"
                 name="title"
-                className="mt-1 p-2 w-full rounded-full border,color:red"
+                className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="title" 
-              component="div" 
-              className="text-red-600 text-sm"
-              />
+              <ErrorMessage name="title" component="div" />
             </div>
-
-           {/* DESCRIPCION */}
-
             <div className="block text-left text-gray-700">
               <label htmlFor="description">Description:</label>
               <Field
@@ -214,16 +196,8 @@ export default function CreateProperty() {
                 name="description"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="description" 
-              component="div"
-              className="text-red-600 text-sm"
-              />
-
-
+              <ErrorMessage name="description" component="div" />
             </div>
-
-            {/* DIRECCION */}
-
             <div className="block text-left text-gray-700">
               <label htmlFor="Address" className="block">
                 Address:
@@ -232,43 +206,31 @@ export default function CreateProperty() {
               <Field
                 type="text"
                 name="address.street"
-                className="mt-1 p-2 w-full rounded-full border "
+                className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="address.street" component="div"
-                className="text-red-600 text-sm" />
-            
+              <ErrorMessage name="address.street" component="div" />
               <label htmlFor="address.city">City:</label>
               <Field
                 type="text"
                 name="address.city"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="address.city" 
-              component="div"
-              className="text-red-600 text-sm" />
-
+              <ErrorMessage name="address.city" component="div" />
               <label htmlFor="address.state">State:</label>
               <Field
                 type="text"
                 name="address.state"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="address.state" component="div"
-                className="text-red-600 text-sm"/>
-
+              <ErrorMessage name="address.state" component="div" />
               <label htmlFor="address.zipcode">Zipcode:</label>
               <Field
                 type="number"
                 name="address.zipcode"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="address.zipcode" component="div"
-               className="text-red-600 text-sm" />
+              <ErrorMessage name="address.zipcode" component="div" />
             </div>
-
-
-            {/* CANT DE CAMAS */}
-
             <div className="block text-left text-gray-700">
               <label htmlFor="bedrooms">Bedrooms:</label>
               <Field
@@ -276,13 +238,8 @@ export default function CreateProperty() {
                 name="bedrooms"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="bedrooms" component="div"
-               className="text-red-600 text-sm" />
-         
+              <ErrorMessage name="bedrooms" component="div" />
             </div>
-
-          {/* CANT DE BANOS */}
-
             <div className="block text-left text-gray-700">
               <label htmlFor="bathrooms">Bathrooms:</label>
               <Field
@@ -290,12 +247,8 @@ export default function CreateProperty() {
                 name="bathrooms"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="bathrooms" component="div"
-               className="text-red-600 text-sm"/>
+              <ErrorMessage name="bathrooms" component="div" />
             </div>
-            
-            {/* PRECIO */}
-
             <div className="block text-left text-gray-700">
               <label htmlFor="price">Price:</label>
               <Field
@@ -303,11 +256,8 @@ export default function CreateProperty() {
                 name="price"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="price" component="div"  className="text-red-600 text-sm"/>
+              <ErrorMessage name="price" component="div" />
             </div>
-
-         {/* TIPO(CASA-DEPTO-PH) */}
-
             <div className="block text-left text-gray-700">
               <label htmlFor="type">Type:</label>
               <Field
@@ -321,125 +271,17 @@ export default function CreateProperty() {
                 <option value="ph">PH</option>
               </Field>
             </div>
-
-           {/* COMODIDADES(METROS2-ANTIGUEDAD-GARAGE-GRILL-CALEFACCION) */}
-
             <div>
               <p>Amenities</p>
-
-
               <label htmlFor="amenities.covered_area">Covered_area:</label>
- <Field
-  type="number"
-  name="amenities.covered_area"
-  className="mt-1 p-2 w-full rounded-full border text-black"
-/>
-              <ErrorMessage name="amenities.covered_area" component="div" className="text-red-600 text-sm" />
+              <Field
+                type="number"
+                name="amenities.covered_area"
+                className="mt-1 p-2 w-full rounded-full border"
+              />
+              <ErrorMessage name="amenities.covered_area" component="div" />
               <label htmlFor="amenities.antique">Antique:</label>
               <Field
-
-  type="number"
-  name="amenities.antique"
-  className="mt-1 p-2 w-full rounded-full border text-black"
-/>
-        <div>
-  <ErrorMessage name="amenities.antique" component="div" />
-  <label style={{ display: "block" }}>
-
-
-  <div>
-  <p>Additional</p>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="amenities.garage" />
-    Garage
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="amenities.grill" />
-    Grill
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="amenities.heating" />
-    Heating
-  </label>
-</div>
-
-
-    <Field type="checkbox" name="additional.swimmingpool" />
-    Swimming Pool
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="additional.terrace" />
-    Terrace
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="additional.dining_room" />
-    Dining_Room
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="additional.washing_machine" />
-    Washing_Machine
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="additional.internet_wifi" />
-    Internet_Wifi
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="additional.refrigerator" />
-    Refrigerator
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="additional.microwave" />
-    Microwave
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="additional.coffee_maker" />
-    Coffee_Maker
-  </label>
-  <label style={{ display: "block", marginBottom: "10px" }}>
-    <Field type="checkbox" name="additional.patio" />
-    Patio
-  </label>
-  <label style={{ display: "block", marginBottom: "15px" }}>
-    <Field type="checkbox" name="additional.balcony_patio" />
-    Balcony_Patio
-  </label>
-</div>
-</div>
-
-{/* FECHAS */}
-<div className="block text-left text-gray-700">
-  <div>
-    <label htmlFor="availableDates.startDate">Fecha de inicio:</label>
-    <Field name="availableDates.startDate" type="date" />
-    <ErrorMessage name="availableDates.startDate" component="div" />
-  </div>
-
-  <div className="mt-4">
-    <label htmlFor="availableDates.endDate">Fecha de finalizacion:</label>
-    <Field
-      name="availableDates.endDate"
-      type="date"
-      onChange={(event) => {
-        const endDateValue = event.target.value;
-        setFieldValue("availableDates.endDate", endDateValue);
-        const startDateValue = values.availableDates.startDate;
-
-        if (startDateValue && endDateValue) {
-          const startDate = new Date(startDateValue);
-          const endDate = new Date(endDateValue);
-          dates = generateDatesInRange(startDate, endDate);
-          console.log(dates);
-        }
-      }}
-    />
-    <ErrorMessage name="availableDays.endDate" component="div" />
-  </div>
-</div>
- 
-          <Dropzone
-  onDrop={async (acceptedFiles) => {
-                if (values.images.length + acceptedFiles.length <= 5) {
-=======
                 type="number"
                 name="amenities.antique"
                 className="mt-1 p-2 w-full rounded-full border"
@@ -530,7 +372,6 @@ export default function CreateProperty() {
             <Dropzone
               onDrop={async (acceptedFiles) => {
                 if (values.images.length + acceptedFiles.length <= 10) {
-
                   const uploadImageUrl = await uploadImagesToCloudinary(
                     acceptedFiles
                   );
@@ -548,21 +389,19 @@ export default function CreateProperty() {
               {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps()} className="dropzone">
                   <input {...getInputProps()} />
-                  <div className="image-container"> {/* Agrega la clase "image-container" aquí */}
-                    {values.images &&
-                      values.images.map(
-                        (e) =>
-                          e &&
-                          e.imageUrl && (
-                            <img
-                              style={{ maxWidth: "10em", maxHeight: "10em" }}
-                              key={e.imageUrl}
-                              src={e.imageUrl}
-                              alt={e.imageUrl}
-                            />
-                          )
-                      )}
-                  </div>
+                  {values.images &&
+                    values.images.map(
+                      (e) =>
+                        e &&
+                        e.imageUrl && (
+                          <img
+                            style={{ maxWidth: "10em", maxHeight: "10em" }}
+                            key={e.imageUrl}
+                            src={e.imageUrl}
+                            alt={e.imageUrl}
+                          />
+                        )
+                    )}
                   {!values.images && (
                     <p className="text-black">
                       Arrastra y suelta archivos aquí o haz clic para
@@ -579,7 +418,7 @@ export default function CreateProperty() {
               disabled={isSubmitting}
               className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
             >
-              Create Property
+              Create
             </button>
             </div>
           </Form>
