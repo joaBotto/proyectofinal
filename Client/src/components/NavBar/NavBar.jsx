@@ -5,7 +5,12 @@ import { faSignInAlt, faBars } from "@fortawesome/free-solid-svg-icons";
 import fondo from "../../assets/img/fondo1.jpeg";
 import logo from "../../assets/img/logo.png";
 import { useSelector, useDispatch } from "react-redux";
-import { filters } from "../../redux/actions";
+import CategoriaFilter from "../Filters/CategoriaFilter";
+import FondoFilter from "../Filters/FondoFilter"
+import PiletaFilter from "../Filters/PiletaFilter"
+import PrecioFilter from "../Filters/PrecioFilter"
+import ResenaFilter from "../Filters/ResenaFilter"
+import UbicacionFilter from "../Filters/UbicacionFilter"
 
 const NavBar = () => {
 	const dispatch = useDispatch();
@@ -16,20 +21,7 @@ const NavBar = () => {
 		setShowHamburgerButton(!showHamburgerButton);
 	}, [user]);
 
-	const [type, setType] = useState("");
-	const [orderPrice, setOrderPrice] = useState("");
-
-	const handleChange = (event) => {
-		const name = event.target.name;
-		if (name === "type") {
-			setType(event.target.value);
-			dispatch(filters(event.target.value, orderPrice));
-		}
-		if (name === "price") {
-			setOrderPrice(event.target.value);
-			dispatch(filters(type, event.target.value));
-		}
-	};
+	
 
 	return (
 		<div className="text-white mb-10">
@@ -64,31 +56,17 @@ const NavBar = () => {
 				</div>
 			</div>
 			<div className="bg-white shadow py-2 w-1/3 rounded-full absolute top-[350px] left-[50%] transform translate-x-[-50%] -translate-y-[-50%]">
-				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-					<p className="text-xl font-semibold text-blue flex items-center justify-center space-x-4">
-						<select
-							onChange={handleChange}
-							name="type"
-							className="px-3 py-1 rounded-full"
-						>
-							<option value="default">Filter by type</option>
-							<option value="depto">Apartment</option>
-							<option value="house">House</option>
-							<option value="ph">PH</option>
-						</select>
-						<select
-							onChange={handleChange}
-							name="price"
-							className="px-3 py-1 rounded-full"
-						>
-							<option value="default">Sort by price</option>
-							<option value="-">Lowest to highest</option>
-							<option value="+">Highest to lowest</option>
-						</select>
-					</p>
-				</div>
-			</div>
-		</div>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-xl font-semibold text-indigo-950 flex items-center justify-center space-x-4">
+            <CategoriaFilter />
+			<UbicacionFilter />
+			<PrecioFilter />
+		
+          </div>
+        </div>
+      </div>
+      </div>
+
 	);
 };
 

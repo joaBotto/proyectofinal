@@ -1,24 +1,23 @@
 import React, { useState } from "react";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
 import axios from "axios";
 
-
-
 const SignUpForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isFormValid, setFormValid] = useState(false);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [userCreated, setUserCreated] = useState(false); // Estado para el mensaje de éxito
   const user = useSelector((state) => state.user);
 
   const onDrop = (acceptedFiles) => {
-    // `acceptedFiles` contiene la lista de archivos seleccionados por el usuario
     const file = acceptedFiles[0];
     setImage(file);
 
@@ -27,17 +26,11 @@ const SignUpForm = () => {
       setImagePreview(reader.result);
     };
 
-    reader.onload = () => {
-      // Al cargar el archivo, establecer la URL de la imagen en el estado
-      setImagePreview(reader.result);
-    };
-
-    // Leer el archivo como URL
     reader.readAsDataURL(file);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/png", // Aceptar solo archivos de imagen
+    accept: "image/png",
     onDrop,
   });
 
@@ -46,12 +39,12 @@ const SignUpForm = () => {
     lastName: "",
     email: "",
     password: "",
-    // confirmPassword: "",
+    confirmPassword: "",
     country: "",
     address: "",
     city: "",
     phoneNumber: "",
-    images: [],
+    avatar: null,
   };
 
   const validationSchema = Yup.object({
@@ -69,7 +62,7 @@ const SignUpForm = () => {
     country: Yup.string().required("Campo obligatorio"),
     address: Yup.string().required("Campo obligatorio"),
     city: Yup.string().required("Campo obligatorio"),
-    phonenumber: Yup.string().required("Campo obligatorio"),
+    phoneNumber: Yup.string().required("Campo obligatorio"),
   });
 
   const handleValidation = (isValid) => {
@@ -77,15 +70,19 @@ const SignUpForm = () => {
   };
 
   const uploadImagesToCloudinary = async (file) => {
-    console.log("SOy la imagen", file)
     const formData = new FormData();
-    formData.append("file", file[0]);
+    formData.append("file", file);
     try {
-      const { data } = await axios.post("http://localhost:3001/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const { data } = await axios.post(
+        "http://localhost:3001/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("soydata de uploadcloud", data);
       return data;
     } catch (error) {
       console.error("Error al cargar la imagen:", error);
@@ -95,19 +92,24 @@ const SignUpForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      if (values.images) {
-        const cloudinaryResponse = await uploadImagesToCloudinary(
-          values.images
-          
-        );
-        console.log("Cloudinary Response:", cloudinaryResponse);
-        values.images = cloudinaryResponse.secure_url;
-        setImagePreview(values.images);
+      if (image) {
+        const cloudinaryResponse = await uploadImagesToCloudinary(image);
+        console.log("soyresponsecloud", cloudinaryResponse);
+        if (cloudinaryResponse) {
+          values.avatar = cloudinaryResponse;
+          setImagePreview(values.avatar);
+        } else {
+          console.error("Error al cargar la imagen en Cloudinary.");
+        }
       }
-      console.log("Values before dispatch:", values);
 
-      // Llamamos a la acción addUser para enviar datos al servidor
       await dispatch(addUser(values));
+      
+      // Después de que el usuario se haya creado con éxito, establece userCreated en true
+      setUserCreated(true);
+
+      // Redirige al usuario a la página de inicio ("/")
+      navigate("/login");
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
     } finally {
@@ -136,20 +138,17 @@ const SignUpForm = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
-          validateOnChange={false} // Evitar la validación automática en cada cambio
-          validateOnBlur={false} // Evitar la validación automática al salir de un campo
+          validateOnChange={false}
+          validateOnBlur={false}
           validate={(values) => {
             const errors = {};
-            // Validación adicional: Verificar la complejidad de la contraseña
             const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[/*-]).{8,}$/;
             if (!passwordPattern.test(values.password)) {
               errors.password =
                 "La contraseña debe contener al menos 8 caracteres, una letra mayúscula, un número y uno de los siguientes signos: /, * o -";
             }
-            // Calcula si el formulario es válido
             const isValid = Object.keys(errors).length === 0;
             handleValidation(isValid);
-
             return errors;
           }}
         >
@@ -157,10 +156,10 @@ const SignUpForm = () => {
             <div {...getRootProps()} className="dropzone">
               <input {...getInputProps()} />
               <p className="cursor-pointer cursor-pointer pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase ">
-                Arraste o seleciones una foto de perfil.
+                Arrastre o seleciones una foto de perfil.
               </p>
             </div>
-            {/* Mostrar la vista previa de la imagen */}
+
             {imagePreview && (
               <div className="mt-4">
                 <img
@@ -170,6 +169,7 @@ const SignUpForm = () => {
                 />
               </div>
             )}
+
             <div>
               <label
                 htmlFor="name"
@@ -249,7 +249,7 @@ const SignUpForm = () => {
                 className="text-red-600 text-sm "
               />
             </div>
-{/* 
+
             <div>
               <label
                 htmlFor="confirmPassword"
@@ -268,7 +268,7 @@ const SignUpForm = () => {
                 component="div"
                 className="text-red-600 text-sm"
               />
-            </div> */}
+            </div>
             <div>
               <label
                 htmlFor="country"
@@ -331,23 +331,29 @@ const SignUpForm = () => {
 
             <div>
               <label
-                htmlFor="phonenumber"
+                htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
               >
                 Número de teléfono:
               </label>
               <Field
                 type="text"
-                id="phonenumber"
-                name="phonenumber"
+                id="phoneNumber"
+                name="phoneNumber"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
-                name="phonenumber"
+                name="phoneNumber"
                 component="div"
                 className="text-red-600 text-sm"
               />
             </div>
+
+            {userCreated && (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                El usuario ha sido creado con éxito.
+              </div>
+            )}
 
             <div className="flex justify-between">
               <button
@@ -356,11 +362,8 @@ const SignUpForm = () => {
               >
                 Registrarse
               </button>
-              <Link
-                to="/"
-                className=" absolute top-0 left-0 text-blue-500 hover:text-blue-700 font-bold p-2 "
-              >
-                Dashboard
+              <Link to="/" className="text-blue-500 hover:text-blue-700 font-bold p-2">
+                home
               </Link>
             </div>
           </Form>
