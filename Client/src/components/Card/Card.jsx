@@ -21,14 +21,12 @@ const Card = ({
 	return (
 		<div className="flex-auto rounded-xl py-2">
 			<div className="px-4 pt-5 sm:px-6">
-				<div className="relative rounded-xl shadow overflow-hidden">
+				<div className="relative rounded-xl h-[300px] shadow overflow-hidden">
 					<ImageCarousel images={images} />
 				</div>
-				<Link to={`/detail/${_id}`}>
-					<h3 className="pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase">
-						{title?.slice(0, 20)}
-					</h3>
-				</Link>
+				<h3 className="pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase">
+					{title?.slice(0, 20)}
+				</h3>
 			</div>
 			<div className="mx-6 grid grid-rows-3 gap-y-2 font-onest">
 				<p className="text-sm mt-1 pb-0 mb-0 font-medium text-blue">

@@ -44,11 +44,18 @@ const NavBar = () => {
 				</div>
 				<div className="absolute top-10 right-10 mt-4 space-x-4 flex items-center">
 					<a
-						href="/create"
+						href="/"
 						className="font-onest font-black text-blue hover:text-white hover:underline mr-10"
 					>
-						CREATE
+						♥︎SAVED
 					</a>
+					<Link to="/create">
+					<a
+						className="font-onest font-black text-blue hover:text-white hover:underline mr-10 pr-10"
+					>
+						REGISTER YOUR PROPERTY
+					</a>
+					</Link>
 					{showHamburgerButton ? (
 						<button className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-10">
 							<FontAwesomeIcon icon={faBars} /> MENU

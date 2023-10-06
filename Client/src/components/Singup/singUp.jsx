@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate
+import { Link, useNavigate } from "react-router-dom"; // Importa 
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
 import axios from "axios";
+import logo from "../../assets/img/logo.png"
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const SignUpForm = () => {
     phoneNumber: "",
     avatar: null,
   };
-
+red
   const validationSchema = Yup.object({
     name: Yup.string().required("Campo obligatorio"),
     lastName: Yup.string().required("Campo obligatorio"),
@@ -121,18 +122,25 @@ const SignUpForm = () => {
 
   return (
     <div
+    className="min-h-0 w-screen flex items-center justify-center "
       style={{
         backgroundImage: `url(${register})`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+      backgroundRepeat: "no-repeat"
+    
       }}
     >
+  
+      <div className="flex justify-end items-center absolute top-0 left-0 px-24 py-6 ">
+  <img
+    src={logo}
+    alt="Logo"
+    className="w-auto h-16 "
+  />
+
+</div>
       <div className="max-w-md mx-auto mt-8">
-        <h1 className="text-2xl font-bold mb-4">Registrate</h1>
+        <h1 className=" font-bold mb-4 text-5xl text-center text-blue">Sign up</h1>
 
         <Formik
           initialValues={initialValues}
@@ -145,7 +153,7 @@ const SignUpForm = () => {
             const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[/*-]).{8,}$/;
             if (!passwordPattern.test(values.password)) {
               errors.password =
-                "La contraseña debe contener al menos 8 caracteres, una letra mayúscula, un número y uno de los siguientes signos: /, * o -";
+                "Debe contener al menos 8 caracteres, una letra mayúscula, un número y uno de los siguientes signos: /, * o -";
             }
             const isValid = Object.keys(errors).length === 0;
             handleValidation(isValid);
@@ -155,8 +163,8 @@ const SignUpForm = () => {
           <Form className="space-y-4">
             <div {...getRootProps()} className="dropzone">
               <input {...getInputProps()} />
-              <p className="cursor-pointer cursor-pointer pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase ">
-                Arrastre o seleciones una foto de perfil.
+              <p className="cursor-pointer  pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase ">
+              Drag or select a profile photo
               </p>
             </div>
 
@@ -173,60 +181,65 @@ const SignUpForm = () => {
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Nombre:
+                {/* Nombre: */}
               </label>
-              <Field
-                type="text"
-                id="name"
-                name="name"
-                className="mt-1 p-2 w-full border rounded text-black"
-              />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-red-600 text-sm"
-              />
-            </div>
+    <div className="relative">
+    <Field
+      type="text"
+      id="name"
+      name="name"
+      placeholder="Name"
+      className="mt-1 p-2 w-full border rounded text-black"
+    />
+    <ErrorMessage
+      name="name"
+      component="div"
+      className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
+    />
+          </div>
+        </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="lastName"
                 className="block text-sm font-medium text-gray-700"
               >
-                Apellido:
+                {/* Apellido: */}
               </label>
               <Field
                 type="text"
                 id="lastName"
                 name="lastName"
+                placeholder="Last Name"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="lastName"
                 component="div"
-                className="text-red-600 text-sm"
+                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Correo Electrónico:
+                {/* Correo Electrónico: */}
               </label>
               <Field
                 type="email"
                 id="email"
                 name="email"
+                placeholder="Email"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="email"
                 component="div"
-                className="text-red-600 text-sm"
+                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
               />
             </div>
 
@@ -235,12 +248,13 @@ const SignUpForm = () => {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
-                Contraseña:
+                {/* Contraseña: */}
               </label>
               <Field
                 type="password"
                 id="password"
                 name="password"
+                placeholder="Password"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
@@ -249,103 +263,108 @@ const SignUpForm = () => {
                 className="text-red-600 text-sm "
               />
             </div>
-
-            <div>
+            <div className="relative">
               <label
                 htmlFor="confirmPassword"
                 className="block text-sm font-medium text-gray-700"
               >
-                Confirmar Contraseña:
+                {/* Confirmar Contraseña: */}
               </label>
               <Field
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
+                placeholder="Confirm Password"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="confirmPassword"
                 component="div"
-                className="text-red-600 text-sm"
+                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
               />
             </div>
-            <div>
+
+            <div className="relative">
               <label
                 htmlFor="country"
                 className="block text-sm font-medium text-gray-700"
               >
-                País:
+                {/* País: */}
               </label>
               <Field
                 type="text"
                 id="country"
                 name="country"
+                placeholder="Country"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="country"
                 component="div"
-                className="text-red-600 text-sm"
+                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="address"
                 className="block text-sm font-medium text-gray-700"
               >
-                Dirección:
+                {/* Dirección: */}
               </label>
               <Field
                 type="text"
                 id="address"
                 name="address"
+                placeholder="Address"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="address"
                 component="div"
-                className="text-red-600 text-sm"
+                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="city"
                 className="block text-sm font-medium text-gray-700"
               >
-                Ciudad:
+                {/* Ciudad: */}
               </label>
               <Field
                 type="text"
                 id="city"
                 name="city"
+                placeholder="City"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="city"
                 component="div"
-                className="text-red-600 text-sm"
+                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
               >
-                Número de teléfono:
+                {/* Número de teléfono: */}
               </label>
               <Field
                 type="text"
                 id="phoneNumber"
                 name="phoneNumber"
+                placeholder="Phone Number"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
                 name="phoneNumber"
                 component="div"
-                className="text-red-600 text-sm"
+                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
               />
             </div>
 
@@ -355,18 +374,23 @@ const SignUpForm = () => {
               </div>
             )}
 
-            <div className="flex justify-between">
-              <button
-                type="submit"
-                className="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-md"
-              >
-                Registrarse
-              </button>
-              <Link to="/" className="text-blue-500 hover:text-blue-700 font-bold p-2">
-                home
-              </Link>
-            </div>
-          </Form>
+<div className="flex justify-center mt-4">
+    <button
+      type="submit"
+      className="bg-pink text-white font-onest font-light px-4 py-2 rounded-full mx-6 my-4 self-end"
+    >
+      Sign up
+    </button>
+  </div>
+
+  <Link to= "/">
+				<div className="flex justify-end items-center absolute top-0 right-20">
+					<button className="bg-blue text-white font-onest font-light px-6 py-6 rounded-full mx-6 my-4 self-end">
+						Home
+					</button>
+				</div>
+			</Link>
+</Form>
         </Formik>
       </div>
     </div>
