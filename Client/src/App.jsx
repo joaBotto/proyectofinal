@@ -21,15 +21,10 @@ function App() {
 	}, [dispatch]);
 
 	return (
-<<<<<<< HEAD
 		<div className='bg-indigo-50'>
 			{location.pathname === '/' && <NavBar />}
 			{location.pathname === '/admin' && <NavBarAdmin />}
 
-=======
-		<div className="bg-indigo-50 w-full">
-			{location.pathname === "/" && <NavBar />}
->>>>>>> db548e2c5c83d7fc4a2dc4619cdfe7da8ffc5f90
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/login' element={<Login />} />

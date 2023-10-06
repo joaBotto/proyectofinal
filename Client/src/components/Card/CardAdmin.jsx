@@ -67,13 +67,13 @@ const CardAdmin = ({
 					onClick={() => onEdit(_id)} // Llamar a la función de edición con el ID como argumento
 					className='bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover:bg-pink'
 				>
-					<FontAwesomeIcon icon={faEdit} /> Editar
+					<FontAwesomeIcon icon={faEdit} /> Edit
 				</button>
 				<button
 					onClick={() => onDelete(_id)} // Llamar a la función de eliminación con el ID como argumento
 					className='bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover:bg-pink'
 				>
-					<FontAwesomeIcon icon={faTrash} /> Eliminar
+					<FontAwesomeIcon icon={faTrash} /> delete
 				</button>
 			</div>
 		</div>

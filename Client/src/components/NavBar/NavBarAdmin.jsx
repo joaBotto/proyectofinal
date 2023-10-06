@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom'; // Importa useNavigate en lugar de useHistory
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt, faBars } from '@fortawesome/free-solid-svg-icons';
+import {
+	faSignInAlt,
+	faBars,
+	faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import fondo from '../../assets/img/fondo1.jpeg';
 import logo from '../../assets/img/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { filters } from '../../redux/actions';
+import DropdownMenu from '../utils/DropdownMenu';
 
 const NavBarAdmin = () => {
 	const dispatch = useDispatch();
@@ -30,6 +35,8 @@ const NavBarAdmin = () => {
 			dispatch(filters(type, event.target.value));
 		}
 	};
+
+	const navigate = useNavigate(); // Utiliza useNavigate en lugar de useHistory
 
 	return (
 		<div className='bg-dark text-white mb-10'>
@@ -57,29 +64,28 @@ const NavBarAdmin = () => {
 					>
 						CREATE
 					</a>
-					{showHamburgerMenu ? (
-						<div className='relative group'>
-							<button
-								className='text-white bg-violet rounded-full pl-4 pr-2 py-1 focus:outline-none'
-								onClick={() => setShowHamburgerMenu(false)}
-							>
-								MENU
-							</button>
-							<ul className='absolute right-0 top-8 bg-dark text-white py-2 px-4 rounded shadow-lg'>
-								<li>
-									<Link to='/admin'>Admin Page</Link>
-								</li>
-								{/* Agrega más opciones de menú según tus necesidades */}
-							</ul>
-						</div>
-					) : (
-						<button
-							onClick={() => setShowHamburgerMenu(true)}
-							className='text-white bg-violet rounded-full pl-4 pr-4 py-1 focus:outline-none'
-						>
-							<FontAwesomeIcon icon={faBars} size='lg' />
-						</button>
-					)}
+					<button
+						onClick={() => {
+							// Realiza cualquier lógica de logout necesaria aquí
+							// Por ejemplo, eliminar la sesión o el token de autenticación
+
+							// Redirige al usuario al home (página principal)
+							navigate('/');
+						}}
+						className='font-onest font-black bg-violet text-red hover:text-white hover:underline'
+					>
+						LOGOUT
+					</button>
+
+					<div className='relative group'>
+						<DropdownMenu
+							items={
+								[
+									// Agrega más elementos del menú según tus necesidades
+								]
+							}
+						/>
+					</div>
 				</div>
 			</div>
 			<div className='bg-white shadow py-2 w-1/3 rounded-full absolute top-[350px] left-[50%] transform translate-x-[-50%] -translate-y-[-50%]'>
