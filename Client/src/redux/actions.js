@@ -1,18 +1,13 @@
 import axios from "axios";
 import {
-  SEARCH_PRODUCTO,
 	GET_PROPERTY,
 	GET_PROPERTY_DETAIL,
 	CLEAN_DETAIL,
   ADD_USER,
 	CREATE_PROPERTY,
 	ERROR,
-	FILTER_BY_UBICACION,
-  FILTER_BY_PRECIO,
-  FILTER_BY_PILETA,
-  FILTER_BY_FONDO,
-  ORDER_BY_RESENA,
-  FILTER_BY_CATEGORIA,
+  USER_LOGIN,
+  FILTERS
 } from "./actions_types";
 
 export const getProperty = () => {
@@ -72,32 +67,57 @@ export const createProperty = (values) => {
   };
 };
 
-
-
-export const searchProducto = (query) => {
+export const userLogin = (valores) => {
+  const url = "http://localhost:3001/auth/login";
   return async (dispatch) => {
     try {
-      let response;
-      if (!query) {
-        // Si no se proporciona una ciudad, obtén todos los inmuebles
-        response = await axios.get(`${URL}//`);
-      } else {
-        // Si se proporciona una ciudad, realiza la búsqueda por ciudades
-        response = await axios.get(`${URL}/${query}`);
-      }
-      const inmuebles = response.data; 
+      const { data } = await axios.post(url, valores);
       dispatch({
-        type: SEARCH_PRODUCTO,
-        payload: inmuebles, 
+        type: USER_LOGIN,
+        payload: data,
       });
     } catch (error) {
       dispatch({
         type: ERROR,
-        payload: "City not found",
+        payload: error.message,
       });
     }
   };
 };
+
+export const filters = (type, orderPrice) => {
+  return {
+    type: FILTERS,
+    payload: { type, orderPrice },
+  };
+};
+
+
+
+// export const searchProducto = (query) => {
+//   return async (dispatch) => {
+//     try {
+//       let response;
+//       if (!query) {
+//         // Si no se proporciona una ciudad, obtén todos los inmuebles
+//         response = await axios.get(`${URL}//`);
+//       } else {
+//         // Si se proporciona una ciudad, realiza la búsqueda por ciudades
+//         response = await axios.get(`${URL}/${query}`);
+//       }
+//       const inmuebles = response.data; 
+//       dispatch({
+//         type: SEARCH_PRODUCTO,
+//         payload: inmuebles, 
+//       });
+//     } catch (error) {
+//       dispatch({
+//         type: ERROR,
+//         payload: "City not found",
+//       });
+//     }
+//   };
+// };
 
 
 
@@ -114,49 +134,49 @@ export const addUser = (user) => async (dispatch) => {
 
 
 
-export const filterByUbicacion = (ubicacion) => {
+// export const filterByUbicacion = (ubicacion) => {
 
-  return {
-    type: FILTER_BY_UBICACION,
-    payload: ubicacion,
-  };
-};
-
-  
-  
-export const filterByPrecio = (minPrice, maxPrice, order) => {
-  return {
-    type: FILTER_BY_PRECIO,
-    payload: { minPrice, maxPrice, order },
-  };
-};
+//   return {
+//     type: FILTER_BY_UBICACION,
+//     payload: ubicacion,
+//   };
+// };
 
   
   
-  export const filterByPileta = (pileta) => {
-    return{
-    type: FILTER_BY_PILETA,
-    payload: pileta,
-    }
-  };
+// export const filterByPrecio = (minPrice, maxPrice, order) => {
+//   return {
+//     type: FILTER_BY_PRECIO,
+//     payload: { minPrice, maxPrice, order },
+//   };
+// };
+
   
-  export const filterByFondo = (fondo) => {
-    return{
-    type: FILTER_BY_FONDO,
-    payload: fondo,
-  }};
   
-  export const orderByResena = (puntuacion) => {
-    return{
-    type: ORDER_BY_RESENA,
-    payload: puntuacion,
-  }
-};
+  // export const filterByPileta = (pileta) => {
+  //   return{
+  //   type: FILTER_BY_PILETA,
+  //   payload: pileta,
+  //   }
+  // };
   
-  export const filterByCategoria = (type) => {
+  // export const filterByFondo = (fondo) => {
+  //   return{
+  //   type: FILTER_BY_FONDO,
+  //   payload: fondo,
+  // }};
+  
+//   export const orderByResena = (puntuacion) => {
+//     return{
+//     type: ORDER_BY_RESENA,
+//     payload: puntuacion,
+//   }
+// };
+  
+//   export const filterByCategoria = (type) => {
     
-    return{
-    type: FILTER_BY_CATEGORIA,
-    payload: { type },
-  }
-};
+//     return{
+//     type: FILTER_BY_CATEGORIA,
+//     payload: { type },
+//   }
+// };

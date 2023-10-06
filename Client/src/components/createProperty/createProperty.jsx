@@ -3,20 +3,15 @@ import React from "react";
 import axios from "axios";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import DatePicker from "react-datepicker";
 import Dropzone from "react-dropzone";
 import { createProperty } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import fondo from "../../assets/img/loginRegister.jpg";
 import { Link } from "react-router-dom";
 
-const validationSchema = Yup.object().shape({
-  title: Yup.string().required("El título es requerido"),
-  description: Yup.string().required("La descripción es requerida"),
-});
-
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
+  let dates = [];
   const dispatch = useDispatch();
 
   const uploadImagesToCloudinary = async (file) => {
@@ -38,6 +33,16 @@ export default function CreateProperty() {
     }
   };
 
+  function generateDatesInRange(startDate, endDate) {
+    const dates = [];
+    let currentDate = new Date(startDate);
+    while (currentDate <= endDate) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1); 
+    }
+    return dates;
+  }
+
   const initialValues = {
     title: "",
     description: "",
@@ -51,26 +56,82 @@ export default function CreateProperty() {
     bathrooms: 0,
     price: 0,
     type: "casa",
-    availableDays: [],
+    availableDates: {
+      startDate: "",
+      endDate: "",
+    },
     images: [],
+    amenities: {
+      covered_area: 0,
+      garage: false,
+      antique: 0,
+      grill: false,
+      heating: false,
+    },
+    additional: {
+      swimmingpool: false,
+      terrace: false,
+      dining_room: false,
+      washing_machine: false,
+      internet_wifi: false,
+      refrigerator: false,
+      microwave: false,
+      coffee_maker: false,
+      patio: false,
+      balcony_patio: false,
+    },
     owner: "651459f5da45532a97080dee", // CAMBIAR A "user._id" cuando este terminado el login
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    const convertToDate = values.availableDays.map((e) => new Date(e));
-    values.availableDays = convertToDate;
+    const {
+      title,
+      additional,
+      address,
+      amenities,
+      bathrooms,
+      bedrooms,
+      description,
+      images,
+      owner,
+      price,
+      type,
+    } = values;
+    const newProperty = {
+      title,
+      additional,
+      address,
+      amenities,
+      availableDays: dates,
+      bathrooms,
+      bedrooms,
+      description,
+      images,
+      owner,
+      price,
+      type,
+    };
+    console.log("soy la info a mandar", newProperty);
 
-    console.log("soy la info a mandar", values);
-
-    dispatch(createProperty(values));
+    dispatch(createProperty(newProperty));
     setSubmitting(false);
   };
+
+  ///// VALIDACIONES DEL FORMULARIO
   const validationSchema = Yup.object().shape({
     title: Yup.string()
       .required("El título es requerido")
       .min(5, "Título muy corto, debe tener al menos 5 caracteres"), // Agregar la validación min
     description: Yup.string().required("La descripción es requerida"),
-    // ... Otras validaciones
+    availableDates: Yup.object().shape({
+      startDate: Yup.date().required("Fecha de inicio requerida"),
+      endDate: Yup.date()
+        .required("Fecha de finalización requerida")
+        .min(
+          Yup.ref("startDate"),
+          "La fecha de finalización debe ser posterior a la fecha de inicio"
+        ),
+    }),
   });
 
   return (
@@ -97,6 +158,7 @@ export default function CreateProperty() {
                 Home
               </button>
             </Link>
+            /////////TITULO DE LA PUBLICACION
             <div className="block text-left text-gray-700">
               <label htmlFor="title">Title:</label>
               <Field
@@ -106,7 +168,7 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="title" component="div" />
             </div>
-
+            ////////DESCRIPCION
             <div className="block text-left text-gray-700">
               <label htmlFor="description">Description:</label>
               <Field
@@ -116,7 +178,7 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="description" component="div" />
             </div>
-
+            ///////////DIRECCION
             <div className="block text-left text-gray-700">
               <label htmlFor="Address" className="block">
                 Address:
@@ -150,7 +212,7 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="address.zipcode" component="div" />
             </div>
-
+            /////// CANT DE CAMAS
             <div className="block text-left text-gray-700">
               <label htmlFor="bedrooms">Bedrooms:</label>
               <Field
@@ -160,7 +222,7 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="bedrooms" component="div" />
             </div>
-
+            ////// CANT DE BANOS
             <div className="block text-left text-gray-700">
               <label htmlFor="bathrooms">Bathrooms:</label>
               <Field
@@ -170,7 +232,7 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="bathrooms" component="div" />
             </div>
-
+            ////// PRECIO
             <div className="block text-left text-gray-700">
               <label htmlFor="price">Price:</label>
               <Field
@@ -180,7 +242,7 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="price" component="div" />
             </div>
-
+            ///////TIPO(CASA-DEPTO-PH)
             <div className="block text-left text-gray-700">
               <label htmlFor="type">Type:</label>
               <Field
@@ -193,22 +255,108 @@ export default function CreateProperty() {
                 <option value="ph">PH</option>
               </Field>
             </div>
-
-            <div className="block text-left text-gray-700">
-              <label htmlFor="availableDays">Available days:</label>
-              <DatePicker
-                selected={null}
-                onChange={(date) =>
-                  setFieldValue("availableDays", [
-                    ...values.availableDays,
-                    date,
-                  ])
-                }
-                name="availableDays"
-                dateFormat="dd/MM/yyyy"
-                className="react-datepicker"
+            ///////////COMODIDADES(METROS2-ANTIGUEDAD-GARAGE-GRILL-CALEFACCION)
+            <div>
+              <p>Amenities</p>
+              <label htmlFor="amenities.covered_area">Covered_area:</label>
+              <Field
+                type="number"
+                name="amenities.covered_area"
+                className="mt-1 p-2 w-full rounded-full border"
               />
+              <ErrorMessage name="amenities.covered_area" component="div" />
+              <label htmlFor="amenities.antique">Antique:</label>
+              <Field
+                type="number"
+                name="amenities.antique"
+                className="mt-1 p-2 w-full rounded-full border"
+              />
+              <ErrorMessage name="amenities.antique" component="div" />
+              <label>
+                <Field type="checkbox" name="amenities.garage" />
+                garage
+              </label>
+              <label>
+                <Field type="checkbox" name="amenities.grill" />
+                grill
+              </label>
+              <label>
+                <Field type="checkbox" name="amenities.heating" />
+                heating
+              </label>
             </div>
+            //////////
+            ADICIONALES(PISCINA-TERRAZA-COMEDOR-LAVARROPAS-WIFI-HELADERA-MICROONDAS-CAFETERA-PATIO-BALCON)
+            <div>
+              <p>Additional</p>
+              <label>
+                <Field type="checkbox" name="additional.swimmingpool" />
+                swimming Pool
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.terrace" />
+                terrace
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.dining_room" />
+                dining_room
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.washing_machine" />
+                washing_machine
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.internet_wifi" />
+                internet_wifi
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.refrigerator" />
+                refrigerator
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.microwave" />
+                microwave
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.coffee_maker" />
+                coffee_maker
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.patio" />
+                patio
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.balcony_patio" />
+                balcony_patio
+              </label>
+            </div>
+            ////////////FECHAS
+            <div className="block text-left text-gray-700">
+              <label htmlFor="availableDates.startDate">Fecha de inicio:</label>
+              <Field name="availableDates.startDate" type="date" />
+              <ErrorMessage name="availableDates.startDate" component="div" />
+              <label htmlFor="availableDates.endDate">
+                Fecha de finalizacion:
+              </label>
+              <Field
+                name="availableDates.endDate"
+                type="date"
+                onChange={(event) => {
+                  const endDateValue = event.target.value;
+                  setFieldValue("availableDates.endDate", endDateValue);
+                  const startDateValue = values.availableDates.startDate;
+
+                  if (startDateValue && endDateValue) {
+                    const startDate = new Date(startDateValue);
+                    const endDate = new Date(endDateValue);
+                    dates = generateDatesInRange(startDate, endDate);
+                    console.log(dates);
+                  }
+                }}
+              />
+              <ErrorMessage name="availableDays.endDate" component="div" />
+            </div>
+            /////////// IMAGENES
             <Dropzone
               onDrop={async (acceptedFiles) => {
                 if (values.images.length + acceptedFiles.length <= 5) {
