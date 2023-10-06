@@ -7,6 +7,7 @@ import { createProperty } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import fondo from "../../assets/img/loginRegister.jpg";
 import { Link } from "react-router-dom";
+import "./createProperty.css"
 import logo from "../../assets/img/logo.png"
 
 
