@@ -47,7 +47,7 @@ const NavBar = () => {
 						href="/create"
 						className="font-onest font-black text-blue hover:text-white hover:underline mr-10"
 					>
-						CREATE
+						REGISTER YOUR PROPERTY
 					</a>
 					{showHamburgerButton ? (
 						<button className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-10">

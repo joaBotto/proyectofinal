@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { getPropertyDetail } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import NavBarSimple from "../../components/NavBar/NavBarWithoutImage";
 
 import logo from "../../assets/img/logo.png";
 
@@ -20,6 +21,7 @@ const Detail = () => {
 
 	return (
 		<div className="bg-white w-screen h-screen">
+			<NavBarSimple />
 			{property && property.title ? (
 				<div className="w-full px-10 py-20">
 					<div className="w-full flex justify-between">
