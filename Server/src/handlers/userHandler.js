@@ -10,6 +10,7 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
+      image,
       country,
       city,
       address,
@@ -20,6 +21,7 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
+      image,
       country,
       city,
       address,
@@ -38,14 +40,14 @@ const createUserHandler = async (req, res) => {
       phoneNumber
     ) {
       const newUser = await creatingUser(user);
-      console.log("Usuario creado con éxito:", newUser); // Agrega este registro
+      console.log("Usuario creado con éxito:", newUser);
       return res.status(201).json(newUser);
     } else {
-      console.error("Falta información en la solicitud."); // Agrega este registro
+      console.error("Falta información en la solicitud.");
       return res.status(400).json({ error: "missing data" });
     }
   } catch (error) {
-    console.error("Error en la creación de usuario:", error); // Agrega este registro
+    console.error("Error en la creación de usuario:", error);
     return res.status(500).json({ error: error.message });
   }
 };
@@ -71,6 +73,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
+      image,
 			country,
 			city,
 			address,
@@ -85,6 +88,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
+      image,
 			country,
 			city,
 			address,
