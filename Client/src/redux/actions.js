@@ -90,9 +90,11 @@ export const searchProducto = (query) => {
   };
 };
 
-export const addUser = (user) => async (dispatch) => {
+export const addUser = (users) => async (dispatch) => {
+  console.log("Soy el action", users)
   try {
-    const { data } = await axios.post("http://localhost:3001/users", user);
+    const { data } = await axios.post("http://localhost:3001/users", users);
+    console.log("Soy la data a enviar", data)
     dispatch({ type: ADD_USER, payload: data });
   } catch (error) {
     return { type: ERROR, payload: error.message };

@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
+import axios from "axios";
 
 
 
@@ -41,20 +42,20 @@ const SignUpForm = () => {
   });
 
   const initialValues = {
-    firstName: "",
+    name: "",
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    // confirmPassword: "",
     country: "",
     address: "",
     city: "",
-    phonenumber: "",
-    avatar: null,
+    phoneNumber: "",
+    images: [],
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string().required("Campo obligatorio"),
+    name: Yup.string().required("Campo obligatorio"),
     lastName: Yup.string().required("Campo obligatorio"),
     email: Yup.string()
       .email("Correo electrónico inválido")
@@ -76,6 +77,7 @@ const SignUpForm = () => {
   };
 
   const uploadImagesToCloudinary = async (file) => {
+    console.log("SOy la imagen", file)
     const formData = new FormData();
     formData.append("file", file[0]);
     try {
@@ -96,10 +98,13 @@ const SignUpForm = () => {
       if (values.images) {
         const cloudinaryResponse = await uploadImagesToCloudinary(
           values.images
+          
         );
-        values.avatar = cloudinaryResponse.secure_url;
-        setImagePreview(values.avatar);
+        console.log("Cloudinary Response:", cloudinaryResponse);
+        values.images = cloudinaryResponse.secure_url;
+        setImagePreview(values.images);
       }
+      console.log("Values before dispatch:", values);
 
       // Llamamos a la acción addUser para enviar datos al servidor
       await dispatch(addUser(values));
@@ -167,19 +172,19 @@ const SignUpForm = () => {
             )}
             <div>
               <label
-                htmlFor="firstName"
+                htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
               >
                 Nombre:
               </label>
               <Field
                 type="text"
-                id="firstName"
-                name="firstName"
+                id="name"
+                name="name"
                 className="mt-1 p-2 w-full border rounded text-black"
               />
               <ErrorMessage
-                name="firstName"
+                name="name"
                 component="div"
                 className="text-red-600 text-sm"
               />
@@ -244,7 +249,7 @@ const SignUpForm = () => {
                 className="text-red-600 text-sm "
               />
             </div>
-
+{/* 
             <div>
               <label
                 htmlFor="confirmPassword"
@@ -263,7 +268,7 @@ const SignUpForm = () => {
                 component="div"
                 className="text-red-600 text-sm"
               />
-            </div>
+            </div> */}
             <div>
               <label
                 htmlFor="country"

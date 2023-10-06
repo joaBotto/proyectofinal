@@ -12,7 +12,7 @@ import {
 
 const initialState = {
   error: "",
-  user: {},
+  users: {},
   allproperties: [],
   properties: [],
   propertyDetail: {},
@@ -87,7 +87,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         case ADD_USER:
 			return {
 				...state,
-				user: payload,
+				users: payload,
 			};
 
     default:
