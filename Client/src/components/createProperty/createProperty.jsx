@@ -152,7 +152,6 @@ export default function CreateProperty() {
         return images && images.length === 5;
       }),
   });
-  
 
 
   return (
