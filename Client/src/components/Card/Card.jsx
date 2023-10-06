@@ -17,6 +17,7 @@ const Card = ({
 	location,
 	bedrooms,
 	bathrooms,
+	area,
 }) => {
 	return (
 		<div className="flex-auto rounded-xl py-2">
@@ -48,7 +49,7 @@ const Card = ({
 					</div>
 					<div className="flex justify-center items-center rounded-md bg-cyan">
 						<p className="text-sm font-medium text-blue text-center">
-							<FontAwesomeIcon icon={faRulerCombined} /> x m²
+							<FontAwesomeIcon icon={faRulerCombined} /> {area} m²
 						</p>
 					</div>
 				</div>
