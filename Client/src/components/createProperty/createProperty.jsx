@@ -7,6 +7,8 @@ import { createProperty } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import fondo from "../../assets/img/loginRegister.jpg";
 import { Link } from "react-router-dom";
+import logo from "../../assets/img/logo.png"
+
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
@@ -116,24 +118,42 @@ export default function CreateProperty() {
     setSubmitting(false);
   };
 
-  ///// VALIDACIONES DEL FORMULARIO
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required("El título es requerido").min(5, "Título muy corto, debe tener al menos 5 caracteres").max(30, "Título muy largo, debe tener como máximo 30 caracteres"), 
-    description:Yup.string().required("La descripción es requerida"),
-    availableDates:Yup.object().shape({
-      startDate:Yup.date().required("Fecha de inicio requerida").min(new Date(), "La fecha de inicio debe ser a partir de hoy"),
-      endDate:Yup.date().required("Fecha de finalización requerida").min(Yup.ref("startDate"),"La fecha de finalización debe ser posterior a la fecha de inicio")  
-    }),
+    title: Yup.string()
+      .required("El título es requerido")
+      .min(5, "Título muy corto, debe tener al menos 5 caracteres"),
+    description: Yup.string().required("La descripción es requerida"),
     address: Yup.object().shape({
       street: Yup.string().required("La calle es requerida"),
       city: Yup.string().required("La ciudad es requerida"),
       state: Yup.string().required("El estado es requerido"),
-      zipcode: Yup.string().required("El código postal es requerido"),
+      zipcode: Yup.number().required("El código postal es requerido"),
     }),
-    images: Yup.array().required("Debe agregar 5 imágenes al menos").test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
-    return images && images.length === 5;
-  }),
+    bedrooms: Yup.number()
+      .required("El número de habitaciones es requerido")
+      .min(0)
+      .max(10),
+    bathrooms: Yup.number()
+      .required("El número de baños es requerido")
+      .min(0)
+      .max(10),
+    price: Yup.number().required("El precio es requerido").min(1).max(100000),
+    availableDates: Yup.object().shape({
+      startDate: Yup.date()
+        .required("Fecha de inicio requerida")
+        .min(new Date(), "La fecha de inicio debe ser a partir de hoy"),
+      endDate: Yup.date()
+        .required("Fecha de finalización requerida")
+        .min(Yup.ref("startDate"), "La fecha de finalización debe ser posterior a la fecha de inicio"),
+    }),
+    images: Yup.array()
+      .required("Debe agregar 5 imágenes al menos")
+      .test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
+        return images && images.length === 5;
+      }),
   });
+  
+
 
   return (
     <div
