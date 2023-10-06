@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import { Carousel } from "@material-tailwind/react";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,6 +7,7 @@ const ImageCarousel = ({ images }) => {
 	if (!images || images.length === 0) {
 		return null;
 	}
+	const location = useLocation();
 
 	return (
 		<Carousel
@@ -19,26 +21,29 @@ const ImageCarousel = ({ images }) => {
 					>
 						<FontAwesomeIcon
 							icon={faArrowLeft}
-							className="text-lg transition ease-in-out delay-50 text-white hover:text-cyan hover:text-xl duration-300"
+							className="text-sm transition ease-in-out delay-50 text-transparent p-2 hover:text-white hover:bg-white rounded-full hover:bg-opacity-75 hover:text-m duration-300"
 						/>
 					</button>
-					{new Array(length).fill("").map((_, i) => (
-						<span
-							key={i}
-							className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
-								activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
-							}`}
-							onClick={() => setActiveIndex(i)}
-						/>
-					))}
+					{location.pathname === "/" &&
+						new Array(length)
+							.fill("")
+							.map((_, i) => (
+								<span
+									key={i}
+									className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
+										activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
+									}`}
+									onClick={() => setActiveIndex(i)}
+								/>
+							))}
 					<button
-						className="cursor-pointer bg-transparent hover:border-none"
+						className="cursor-pointer bg-transparent rounded-full hover:border-none"
 						onClick={() => setActiveIndex(activeIndex + 1)}
 						disabled={activeIndex === length - 1}
 					>
 						<FontAwesomeIcon
 							icon={faArrowRight}
-							className="text-lg transition ease-in-out delay-50 text-white hover:text-cyan hover:text-xl duration-300"
+							className="text-sm transition ease-in-out delay-50 text-transparent p-2 hover:text-white hover:bg-white rounded-full hover:bg-opacity-75 hover:text-m duration-300"
 						/>
 					</button>
 				</div>

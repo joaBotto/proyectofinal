@@ -125,7 +125,12 @@ export const addUser = (user) => async (dispatch) => {
   try {
     const { data } = await axios.post("http://localhost:3001/users", user);
     console.log("soy data de user", data)
-    dispatch({ type: ADD_USER, payload: data });
+    const { email, password} = data
+    const userCreated = {
+      email,
+      password
+    }
+    dispatch({ type: ADD_USER, payload: userCreated });
   } catch (error) {
     return { type: ERROR, payload: error.message };
   }
