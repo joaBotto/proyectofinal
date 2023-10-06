@@ -1,4 +1,3 @@
-import("./createProperty.css");
 import React from "react";
 import axios from "axios";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -62,7 +61,7 @@ export default function CreateProperty() {
       startDate: "",
       endDate: "",
     },
-    images: [],
+    images:[],
     amenities: {
       covered_area: 0,
       garage: false,
@@ -119,16 +118,8 @@ export default function CreateProperty() {
     setSubmitting(false);
   };
 
-  ///// VALIDACIONES DEL FORMULARIO   ///// VALIDACIONES DEL FORMULARIO  // address: {
-      //   street: Yup.string().required("La calle es requerida"),
-      //   city: Yup.string().required("La ciudad es requerida"),
-      //   state: Yup.string().required("El estado es requerido"),
-      //   zipcode: Yup.number().required("El código postal es requerido"),
-      // },
-      // bedrooms: Yup.number().required("El número de habitaciones es requerido").min(0).max(10),
-      // bathrooms: Yup.number().required("El número de baños es requerido").min(0).max(10),
-      // price: Yup.number().required("El precio es requerido").min(0).max(100000),
-      const validationSchema = Yup.object().shape({
+
+   const validationSchema = Yup.object().shape({
         title: Yup.string()
           .required("El título es requerido")
           .min(5, "Título muy corto, debe tener al menos 5 caracteres"),
@@ -148,16 +139,23 @@ export default function CreateProperty() {
           .min(0)
           .max(10),
         price: Yup.number().required("El precio es requerido").min(1).max(100000),
-        availableDates: Yup.object().shape({
-          startDate: Yup.date().required("Fecha de inicio requerida"),
-          endDate: Yup.date()
-            .required("Fecha de finalización requerida")
-            .min(
-              Yup.ref("startDate"),
-              "La fecha de finalización debe ser posterior a la fecha de inicio"
-            ),
-        }),
+      
       });
+    availableDates:Yup.object().shape({
+      startDate:Yup.date().required("Fecha de inicio requerida").min(new Date(), "La fecha de inicio debe ser a partir de hoy"),
+      endDate:Yup.date().required("Fecha de finalización requerida").min(Yup.ref("startDate"),"La fecha de finalización debe ser posterior a la fecha de inicio")  
+    }),
+   address: Yup.object().shape({
+      street: Yup.string().required("La calle es requerida"),
+      city: Yup.string().required("La ciudad es requerida"),
+      state: Yup.string().required("El estado es requerido"),
+      zipcode: Yup.string().required("El código postal es requerido"),
+    }),
+    images: Yup.array().required("Debe agregar 5 imágenes al menos").test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
+    return images && images.length === 5;
+  }),
+  });
+
 
   return (
 
@@ -206,7 +204,9 @@ export default function CreateProperty() {
               className="text-red-600 text-sm"
               />
             </div>
+
            {/* DESCRIPCION */}
+
             <div className="block text-left text-gray-700">
               <label htmlFor="description">Description:</label>
               <Field
@@ -221,7 +221,9 @@ export default function CreateProperty() {
 
 
             </div>
+
             {/* DIRECCION */}
+
             <div className="block text-left text-gray-700">
               <label htmlFor="Address" className="block">
                 Address:
@@ -264,7 +266,9 @@ export default function CreateProperty() {
                className="text-red-600 text-sm" />
             </div>
 
+
             {/* CANT DE CAMAS */}
+
             <div className="block text-left text-gray-700">
               <label htmlFor="bedrooms">Bedrooms:</label>
               <Field
@@ -276,7 +280,9 @@ export default function CreateProperty() {
                className="text-red-600 text-sm" />
          
             </div>
+
           {/* CANT DE BANOS */}
+
             <div className="block text-left text-gray-700">
               <label htmlFor="bathrooms">Bathrooms:</label>
               <Field
@@ -287,7 +293,9 @@ export default function CreateProperty() {
               <ErrorMessage name="bathrooms" component="div"
                className="text-red-600 text-sm"/>
             </div>
+            
             {/* PRECIO */}
+
             <div className="block text-left text-gray-700">
               <label htmlFor="price">Price:</label>
               <Field
@@ -297,7 +305,9 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="price" component="div"  className="text-red-600 text-sm"/>
             </div>
+
          {/* TIPO(CASA-DEPTO-PH) */}
+
             <div className="block text-left text-gray-700">
               <label htmlFor="type">Type:</label>
               <Field
@@ -305,12 +315,15 @@ export default function CreateProperty() {
                 name="type"
                 className="mt-1 p-2 w-full rounded-full border"
               >
+                <option value="default">TIPO DE INMUEBLE</option>
                 <option value="house">HOUSE</option>
                 <option value="depto">APPARTMENT</option>
                 <option value="ph">PH</option>
               </Field>
             </div>
+
            {/* COMODIDADES(METROS2-ANTIGUEDAD-GARAGE-GRILL-CALEFACCION) */}
+
             <div>
               <p>Amenities</p>
 
@@ -324,6 +337,7 @@ export default function CreateProperty() {
               <ErrorMessage name="amenities.covered_area" component="div" className="text-red-600 text-sm" />
               <label htmlFor="amenities.antique">Antique:</label>
               <Field
+
   type="number"
   name="amenities.antique"
   className="mt-1 p-2 w-full rounded-full border text-black"
@@ -391,6 +405,7 @@ export default function CreateProperty() {
   </label>
 </div>
 </div>
+
 {/* FECHAS */}
 <div className="block text-left text-gray-700">
   <div>
@@ -420,10 +435,102 @@ export default function CreateProperty() {
     <ErrorMessage name="availableDays.endDate" component="div" />
   </div>
 </div>
-          IMAGENES
+ 
           <Dropzone
   onDrop={async (acceptedFiles) => {
                 if (values.images.length + acceptedFiles.length <= 5) {
+=======
+                type="number"
+                name="amenities.antique"
+                className="mt-1 p-2 w-full rounded-full border"
+              />
+              <ErrorMessage name="amenities.antique" component="div" />
+              <label>
+                <Field type="checkbox" name="amenities.garage" />
+                garage
+              </label>
+              <label>
+                <Field type="checkbox" name="amenities.grill" />
+                grill
+              </label>
+              <label>
+                <Field type="checkbox" name="amenities.heating" />
+                heating
+              </label>
+            </div>
+            <div>
+              <p>Additional</p>
+              <label>
+                <Field type="checkbox" name="additional.swimmingpool" />
+                swimming Pool
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.terrace" />
+                terrace
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.dining_room" />
+                dining_room
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.washing_machine" />
+                washing_machine
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.internet_wifi" />
+                internet_wifi
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.refrigerator" />
+                refrigerator
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.microwave" />
+                microwave
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.coffee_maker" />
+                coffee_maker
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.patio" />
+                patio
+              </label>
+              <label>
+                <Field type="checkbox" name="additional.balcony_patio" />
+                balcony_patio
+              </label>
+            </div>
+            <div className="block text-left text-gray-700">
+              <label htmlFor="availableDates.startDate">Fecha de inicio:</label>
+              <Field name="availableDates.startDate" type="date" />
+              <ErrorMessage name="availableDates.startDate" component="div" />
+              <label htmlFor="availableDates.endDate">
+                Fecha de finalizacion:
+              </label>
+              <Field
+                name="availableDates.endDate"
+                type="date"
+                onChange={(event) => {
+                  const endDateValue = event.target.value;
+                  setFieldValue("availableDates.endDate", endDateValue);
+                  const startDateValue = values.availableDates.startDate;
+
+                  if (startDateValue && endDateValue) {
+                    const startDate = new Date(startDateValue);
+                    const endDate = new Date(endDateValue);
+                    dates = generateDatesInRange(startDate, endDate);
+                    console.log(dates);
+                  }
+                }}
+              />
+              <ErrorMessage name="availableDays.endDate" component="div" />
+            </div>
+            <div>
+            <Dropzone
+              onDrop={async (acceptedFiles) => {
+                if (values.images.length + acceptedFiles.length <= 10) {
+
                   const uploadImageUrl = await uploadImagesToCloudinary(
                     acceptedFiles
                   );
@@ -431,7 +538,7 @@ export default function CreateProperty() {
                   const newImages = [...values.images, uploadImageUrl];
                   setFieldValue("images", newImages);
                 } else {
-                  alert("No puedes subir más de 5 imágenes."); // PASAR ALERT A INGLES
+                  alert("No puedes subir más de 10 imágenes."); 
                 }
               }}
               accept="image/*"
@@ -465,6 +572,8 @@ export default function CreateProperty() {
                 </div>
               )}
             </Dropzone>
+            </div>
+            <div>
             <button
               type="submit"
               disabled={isSubmitting}
@@ -472,6 +581,7 @@ export default function CreateProperty() {
             >
               Create Property
             </button>
+            </div>
           </Form>
         )}
       </Formik>
