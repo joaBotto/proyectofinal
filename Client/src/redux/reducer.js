@@ -11,6 +11,7 @@ import {
 
 const initialState = {
   error: "",
+  user:"",
   properties:[],
   allproperties: [],
   propertyDetail: {},
@@ -91,10 +92,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case ADD_USER:
       return {
         ...state,
-        user: payload,
+        userCreated: payload,
       };
  
       case USER_LOGIN:
+
         return{
           ...state,
           user:payload

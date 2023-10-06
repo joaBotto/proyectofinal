@@ -7,6 +7,8 @@ import Cards from "../../components/Cards/Cards";
 
 export default function Home() {
 	const properties = useSelector((state) => state.properties);
+	const user = useSelector((state) => state.user)
+	console.log("soy el user en home", user)
 	console.log("Soy prop en el home", properties);
 	const [page, setPage] = useState(1);
 	const perPage = 8;
