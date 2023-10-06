@@ -44,8 +44,14 @@ const NavBar = () => {
 				</div>
 				<div className="absolute top-10 right-10 mt-4 space-x-4 flex items-center">
 					<a
-						href="/create"
+						href="/"
 						className="font-onest font-black text-blue hover:text-white hover:underline mr-10"
+					>
+						♥︎SAVED
+					</a>
+					<a
+						href="/create"
+						className="font-onest font-black text-blue hover:text-white hover:underline mr-10 pr-10"
 					>
 						REGISTER YOUR PROPERTY
 					</a>

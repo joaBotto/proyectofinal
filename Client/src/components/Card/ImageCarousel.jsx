@@ -9,7 +9,7 @@ const ImageCarousel = ({ images }) => {
 
 	return (
 		<Carousel
-			className="rounded-xl w-full h-[300px]"
+			className="rounded-xl w-full"
 			navigation={({ setActiveIndex, activeIndex, length }) => (
 				<div className="py-4 px-1 absolute inset-0 flex items-end justify-between bottom-0 left-0 right-0 z-50 gap-2 hover:border-transparent">
 					<button
@@ -19,7 +19,7 @@ const ImageCarousel = ({ images }) => {
 					>
 						<FontAwesomeIcon
 							icon={faArrowLeft}
-							className="text-lg transition ease-in-out delay-50 text-white hover:text-pink hover:text-xl duration-300"
+							className="text-lg transition ease-in-out delay-50 text-white hover:text-cyan hover:text-xl duration-300"
 						/>
 					</button>
 					{new Array(length).fill("").map((_, i) => (
@@ -38,7 +38,7 @@ const ImageCarousel = ({ images }) => {
 					>
 						<FontAwesomeIcon
 							icon={faArrowRight}
-							className="text-lg transition ease-in-out delay-50 text-white hover:text-pink hover:text-xl duration-300"
+							className="text-lg transition ease-in-out delay-50 text-white hover:text-cyan hover:text-xl duration-300"
 						/>
 					</button>
 				</div>

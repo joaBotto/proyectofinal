@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { getPropertyDetail } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import NavBarSimple from "../../components/NavBar/NavBarWithoutImage";
-
-import logo from "../../assets/img/logo.png";
+import ImageCarousel from "../../components/Card/ImageCarousel";
+import ImageGalleryModal from "./Modal";
 
 const Detail = () => {
 	const { id } = useParams();
@@ -17,7 +17,18 @@ const Detail = () => {
 	}, [dispatch, id]);
 
 	const property = useSelector((state) => state.propertyDetail);
-	console.log("property", property);
+	const [isModalOpen, setIsModalOpen] = useState(false); // State for opening/closing the modal
+	const [selectedImage, setSelectedImage] = useState(null);
+
+	const openModal = (image) => {
+		setSelectedImage(image);
+		setIsModalOpen(true);
+	};
+
+	const closeModal = () => {
+		setSelectedImage(null);
+		setIsModalOpen(false);
+	};
 
 	return (
 		<div className="bg-white w-screen h-screen">
@@ -28,7 +39,7 @@ const Detail = () => {
 						<div>
 							<h1 className="text-5xl font-onest font-extrabold uppercase text-cyan">
 								{property.title}
-							</h1>{" "}
+							</h1>
 						</div>
 						<div>
 							<button className="flex justify-end text-white bg-transparent rounded-full">
@@ -46,11 +57,30 @@ const Detail = () => {
 						</div>
 					</div>
 					<div className="w-full flex justify-around pt-10">
-						<div className="w-1/2"></div>
+						<div className="w-1/2 ml-2 mr-10">
+							<div className="w-full h-2/3 overflow-hidden rounded-xl shadow-xl">
+								<ImageCarousel images={property.images} />
+							</div>
+							<div className="w-full flex justify-between pt-2">
+								<div className="flex w-full justify-start flex-wrap">
+									{property.images.map((image, index) => (
+										<div className="">
+											<img
+												key={index}
+												src={image.imageUrl}
+												alt={`Thumbnail ${index + 1}`}
+												className="h-[150px] cursor-pointer m-1 filter grayscale hover:grayscale-0 rounded-md"
+												onClick={() => openModal(image)}
+											/>
+										</div>
+									))}
+								</div>
+							</div>
+						</div>
 
 						<div className="w-1/2">
 							<p className="text-blue font-onest font-bold underline pb-3">
-								SAVE PROPERTY
+								♥︎SAVE PROPERTY
 							</p>
 							<p className="text-blue font-noto font-bold pb-3">
 								Published X days ago
@@ -62,6 +92,13 @@ const Detail = () => {
 							<div className="propertyReview"></div>
 						</div>
 					</div>
+					{isModalOpen && (
+						<ImageGalleryModal
+							images={property.images}
+							selectedImage={selectedImage}
+							onClose={closeModal}
+						/>
+					)}
 				</div>
 			) : (
 				<p>Loading...</p>

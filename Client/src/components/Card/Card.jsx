@@ -21,7 +21,7 @@ const Card = ({
 	return (
 		<div className="flex-auto rounded-xl py-2">
 			<div className="px-4 pt-5 sm:px-6">
-				<div className="relative rounded-xl shadow overflow-hidden">
+				<div className="relative rounded-xl h-[300px] shadow overflow-hidden">
 					<ImageCarousel images={images} />
 				</div>
 				<h3 className="pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase">

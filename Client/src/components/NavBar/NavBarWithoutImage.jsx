@@ -20,13 +20,19 @@ const NavBarSimple = () => {
 			<div className="pb-20 flex items-center justify-between relative">
 				<div className="absolute top-0 left-0 mt-4 ml-4">
 					<Link to="/">
-						<img className="w-60 pt-4 pl-4" src={logo} alt="Your Company" />
+						<img className="w-60 pt-4 pl-8" src={logo} alt="Your Company" />
 					</Link>
 				</div>
 				<div className="absolute top-10 right-10 mt-4 space-x-4 flex items-center">
 					<a
-						href="/create"
+						href="/"
 						className="font-onest font-black text-blue hover:text-cyan hover:underline mr-10"
+					>
+						♥︎SAVED
+					</a>
+					<a
+						href="/create"
+						className="font-onest font-black text-blue hover:text-cyan hover:underline mr-10 pr-10"
 					>
 						REGISTER YOUR PROPERTY
 					</a>
