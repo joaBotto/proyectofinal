@@ -2,14 +2,14 @@ const { Router } = require("express");
 const authRouter = Router();
 const passport = require("passport");
 
-/* authRouter.post("/login", passport.authenticate('local', {
+/* authRouter.post("/login", passport.authenticate("local", {
     successRedirect:'/',
     failureRedirect:'/login',
     failureFlash: true
 }, (req, res)=> {
    
     console.log("req.user después de autenticación:", req.user);
-    // res.json({ user: req.user });
+    res.status(200).json({ user: req.user });
 
 })) */
 authRouter.post("/login", (req, res, next) => {

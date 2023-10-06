@@ -1,13 +1,13 @@
 import "./login.css";
 import { Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import fondo from "../../assets/img/loginRegister.jpg";
 import logo from "../../assets/img/logo.png";
 import { Link } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-// import axios from "axios";
+
 
 export default function Login() {
   let regExPassword = /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{1,15}$/;
@@ -20,8 +20,10 @@ export default function Login() {
     dispatch(userLogin(valores));
   };
 
+ 
   const user = useSelector((state) => state.user);
   console.log(user);
+
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-between bg-fuchsia-900"
