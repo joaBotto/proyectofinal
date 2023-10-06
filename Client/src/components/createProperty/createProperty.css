@@ -3,12 +3,16 @@
     margin-top: 1em;
     margin-bottom: 1em;
   }
+  label, p {
+    color: black;
+  }
   
   /* Estilos CSS personalizados para el contenido interno del formulario */
   .property-form-inner {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    
   }
   
   /* Estilos CSS para los campos del formulario */
@@ -86,6 +90,14 @@
     border-radius: 50%;
   }
   
+  .image-container {
+    display: flex; /* Establece el contenedor como flexbox */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en filas */
+    justify-content: flex-start; /* Alinea los elementos al comienzo del contenedor */
+  }
+
+
+
   /* Estilo para los días seleccionados */
   .react-datepicker__day--selected {
     background-color: #007bff;
