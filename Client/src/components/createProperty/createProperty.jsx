@@ -129,10 +129,10 @@ export default function CreateProperty() {
       city: Yup.string().required("La ciudad es requerida"),
       state: Yup.string().required("El estado es requerido"),
       zipcode: Yup.string().required("El código postal es requerido"),
-      images: Yup.array().required("Debe agregar 5 imágenes al menos").test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
-      return images && images.length === 5;
     }),
-    }),
+    images: Yup.array().required("Debe agregar 5 imágenes al menos").test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
+    return images && images.length === 5;
+  }),
   });
 
   return (
