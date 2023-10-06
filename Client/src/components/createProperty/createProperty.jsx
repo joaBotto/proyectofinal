@@ -119,16 +119,7 @@ export default function CreateProperty() {
     setSubmitting(false);
   };
 
-  ///// VALIDACIONES DEL FORMULARIO   ///// VALIDACIONES DEL FORMULARIO  // address: {
-      //   street: Yup.string().required("La calle es requerida"),
-      //   city: Yup.string().required("La ciudad es requerida"),
-      //   state: Yup.string().required("El estado es requerido"),
-      //   zipcode: Yup.number().required("El código postal es requerido"),
-      // },
-      // bedrooms: Yup.number().required("El número de habitaciones es requerido").min(0).max(10),
-      // bathrooms: Yup.number().required("El número de baños es requerido").min(0).max(10),
-      // price: Yup.number().required("El precio es requerido").min(0).max(100000),
-      const validationSchema = Yup.object().shape({
+   const validationSchema = Yup.object().shape({
         title: Yup.string()
           .required("El título es requerido")
           .min(5, "Título muy corto, debe tener al menos 5 caracteres"),
@@ -138,7 +129,10 @@ export default function CreateProperty() {
           city: Yup.string().required("La ciudad es requerida"),
           state: Yup.string().required("El estado es requerido"),
           zipcode: Yup.number().required("El código postal es requerido"),
-        }),
+        images: Yup.array().required("Debe agregar 5 imágenes al menos").test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
+          return images && images.length === 5
+        }),   
+      
         bedrooms: Yup.number()
 .required("El número de habitaciones es requerido")
           .min(0)
@@ -148,6 +142,7 @@ export default function CreateProperty() {
           .min(0)
           .max(10),
         price: Yup.number().required("El precio es requerido").min(1).max(100000),
+    
         availableDates: Yup.object().shape({
           startDate: Yup.date().required("Fecha de inicio requerida"),
           endDate: Yup.date()
@@ -157,7 +152,8 @@ export default function CreateProperty() {
               "La fecha de finalización debe ser posterior a la fecha de inicio"
             ),
         }),
-      });
+      }),
+    });
 
   return (
 
