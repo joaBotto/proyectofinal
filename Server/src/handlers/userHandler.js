@@ -25,6 +25,8 @@ const createUserHandler = async (req, res) => {
       address,
       phoneNumber,
     };
+    console.log("Recibida solicitud para crear usuario:", user); // Agrega este registro
+
     if (
       email &&
       password &&
@@ -36,14 +38,18 @@ const createUserHandler = async (req, res) => {
       phoneNumber
     ) {
       const newUser = await creatingUser(user);
+      console.log("Usuario creado con éxito:", newUser); // Agrega este registro
       return res.status(201).json(newUser);
     } else {
+      console.error("Falta información en la solicitud."); // Agrega este registro
       return res.status(400).json({ error: "missing data" });
     }
   } catch (error) {
+    console.error("Error en la creación de usuario:", error); // Agrega este registro
     return res.status(500).json({ error: error.message });
   }
 };
+
 
 const getUsersHandlers = async (req, res) => {
   try {

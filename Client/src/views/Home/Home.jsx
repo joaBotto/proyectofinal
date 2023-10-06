@@ -8,14 +8,14 @@ import Cards from "../../components/Cards/Cards";
 export default function Home() {
 	const properties = useSelector((state) => state.properties);
 	console.log("Soy prop en el home", properties);
+	const [page, setPage] = useState(1);
+	const perPage = 8;
+    const maxPage = Math.ceil(properties.length / perPage)
+	const currentPageData = properties.slice((page - 1) * perPage, page * perPage);
 
 	useEffect(() => {
 		setPage(1);
 	}, [properties]);
-
-	const [page, setPage] = useState(1);
-	const [perPage, setPerPage] = useState(8);
-	const maxPage = Math.ceil(properties.length / perPage);
 
 	return (
 		<div className="mt-5 mx-0">
@@ -36,7 +36,7 @@ export default function Home() {
 				products={properties}
 			/>
 			<div className="p-4">
-				<Cards properties={properties} />
+				<Cards properties={currentPageData} />
 			</div>
 			<Container className="flex justify-center bg-white rounded-full p-4 shadow-md">
 				<Paginado

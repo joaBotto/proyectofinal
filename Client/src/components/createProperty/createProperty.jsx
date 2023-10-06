@@ -37,7 +37,7 @@ export default function CreateProperty() {
     let currentDate = new Date(startDate);
     while (currentDate <= endDate) {
       dates.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1); // Avanza un día
+      currentDate.setDate(currentDate.getDate() + 1); 
     }
     return dates;
   }
@@ -133,7 +133,6 @@ export default function CreateProperty() {
       return images && images.length === 5;
     }),
     }),
-
   });
 
   return (
@@ -160,6 +159,7 @@ export default function CreateProperty() {
                 Home
               </button>
             </Link>
+            /////////TITULO DE LA PUBLICACION
             <div className="block text-left text-gray-700">
               <label htmlFor="title">Title:</label>
               <Field
