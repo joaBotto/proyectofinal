@@ -1,4 +1,3 @@
-import("./createProperty.css");
 import React from "react";
 import axios from "axios";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -60,7 +59,7 @@ export default function CreateProperty() {
       startDate: "",
       endDate: "",
     },
-    images: [],
+    images:[],
     amenities: {
       covered_area: 0,
       garage: false,
@@ -119,18 +118,20 @@ export default function CreateProperty() {
 
   ///// VALIDACIONES DEL FORMULARIO
   const validationSchema = Yup.object().shape({
-    title: Yup.string()
-      .required("El título es requerido")
-      .min(5, "Título muy corto, debe tener al menos 5 caracteres"), // Agregar la validación min
-    description: Yup.string().required("La descripción es requerida"),
-    availableDates: Yup.object().shape({
-      startDate: Yup.date().required("Fecha de inicio requerida"),
-      endDate: Yup.date()
-        .required("Fecha de finalización requerida")
-        .min(
-          Yup.ref("startDate"),
-          "La fecha de finalización debe ser posterior a la fecha de inicio"
-        ),
+    title: Yup.string().required("El título es requerido").min(5, "Título muy corto, debe tener al menos 5 caracteres").max(30, "Título muy largo, debe tener como máximo 30 caracteres"), 
+    description:Yup.string().required("La descripción es requerida"),
+    availableDates:Yup.object().shape({
+      startDate:Yup.date().required("Fecha de inicio requerida").min(new Date(), "La fecha de inicio debe ser a partir de hoy"),
+      endDate:Yup.date().required("Fecha de finalización requerida").min(Yup.ref("startDate"),"La fecha de finalización debe ser posterior a la fecha de inicio")  
+    }),
+    address: Yup.object().shape({
+      street: Yup.string().required("La calle es requerida"),
+      city: Yup.string().required("La ciudad es requerida"),
+      state: Yup.string().required("El estado es requerido"),
+      zipcode: Yup.string().required("El código postal es requerido"),
+      images: Yup.array().required("Debe agregar 5 imágenes al menos").test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
+      return images && images.length === 5;
+    }),
     }),
   });
 
@@ -168,7 +169,6 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="title" component="div" />
             </div>
-            ////////DESCRIPCION
             <div className="block text-left text-gray-700">
               <label htmlFor="description">Description:</label>
               <Field
@@ -178,7 +178,6 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="description" component="div" />
             </div>
-            ///////////DIRECCION
             <div className="block text-left text-gray-700">
               <label htmlFor="Address" className="block">
                 Address:
@@ -212,7 +211,6 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="address.zipcode" component="div" />
             </div>
-            /////// CANT DE CAMAS
             <div className="block text-left text-gray-700">
               <label htmlFor="bedrooms">Bedrooms:</label>
               <Field
@@ -222,7 +220,6 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="bedrooms" component="div" />
             </div>
-            ////// CANT DE BANOS
             <div className="block text-left text-gray-700">
               <label htmlFor="bathrooms">Bathrooms:</label>
               <Field
@@ -232,7 +229,6 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="bathrooms" component="div" />
             </div>
-            ////// PRECIO
             <div className="block text-left text-gray-700">
               <label htmlFor="price">Price:</label>
               <Field
@@ -242,7 +238,6 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="price" component="div" />
             </div>
-            ///////TIPO(CASA-DEPTO-PH)
             <div className="block text-left text-gray-700">
               <label htmlFor="type">Type:</label>
               <Field
@@ -250,12 +245,12 @@ export default function CreateProperty() {
                 name="type"
                 className="mt-1 p-2 w-full rounded-full border"
               >
+                <option value="default">TIPO DE INMUEBLE</option>
                 <option value="house">HOUSE</option>
                 <option value="depto">APPARTMENT</option>
                 <option value="ph">PH</option>
               </Field>
             </div>
-            ///////////COMODIDADES(METROS2-ANTIGUEDAD-GARAGE-GRILL-CALEFACCION)
             <div>
               <p>Amenities</p>
               <label htmlFor="amenities.covered_area">Covered_area:</label>
@@ -285,8 +280,6 @@ export default function CreateProperty() {
                 heating
               </label>
             </div>
-            //////////
-            ADICIONALES(PISCINA-TERRAZA-COMEDOR-LAVARROPAS-WIFI-HELADERA-MICROONDAS-CAFETERA-PATIO-BALCON)
             <div>
               <p>Additional</p>
               <label>
@@ -330,7 +323,6 @@ export default function CreateProperty() {
                 balcony_patio
               </label>
             </div>
-            ////////////FECHAS
             <div className="block text-left text-gray-700">
               <label htmlFor="availableDates.startDate">Fecha de inicio:</label>
               <Field name="availableDates.startDate" type="date" />
@@ -356,10 +348,10 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="availableDays.endDate" component="div" />
             </div>
-            /////////// IMAGENES
+            <div>
             <Dropzone
               onDrop={async (acceptedFiles) => {
-                if (values.images.length + acceptedFiles.length <= 5) {
+                if (values.images.length + acceptedFiles.length <= 10) {
                   const uploadImageUrl = await uploadImagesToCloudinary(
                     acceptedFiles
                   );
@@ -367,7 +359,7 @@ export default function CreateProperty() {
                   const newImages = [...values.images, uploadImageUrl];
                   setFieldValue("images", newImages);
                 } else {
-                  alert("No puedes subir más de 5 imágenes."); // PASAR ALERT A INGLES
+                  alert("No puedes subir más de 10 imágenes."); 
                 }
               }}
               accept="image/*"
@@ -399,6 +391,8 @@ export default function CreateProperty() {
                 </div>
               )}
             </Dropzone>
+            </div>
+            <div>
             <button
               type="submit"
               disabled={isSubmitting}
@@ -406,6 +400,7 @@ export default function CreateProperty() {
             >
               Create
             </button>
+            </div>
           </Form>
         )}
       </Formik>
