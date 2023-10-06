@@ -20,11 +20,11 @@ const ImageGalleryModal = ({ images, onClose, selectedImage }) => {
 	};
 
 	return (
-		<div className="w-screen fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+		<div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
 			<div className="p-4">
 				<button
 					onClick={onClose}
-					className="bg-transparent relative bottom-0 left-[610px] text-white cursor-pointer"
+					className="bg-transparent relative bottom-0 left-[610px] text-white cursor-pointer transition-transform duration-300 hover:scale-110"
 				>
 					X
 				</button>
@@ -36,13 +36,19 @@ const ImageGalleryModal = ({ images, onClose, selectedImage }) => {
 					/>
 				</div>
 				<div className="relative top-2/4 flex justify-between w-full">
-					<button onClick={handlePrev} className="text-lg bg-transparent">
+					<button
+						onClick={handlePrev}
+						className="text-lg bg-transparent transition-transform duration-300 hover:scale-110"
+					>
 						<FontAwesomeIcon
 							icon={faArrowLeft}
 							className="text-lg transition ease-in-out delay-50 text-white hover:text-cyan hover:text-xl duration-300"
 						/>
 					</button>
-					<button onClick={handleNext} className="text-lg bg-transparent">
+					<button
+						onClick={handleNext}
+						className="text-lg bg-transparent transition-transform duration-300 hover:scale-110"
+					>
 						<FontAwesomeIcon
 							icon={faArrowRight}
 							className="text-lg transition ease-in-out delay-50 text-white hover:text-cyan hover:text-xl duration-300"
