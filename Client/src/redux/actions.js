@@ -72,9 +72,10 @@ export const userLogin = (valores) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(url, valores);
+      const { user } = data
       dispatch({
         type: USER_LOGIN,
-        payload: data,
+        payload:user
       });
     } catch (error) {
       dispatch({
