@@ -8,6 +8,8 @@ import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
 import axios from "axios";
 import logo from "../../assets/img/logo.png"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -108,11 +110,11 @@ const SignUpForm = () => {
       
       // Después de que el usuario se haya creado con éxito, establece userCreated en true
       setUserCreated(true);
-
+      toast.success('Usuario creado con éxito');
       // Redirige al usuario a la página de inicio ("/")
-      navigate("/login");
+      // navigate("/login");
     } catch (error) {
-      console.error("Error al enviar el formulario:", error);
+      toast.error('Error al crear el usuario');;
     } finally {
       setSubmitting(false);
       setImage(null);
@@ -367,12 +369,12 @@ const SignUpForm = () => {
                 className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
               />
             </div>
-
+{/* 
             {userCreated && (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-                El usuario ha sido creado con éxito.
+                 )} */}
+              <div className="min-h-0 w-screen flex items-center justify-center">
+                 <ToastContainer />
               </div>
-            )}
 
 <div className="flex justify-center mt-4">
     <button
