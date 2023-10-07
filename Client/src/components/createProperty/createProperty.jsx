@@ -6,9 +6,12 @@ import Dropzone from "react-dropzone";
 import { createProperty } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import fondo from "../../assets/img/loginRegister.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importa 
 import "./createProperty.css"
 import logo from "../../assets/img/logo.png"
+import { useState } from "react";
+
+
 
 
 export default function CreateProperty() {
@@ -16,6 +19,9 @@ export default function CreateProperty() {
   console.log("soy el usuario en createProperty", user)
   let dates = [];
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [PropertyCreated, setPropertyCreated] = useState(false); // Estado para el mensaje de éxito
+
 
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
@@ -85,6 +91,7 @@ export default function CreateProperty() {
     },
   };
 
+
   const handleSubmit = (values, { setSubmitting }) => {
     const {
       title,
@@ -115,40 +122,47 @@ export default function CreateProperty() {
     console.log("soy la info a mandar", newProperty);
 
     dispatch(createProperty(newProperty));
+     // Después de que el usuario se haya creado con éxito, establece userCreated en true
+     setPropertyCreated(true);
+           // Redirige al usuario a la página de inicio ("/")
+           navigate("/");
+
     setSubmitting(false);
+       // Redirigir al usuario a la página de inicio después de que se haya creado la propiedad
+     
   };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
-      .required("El título es requerido")
-      .min(5, "Título muy corto, debe tener al menos 5 caracteres"),
-    description: Yup.string().required("La descripción es requerida"),
+      .required("Title is required")
+      .min(5, "Very short title, must be at least 5 characters long"),
+    description: Yup.string().required("Description is required"),
     address: Yup.object().shape({
-      street: Yup.string().required("La calle es requerida"),
-      city: Yup.string().required("La ciudad es requerida"),
-      state: Yup.string().required("El estado es requerido"),
-      zipcode: Yup.number().required("El código postal es requerido"),
+      street: Yup.string().required("The street is required"),
+      city: Yup.string().required("The city is required"),
+      state: Yup.string().required("State is required"),
+      zipcode: Yup.number().required("Zip code is required"),
     }),
     bedrooms: Yup.number()
-      .required("El número de habitaciones es requerido")
+      .required("Number of rooms is required")
       .min(0)
       .max(10),
     bathrooms: Yup.number()
-      .required("El número de baños es requerido")
+      .required("Number of bathrooms required")
       .min(0)
       .max(10),
-    price: Yup.number().required("El precio es requerido").min(1).max(100000),
+    price: Yup.number().required("Price is required").min(1).max(100000),
     availableDates: Yup.object().shape({
       startDate: Yup.date()
-        .required("Fecha de inicio requerida")
-        .min(new Date(), "La fecha de inicio debe ser a partir de hoy"),
+        .required("Required start date")
+        .min(new Date(), "The start date should be from today"),
       endDate: Yup.date()
-        .required("Fecha de finalización requerida")
-        .min(Yup.ref("startDate"), "La fecha de finalización debe ser posterior a la fecha de inicio"),
+        .required("Required completion date")
+        .min(Yup.ref("startDate"), "The end date must be later than the start date"),
     }),
     images: Yup.array()
-      .required("Debe agregar 5 imágenes al menos")
-      .test("is-images-length", "Debe agregar al menos 5 imágenes", (images) => {
+      .required("You must add at least 5 images")
+      .test("is-images-length", "You must add at least 5 images", (images) => {
         return images && images.length === 5;
       }),
   });
@@ -157,6 +171,7 @@ export default function CreateProperty() {
 
 
   return (
+
     <div
       className="min-h-screen w-screen flex items-center justify-center bg-fuchsia-900"
       style={{
@@ -165,11 +180,20 @@ export default function CreateProperty() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
+      <div className="flex justify-end items-center absolute top-0 left-0 px-6 py-6  ">
+  <img
+    src={logo}
+    alt="Logo"
+    className="w-auto h-16 "
+  />
+
+
+</div>
+<Formik
+  initialValues={initialValues}
+  validationSchema={validationSchema}
+  onSubmit={handleSubmit}
+>
         {({ values, isSubmitting, setFieldValue }) => (
           <Form className="bg-white rounded-lg p-6 shadow-lg my-10">
             <h1 className="text-5xl font-semibold text-left mb-4 text-gray-700">
@@ -180,16 +204,20 @@ export default function CreateProperty() {
                 Home
               </button>
             </Link>
-            /////////TITULO DE LA PUBLICACION
+          {/* TITULO DE LA PUBLICACION */}
             <div className="block text-left text-gray-700">
               <label htmlFor="title">Title:</label>
               <Field
                 type="text"
                 name="title"
-                className="mt-1 p-2 w-full rounded-full border"
+                className="mt-1 p-2 w-full rounded-full border,color:red"
               />
-              <ErrorMessage name="title" component="div" />
+              <ErrorMessage name="title"
+              component="div"
+              className="text-red-600 text-sm"
+              />
             </div>
+           {/* DESCRIPCION */}
             <div className="block text-left text-gray-700">
               <label htmlFor="description">Description:</label>
               <Field
@@ -197,8 +225,16 @@ export default function CreateProperty() {
                 name="description"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="description" component="div" />
+              <ErrorMessage name="description"
+              component="div"
+              className="text-red-600 text-sm"
+              />
+
+
+
+
             </div>
+            {/* DIRECCION */}
             <div className="block text-left text-gray-700">
               <label htmlFor="Address" className="block">
                 Address:
@@ -207,31 +243,44 @@ export default function CreateProperty() {
               <Field
                 type="text"
                 name="address.street"
-                className="mt-1 p-2 w-full rounded-full border"
+                className="mt-1 p-2 w-full rounded-full border "
               />
-              <ErrorMessage name="address.street" component="div" />
+              <ErrorMessage name="address.street" component="div"
+                className="text-red-600 text-sm" />
+           
               <label htmlFor="address.city">City:</label>
               <Field
                 type="text"
                 name="address.city"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="address.city" component="div" />
+              <ErrorMessage name="address.city"
+              component="div"
+              className="text-red-600 text-sm" />
+
+
               <label htmlFor="address.state">State:</label>
               <Field
                 type="text"
                 name="address.state"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="address.state" component="div" />
+              <ErrorMessage name="address.state" component="div"
+                className="text-red-600 text-sm"/>
+
+
               <label htmlFor="address.zipcode">Zipcode:</label>
               <Field
                 type="number"
                 name="address.zipcode"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="address.zipcode" component="div" />
+              <ErrorMessage name="address.zipcode" component="div"
+               className="text-red-600 text-sm" />
             </div>
+
+
+            {/* CANT DE CAMAS */}
             <div className="block text-left text-gray-700">
               <label htmlFor="bedrooms">Bedrooms:</label>
               <Field
@@ -239,8 +288,11 @@ export default function CreateProperty() {
                 name="bedrooms"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="bedrooms" component="div" />
+              <ErrorMessage name="bedrooms" component="div"
+               className="text-red-600 text-sm" />
+         
             </div>
+          {/* CANT DE BANOS */}
             <div className="block text-left text-gray-700">
               <label htmlFor="bathrooms">Bathrooms:</label>
               <Field
@@ -248,8 +300,10 @@ export default function CreateProperty() {
                 name="bathrooms"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="bathrooms" component="div" />
+              <ErrorMessage name="bathrooms" component="div"
+               className="text-red-600 text-sm"/>
             </div>
+            {/* PRECIO */}
             <div className="block text-left text-gray-700">
               <label htmlFor="price">Price:</label>
               <Field
@@ -257,8 +311,9 @@ export default function CreateProperty() {
                 name="price"
                 className="mt-1 p-2 w-full rounded-full border"
               />
-              <ErrorMessage name="price" component="div" />
+              <ErrorMessage name="price" component="div"  className="text-red-600 text-sm"/>
             </div>
+         {/* TIPO(CASA-DEPTO-PH) */}
             <div className="block text-left text-gray-700">
               <label htmlFor="type">Type:</label>
               <Field
@@ -266,85 +321,100 @@ export default function CreateProperty() {
                 name="type"
                 className="mt-1 p-2 w-full rounded-full border"
               >
-                <option value="default">TIPO DE INMUEBLE</option>
                 <option value="house">HOUSE</option>
                 <option value="depto">APPARTMENT</option>
                 <option value="ph">PH</option>
               </Field>
             </div>
+           {/* COMODIDADES(METROS2-ANTIGUEDAD-GARAGE-GRILL-CALEFACCION) */}
             <div>
               <p>Amenities</p>
+
+
+
+
               <label htmlFor="amenities.covered_area">Covered_area:</label>
-              <Field
-                type="number"
-                name="amenities.covered_area"
-                className="mt-1 p-2 w-full rounded-full border"
-              />
-              <ErrorMessage name="amenities.covered_area" component="div" />
+ <Field
+  type="number"
+  name="amenities.covered_area"
+  className="mt-1 p-2 w-full rounded-full border text-black"
+/>
+              <ErrorMessage name="amenities.covered_area" component="div" className="text-red-600 text-sm" />
               <label htmlFor="amenities.antique">Antique:</label>
               <Field
-                type="number"
-                name="amenities.antique"
-                className="mt-1 p-2 w-full rounded-full border"
-              />
-              <ErrorMessage name="amenities.antique" component="div" />
-              <label>
-                <Field type="checkbox" name="amenities.garage" />
-                garage
-              </label>
-              <label>
-                <Field type="checkbox" name="amenities.grill" />
-                grill
-              </label>
-              <label>
-                <Field type="checkbox" name="amenities.heating" />
-                heating
-              </label>
-            </div>
-            <div>
-              <p>Additional</p>
-              <label>
-                <Field type="checkbox" name="additional.swimmingpool" />
-                swimming Pool
-              </label>
-              <label>
-                <Field type="checkbox" name="additional.terrace" />
-                terrace
-              </label>
-              <label>
-                <Field type="checkbox" name="additional.dining_room" />
-                dining_room
-              </label>
-              <label>
-                <Field type="checkbox" name="additional.washing_machine" />
-                washing_machine
-              </label>
-              <label>
-                <Field type="checkbox" name="additional.internet_wifi" />
-                internet_wifi
-              </label>
-              <label>
-                <Field type="checkbox" name="additional.refrigerator" />
-                refrigerator
-              </label>
-              <label>
-                <Field type="checkbox" name="additional.microwave" />
-                microwave
-              </label>
-              <label>
-                <Field type="checkbox" name="additional.coffee_maker" />
-                coffee_maker
-              </label>
-              <label>
-                <Field type="checkbox" name="additional.patio" />
-                patio
-              </label>
-              <label>
-                <Field type="checkbox" name="additional.balcony_patio" />
-                balcony_patio
-              </label>
-            </div>
-            <div className="block text-left text-gray-700">
+  type="number"
+  name="amenities.antique"
+  className="mt-1 p-2 w-full rounded-full border text-black"
+/>
+        <div>
+  <ErrorMessage name="amenities.antique" component="div" />
+  <label style={{ display: "block" }}>
+
+
+
+
+  <div>
+  <p>Additional</p>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="amenities.garage" />
+    Garage
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="amenities.grill" />
+    Grill
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="amenities.heating" />
+    Heating
+  </label>
+</div>
+
+
+
+
+    <Field type="checkbox" name="additional.swimmingpool" />
+    Swimming Pool
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="additional.terrace" />
+    Terrace
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="additional.dining_room" />
+    Dining_Room
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="additional.washing_machine" />
+    Washing_Machine
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="additional.internet_wifi" />
+    Internet_Wifi
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="additional.refrigerator" />
+    Refrigerator
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="additional.microwave" />
+    Microwave
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="additional.coffee_maker" />
+    Coffee_Maker
+  </label>
+  <label style={{ display: "block", marginBottom: "10px" }}>
+    <Field type="checkbox" name="additional.patio" />
+    Patio
+  </label>
+  <label style={{ display: "block", marginBottom: "15px" }}>
+    <Field type="checkbox" name="additional.balcony_patio" />
+    Balcony_Patio
+  </label>
+</div>
+</div>
+
+<div className="block text-left text-gray-700">
               <label htmlFor="availableDates.startDate">Fecha de inicio:</label>
               <Field name="availableDates.startDate" type="date" />
               <ErrorMessage name="availableDates.startDate" component="div" />
@@ -369,10 +439,11 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="availableDays.endDate" component="div" />
             </div>
-            <div>
-            <Dropzone
-              onDrop={async (acceptedFiles) => {
-                if (values.images.length + acceptedFiles.length <= 10) {
+        
+          IMAGENES
+          <Dropzone
+  onDrop={async (acceptedFiles) => {
+                if (values.images.length + acceptedFiles.length <= 5) {
                   const uploadImageUrl = await uploadImagesToCloudinary(
                     acceptedFiles
                   );
@@ -380,7 +451,7 @@ export default function CreateProperty() {
                   const newImages = [...values.images, uploadImageUrl];
                   setFieldValue("images", newImages);
                 } else {
-                  alert("No puedes subir más de 10 imágenes."); 
+                  alert("No puedes subir más de 5 imágenes."); // PASAR ALERT A INGLES
                 }
               }}
               accept="image/*"
@@ -390,19 +461,21 @@ export default function CreateProperty() {
               {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps()} className="dropzone">
                   <input {...getInputProps()} />
-                  {values.images &&
-                    values.images.map(
-                      (e) =>
-                        e &&
-                        e.imageUrl && (
-                          <img
-                            style={{ maxWidth: "10em", maxHeight: "10em" }}
-                            key={e.imageUrl}
-                            src={e.imageUrl}
-                            alt={e.imageUrl}
-                          />
-                        )
-                    )}
+                  <div className="image-container"> {/* Agrega la clase "image-container" aquí */}
+                    {values.images &&
+                      values.images.map(
+                        (e) =>
+                          e &&
+                          e.imageUrl && (
+                            <img
+                              style={{ maxWidth: "10em", maxHeight: "10em" }}
+                              key={e.imageUrl}
+                              src={e.imageUrl}
+                              alt={e.imageUrl}
+                            />
+                          )
+                      )}
+                  </div>
                   {!values.images && (
                     <p className="text-black">
                       Arrastra y suelta archivos aquí o haz clic para
@@ -412,19 +485,28 @@ export default function CreateProperty() {
                 </div>
               )}
             </Dropzone>
-            </div>
-            <div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
-            >
-              Create
-            </button>
-            </div>
+          
+            {PropertyCreated && (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                La propiedad ha sido creada con éxito.
+              </div>
+            )}
+
+<button
+                type="submit"
+                disabled={isSubmitting}
+                className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
+                onClick={(e) => {
+                  e.preventDefault(); // Evitar que el formulario se envíe automáticamente
+                  handleSubmit(values, { setSubmitting: () => {} }); // Llamar a la función handleSubmit con los valores y un objeto "setSubmitting" vacío
+                }}
+              >
+                Create
+              </button>
           </Form>
         )}
       </Formik>
+ 
     </div>
   );
 }
