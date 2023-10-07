@@ -13,7 +13,7 @@ import logo from "../../assets/img/logo.png"
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
-  console.log("soy el usuario", user)
+  console.log("soy el usuario en createProperty", user)
   let dates = [];
   const dispatch = useDispatch();
 
@@ -108,7 +108,7 @@ export default function CreateProperty() {
       bedrooms,
       description,
       images,
-      owner: user._id,
+      owner: user ? user._id :null,
       price,
       type,
     };
