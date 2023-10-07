@@ -150,7 +150,7 @@ const SignUpForm = () => {
           validateOnBlur={false}
           validate={(values) => {
             const errors = {};
-            const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[/*-]).{8,}$/;
+            const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
             if (!passwordPattern.test(values.password)) {
               errors.password =
                 "Debe contener al menos 8 caracteres, una letra mayúscula, un número y uno de los siguientes signos: /, * o -";

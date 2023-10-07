@@ -13,6 +13,7 @@ import logo from "../../assets/img/logo.png"
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
+  console.log("soy el usuario", user)
   let dates = [];
   const dispatch = useDispatch();
 
@@ -82,7 +83,6 @@ export default function CreateProperty() {
       patio: false,
       balcony_patio: false,
     },
-    owner: "651459f5da45532a97080dee", // CAMBIAR A "user._id" cuando este terminado el login
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -95,7 +95,6 @@ export default function CreateProperty() {
       bedrooms,
       description,
       images,
-      owner,
       price,
       type,
     } = values;
@@ -109,7 +108,7 @@ export default function CreateProperty() {
       bedrooms,
       description,
       images,
-      owner,
+      owner: user._id,
       price,
       type,
     };

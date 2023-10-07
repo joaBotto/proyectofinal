@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@googlemaps/react-wrapper": "^1.1.35",
     "@material-tailwind/react": "^2.1.2",
     "axios": "^1.5.1",
     "react-slick": "^0.29.0",

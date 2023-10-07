@@ -8,21 +8,22 @@ import Footer from "../Footer/Footer";
 import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
-
 export default function Login() {
-  let regExPassword = /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{1,15}$/;
+  let regExPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{1,15}$/
   let regExEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const userCreated = useSelector((state) => state.userCreated);
   console.log(user);
-
+  console.log(userCreated);
   const handleSubmit = (valores) => {
     console.log(valores);
     dispatch(userLogin(valores));
   };
- useEffect(() => {
+
+  useEffect(() => {
     if (user) {
       navigate("/");
     }
@@ -41,8 +42,8 @@ export default function Login() {
         <Formik
           // Declaramos los valores iniciales
           initialValues={{
-            email: "",
-            password: "",
+            email: userCreated ? userCreated.email : "",
+            password: userCreated ? userCreated.password : "",
           }}
           // Funcion para validar email y passwords
           validate={(valores) => {
