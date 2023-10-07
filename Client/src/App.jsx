@@ -11,6 +11,7 @@ import Detail from '../src/views/Detail/Detail';
 import NavBar from './components/NavBar/NavBar';
 import NavBarAdmin from './components/NavBar/NavBarAdmin';
 import HomeAdmin from './views/Home/HomeAdmin';
+import Error404 from './components/Error/Error404';
 
 function App() {
 	const location = useLocation();
@@ -32,6 +33,7 @@ function App() {
 				<Route path='/detail/:id' element={<Detail />} />
 				<Route path='/signUp' element={<SignUpForm />} />
 				<Route path='/admin' element={<HomeAdmin />} />
+				<Route path='/error404' element={<Error404 />} />
 			</Routes>
 		</div>
 	);
