@@ -47,7 +47,7 @@ const SignUpForm = () => {
     phoneNumber: "",
     avatar: null,
   };
-red
+
   const validationSchema = Yup.object({
     name: Yup.string().required("Campo obligatorio"),
     lastName: Yup.string().required("Campo obligatorio"),
