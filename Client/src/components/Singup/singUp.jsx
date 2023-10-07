@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom"; // Importa 
+import { Link, useNavigate } from "react-router-dom"; // Importa
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
 import axios from "axios";
-import logo from "../../assets/img/logo.png"
+import logo from "../../assets/img/logo.png";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -105,7 +106,7 @@ const SignUpForm = () => {
       }
 
       await dispatch(addUser(values));
-      
+
       // Después de que el usuario se haya creado con éxito, establece userCreated en true
       setUserCreated(true);
 
@@ -122,25 +123,20 @@ const SignUpForm = () => {
 
   return (
     <div
-    className="min-h-0 w-screen flex items-center justify-center "
+      className="min-h-0 w-screen flex items-center justify-center "
       style={{
         backgroundImage: `url(${register})`,
         backgroundSize: "cover",
-      backgroundRepeat: "no-repeat"
-    
+        backgroundRepeat: "no-repeat",
       }}
     >
-  
       <div className="flex justify-end items-center absolute top-0 left-0 px-24 py-6 ">
-  <img
-    src={logo}
-    alt="Logo"
-    className="w-auto h-16 "
-  />
-
-</div>
+        <img src={logo} alt="Logo" className="w-auto h-16 " />
+      </div>
       <div className="max-w-md mx-auto mt-8">
-        <h1 className=" font-bold mb-4 text-5xl text-center text-blue">Sign up</h1>
+        <h1 className=" font-bold mb-4 text-5xl text-center text-blue">
+          Sign up
+        </h1>
 
         <Formik
           initialValues={initialValues}
@@ -164,7 +160,7 @@ const SignUpForm = () => {
             <div {...getRootProps()} className="dropzone">
               <input {...getInputProps()} />
               <p className="cursor-pointer  pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase ">
-              Drag or select a profile photo
+                Drag or select a profile photo
               </p>
             </div>
 
@@ -185,21 +181,21 @@ const SignUpForm = () => {
               >
                 {/* Nombre: */}
               </label>
-    <div className="relative">
-    <Field
-      type="text"
-      id="name"
-      name="name"
-      placeholder="Name"
-      className="mt-1 p-2 w-full border rounded text-black"
-    />
-    <ErrorMessage
-      name="name"
-      component="div"
-      className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
-    />
-          </div>
-        </div>
+              <div className="relative">
+                <Field
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  className="mt-1 p-2 w-full border rounded text-black"
+                />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
+                />
+              </div>
+            </div>
 
             <div className="relative">
               <label
@@ -374,23 +370,23 @@ const SignUpForm = () => {
               </div>
             )}
 
-<div className="flex justify-center mt-4">
-    <button
-      type="submit"
-      className="bg-pink text-white font-onest font-light px-4 py-2 rounded-full mx-6 my-4 self-end"
-    >
-      Sign up
-    </button>
-  </div>
+            <div className="flex justify-center mt-4">
+              <button
+                type="submit"
+                className="bg-pink text-white font-onest font-light px-4 py-2 rounded-full mx-6 my-4 self-end"
+              >
+                Sign up
+              </button>
+            </div>
 
-  <Link to= "/">
-				<div className="flex justify-end items-center absolute top-0 right-20">
-					<button className="bg-blue text-white font-onest font-light px-6 py-6 rounded-full mx-6 my-4 self-end">
-						Home
-					</button>
-				</div>
-			</Link>
-</Form>
+            <Link to="/">
+              <div className="flex justify-end items-center absolute top-0 right-20">
+                <button className="bg-blue text-white font-onest font-light px-6 py-6 rounded-full mx-6 my-4 self-end">
+                  Home
+                </button>
+              </div>
+            </Link>
+          </Form>
         </Formik>
       </div>
     </div>
