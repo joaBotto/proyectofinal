@@ -10,7 +10,7 @@ import fondo from "../../assets/img/loginRegister.jpg";
 import { Link } from "react-router-dom";
 import "./createProperty.css"
 import logo from "../../assets/img/logo.png"
-
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
@@ -47,6 +47,7 @@ export default function CreateProperty() {
       console.error("Error al cargar la imagen:", error);
     }
   };
+    
 
   function generateDatesInRange(startDate, endDate) {
     const dates = [];
@@ -166,7 +167,43 @@ export default function CreateProperty() {
   });
   
 
+  const handleAddressChange = (address) => {
+    setFieldValue("address.street", address);
+  
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        console.log("Coordenadas:", latLng);
+      })
+      .catch(error => console.error("Error al obtener coordenadas:", error));
+  };
 
+  window.initMap = function () {
+    const address = values.address.street + ', ' + values.address.city + ', ' + values.address.state;
+  
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        console.log("Coordenadas:", latLng);
+  
+        // Actualizar el estado del formulario con las coordenadas
+        setFieldValue("coordinates", latLng);
+  
+        // Actualizar el mapa con las coordenadas
+        const coordUbicaction = { lat: latLng.lat, lng: latLng.lng };
+        const mapDiv = document.getElementById("map");
+        const map = new window.google.maps.Map(mapDiv, {
+          zoom: 10,
+          center: coordUbicaction
+        });
+        const marker = new window.google.maps.Marker({
+          position: coordUbicaction,
+          map: map
+        });
+      })
+      .catch(error => console.error("Error al obtener coordenadas:", error));
+  };
+  
 
   return (
     <div
@@ -219,6 +256,10 @@ export default function CreateProperty() {
                 Address:
               </label>
               <label htmlFor="address.street">Street:</label>
+              <PlacesAutocomplete
+                value={values.address.street}
+                onChange={handleAddressChange}
+              />
               <Field
                 type="text"
                 name="address.street"

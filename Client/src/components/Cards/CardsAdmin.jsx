@@ -13,6 +13,7 @@ export default function CardsAdmin({ properties }) {
 							description={property.description}
 							price={property.price}
 							images={property.images || 'Sin img'}
+							id="map" style="height: 400px; width: 100%;"
 							location={property.address.city}
 							bedrooms={property.bedrooms}
 							bathrooms={property.bathrooms}

@@ -8,6 +8,21 @@ import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from "../src/redux/store";
 
+
+
+
+
+
+
+
+
+const script = document.createElement("script");
+script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap`;
+script.async = true;
+document.head.appendChild(script);
+
+
+script.onload = () => {
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<Provider store={store}>
@@ -19,3 +34,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 		</Provider>
 	</React.StrictMode>
 );
+}
