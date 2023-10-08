@@ -51,6 +51,8 @@ const creatingPropertyHandler = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+
 const getPropertyByIdHandler = async (req, res) => {
   const { id } = req.params;
   try {

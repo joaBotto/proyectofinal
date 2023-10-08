@@ -10,11 +10,6 @@ import { filters } from '../../redux/actions';
 const NavBar = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
-	const [showHamburgerButton, setShowHamburgerButton] = useState(true);
-
-	useEffect(() => {
-		setShowHamburgerButton(!showHamburgerButton);
-	}, [user]);
 
 	const [type, setType] = useState('');
 	const [orderPrice, setOrderPrice] = useState('');
@@ -59,8 +54,9 @@ const NavBar = () => {
 							DASHBOARD
 						</a>
 					</Link>
-					{showHamburgerButton ? (
-						<button className='pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-10'>
+					{user && user.name ? (
+						<button className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-10">
+
 							<FontAwesomeIcon icon={faBars} /> MENU
 						</button>
 					) : (
