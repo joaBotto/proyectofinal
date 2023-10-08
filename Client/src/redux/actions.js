@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from 'react-toastify';
 import {
 	GET_PROPERTY,
 	GET_PROPERTY_DETAIL,
@@ -125,18 +126,19 @@ export const filters = (type, orderPrice) => {
 export const addUser = (user) => async (dispatch) => {
   try {
     const { data } = await axios.post("http://localhost:3001/users", user);
-    console.log("soy data de user", data)
-    const { email, password} = data
+    console.log("soy data de user", data);
+    const { email, password } = data;
+    toast.success('User created successfully');
     const userCreated = {
       email,
-      password
-    }
+      password,
+    };
     dispatch({ type: ADD_USER, payload: userCreated });
   } catch (error) {
-    return { type: ERROR, payload: error.message };
+    toast.warning('User already exists');
+    dispatch({ type: ERROR, payload: error.message });
   }
 };
-
 
 
 

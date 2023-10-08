@@ -73,6 +73,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
       ...state,
        error:payload,
+       userCreated: null,
     };
 
     case FILTERS:
@@ -93,6 +94,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         userCreated: payload,
+        error: null,
+    
       };
  
       case USER_LOGIN:
