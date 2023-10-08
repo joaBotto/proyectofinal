@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,6 +10,10 @@ import {
 	faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import ImageCarousel from './ImageCarousel';
+import { useDispatch } from 'react-redux'; // Importa useDispatch
+import { deletePost } from '../../redux/actionAdmin';
+import CreatePropertyAdmin from '../createProperty/createPropertyAdmin';
+import './CardAdmin.css';
 
 const CardAdmin = ({
 	_id,
@@ -19,9 +24,24 @@ const CardAdmin = ({
 	location,
 	bedrooms,
 	bathrooms,
-	onEdit,
-	onDelete,
 }) => {
+	const dispatch = useDispatch(); // Mueve el useDispatch aquí dentro del componente
+
+	// Función para manejar la eliminación de una tarjeta
+	const handleDeleteCard = (cardId) => {
+		dispatch(deletePost(cardId));
+	};
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const openModal = () => {
+		setIsModalOpen(true);
+	};
+
+	const closeModal = () => {
+		setIsModalOpen(false);
+	};
+
 	return (
 		<div className='flex-auto rounded-xl py-2'>
 			<div className='px-4 pt-5 sm:px-6'>
@@ -64,18 +84,27 @@ const CardAdmin = ({
 			</p>
 			<div className='flex justify-between items-center'>
 				<button
-					onClick={() => onEdit(_id)} // Llamar a la función de edición con el ID como argumento
+					onClick={openModal} // Llamar a la función de edición con el ID como argumento
 					className='bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover:bg-pink'
 				>
 					<FontAwesomeIcon icon={faEdit} /> Edit
 				</button>
 				<button
-					onClick={() => onDelete(_id)} // Llamar a la función de eliminación con el ID como argumento
+					onClick={() => handleDeleteCard(_id)} // Llamar a la función de eliminación con el ID como argumento
 					className='bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover:bg-pink'
 				>
 					<FontAwesomeIcon icon={faTrash} /> delete
 				</button>
 			</div>
+
+			{isModalOpen && ( // Renderiza el modal si isModalOpen es true
+				<div className='modal'>
+					<div className='modal-content'>
+						<button onClick={closeModal}>Cerrar Modal</button>
+						<CreatePropertyAdmin />
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
