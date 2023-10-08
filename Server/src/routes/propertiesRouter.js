@@ -8,9 +8,11 @@ const { getPropertiesHandler, getPropertyByIdHandler, creatingPropertyHandler } 
 propertiesRouter.get("/", getPropertiesHandler);
 propertiesRouter.get("/:id", getPropertyByIdHandler);
 propertiesRouter.post("/", (req, res, next) => {
+  console.log(req.isAuthenticated())
         if (req.isAuthenticated()) {
           next(); 
         } else {
+          console.log(req.user)
           res.status(401).json({ message: "No autorizado" });
         }
       },creatingPropertyHandler);
