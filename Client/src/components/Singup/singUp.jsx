@@ -182,7 +182,7 @@ const SignUpForm = () => {
                 />
               </div>
             )}
-<ToastContainer />
+        <ToastContainer />
             <div>
               <label
                 htmlFor="name"
