@@ -62,7 +62,8 @@ const userSchema = new mongoose.Schema({
   images: [imageSchema],
 
 	type: String,
-
+  active:Boolean,
+  role: String,
 
   properties: [
     {
