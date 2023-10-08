@@ -47,6 +47,7 @@ const propertySchema = new mongoose.Schema({
     patio: Boolean,
     balcony_patio: Boolean,
   },
+  active:Boolean
 });
 
 const Property = mongoose.model("Property", propertySchema);

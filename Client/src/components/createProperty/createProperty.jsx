@@ -16,6 +16,13 @@ export default function CreateProperty() {
   const user = useSelector((state) => state.user);
   const user_id = user._id
   console.log("soy el id", user_id)
+  const cloudinary =[ 
+  {imageUrl: 'https://res.cloudinary.com/ddupuyeko/image/upload/…093e38460ef8101c94f36653/lklai0y21r38tn0c5aru.jpg'}, 
+  {imageUrl: 'https://res.cloudinary.com/ddupuyeko/image/upload/…093e38460ef8101c94f36653/x98crcg6lb1bhyhxd0oj.jpg'}, 
+  {imageUrl: 'https://res.cloudinary.com/ddupuyeko/image/upload/…093e38460ef8101c94f36653/ulzdb8txpajkrhtbm2uy.jpg'},
+  {imageUrl: 'https://res.cloudinary.com/ddupuyeko/image/upload/…093e38460ef8101c94f36653/qary3vxok1yncof5lck6.jpg'},
+  {imageUrl: 'https://res.cloudinary.com/ddupuyeko/image/upload/…093e38460ef8101c94f36653/kowongcun5ot0f4g6f0n.jpg'}]
+
   const [valuesToSubmit, setValuesToSubmit] = useState(null);
  
   console.log("soy el usuario en createProperty", user)
@@ -58,27 +65,27 @@ export default function CreateProperty() {
   }
 
   const initialValues = {
-    title: "",
-    description: "",
+    title: "casa gde",
+    description: "casa gde",
     address: {
-      street: "",
-      city: "",
-      state: "",
-      zipcode: "",
+      street: "calle 123",
+      city: "necochea",
+      state: "argentina",
+      zipcode: "1234",
     },
-    bedrooms: 0,
-    bathrooms: 0,
-    price: 0,
-    type: "casa",
+    bedrooms: 3,
+    bathrooms: 3,
+    price: 1000,
+    type: "house",
     availableDates: {
       startDate: "",
       endDate: "",
     },
-    images:[],
+    images:cloudinary,
     amenities: {
-      covered_area: 0,
+      covered_area: 100,
       garage: false,
-      antique: 0,
+      antique: 100,
       grill: false,
       heating: false,
     },
