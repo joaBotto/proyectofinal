@@ -27,7 +27,7 @@ const corsOptions = {
 
 server.use(bodyParser.json({ limit: "50mb" }));
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-server.use(cookieParser());
+server.use(cookieParser("inmuebles360"));
 server.use(morgan('dev'));
 server.use(cors(corsOptions));
 
@@ -61,14 +61,23 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user._id);
+  console.log('Serializando usuario:', user);
+  return done(null, user._id);
 });
+
 passport.deserializeUser(async (_id, done) => {
+  console.log('Deserializando usuario por ID:', _id)
   try {
     const user = await Users.findById(_id);
-    done(null, user);
+    if (!user) {
+      console.log('Usuario no encontrado.');
+      return done(null, false);
+    }
+    console.log('Usuario deserializado:', user);
+    return done(null, user);
   } catch (err) {
-    done(err, null);
+    console.log("error en la deserializacion")
+    return done(err, null);
   }
 });
 

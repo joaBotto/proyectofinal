@@ -56,7 +56,7 @@ const NavBar = () => {
 					</Link>
 					{user && user.name ? (
 						<button className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-10">
-
+							{/* // onclick => modal (configuracion => user del estado global ? user.role ? user (cofig cuenta) : admin (conf cuenta y conf de la pag o DASHBOARD) */}
 							<FontAwesomeIcon icon={faBars} /> MENU
 						</button>
 					) : (

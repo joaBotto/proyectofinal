@@ -16,6 +16,7 @@ export default function CreateProperty() {
   const user = useSelector((state) => state.user);
   const user_id = user._id
   console.log("soy el id", user_id)
+
   const [valuesToSubmit, setValuesToSubmit] = useState(null);
  
   console.log("soy el usuario en createProperty", user)
@@ -69,12 +70,12 @@ export default function CreateProperty() {
     bedrooms: 0,
     bathrooms: 0,
     price: 0,
-    type: "casa",
+    type: "",
     availableDates: {
       startDate: "",
       endDate: "",
     },
-    images:[],
+    images,
     amenities: {
       covered_area: 0,
       garage: false,

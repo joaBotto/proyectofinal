@@ -43,6 +43,7 @@ const creatingPropertyHandler = async (req, res) => {
       availableDays,
       images,
       owner,
+      active:true
     };
     
     const propertyCreated = await creatingProperty(newProperty);

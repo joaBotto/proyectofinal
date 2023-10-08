@@ -26,6 +26,8 @@ const createUserHandler = async (req, res) => {
       city,
       address,
       phoneNumber,
+      active:true,
+      role:"user"
     };
     console.log("Recibida solicitud para crear usuario:", user); // Agrega este registro
 

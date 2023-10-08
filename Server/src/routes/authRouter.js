@@ -9,7 +9,7 @@ authRouter.post("/login", (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      return res.status(401).json({ message: "Authentication failed" }); // Autenticación fallida
+      return res.status(401).json({ message: "Authentication failed" });
     }
     req.login(user, (err) => {
       if (err) {
