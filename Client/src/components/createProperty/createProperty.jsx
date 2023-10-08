@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Dropzone from "react-dropzone";
@@ -13,9 +14,19 @@ import logo from "../../assets/img/logo.png"
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
+  const user_id = user._id
+  console.log("soy el id", user_id)
+  const [valuesToSubmit, setValuesToSubmit] = useState(null);
+ 
   console.log("soy el usuario en createProperty", user)
   let dates = [];
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user && valuesToSubmit) {
+      handleSubmit(valuesToSubmit);
+    }
+  }, [user, valuesToSubmit]);
 
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
@@ -85,7 +96,7 @@ export default function CreateProperty() {
     },
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values) => {
     const {
       title,
       additional,
@@ -108,14 +119,14 @@ export default function CreateProperty() {
       bedrooms,
       description,
       images,
-      owner: user ? user._id :null,
+      owner:user_id,
       price,
       type,
     };
     console.log("soy la info a mandar", newProperty);
 
-    dispatch(createProperty(newProperty));
-    setSubmitting(false);
+   dispatch(createProperty(newProperty));
+    
   };
 
   const validationSchema = Yup.object().shape({
@@ -168,7 +179,10 @@ export default function CreateProperty() {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={(values, { setSubmitting }) => {
+          setValuesToSubmit(values);
+          setSubmitting(false);
+        }}
       >
         {({ values, isSubmitting, setFieldValue }) => (
           <Form className="bg-white rounded-lg p-6 shadow-lg my-10">
