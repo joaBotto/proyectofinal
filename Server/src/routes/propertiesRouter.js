@@ -7,7 +7,7 @@ const { getPropertiesHandler, getPropertyByIdHandler, creatingPropertyHandler } 
 
 propertiesRouter.get("/", getPropertiesHandler);
 propertiesRouter.get("/:id", getPropertyByIdHandler);
-propertiesRouter.post("/",  passport.authenticate("local", { session: false }) ,(req, res, next) => {
+propertiesRouter.post("/",  passport.authenticate("local", (req, res, next) => {
         if (req.isAuthenticated()) {
           next(); 
         } else {
