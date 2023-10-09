@@ -13,7 +13,7 @@ const ImageCarousel = ({ images }) => {
 		<Carousel
 			className="rounded-xl w-full"
 			navigation={({ setActiveIndex, activeIndex, length }) => (
-				<div className="py-4 px-1 absolute inset-0 flex items-end justify-between bottom-0 left-0 right-0 z-50 gap-2 hover:border-transparent">
+				<div className="py-4 px-1 absolute inset-0 flex items-end bg-transparent justify-between bottom-0 left-0 right-0 z-50 gap-2 hover:border-transparent">
 					<button
 						className="cursor-pointer bg-transparent hover:border-transparent"
 						onClick={() => setActiveIndex(activeIndex - 1)}
@@ -21,7 +21,13 @@ const ImageCarousel = ({ images }) => {
 					>
 						<FontAwesomeIcon
 							icon={faArrowLeft}
-							className="text-sm transition ease-in-out delay-50 text-transparent p-2 hover:text-white hover:bg-white rounded-full hover:bg-opacity-75 hover:text-m duration-300"
+							className={`text-sm rounded-full bg-white bg-opacity-60 text-blue transition ease-in-out delay-50 text-opacity-40 p-2
+							${
+								activeIndex === 0
+									? "hover:text-gray-300 bg-transparent cursor-auto"
+									: "hover:text-blue hover:bg-white hover:bg-opacity-75 hover:text-m duration-300"
+							}
+							 `}
 						/>
 					</button>
 					{location.pathname === "/" &&
@@ -43,7 +49,13 @@ const ImageCarousel = ({ images }) => {
 					>
 						<FontAwesomeIcon
 							icon={faArrowRight}
-							className="text-sm transition ease-in-out delay-50 text-transparent p-2 hover:text-white hover:bg-white rounded-full hover:bg-opacity-75 hover:text-m duration-300"
+							className={`text-sm rounded-full bg-white bg-opacity-60 text-blue transition ease-in-out delay-50 text-opacity-40 p-2
+							${
+								activeIndex === length - 1
+									? "hover:text-gray-300 bg-transparent cursor-auto"
+									: "hover:text-blue hover:bg-white hover:bg-opacity-75 hover:text-m duration-300"
+							}
+							 `}
 						/>
 					</button>
 				</div>
