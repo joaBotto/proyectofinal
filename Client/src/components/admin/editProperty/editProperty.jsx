@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
 
+
 export function EditPropertyFromAdmin() {
   const { id } = useParams();
   const [property, setProperty] = useState({
@@ -18,7 +19,8 @@ export function EditPropertyFromAdmin() {
     bedrooms: 0,
     bathrooms: 0,
     price: 0,
-    type: "house", 
+    type: "house",
+    availableDays:[],
     availableDates: {
       startDate: new Date(),
       endDate: new Date(),
@@ -52,27 +54,54 @@ export function EditPropertyFromAdmin() {
     axios.get(`http://localhost:3001/properties/${id}`)
       .then(({ data }) => {
            setProperty(data);
+           const availableDays = data.availableDays;
+           const firstDate = availableDays.length > 0 ? availableDays[0] : new Date();
+           const lastDate = availableDays.length > 0 ? availableDays[availableDays.length - 1] : new Date();
+     
+           // Actualiza availableDates en property con las fechas obtenidas
+           setProperty((prevState) => ({
+             ...prevState,
+             availableDates: {
+               startDate: firstDate,
+               endDate: lastDate,
+             },
+           }));
            console.log(data);
       })
+      
       .catch (error => window.alert(error.response.data.error))
 
     return () =>{ setProperty({})};
  }, [id]);
+
+
+ function generateDatesInRange(startDate, endDate) {
+  const dates = [];
+  let currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    dates.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1); 
+  }
+  return dates;
+}
+
+
 
   return (
     <div>
        
 <Formik
   initialValues={property}
-  validationSchema={validationSchema}
-  onSubmit={handleSubmit}
+  enableReinitialize={true}
+  /* validationSchema={validationSchema} */
+  /* onSubmit={handleSubmit} */
 >
         {({ values, isSubmitting, setFieldValue }) => (
           <Form className="bg-white rounded-lg p-6 shadow-lg my-10">
             <h1 className="text-5xl font-semibold text-left mb-4 text-gray-700">
-              Register your property
+              Edit property
             </h1>
-            <Link to="/">
+            <Link to="/admin">
               <button className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2">
                 Home
               </button>
@@ -313,7 +342,7 @@ export function EditPropertyFromAdmin() {
               <ErrorMessage name="availableDays.endDate" component="div" />
             </div>
 
-            <button
+          {/*   <button
                 type="submit"
                 disabled={isSubmitting}
                 className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
@@ -322,8 +351,8 @@ export function EditPropertyFromAdmin() {
                   handleSubmit(values, { setSubmitting: () => {} }); // Llamar a la función handleSubmit con los valores y un objeto "setSubmitting" vacío
                 }}
               >
-                Create
-              </button>
+                Edit
+              </button> */}
           </Form>
         )}
       </Formik>
