@@ -1,100 +1,98 @@
-import axios from "axios";
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import {
 	GET_PROPERTY,
 	GET_PROPERTY_DETAIL,
 	CLEAN_DETAIL,
-  ADD_USER,
+	ADD_USER,
 	CREATE_PROPERTY,
 	ERROR,
-  USER_LOGIN,
-  FILTERS
-} from "./actions_types";
+	USER_LOGIN,
+	FILTERS,
+	DELETE_POST,
+} from './actions_types';
 
 export const getProperty = () => {
-    return async (dispatch) => {
-        try {
-            const { data } = await axios.get('http://localhost:3001/properties')
-            
-            return dispatch( {
-                type:GET_PROPERTY,
-                payload: data
-            })
-        } catch (error) {
-            return {
-                type:ERROR,
-                payload: error.message
-            }
-        }
-    }
-  };
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.get('http://localhost:3001/properties');
 
-
-export const getPropertyDetail = (id) => async (dispatch) => {
-  try {
-    const { data } = await axios.get(`http://localhost:3001/properties/${id}`);
-    return dispatch({ type: GET_PROPERTY_DETAIL, payload: data });
-  } catch (error) {
-    return { type: ERROR, payload: error.message };
-  }
+			return dispatch({
+				type: GET_PROPERTY,
+				payload: data,
+			});
+		} catch (error) {
+			return {
+				type: ERROR,
+				payload: error.message,
+			};
+		}
+	};
 };
 
-  export const cleanDetail = () => {
-    return (dispatch) => {
-        return dispatch({
-          type: CLEAN_DETAIL,
-          payload: [],
-        });
-    };
-  }
+export const getPropertyDetail = (id) => async (dispatch) => {
+	try {
+		const { data } = await axios.get(`http://localhost:3001/properties/${id}`);
+		return dispatch({ type: GET_PROPERTY_DETAIL, payload: data });
+	} catch (error) {
+		return { type: ERROR, payload: error.message };
+	}
+};
+
+export const cleanDetail = () => {
+	return (dispatch) => {
+		return dispatch({
+			type: CLEAN_DETAIL,
+			payload: [],
+		});
+	};
+};
 
 export const createProperty = (values) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.post(
-        "http://localhost:3001/properties",
-        values
-      );
-      return dispatch({
-        type: CREATE_PROPERTY,
-        payload: data,
-      });
-    } catch (error) {
-      return {
-        type: ERROR,
-        payload: error.message,
-      };
-    }
-  };
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.post(
+				'http://localhost:3001/properties',
+				values
+			);
+			return dispatch({
+				type: CREATE_PROPERTY,
+				payload: data,
+			});
+		} catch (error) {
+			return {
+				type: ERROR,
+				payload: error.message,
+			};
+		}
+	};
 };
 
 export const userLogin = (valores) => {
-  const url = "http://localhost:3001/auth/login";
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.post(url, valores);
-      const { user } = data
-      dispatch({
-        type: USER_LOGIN,
-        payload:user
-      });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
-  };
+	const url = 'http://localhost:3001/auth/login';
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.post(url, valores);
+			const { user } = data;
+			dispatch({
+				type: USER_LOGIN,
+				payload: user,
+			});
+		} catch (error) {
+			dispatch({
+				type: ERROR,
+				payload: error.message,
+			});
+		}
+	};
 };
 
 export const filters = (type, orderPrice) => {
-  return {
-    type: FILTERS,
-    payload: { type, orderPrice },
-  };
+	return {
+		type: FILTERS,
+		payload: { type, orderPrice },
+	};
 };
-
-
 
 // export const searchProducto = (query) => {
 //   return async (dispatch) => {
@@ -107,10 +105,10 @@ export const filters = (type, orderPrice) => {
 //         // Si se proporciona una ciudad, realiza la búsqueda por ciudades
 //         response = await axios.get(`${URL}/${query}`);
 //       }
-//       const inmuebles = response.data; 
+//       const inmuebles = response.data;
 //       dispatch({
 //         type: SEARCH_PRODUCTO,
-//         payload: inmuebles, 
+//         payload: inmuebles,
 //       });
 //     } catch (error) {
 //       dispatch({
@@ -121,26 +119,60 @@ export const filters = (type, orderPrice) => {
 //   };
 // };
 
-
-
 export const addUser = (user) => async (dispatch) => {
-  try {
-    const { data } = await axios.post("http://localhost:3001/users", user);
-    console.log("soy data de user", data);
-    const { email, password } = data;
-    toast.success('User created successfully');
-    const userCreated = {
-      email,
-      password,
-    };
-    dispatch({ type: ADD_USER, payload: userCreated });
-  } catch (error) {
-    toast.warning('User already exists');
-    dispatch({ type: ERROR, payload: error.message });
-  }
+	try {
+		const { data } = await axios.post('http://localhost:3001/users', user);
+		console.log('soy data de user', data);
+		const { email, password } = data;
+		toast.success('User created successfully');
+		const userCreated = {
+			email,
+			password,
+		};
+		dispatch({ type: ADD_USER, payload: userCreated });
+	} catch (error) {
+		toast.warning('User already exists');
+		dispatch({ type: ERROR, payload: error.message });
+	}
 };
 
+export const deletePost = (postId) => {
+	return async (dispatch) => {
+		try {
+			// Realiza una solicitud PUT para actualizar "active" a false
+			const response = await axios.put(
+				`http://localhost:3001/properties/${postId}`,
+				{
+					active: false,
+				}
+			);
 
+			// Comprueba si la actualización fue exitosa
+			if (response.status === 200) {
+				// Dispatch DELETE_POST solo si la actualización fue exitosa
+				dispatch({
+					type: DELETE_POST,
+					payload: postId,
+				});
+			} else {
+				console.error(
+					'Error al actualizar la publicación:',
+					response.data.error
+				);
+				dispatch({
+					type: 'ERROR',
+					payload: 'Error al actualizar la publicación',
+				});
+			}
+		} catch (error) {
+			console.error('Error al actualizar la publicación:', error);
+			dispatch({
+				type: 'ERROR',
+				payload: 'Error al actualizar la publicación',
+			});
+		}
+	};
+};
 
 // export const filterByUbicacion = (ubicacion) => {
 
@@ -150,8 +182,6 @@ export const addUser = (user) => async (dispatch) => {
 //   };
 // };
 
-  
-  
 // export const filterByPrecio = (minPrice, maxPrice, order) => {
 //   return {
 //     type: FILTER_BY_PRECIO,
@@ -159,30 +189,28 @@ export const addUser = (user) => async (dispatch) => {
 //   };
 // };
 
-  
-  
-  // export const filterByPileta = (pileta) => {
-  //   return{
-  //   type: FILTER_BY_PILETA,
-  //   payload: pileta,
-  //   }
-  // };
-  
-  // export const filterByFondo = (fondo) => {
-  //   return{
-  //   type: FILTER_BY_FONDO,
-  //   payload: fondo,
-  // }};
-  
+// export const filterByPileta = (pileta) => {
+//   return{
+//   type: FILTER_BY_PILETA,
+//   payload: pileta,
+//   }
+// };
+
+// export const filterByFondo = (fondo) => {
+//   return{
+//   type: FILTER_BY_FONDO,
+//   payload: fondo,
+// }};
+
 //   export const orderByResena = (puntuacion) => {
 //     return{
 //     type: ORDER_BY_RESENA,
 //     payload: puntuacion,
 //   }
 // };
-  
+
 //   export const filterByCategoria = (type) => {
-    
+
 //     return{
 //     type: FILTER_BY_CATEGORIA,
 //     payload: { type },

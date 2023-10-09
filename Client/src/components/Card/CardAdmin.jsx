@@ -13,7 +13,6 @@ import ImageCarousel from './ImageCarousel';
 import { useDispatch } from 'react-redux'; // Importa useDispatch
 import { deletePost } from '../../redux/actionAdmin';
 import CreatePropertyAdmin from '../createProperty/createPropertyAdmin';
-import './CardAdmin.css';
 
 const CardAdmin = ({
 	_id,
@@ -24,6 +23,7 @@ const CardAdmin = ({
 	location,
 	bedrooms,
 	bathrooms,
+	active,
 }) => {
 	const dispatch = useDispatch(); // Mueve el useDispatch aquí dentro del componente
 
@@ -41,6 +41,9 @@ const CardAdmin = ({
 	const closeModal = () => {
 		setIsModalOpen(false);
 	};
+
+	//const EditModal = () => {
+	// definir el contenido del modal de edición
 
 	return (
 		<div className='flex-auto rounded-xl py-2'>
@@ -90,10 +93,18 @@ const CardAdmin = ({
 					<FontAwesomeIcon icon={faEdit} /> Edit
 				</button>
 				<button
-					onClick={() => handleDeleteCard(_id)} // Llamar a la función de eliminación con el ID como argumento
-					className='bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover:bg-pink'
+					onClick={() => {
+						// Confirmación del usuario antes del borrado lógico
+						const confirmDelete = window.confirm(
+							'¿Estás seguro de eliminar esta propiedad?'
+						);
+						if (confirmDelete) {
+							handleDeleteCard(_id); // Realiza el borrado lógico
+						}
+					}}
+					className='bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover-bg-pink'
 				>
-					<FontAwesomeIcon icon={faTrash} /> delete
+					<FontAwesomeIcon icon={faTrash} /> Delete
 				</button>
 			</div>
 
