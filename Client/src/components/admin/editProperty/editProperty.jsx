@@ -49,24 +49,30 @@ export function EditPropertyFromAdmin() {
   });
 
   console.log("soy property", property)
+  console.log("soy availableDates", property.availableDates)
 
   useEffect(() => {
     axios.get(`http://localhost:3001/properties/${id}`)
       .then(({ data }) => {
-           setProperty(data);
+        if (data)
+           {setProperty(data);
            const availableDays = data.availableDays;
-           const firstDate = availableDays.length > 0 ? availableDays[0] : new Date();
-           const lastDate = availableDays.length > 0 ? availableDays[availableDays.length - 1] : new Date();
+           let startDate = availableDays.length > 0 ? availableDays[0] : new Date();
+           let endDate = availableDays.length > 0 ? availableDays[availableDays.length - 1] : new Date();
      
-           // Actualiza availableDates en property con las fechas obtenidas
-           setProperty((prevState) => ({
-             ...prevState,
-             availableDates: {
-               startDate: firstDate,
-               endDate: lastDate,
-             },
-           }));
-           console.log(data);
+           startDate = new Date(startDate);
+           endDate = new Date(endDate);
+           startDate = startDate.toISOString().split('T')[0];
+           endDate = endDate.toISOString().split('T')[0];
+
+      setProperty((prevState) => ({
+        ...prevState,
+        availableDates: {
+          startDate: startDate,
+          endDate: endDate,
+        },
+      }));
+     }
       })
       
       .catch (error => window.alert(error.response.data.error))
@@ -99,11 +105,11 @@ export function EditPropertyFromAdmin() {
         {({ values, isSubmitting, setFieldValue }) => (
           <Form className="bg-white rounded-lg p-6 shadow-lg my-10">
             <h1 className="text-5xl font-semibold text-left mb-4 text-gray-700">
-              Edit property
+              Edit Post
             </h1>
             <Link to="/admin">
               <button className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2">
-                Home
+                BACK
               </button>
             </Link>
           {/* TITULO DE LA PUBLICACION */}
@@ -317,6 +323,7 @@ export function EditPropertyFromAdmin() {
 </div>
 
 <div className="block text-left text-gray-700">
+  <p>La Fecha de disponibilidad de esta propiedad es la siguiente, si la desea modificar ingrese nuevos valores:</p>
               <label htmlFor="availableDates.startDate">Fecha de inicio:</label>
               <Field name="availableDates.startDate" type="date" />
               <ErrorMessage name="availableDates.startDate" component="div" />
@@ -341,6 +348,10 @@ export function EditPropertyFromAdmin() {
               />
               <ErrorMessage name="availableDays.endDate" component="div" />
             </div>
+
+
+
+
 
           {/*   <button
                 type="submit"
