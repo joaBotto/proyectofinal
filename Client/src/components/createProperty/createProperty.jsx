@@ -76,7 +76,7 @@ export default function CreateProperty() {
       startDate: "",
       endDate: "",
     },
-    images,
+    images:[],
     amenities: {
       covered_area: 0,
       garage: false,
@@ -127,7 +127,23 @@ export default function CreateProperty() {
     };
     console.log("soy la info a mandar", newProperty);
 
+    dispatch(createProperty(newProperty));
+    dispatch(createProperty(newProperty));
+     // Después de que el usuario se haya creado con éxito, establece userCreated en true
+     setPropertyCreated(true);
+           // Redirige al usuario a la página de inicio ("/")
+           navigate("/");
+
+    setSubmitting(false);
+       // Redirigir al usuario a la página de inicio después de que se haya creado la propiedad
    dispatch(createProperty(newProperty));
+     // Después de que el usuario se haya creado con éxito, establece userCreated en true
+     setPropertyCreated(true);
+           // Redirige al usuario a la página de inicio ("/")
+           navigate("/");
+
+    setSubmitting(false);
+       // Redirigir al usuario a la página de inicio después de que se haya creado la propiedad
     
   };
 
@@ -171,35 +187,27 @@ export default function CreateProperty() {
     setFieldValue("address.street", address);
   
     geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => {
-        console.log("Coordenadas:", latLng);
+      .then(results => {
+        // Encuentra el componente de dirección (calle)
+        const streetComponent = results[0]?.address_components.find(component => component.types.includes("route"));
+        // Encuentra el componente de ciudad
+        const cityComponent = results[0]?.address_components.find(component => component.types.includes("locality"));
+        // Encuentra el componente de estado
+        const stateComponent = results[0]?.address_components.find(component => component.types.includes("administrative_area_level_1"));
+  
+        // Actualiza los campos correspondientes
+        if (streetComponent) {
+          setFieldValue("address.street", streetComponent.long_name);
+        }
+        if (cityComponent) {
+          setFieldValue("address.city", cityComponent.long_name);
+        }
+        if (stateComponent) {
+          setFieldValue("address.state", stateComponent.short_name);
+        }
       })
-      .catch(error => console.error("Error al obtener coordenadas:", error));
-  };
-
-  window.initMap = function () {
-    const address = values.address.street + ', ' + values.address.city + ', ' + values.address.state;
-  
-    geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
       .then(latLng => {
         console.log("Coordenadas:", latLng);
-  
-        // Actualizar el estado del formulario con las coordenadas
-        setFieldValue("coordinates", latLng);
-  
-        // Actualizar el mapa con las coordenadas
-        const coordUbicaction = { lat: latLng.lat, lng: latLng.lng };
-        const mapDiv = document.getElementById("map");
-        const map = new window.google.maps.Map(mapDiv, {
-          zoom: 10,
-          center: coordUbicaction
-        });
-        const marker = new window.google.maps.Marker({
-          position: coordUbicaction,
-          map: map
-        });
       })
       .catch(error => console.error("Error al obtener coordenadas:", error));
   };
@@ -256,10 +264,10 @@ export default function CreateProperty() {
                 Address:
               </label>
               <label htmlFor="address.street">Street:</label>
-              <PlacesAutocomplete
+              {/* <PlacesAutocomplete
                 value={values.address.street}
                 onChange={handleAddressChange}
-              />
+              /> */}
               <Field
                 type="text"
                 name="address.street"
@@ -297,6 +305,7 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="bedrooms" component="div" />
             </div>
+          {/* CANT DE BANOS */}
             <div className="block text-left text-gray-700">
               <label htmlFor="bathrooms">Bathrooms:</label>
               <Field

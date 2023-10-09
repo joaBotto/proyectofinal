@@ -8,6 +8,8 @@ import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
 import axios from "axios";
 import logo from "../../assets/img/logo.png"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ const SignUpForm = () => {
   const [imagePreview, setImagePreview] = useState("");
   const [userCreated, setUserCreated] = useState(false); // Estado para el mensaje de éxito
   const user = useSelector((state) => state.user);
+  const [isToastVisible, setToastVisibility] = useState(false);
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -49,21 +52,21 @@ const SignUpForm = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Campo obligatorio"),
-    lastName: Yup.string().required("Campo obligatorio"),
+    name: Yup.string().required("Obligatory field"),
+    lastName: Yup.string().required("Obligatory field"),
     email: Yup.string()
-      .email("Correo electrónico inválido")
-      .required("Campo obligatorio"),
+      .email("Invalid email")
+      .required("Obligatory field"),
     password: Yup.string()
-      .min(8, "La contraseña debe tener al menos 8 caracteres")
-      .required("Campo obligatorio"),
+      .min(8, "Password must be at least 8 characters")
+      .required("Obligatory field"),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir")
-      .required("Campo obligatorio"),
-    country: Yup.string().required("Campo obligatorio"),
-    address: Yup.string().required("Campo obligatorio"),
-    city: Yup.string().required("Campo obligatorio"),
-    phoneNumber: Yup.string().required("Campo obligatorio"),
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Obligatory field"),
+    country: Yup.string().required("Obligatory field"),
+    address: Yup.string().required("Obligatory field"),
+    city: Yup.string().required("Obligatory field"),
+    phoneNumber: Yup.number().required("Obligatory field"),
   });
 
   const handleValidation = (isValid) => {
@@ -90,8 +93,9 @@ const SignUpForm = () => {
       throw error;
     }
   };
-
+  
   const handleSubmit = async (values, { setSubmitting }) => {
+    console.log("Soy el values",values)
     try {
       if (image) {
         const cloudinaryResponse = await uploadImagesToCloudinary(image);
@@ -104,15 +108,15 @@ const SignUpForm = () => {
         }
       }
 
-      await dispatch(addUser(values));
-      
-      // Después de que el usuario se haya creado con éxito, establece userCreated en true
-      setUserCreated(true);
 
-      // Redirige al usuario a la página de inicio ("/")
-      navigate("/login");
+      await dispatch(addUser(values));
+      // Espera 2 segundos antes de redirigir
+     setTimeout(() => {
+       // Redirige al usuario a la página de inicio ("/")
+       navigate("/login");
+     }, 7000); // El tiempo está en milisegundos (en este caso, 2 segundos)
+      
     } catch (error) {
-      console.error("Error al enviar el formulario:", error);
     } finally {
       setSubmitting(false);
       setImage(null);
@@ -153,7 +157,7 @@ const SignUpForm = () => {
             const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
             if (!passwordPattern.test(values.password)) {
               errors.password =
-                "Debe contener al menos 8 caracteres, una letra mayúscula, un número y uno de los siguientes signos: /, * o -";
+                "It must contain at least 8 characters, a capital letter, a number and one of the following signs: /, * o -";
             }
             const isValid = Object.keys(errors).length === 0;
             handleValidation(isValid);
@@ -161,6 +165,7 @@ const SignUpForm = () => {
           }}
         >
           <Form className="space-y-4">
+          
             <div {...getRootProps()} className="dropzone">
               <input {...getInputProps()} />
               <p className="cursor-pointer  pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase ">
@@ -177,7 +182,7 @@ const SignUpForm = () => {
                 />
               </div>
             )}
-
+        <ToastContainer />
             <div>
               <label
                 htmlFor="name"
@@ -367,12 +372,7 @@ const SignUpForm = () => {
                 className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
               />
             </div>
-
-            {userCreated && (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-                El usuario ha sido creado con éxito.
-              </div>
-            )}
+               
 
 <div className="flex justify-center mt-4">
     <button
