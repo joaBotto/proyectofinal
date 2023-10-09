@@ -1,87 +1,29 @@
-import React from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"; // Importa 
+import { useParams, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import Dropzone from "react-dropzone";
-import { createProperty } from "../../redux/actions";
-import fondo from "../../assets/img/loginRegister.jpg";
-import "./createProperty.css"
-import logo from "../../assets/img/logo.png"
 
 
-
-
-
-export default function CreateProperty() {
-  const user = useSelector((state) => state.user);
-  const user_id = user._id
-  console.log("soy el id", user_id)
-
-  const [valuesToSubmit, setValuesToSubmit] = useState(null);
- 
-  console.log("soy el usuario en createProperty", user)
-  let dates = [];
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [PropertyCreated, setPropertyCreated] = useState(false); // Estado para el mensaje de éxito
-
-
-  useEffect(() => {
-    if (user && valuesToSubmit) {
-      handleSubmit(valuesToSubmit);
-    }
-  }, [user, valuesToSubmit]);
-
-  const uploadImagesToCloudinary = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file[0]);
-    try {
-      const { data } = await axios.post(
-        "http://localhost:3001/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      return data;
-    } catch (error) {
-      console.error("Error al cargar la imagen:", error);
-    }
-  };
-
-  function generateDatesInRange(startDate, endDate) {
-    const dates = [];
-    let currentDate = new Date(startDate);
-    while (currentDate <= endDate) {
-      dates.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1); 
-    }
-    return dates;
-  }
-
-  const initialValues = {
+export function EditPropertyFromAdmin() {
+  const { id } = useParams();
+  const [property, setProperty] = useState({
     title: "",
     description: "",
     address: {
       street: "",
       city: "",
       state: "",
-      zipcode: "",
+      zipcode: 0,
     },
     bedrooms: 0,
     bathrooms: 0,
     price: 0,
-    type: "",
+    type: "house", 
     availableDates: {
-      startDate: "",
-      endDate: "",
+      startDate: new Date(),
+      endDate: new Date(),
     },
-    images:[],
+    images: [],
     amenities: {
       covered_area: 0,
       garage: false,
@@ -101,108 +43,27 @@ export default function CreateProperty() {
       patio: false,
       balcony_patio: false,
     },
-  };
-
-
-  const handleSubmit = (values, { setSubmitting }) => {
-    const {
-      title,
-      additional,
-      address,
-      amenities,
-      bathrooms,
-      bedrooms,
-      description,
-      images,
-      price,
-      type,
-    } = values;
-    const newProperty = {
-      title,
-      additional,
-      address,
-      amenities,
-      availableDays: dates,
-      bathrooms,
-      bedrooms,
-      description,
-      images,
-      owner:user_id,
-      price,
-      type,
-    };
-    console.log("soy la info a mandar", newProperty);
-
-    dispatch(createProperty(newProperty));
-     // Después de que el usuario se haya creado con éxito, establece userCreated en true
-     setPropertyCreated(true);
-           // Redirige al usuario a la página de inicio ("/")
-           navigate("/");
-
-    setSubmitting(false);
-       // Redirigir al usuario a la página de inicio después de que se haya creado la propiedad
-     
-  };
-
-  const validationSchema = Yup.object().shape({
-    title: Yup.string()
-      .required("Title is required")
-      .min(5, "Very short title, must be at least 5 characters long"),
-    description: Yup.string().required("Description is required"),
-    address: Yup.object().shape({
-      street: Yup.string().required("The street is required"),
-      city: Yup.string().required("The city is required"),
-      state: Yup.string().required("State is required"),
-      zipcode: Yup.number().required("Zip code is required"),
-    }),
-    bedrooms: Yup.number()
-      .required("Number of rooms is required")
-      .min(0)
-      .max(10),
-    bathrooms: Yup.number()
-      .required("Number of bathrooms required")
-      .min(0)
-      .max(10),
-    price: Yup.number().required("Price is required").min(1).max(100000),
-    availableDates: Yup.object().shape({
-      startDate: Yup.date()
-        .required("Required start date")
-        .min(new Date(), "The start date should be from today"),
-      endDate: Yup.date()
-        .required("Required completion date")
-        .min(Yup.ref("startDate"), "The end date must be later than the start date"),
-    }),
-    images: Yup.array()
-      .required("You must add at least 5 images")
-      .test("is-images-length", "You must add at least 5 images", (images) => {
-        return images && images.length === 5;
-      }),
+    active:false
   });
-  
 
+  console.log("soy property", property)
 
+  useEffect(() => {
+    axios.get(`http://localhost:3001/properties/${id}`)
+      .then(({ data }) => {
+           setProperty(data);
+           console.log(data);
+      })
+      .catch (error => window.alert(error.response.data.error))
+
+    return () =>{ setProperty({})};
+ }, [id]);
 
   return (
-
-    <div
-      className="min-h-screen w-screen flex items-center justify-center bg-fuchsia-900"
-      style={{
-        backgroundImage: `url(${fondo})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <div className="flex justify-end items-center absolute top-0 left-0 px-6 py-6  ">
-  <img
-    src={logo}
-    alt="Logo"
-    className="w-auto h-16 "
-  />
-
-
-</div>
+    <div>
+       
 <Formik
-  initialValues={initialValues}
+  initialValues={property}
   validationSchema={validationSchema}
   onSubmit={handleSubmit}
 >
@@ -451,60 +312,8 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="availableDays.endDate" component="div" />
             </div>
-        
-          IMAGENES
-          <Dropzone
-  onDrop={async (acceptedFiles) => {
-                if (values.images.length + acceptedFiles.length <= 5) {
-                  const uploadImageUrl = await uploadImagesToCloudinary(
-                    acceptedFiles
-                  );
-                  console.log("soy la devolucion del back", uploadImageUrl);
-                  const newImages = [...values.images, uploadImageUrl];
-                  setFieldValue("images", newImages);
-                } else {
-                  alert("No puedes subir más de 5 imágenes."); // PASAR ALERT A INGLES
-                }
-              }}
-              accept="image/*"
-              multiple={false}
-              className="dropzone"
-            >
-              {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps()} className="dropzone">
-                  <input {...getInputProps()} />
-                  <div className="image-container"> {/* Agrega la clase "image-container" aquí */}
-                    {values.images &&
-                      values.images.map(
-                        (e) =>
-                          e &&
-                          e.imageUrl && (
-                            <img
-                              style={{ maxWidth: "10em", maxHeight: "10em" }}
-                              key={e.imageUrl}
-                              src={e.imageUrl}
-                              alt={e.imageUrl}
-                            />
-                          )
-                      )}
-                  </div>
-                  {!values.images && (
-                    <p className="text-black">
-                      Arrastra y suelta archivos aquí o haz clic para
-                      seleccionar (máximo 5 imágenes)
-                    </p>
-                  )}
-                </div>
-              )}
-            </Dropzone>
-          
-            {PropertyCreated && (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-                La propiedad ha sido creada con éxito.
-              </div>
-            )}
 
-<button
+            <button
                 type="submit"
                 disabled={isSubmitting}
                 className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
@@ -518,7 +327,7 @@ export default function CreateProperty() {
           </Form>
         )}
       </Formik>
- 
     </div>
-  );
+
+  )
 }
