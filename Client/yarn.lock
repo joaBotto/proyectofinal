@@ -382,10 +382,10 @@
   resolved "https://registry.npmjs.org/@emotion/weak-memoize/-/weak-memoize-0.3.1.tgz"
   integrity sha512-EsBwpc7hBUJWAsNPBmJy4hxWx12v6bshQsldrVmjxJoc3isbxhOrF2IcCpaXxfvq03NwkI7sbsOLXbYuqF/8Ww==
 
-"@esbuild/win32-x64@0.18.20":
+"@esbuild/darwin-x64@0.18.20":
   version "0.18.20"
-  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.18.20.tgz"
-  integrity sha512-kTdfRcSiDfQca/y9QIkng02avJ+NCaQvrMejlsB3RRv5sE9rRoeBPISaZpKxHELzRxZyLvNts1P27W3wV+8geQ==
+  resolved "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.18.20.tgz"
+  integrity sha512-pc5gxlMDxzm513qPGbCbDukOdsGtKhfxD1zJKXjCCcU7ju50O7MeAZ8c4krSJcOIJGFR+qx21yMMVYwiQvyTyQ==
 
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
@@ -762,6 +762,11 @@
   resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
+"@react-leaflet/core@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@react-leaflet/core/-/core-2.1.0.tgz"
+  integrity sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==
+
 "@remix-run/router@1.9.0":
   version "1.9.0"
   resolved "https://registry.npmjs.org/@remix-run/router/-/router-1.9.0.tgz"
@@ -855,9 +860,9 @@
   integrity sha512-FbtmBWCcSa2J4zL781Zf1p5YUBXQomPEcep9QZCfRfQgTxz3pJWiDFLebohZ9fFntX5ibzOkSsrJ0TEew8cAog==
 
 "@types/react-dom@^16.8 || ^17.0 || ^18.0", "@types/react-dom@^18.2.7":
-  version "18.2.7"
-  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.7.tgz"
-  integrity sha512-GRaAEriuT4zp9N4p1i8BDBYmEyfo+xQ3yHjJU4eiK5NDa1RmUZG+unZABUTK4/Ox/M+GaHwb6Ow8rUITrtjszA==
+  version "18.2.8"
+  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.8.tgz"
+  integrity sha512-bAIvO5lN/U8sPGvs1Xm61rlRHHaq5rp5N3kp9C+NJ/Q41P8iqjkXSu0+/qu8POsjH9pNWb0OYabFez7taP7omw==
   dependencies:
     "@types/react" "*"
 
@@ -1136,9 +1141,9 @@ camelcase-css@^2.0.1:
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
 caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001539:
-  version "1.0.30001539"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001539.tgz"
-  integrity sha512-hfS5tE8bnNiNvEOEkm8HElUHroYwlqMMENEzELymy77+tJ6m+gA2krtHl5hxJaj71OlpC2cHZbdSMX1/YEqEkA==
+  version "1.0.30001540"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001540.tgz"
+  integrity sha512-9JL38jscuTJBTcuETxm8QLsFr/F6v0CYYTEU6r5+qSM98P2Q0Hmu0eG1dTG5GBUmywU3UlcVOUSIJYY47rdFSw==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2248,6 +2253,11 @@ keyv@^4.5.3:
   dependencies:
     json-buffer "3.0.1"
 
+leaflet@^1.9.0, leaflet@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz"
+  integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
+
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.npmjs.org/levn/-/levn-0.4.1.tgz"
@@ -2665,7 +2675,7 @@ react-date-range@^1.4.0:
     react-list "^0.8.13"
     shallow-equal "^1.2.1"
 
-"react-dom@^16 || ^17 || ^18", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.0 || ^18.0.0", react-dom@^18.2.0, react-dom@>=16, react-dom@>=16.6.0, react-dom@>=16.8, "react-dom@>=16.8 || ^17.0.0 || ^18.0.0", react-dom@>=16.8.0, react-dom@18.2.0:
+"react-dom@^16 || ^17 || ^18", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.0 || ^18.0.0", react-dom@^18.0.0, react-dom@^18.2.0, react-dom@>=16, react-dom@>=16.6.0, react-dom@>=16.8, "react-dom@>=16.8 || ^17.0.0 || ^18.0.0", react-dom@>=16.8.0, react-dom@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -2701,6 +2711,18 @@ react-is@^18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-is@^18.2.0:
+  version "18.2.0"
+  resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
+  integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-leaflet@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.npmjs.org/react-leaflet/-/react-leaflet-4.2.1.tgz"
+  integrity sha512-p9chkvhcKrWn/H/1FFeVSqLdReGwn2qmiobOQGO3BifX+/vV/39qhY8dGqbdcPh1e6jxh/QHriLXr7a4eLFK4Q==
+  dependencies:
+    "@react-leaflet/core" "^2.1.0"
 
 react-list@^0.8.13:
   version "0.8.17"
@@ -2778,7 +2800,7 @@ react-transition-group@^4.3.0, react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-"react@^0.14 || ^15.0.0-rc || >=15.0", "react@^16 || ^17 || ^18", "react@^16.3.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.0 || ^18.0.0", react@^18.2.0, "react@>= 16", "react@>= 16.8 || 18.0.0", react@>=16, react@>=16.3, react@>=16.6.0, react@>=16.8, "react@>=16.8 || ^17.0.0 || ^18.0.0", react@>=16.8.0, "react@0.14 || 15 - 18", react@18.2.0:
+"react@^0.14 || ^15.0.0-rc || >=15.0", "react@^16 || ^17 || ^18", "react@^16.3.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.2.0, "react@>= 16", "react@>= 16.8 || 18.0.0", react@>=16, react@>=16.3, react@>=16.6.0, react@>=16.8, "react@>=16.8 || ^17.0.0 || ^18.0.0", react@>=16.8.0, "react@0.14 || 15 - 18", react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
