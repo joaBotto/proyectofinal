@@ -41,11 +41,6 @@ server.use(
   })
 );
 
-// MIDDLEWARE DE PASSPORT
-server.use(passport.initialize());
-server.use(passport.session());
-// CONFIGURA LOS MSJS QUE LLEGAN DE LA ESTRATEGIA
-server.use(flash());
 // CONFIGURACION DE PASSPORT.JS
 passport.use(
   "local",
@@ -59,6 +54,12 @@ passport.use(
     }
   )
 );
+
+// MIDDLEWARE DE PASSPORT
+server.use(passport.initialize());
+server.use(passport.session());
+// CONFIGURA LOS MSJS QUE LLEGAN DE LA ESTRATEGIA
+server.use(flash());
 
 passport.serializeUser((user, done) => {
   console.log('Serializando usuario:', user);

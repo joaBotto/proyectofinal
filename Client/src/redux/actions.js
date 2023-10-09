@@ -53,13 +53,16 @@ export const createProperty = (values) => {
     try {
       const { data } = await axios.post(
         "http://localhost:3001/properties",
-        values
-      );
+        values);
+     toast.success("The property was created successfully")
       return dispatch({
         type: CREATE_PROPERTY,
         payload: data,
       });
+      
     } catch (error) {
+      toast.error("Error when creating the property, missing fields")
+      
       return {
         type: ERROR,
         payload: error.message,

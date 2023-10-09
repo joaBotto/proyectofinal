@@ -1,30 +1,35 @@
 import React from "react";
 import axios from "axios";
+
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom"; // Importa 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Dropzone from "react-dropzone";
 import { createProperty } from "../../redux/actions";
-import { useDispatch, useSelector } from "react-redux";
 import fondo from "../../assets/img/loginRegister.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importa 
 import "./createProperty.css"
 import logo from "../../assets/img/logo.png"
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete"
-
-
+import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
   const user_id = user._id
   console.log("soy el id", user_id)
-  const [address, setAddress] = useState("");
+
   const [valuesToSubmit, setValuesToSubmit] = useState(null);
  
   console.log("soy el usuario en createProperty", user)
   let dates = [];
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [PropertyCreated, setPropertyCreated] = useState(false); // Estado para el mensaje de éxito
+
 
   useEffect(() => {
     if (user && valuesToSubmit) {
@@ -74,7 +79,7 @@ export default function CreateProperty() {
     bedrooms: 0,
     bathrooms: 0,
     price: 0,
-    type: "",
+    type: "casa",
     availableDates: {
       startDate: "",
       endDate: "",
@@ -101,7 +106,8 @@ export default function CreateProperty() {
     },
   };
 
-  const handleSubmit = (values) => {
+
+  const handleSubmit = (values, { setSubmitting }) => {
     const {
       title,
       additional,
@@ -124,31 +130,38 @@ export default function CreateProperty() {
       bedrooms,
       description,
       images,
-      owner:user_id,
+      owner: user ? user._id :null,
       price,
       type,
     };
     console.log("soy la info a mandar", newProperty);
 
-    dispatch(createProperty(newProperty));
-    dispatch(createProperty(newProperty));
-     // Después de que el usuario se haya creado con éxito, establece userCreated en true
-     setPropertyCreated(true);
-           // Redirige al usuario a la página de inicio ("/")
-           navigate("/");
+    try  {
+  await dispatch(createProperty(newProperty));
+ setTimeout (() => {
+ navigate("/"); },7000)   
 
-    setSubmitting(false);
-       // Redirigir al usuario a la página de inicio después de que se haya creado la propiedad
-   dispatch(createProperty(newProperty));
-     // Después de que el usuario se haya creado con éxito, establece userCreated en true
-     setPropertyCreated(true);
-           // Redirige al usuario a la página de inicio ("/")
-           navigate("/");
+} catch (error) {
+      console.error("Error creating property:", error);
 
-    setSubmitting(false);
+    }
+        finally  {
+
+setSubmitting(false);
+      
+    }
+    
+     // Después de que el usuario se haya creado con éxito, establece userCreated en true
+             // Redirige al usuario a la página de inicio ("/")
+          //  
+
+    
        // Redirigir al usuario a la página de inicio después de que se haya creado la propiedad
     
   };
+
+
+
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
@@ -232,7 +245,7 @@ export default function CreateProperty() {
                 Home
               </button>
             </Link>
-            /////////TITULO DE LA PUBLICACION
+          {/* TITULO DE LA PUBLICACION */}
             <div className="block text-left text-gray-700">
               <label htmlFor="title">Title:</label>
               <Field
@@ -251,6 +264,9 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="description" component="div" />
             </div>
+            {/* DIRECCION */}
+
+
             <PlacesAutocomplete
               value={address}
               onChange={handleAddressChange}
@@ -499,16 +515,24 @@ export default function CreateProperty() {
                 </div>
               )}
             </Dropzone>
-            </div>
-            <div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
-            >
-              Create
-            </button>
-            </div>
+          
+            {PropertyCreated && (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                La propiedad ha sido creada con éxito.
+              </div>
+            )}
+
+<button
+                type="submit"
+                disabled={isSubmitting}
+                className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
+                onClick={(e) => {
+                  e.preventDefault(); // Evitar que el formulario se envíe automáticamente
+                  handleSubmit(values, { setSubmitting: () => {} }); // Llamar a la función handleSubmit con los valores y un objeto "setSubmitting" vacío
+                }}
+              >
+                Create
+              </button>
           </Form>
         )}
       </Formik>

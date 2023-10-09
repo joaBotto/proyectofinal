@@ -13,6 +13,7 @@ import NavBarAdmin from './components/NavBar/NavBarAdmin';
 import HomeAdmin from './views/Home/HomeAdmin';
 import Error404 from './components/Error/Error404';
 import LoginAdmin from './components/Login/LoginAdmin';
+import { EditPropertyFromAdmin } from './components/admin/editProperty/editProperty';
 
 function App() {
 	const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
 				<Route path='/admin' element={<HomeAdmin />} />
 				<Route path='/error404' element={<Error404 />} />
 				<Route path='/loginadmin' element={<LoginAdmin />} />
+				<Route path='/admin/property/:id' element={<EditPropertyFromAdmin/>} />
 			</Routes>
 		</div>
 	);

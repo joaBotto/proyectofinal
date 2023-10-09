@@ -61,6 +61,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         allproperties: [...state.allproperties, payload],
         properties: [...state.properties, payload],
+        user:{
+          ...state.user,
+          properties:[...state.user.properties, payload._id]
+        }
       };
 
     case GET_PROPERTY_DETAIL:
