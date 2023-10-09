@@ -10,13 +10,16 @@ import fondo from "../../assets/img/loginRegister.jpg";
 import { Link } from "react-router-dom";
 import "./createProperty.css"
 import logo from "../../assets/img/logo.png"
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete"
+
+
+
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
   const user_id = user._id
   console.log("soy el id", user_id)
-
+  const [address, setAddress] = useState("");
   const [valuesToSubmit, setValuesToSubmit] = useState(null);
  
   console.log("soy el usuario en createProperty", user)
@@ -184,34 +187,23 @@ export default function CreateProperty() {
   
 
   const handleAddressChange = (address) => {
-    setFieldValue("address.street", address);
-  
-    geocodeByAddress(address)
-      .then(results => {
-        // Encuentra el componente de dirección (calle)
-        const streetComponent = results[0]?.address_components.find(component => component.types.includes("route"));
-        // Encuentra el componente de ciudad
-        const cityComponent = results[0]?.address_components.find(component => component.types.includes("locality"));
-        // Encuentra el componente de estado
-        const stateComponent = results[0]?.address_components.find(component => component.types.includes("administrative_area_level_1"));
-  
-        // Actualiza los campos correspondientes
-        if (streetComponent) {
-          setFieldValue("address.street", streetComponent.long_name);
-        }
-        if (cityComponent) {
-          setFieldValue("address.city", cityComponent.long_name);
-        }
-        if (stateComponent) {
-          setFieldValue("address.state", stateComponent.short_name);
-        }
-      })
-      .then(latLng => {
-        console.log("Coordenadas:", latLng);
-      })
-      .catch(error => console.error("Error al obtener coordenadas:", error));
+    setAddress(address);
   };
-  
+
+  const handleSelect = async (address) => {
+    setAddress(address);
+    try {
+      const results = await geocodeByAddress(address);
+      const latLng = await getLatLng(results[0]);
+      // Puedes usar latLng para lo que necesites
+      console.log("Coordenadas:", latLng);
+      setFieldValue("address.street", address);
+      setFieldValue("address.city", results[0].address_components.find((component) => component.types.includes("locality")).long_name);
+      setFieldValue("address.state", results[0].address_components.find((component) => component.types.includes("administrative_area_level_1")).short_name);
+    } catch (error) {
+      console.error("Error al obtener coordenadas:", error);
+    }
+  };
 
   return (
     <div
@@ -259,15 +251,42 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="description" component="div" />
             </div>
+            <PlacesAutocomplete
+              value={address}
+              onChange={handleAddressChange}
+              onSelect={handleSelect}
+            >
+              {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                <div>
+                  <input
+                    {...getInputProps({
+                      placeholder: 'Search Places...',
+                      className: 'mt-1 p-2 w-full rounded-full border',
+                    })}
+                  />
+                  <div>
+                    {loading && <div>Loading...</div>}
+                    {suggestions.map((suggestion) => {
+                      const style = {
+                        backgroundColor: suggestion.active ? '#41b6e6' : '#fff',
+                      };
+                      return (
+                        <div {...getSuggestionItemProps(suggestion, { style })}>
+                          {suggestion.description}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </PlacesAutocomplete>
+
             <div className="block text-left text-gray-700">
               <label htmlFor="Address" className="block">
                 Address:
               </label>
               <label htmlFor="address.street">Street:</label>
-              {/* <PlacesAutocomplete
-                value={values.address.street}
-                onChange={handleAddressChange}
-              /> */}
+             
               <Field
                 type="text"
                 name="address.street"
@@ -296,6 +315,9 @@ export default function CreateProperty() {
               />
               <ErrorMessage name="address.zipcode" component="div" />
             </div>
+
+
+
             <div className="block text-left text-gray-700">
               <label htmlFor="bedrooms">Bedrooms:</label>
               <Field
