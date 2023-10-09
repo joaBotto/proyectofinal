@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Footer from "../../components/Footer/Footer";
 import Container from "@mui/material/Container";
 import Paginado from "../../components/Paginado/paginado";
-import Cards from "../../components/Cards/Cards";
+import Cards from "../../components/Cards/CardsAdmin";
 
 export default function Postuser() {
   const currentUser = useSelector((state) => state.user);
@@ -26,7 +26,9 @@ export default function Postuser() {
   console.log("IDs de propiedades del usuario:", userPropertyIds);
 
   // Filtrar las propiedades que coinciden con los IDs en userPropertyIds
-  const userProperties = properties.filter((property) => userPropertyIds.includes(property._id));
+  const userProperties = properties.filter((property) =>
+    userPropertyIds.includes(property._id)
+  );
   console.log("Propiedades del usuario:", userProperties);
 
   // Renderizar solo cuando userProperties no esté vacío
@@ -44,12 +46,22 @@ export default function Postuser() {
           <p className="absolute text-lg font-bold text-white mt-6 top-[320px] left-7 font-onest">
             +400 HAPPY CUSTOMERS
           </p>
-          <Paginado page={page} setPage={setPage} maxPage={maxPage} products={userProperties} />
+          <Paginado
+            page={page}
+            setPage={setPage}
+            maxPage={maxPage}
+            products={userProperties}
+          />
           <div className="p-4">
             <Cards properties={userProperties} />
           </div>
           <Container className="flex justify-center bg-white rounded-full p-4 shadow-md">
-            <Paginado page={page} setPage={setPage} maxPage={maxPage} products={userProperties} />
+            <Paginado
+              page={page}
+              setPage={setPage}
+              maxPage={maxPage}
+              products={userProperties}
+            />
           </Container>
         </>
       ) : (

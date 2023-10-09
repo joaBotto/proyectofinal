@@ -29,7 +29,8 @@ function App() {
     <div className="bg-indigo-50">
       {location.pathname === "/" && <NavBar />}
       {location.pathname === "/admin" && <NavBarAdmin />}
-
+      {location.pathname === "/postUser" && <NavBarAdmin />}
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
