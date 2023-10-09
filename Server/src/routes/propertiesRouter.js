@@ -7,8 +7,8 @@ const { getPropertiesHandler, getPropertyByIdHandler, creatingPropertyHandler } 
 
 propertiesRouter.get("/", getPropertiesHandler);
 propertiesRouter.get("/:id", getPropertyByIdHandler);
-propertiesRouter.post("/",creatingPropertyHandler);
-/* , (req, res, next) => {
+propertiesRouter.post("/", creatingPropertyHandler);
+/* (req, res, next) => {
   console.log(req.isAuthenticated())
         if (req.isAuthenticated()) {
           next(); 
@@ -16,7 +16,8 @@ propertiesRouter.post("/",creatingPropertyHandler);
           console.log(req.user)
           res.status(401).json({ message: "No autorizado" });
         }
-      }  */
+      }, */
+ 
 
 module.exports = { 
         propertiesRouter

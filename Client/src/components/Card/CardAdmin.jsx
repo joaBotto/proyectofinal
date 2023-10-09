@@ -63,12 +63,13 @@ const CardAdmin = ({
 				{description?.slice(0, 100)}...
 			</p>
 			<div className='flex justify-between items-center'>
+				<Link to={`/admin/property/${_id}`}>
 				<button
-					onClick={() => onEdit(_id)} // Llamar a la función de edición con el ID como argumento
 					className='bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover:bg-pink'
 				>
 					<FontAwesomeIcon icon={faEdit} /> Edit
 				</button>
+				</Link>
 				<button
 					onClick={() => onDelete(_id)} // Llamar a la función de eliminación con el ID como argumento
 					className='bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover:bg-pink'
