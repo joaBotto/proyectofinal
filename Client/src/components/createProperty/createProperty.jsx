@@ -10,7 +10,7 @@ import fondo from "../../assets/img/loginRegister.jpg";
 import { Link, useNavigate } from "react-router-dom"; // Importa 
 import "./createProperty.css"
 import logo from "../../assets/img/logo.png"
-import { useState } from "react";
+
 
 
 
@@ -81,7 +81,7 @@ export default function CreateProperty() {
       startDate: "",
       endDate: "",
     },
-    images,
+    images:[],
     amenities: {
       covered_area: 0,
       garage: false,
