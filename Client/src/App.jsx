@@ -14,6 +14,8 @@ import HomeAdmin from './views/Home/HomeAdmin';
 import Error404 from './components/Error/Error404';
 import LoginAdmin from './components/Login/LoginAdmin';
 import { EditPropertyFromAdmin } from './components/admin/editProperty/editProperty';
+import BookingSystem from "./views/Reservations/Reservations";
+
 
 function App() {
 	const location = useLocation();
@@ -24,9 +26,9 @@ function App() {
 	}, [dispatch]);
 
 	return (
-		<div className='bg-indigo-50'>
-			{location.pathname === '/' && <NavBar />}
-			{location.pathname === '/admin' && <NavBarAdmin />}
+		<div className="bg-indigo-50">
+			{location.pathname === "/" && <NavBar />}
+			{location.pathname === "/admin" && <NavBarAdmin />}
 
 			<Routes>
 				<Route path='/' element={<Home />} />
@@ -38,6 +40,7 @@ function App() {
 				<Route path='/error404' element={<Error404 />} />
 				<Route path='/loginadmin' element={<LoginAdmin />} />
 				<Route path='/admin/property/:id' element={<EditPropertyFromAdmin/>} />
+         <Route path="/reservations" element={<BookingSystem />} />
 			</Routes>
 		</div>
 	);
