@@ -1,15 +1,20 @@
 import axios from "axios";
+import * as Yup from "yup";
+import { useDispatch } from "react-redux"
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
+import { editProperty } from "../../../redux/actions";
 import Dropzone from "react-dropzone";
+import Switch from "react-switch";
 
 export function EditPropertyFromAdmin() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   let dates = [];
   const [property, setProperty] = useState({
     title: "",
-    description: "",
+    description: "",  
     address: {
       street: "",
       city: "",
@@ -20,6 +25,7 @@ export function EditPropertyFromAdmin() {
     bathrooms: 0,
     price: 0,
     type: "house",
+    availableDays:[],
     availableDates: {
       startDate: new Date(),
       endDate: new Date(),
@@ -45,6 +51,7 @@ export function EditPropertyFromAdmin() {
       balcony_patio: false,
     },
     active: false,
+    owner:{}
   });
 
   console.log("soy property", property);
@@ -96,27 +103,130 @@ export function EditPropertyFromAdmin() {
     return dates;
   }
 
-  /* const handleDeleteClick = (e, imageUrlToDelete) => {
-    e.stopPropagation();
-    deletePicture(imageUrlToDelete);
-  }; */
+  
+  const validationSchema = Yup.object().shape({
+    title: Yup.string()
+      .required("Title is required")
+      .min(5, "Very short title, must be at least 5 characters long"),
+    description: Yup.string().required("Description is required"),
+    address: Yup.object().shape({
+      street: Yup.string().required("The street is required"),
+      city: Yup.string().required("The city is required"),
+      state: Yup.string().required("State is required"),
+      zipcode: Yup.number().required("Zip code is required"),
+    }),
+    bedrooms: Yup.number()
+      .required("Number of rooms is required")
+      .min(0)
+      .max(10),
+    bathrooms: Yup.number()
+      .required("Number of bathrooms required")
+      .min(0)
+      .max(10),
+    price: Yup.number().required("Price is required").min(1).max(100000),
+    availableDates: Yup.object().shape({
+      startDate: Yup.date()
+        .required("Required start date")
+        .min(new Date(), "The start date should be from today"),
+      endDate: Yup.date()
+        .required("Required completion date")
+        .min(Yup.ref("startDate"), "The end date must be later than the start date"),
+    }),
+    images: Yup.array()
+      .required("You must add at least 5 images")
+      .test("is-images-length", "You must add at least 5 images", (images) => {
+        return images && images.length === 5;
+      }),
+  });
 
-  const handleDeleteImage = (imageUrlToDelete) => {
-    const newImages = values.images.filter(
-      (image) => image.imageUrl !== imageUrlToDelete
-    );
-    setFieldValue("images", newImages);
+  const uploadImagesToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file[0]);
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3001/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      console.error("Error al cargar la imagen:", error);
+    }
   };
 
-  console.log("soy dates", dates);
+
 
   return (
     <div>
       <Formik
         initialValues={property}
         enableReinitialize={true}
-        /* validationSchema={validationSchema} */
-        /* onSubmit={handleSubmit} */
+        validationSchema={validationSchema}
+        onSubmit={(values, { setSubmitting }) => {
+          let propertyEdited = {};
+          const {
+            title,
+            description,
+            address,
+            bedrooms,
+            bathrooms,
+            price,
+            type,
+            availableDays,
+            images,
+            amenities,
+            additional,
+            active,
+            owner,
+            _id,
+            __v } = values;
+
+            if (dates.length > 0 ) {
+             propertyEdited = {
+                title,
+                description,
+                address,
+                bedrooms,
+                bathrooms,
+                price,
+                type,
+                availableDays:dates,
+                images,
+                amenities,
+                additional,
+                active,
+                owner,
+                _id,
+                __v 
+              }
+            } else {
+             propertyEdited = {
+              title,
+              description,
+              address,
+              bedrooms,
+              bathrooms,
+              price,
+              type,
+              availableDays,
+              images,
+              amenities,
+              additional,
+              active,
+              owner,
+              _id,
+              __v 
+            }
+          }
+            console.log("soy el objeto a mandar", propertyEdited)
+            dispatch(editProperty(propertyEdited))
+            setSubmitting(false);
+            
+        }}
       >
         {({ values, isSubmitting, setFieldValue }) => (
           <Form className="bg-white rounded-lg p-6 shadow-lg my-10">
@@ -375,23 +485,33 @@ export function EditPropertyFromAdmin() {
               />
               <ErrorMessage name="availableDays.endDate" component="div" />
             </div>
-            <br></br>
-            <div className="image-container">
-                    {values.images &&
-                      values.images.map(
-                        (e) =>
-                          e &&
-                          e.imageUrl && (
-                              <img
-                                style={{ maxWidth: "10em", maxHeight: "10em" }}
-                                key={e.imageUrl}
-                                src={e.imageUrl}
-                                alt={e.imageUrl}
-                                onDoubleClick={() => handleDeleteImage(e.imageUrl)}
-                              />
-                          )
-                      )}
-              </div>
+
+            <div>
+            <FieldArray name="images">
+              {({ remove }) => (
+                <div className="image-container">
+                  {values.images &&
+                    values.images.map((image, index) => (
+                      <div key={index} className="image-wrapper">
+                        <img
+                          style={{ maxWidth: "10em", maxHeight: "10em" }}
+                          src={image.imageUrl}
+                          alt={image.imageUrl}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            remove(index);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </FieldArray>
+            </div>
 
             <Dropzone
               onDrop={async (acceptedFiles) => {
@@ -413,25 +533,29 @@ export function EditPropertyFromAdmin() {
               {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps()} className="dropzone">
                   <input {...getInputProps()} />
-                    <p className="text-black">
-                      Arrastra y suelta archivos aquí o haz clic para
-                      seleccionar (máximo 5 imágenes)
-                    </p>
+                  <p className="text-black">
+                    Arrastra y suelta archivos aquí o haz clic para seleccionar
+                    (máximo 5 imágenes)
+                  </p>
                 </div>
               )}
             </Dropzone>
 
-            {/*   <button
+            <div className="block text-left text-gray-700">
+              <label htmlFor="active">Active posting:</label>
+              <Switch
+                onChange={(value) => setFieldValue("active", value)}
+                checked={values.active}
+              />
+            </div>
+
+              <button
                 type="submit"
                 disabled={isSubmitting}
                 className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
-                onClick={(e) => {
-                  e.preventDefault(); // Evitar que el formulario se envíe automáticamente
-                  handleSubmit(values, { setSubmitting: () => {} }); // Llamar a la función handleSubmit con los valores y un objeto "setSubmitting" vacío
-                }}
               >
                 Edit
-              </button> */}
+              </button>
           </Form>
         )}
       </Formik>
