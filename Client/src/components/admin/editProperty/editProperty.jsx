@@ -1,12 +1,15 @@
 import axios from "axios";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux"
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
+import { editProperty } from "../../../redux/actions";
 import Dropzone from "react-dropzone";
 import Switch from "react-switch";
 
 export function EditPropertyFromAdmin() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   let dates = [];
   const [property, setProperty] = useState({
@@ -220,6 +223,7 @@ export function EditPropertyFromAdmin() {
             }
           }
             console.log("soy el objeto a mandar", propertyEdited)
+            dispatch(editProperty(propertyEdited))
             setSubmitting(false);
             
         }}
