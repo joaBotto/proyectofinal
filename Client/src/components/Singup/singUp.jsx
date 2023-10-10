@@ -48,7 +48,7 @@ const SignUpForm = () => {
     address: "",
     city: "",
     phoneNumber: "",
-    avatar: null,
+    images: [],
   };
 
   const validationSchema = Yup.object({
