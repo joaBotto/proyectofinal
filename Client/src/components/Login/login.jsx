@@ -9,7 +9,7 @@ import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Login() {
-  let regExPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{1,15}$/
+  let regExPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9/*-]{1,15}$/;
   let regExEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
   const dispatch = useDispatch();
@@ -93,7 +93,7 @@ export default function Login() {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={`mt-1 p-2 w-full rounded-full border ${
+                  className={`mt-1 p-2 w-full rounded-full border text-black ${
                     touched.email && errors.email
                       ? "border-red-500"
                       : "border-gray-300"
@@ -117,7 +117,7 @@ export default function Login() {
                   placeholder="Password"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={`mt-1 p-2 w-full rounded-full border ${
+                  className={`mt-1 p-2 w-full rounded-full border text-black ${
                     touched.password && errors.password
                       ? "border-red-500"
                       : "border-gray-300"
