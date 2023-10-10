@@ -11,6 +11,7 @@ import axios from "axios";
 import logo from "../../assets/img/logo.png";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "../Footer/Footer";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const SignUpForm = () => {
     address: "",
     city: "",
     phoneNumber: "",
-    avatar: null,
+    images: [],
   };
 
   const validationSchema = Yup.object({
@@ -71,33 +72,6 @@ const SignUpForm = () => {
   const handleValidation = (isValid) => {
     setFormValid(isValid);
   };
-  //----------------------Envio de email----------------------------------
-  const form = useRef();
-
-  const sendEmail = (values) => {
-    const serviceID = "service_phq6wkb";
-    const templateID = "template_d3bst5s";
-    const publicID = "A88VMvhYNS70XCfHm";
-
-    emailjs.init(publicID);
-
-    const templateParams = {
-      from_name: values.name,
-      to_email: values.email,
-      subject: "Inmuebles360 :)",
-      message: "Bienvenido a nuestra plataforma!",
-    };
-
-    emailjs
-      .sendForm(serviceID, templateID, templateParams, form.current, publicID)
-      .then((result) => {
-        alert("Sign Up success: ", result);
-      })
-      .catch((error) => {
-        alert("Something was wrong: ", error);
-      });
-  };
-  //----------------------------------------------------------------------
 
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
@@ -133,24 +107,14 @@ const SignUpForm = () => {
           console.error("Error al cargar la imagen en Cloudinary.");
         }
       }
-      dispatch(addUser(values));
 
-      const response = await axios.post("http://localhost:3001/users", values);
-      if (response.status === 200) {
-        // Después de que el usuario se haya creado con éxito, establece userCreated en true
-        setUserCreated(true);
-        sendEmail();
-      } else {
-        console.error("Error en el registro:", response.data.error);
-      }
-
+      await dispatch(addUser(values));
       // Espera 2 segundos antes de redirigir
       setTimeout(() => {
         // Redirige al usuario a la página de inicio ("/")
         navigate("/login");
       }, 7000); // El tiempo está en milisegundos (en este caso, 2 segundos)
     } catch (error) {
-      console.error("Error en la solicitud:", error);
     } finally {
       setSubmitting(false);
       setImage(null);
@@ -160,266 +124,283 @@ const SignUpForm = () => {
 
   return (
     <div
-      className="min-h-0 w-screen flex items-center justify-center "
+      className="min-h-screen flex flex-col items-center justify-between"
       style={{
         backgroundImage: `url(${register})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="flex justify-end items-center absolute top-0 left-0 px-24 py-6 ">
-        <img src={logo} alt="Logo" className="w-auto h-16 " />
-      </div>
-      <div className="max-w-md mx-auto mt-8">
-        <h1 className=" font-bold mb-4 text-5xl text-center text-blue">
-          Sign up
-        </h1>
-
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-          validateOnChange={false}
-          validateOnBlur={false}
-          validate={(values) => {
-            const errors = {};
-            const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
-            if (!passwordPattern.test(values.password)) {
-              errors.password =
-                "It must contain at least 8 characters, a capital letter, a number and one of the following signs: /, * o -";
-            }
-            const isValid = Object.keys(errors).length === 0;
-            handleValidation(isValid);
-            return errors;
-          }}
-        >
-          <Form className="space-y-4">
-            <div {...getRootProps()} className="dropzone">
-              <input {...getInputProps()} />
-              <p className="cursor-pointer  pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase ">
-                Drag or select a profile photo
-              </p>
-            </div>
-
-            {imagePreview && (
-              <div className="mt-4">
-                <img
-                  src={imagePreview}
-                  alt="vista previa"
-                  className="  h-32 max-w-full mt-2"
-                />
+      <h1 className="font-bold mt-11 font-onest text-4xl text-center text-blue">
+        Register Now!
+      </h1>
+      <div className="bg-white w-1/3 mt-5 rounded-lg p-6 shadow-lg">
+        <div className="flex justify-center my-8">
+          <img src={logo} alt="Logo" className="w-1/2" />
+        </div>
+        <div className="mx-5 mt-8">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+            validateOnChange={false}
+            validateOnBlur={false}
+            validate={(values) => {
+              const errors = {};
+              const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+              if (!passwordPattern.test(values.password)) {
+                errors.password =
+                  "It must contain at least 8 characters, a capital letter, a number and one of the following signs: /, * o -";
+              }
+              const isValid = Object.keys(errors).length === 0;
+              handleValidation(isValid);
+              return errors;
+            }}
+          >
+            <Form className="space-y-2">
+              <div className="flex flex-row mb-2">
+                <div
+                  {...getRootProps()}
+                  className="flex flex-col justify-center w-1/4 rounded-full-lg border-none"
+                >
+                  <input {...getInputProps()} />
+                  {!imagePreview && (
+                    <p className="text-center cursor-pointer text-md font-onest font-semibold text-blue uppercase ">
+                      profile photo
+                    </p>
+                  )}
+                  {imagePreview && (
+                    <div className="cursor-pointer mt-2 flex justify-start">
+                      <img
+                        src={imagePreview}
+                        alt="vista previa"
+                        className="h-[100px] w-[100px] rounded-full"
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col w-3/4 justify-center align-middle ml-2">
+                  <div className="mb-2">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      {/* Nombre: */}
+                    </label>
+                    <div className="relative">
+                      <Field
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Name"
+                        className="mt-1 p-2 w-full border rounded-full text-black"
+                      />
+                      <ErrorMessage
+                        name="name"
+                        component="div"
+                        className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
+                      />
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <label
+                      htmlFor="lastName"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      {/* Apellido: */}
+                    </label>
+                    <Field
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      placeholder="Last Name"
+                      className="mt-1 p-2 w-full border rounded-full text-black"
+                    />
+                    <ErrorMessage
+                      name="lastName"
+                      component="div"
+                      className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
+                    />
+                  </div>
+                </div>
               </div>
-            )}
-            <ToastContainer />
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                {/* Nombre: */}
-              </label>
+
+              <ToastContainer />
+
               <div className="relative">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {/* Correo Electrónico: */}
+                </label>
                 <Field
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Name"
-                  className="mt-1 p-2 w-full border rounded text-black"
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  className="mt-1 p-2 w-full border rounded-full text-black"
                 />
                 <ErrorMessage
-                  name="name"
+                  name="email"
                   component="div"
                   className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
                 />
               </div>
-            </div>
 
-            <div className="relative">
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {/* Apellido: */}
-              </label>
-              <Field
-                type="text"
-                id="lastName"
-                name="lastName"
-                placeholder="Last Name"
-                className="mt-1 p-2 w-full border rounded text-black"
-              />
-              <ErrorMessage
-                name="lastName"
-                component="div"
-                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {/* Correo Electrónico: */}
-              </label>
-              <Field
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Email"
-                className="mt-1 p-2 w-full border rounded text-black"
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {/* Contraseña: */}
-              </label>
-              <Field
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                className="mt-1 p-2 w-full border rounded text-black"
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-600 text-sm "
-              />
-            </div>
-            <div className="relative">
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {/* Confirmar Contraseña: */}
-              </label>
-              <Field
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                className="mt-1 p-2 w-full border rounded text-black"
-              />
-              <ErrorMessage
-                name="confirmPassword"
-                component="div"
-                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {/* País: */}
-              </label>
-              <Field
-                type="text"
-                id="country"
-                name="country"
-                placeholder="Country"
-                className="mt-1 p-2 w-full border rounded text-black"
-              />
-              <ErrorMessage
-                name="country"
-                component="div"
-                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label
-                htmlFor="address"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {/* Dirección: */}
-              </label>
-              <Field
-                type="text"
-                id="address"
-                name="address"
-                placeholder="Address"
-                className="mt-1 p-2 w-full border rounded text-black"
-              />
-              <ErrorMessage
-                name="address"
-                component="div"
-                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label
-                htmlFor="city"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {/* Ciudad: */}
-              </label>
-              <Field
-                type="text"
-                id="city"
-                name="city"
-                placeholder="City"
-                className="mt-1 p-2 w-full border rounded text-black"
-              />
-              <ErrorMessage
-                name="city"
-                component="div"
-                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label
-                htmlFor="phoneNumber"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {/* Número de teléfono: */}
-              </label>
-              <Field
-                type="text"
-                id="phoneNumber"
-                name="phoneNumber"
-                placeholder="Phone Number"
-                className="mt-1 p-2 w-full border rounded text-black"
-              />
-              <ErrorMessage
-                name="phoneNumber"
-                component="div"
-                className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
-              />
-            </div>
-
-            <div className="flex justify-center mt-4">
-              <button
-                type="submit"
-                className="bg-pink text-white font-onest font-light px-4 py-2 rounded-full mx-6 my-4 self-end"
-              >
-                Sign up
-              </button>
-            </div>
-
-            <Link to="/">
-              <div className="flex justify-end items-center absolute top-0 right-20">
-                <button className="bg-blue text-white font-onest font-light px-6 py-6 rounded-full mx-6 my-4 self-end">
-                  Home
-                </button>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {/* Contraseña: */}
+                </label>
+                <Field
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  className="mt-1 p-2 w-full border rounded-full text-black"
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-red-600 text-sm "
+                />
               </div>
-            </Link>
-          </Form>
-        </Formik>
+              <div className="relative">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {/* Confirmar Contraseña: */}
+                </label>
+                <Field
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  className="mt-1 p-2 w-full border rounded-full text-black"
+                />
+                <ErrorMessage
+                  name="confirmPassword"
+                  component="div"
+                  className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
+                />
+              </div>
+
+              <div className="relative">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {/* País: */}
+                </label>
+                <Field
+                  type="text"
+                  id="country"
+                  name="country"
+                  placeholder="Country"
+                  className="mt-1 p-2 w-full border rounded-full text-black"
+                />
+                <ErrorMessage
+                  name="country"
+                  component="div"
+                  className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
+                />
+              </div>
+
+              <div className="relative">
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {/* Dirección: */}
+                </label>
+                <Field
+                  type="text"
+                  id="address"
+                  name="address"
+                  placeholder="Address"
+                  className="mt-1 p-2 w-full border rounded-full text-black"
+                />
+                <ErrorMessage
+                  name="address"
+                  component="div"
+                  className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
+                />
+              </div>
+
+              <div className="relative">
+                <label
+                  htmlFor="city"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {/* Ciudad: */}
+                </label>
+                <Field
+                  type="text"
+                  id="city"
+                  name="city"
+                  placeholder="City"
+                  className="mt-1 p-2 w-full border rounded-full text-black"
+                />
+                <ErrorMessage
+                  name="city"
+                  component="div"
+                  className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
+                />
+              </div>
+
+              <div className="relative">
+                <label
+                  htmlFor="phoneNumber"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {/* Número de teléfono: */}
+                </label>
+                <Field
+                  type="text"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  placeholder="Phone Number"
+                  className="mt-1 p-2 w-full border rounded-full text-black"
+                />
+                <ErrorMessage
+                  name="phoneNumber"
+                  component="div"
+                  className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
+                />
+              </div>
+              <div className="flex flex-col">
+                <button
+                  type="submit"
+                  className="justify-center text-center w-1/4 bg-violet font-onest font-semibold text-white px-4 py-2 rounded-full hover:bg-pink"
+                >
+                  Sign Up
+                </button>
+                <div className="flex justify-between">
+                  <button
+                    type="submit"
+                    className="mt-2 bg-light-blue-800 font-onest text-white px-4 py-1 rounded-full hover:bg-pink"
+                  >
+                    Sign Up With Google
+                  </button>
+                  <Link to="/">
+                    <button className="mt-2 flex justify-end bg-red-500 font-onest text-white px-4 py-2 rounded-full hover:bg-pink">
+                      Cancel
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </Form>
+          </Formik>
+        </div>
       </div>
+      <p className="font-onest mb-11 flex w-1/3 pt-2">
+        Already have an account? <Link to="/login"> LogIn</Link>
+      </p>
+      <Footer />
     </div>
   );
 };
