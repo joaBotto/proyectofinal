@@ -3,13 +3,15 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import Dropzone from "react-dropzone";
+import Switch from "react-switch";
+import { useDispatch, useSelector } from "react-redux"
 
 export function EditPropertyFromAdmin() {
   const { id } = useParams();
   let dates = [];
   const [property, setProperty] = useState({
     title: "",
-    description: "",
+    description: "",  
     address: {
       street: "",
       city: "",
@@ -20,6 +22,7 @@ export function EditPropertyFromAdmin() {
     bathrooms: 0,
     price: 0,
     type: "house",
+    availableDays:[],
     availableDates: {
       startDate: new Date(),
       endDate: new Date(),
@@ -45,6 +48,7 @@ export function EditPropertyFromAdmin() {
       balcony_patio: false,
     },
     active: false,
+    owner:{}
   });
 
   console.log("soy property", property);
@@ -93,6 +97,7 @@ export function EditPropertyFromAdmin() {
       dates.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
+    setProperty({...property, availableDays:dates})
     return dates;
   }
 
@@ -117,13 +122,52 @@ export function EditPropertyFromAdmin() {
     }
   };
 
+
+
   return (
     <div>
       <Formik
         initialValues={property}
         enableReinitialize={true}
         /* validationSchema={validationSchema} */
-        /* onSubmit={handleSubmit} */
+        onSubmit={(values, { setSubmitting }) => {
+          const {
+            title,
+            description,
+            address,
+            bedrooms,
+            bathrooms,
+            price,
+            type,
+            availableDays,
+            images,
+            amenities,
+            additional,
+            active,
+            owner,
+            _id,
+            __v } = values;
+            const propertyEdited = {
+              title,
+              description,
+              address,
+              bedrooms,
+              bathrooms,
+              price,
+              type,
+              availableDays,
+              images,
+              amenities,
+              additional,
+              active,
+              owner,
+              _id,
+              __v 
+            }
+            console.log("soy el objeto a mandar", propertyEdited)
+            setSubmitting(false);
+            
+        }}
       >
         {({ values, isSubmitting, setFieldValue }) => (
           <Form className="bg-white rounded-lg p-6 shadow-lg my-10">
@@ -384,28 +428,29 @@ export function EditPropertyFromAdmin() {
             </div>
             <br></br>
             <FieldArray name="images">
-            {({ remove }) => (
-              <div className="image-container">
-                {values.images && values.images.map((image, index) => (
-                  <div key={index} className="image-wrapper">
-                    <img
-                      style={{ maxWidth: "10em", maxHeight: "10em" }}
-                      src={image.imageUrl}
-                      alt={image.imageUrl}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        remove(index);
-                      }}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </FieldArray>
+              {({ remove }) => (
+                <div className="image-container">
+                  {values.images &&
+                    values.images.map((image, index) => (
+                      <div key={index} className="image-wrapper">
+                        <img
+                          style={{ maxWidth: "10em", maxHeight: "10em" }}
+                          src={image.imageUrl}
+                          alt={image.imageUrl}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            remove(index);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </FieldArray>
 
             <Dropzone
               onDrop={async (acceptedFiles) => {
@@ -427,25 +472,29 @@ export function EditPropertyFromAdmin() {
               {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps()} className="dropzone">
                   <input {...getInputProps()} />
-                    <p className="text-black">
-                      Arrastra y suelta archivos aquí o haz clic para
-                      seleccionar (máximo 5 imágenes)
-                    </p>
+                  <p className="text-black">
+                    Arrastra y suelta archivos aquí o haz clic para seleccionar
+                    (máximo 5 imágenes)
+                  </p>
                 </div>
               )}
             </Dropzone>
 
-            {/*   <button
+            <div className="block text-left text-gray-700">
+              <label htmlFor="active">Active posting:</label>
+              <Switch
+                onChange={(value) => setFieldValue("active", value)}
+                checked={values.active}
+              />
+            </div>
+
+              <button
                 type="submit"
                 disabled={isSubmitting}
                 className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
-                onClick={(e) => {
-                  e.preventDefault(); // Evitar que el formulario se envíe automáticamente
-                  handleSubmit(values, { setSubmitting: () => {} }); // Llamar a la función handleSubmit con los valores y un objeto "setSubmitting" vacío
-                }}
               >
                 Edit
-              </button> */}
+              </button>
           </Form>
         )}
       </Formik>
