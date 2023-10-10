@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import Dropzone from "react-dropzone";
 
 export function EditPropertyFromAdmin() {
@@ -96,19 +96,26 @@ export function EditPropertyFromAdmin() {
     return dates;
   }
 
-  /* const handleDeleteClick = (e, imageUrlToDelete) => {
-    e.stopPropagation();
-    deletePicture(imageUrlToDelete);
-  }; */
-
-  const handleDeleteImage = (imageUrlToDelete) => {
-    const newImages = values.images.filter(
-      (image) => image.imageUrl !== imageUrlToDelete
-    );
-    setFieldValue("images", newImages);
-  };
-
   console.log("soy dates", dates);
+
+  const uploadImagesToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file[0]);
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3001/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      console.error("Error al cargar la imagen:", error);
+    }
+  };
 
   return (
     <div>
@@ -376,22 +383,29 @@ export function EditPropertyFromAdmin() {
               <ErrorMessage name="availableDays.endDate" component="div" />
             </div>
             <br></br>
-            <div className="image-container">
-                    {values.images &&
-                      values.images.map(
-                        (e) =>
-                          e &&
-                          e.imageUrl && (
-                              <img
-                                style={{ maxWidth: "10em", maxHeight: "10em" }}
-                                key={e.imageUrl}
-                                src={e.imageUrl}
-                                alt={e.imageUrl}
-                                onDoubleClick={() => handleDeleteImage(e.imageUrl)}
-                              />
-                          )
-                      )}
+            <FieldArray name="images">
+            {({ remove }) => (
+              <div className="image-container">
+                {values.images && values.images.map((image, index) => (
+                  <div key={index} className="image-wrapper">
+                    <img
+                      style={{ maxWidth: "10em", maxHeight: "10em" }}
+                      src={image.imageUrl}
+                      alt={image.imageUrl}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        remove(index);
+                      }}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))}
               </div>
+            )}
+          </FieldArray>
 
             <Dropzone
               onDrop={async (acceptedFiles) => {
