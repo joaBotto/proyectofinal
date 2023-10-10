@@ -490,20 +490,20 @@ export function EditPropertyFromAdmin() {
             
             <FieldArray name="images">
               {({ remove }) => (
-                <div className="image-container">
+                <div className="image-container flex flex-row mt-8">
                   {values.images &&
                     values.images.map((image, index) => (
-                      <div key={index} className="w-full flex flex-row">
-                        <div className="w-full flex flex-row justify-center">
+                      <div key={index} className="w-1/5 h-full">
+                        <div className="w-full">
                         <img
-                          style={{ maxWidth: "10em", maxHeight: "10em" }}
                           src={image.imageUrl}
                           alt={image.imageUrl}
-                          className=""
+                          className="w-full h-40"
                         />
                         </div>
                         <div>
                         <button
+                        className="block mx-auto bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
                           type="button"
                           onClick={() => {
                             remove(index);
