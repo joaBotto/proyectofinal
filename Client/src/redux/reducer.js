@@ -6,7 +6,8 @@ import {
     FILTERS,
     CLEAN_DETAIL,
     ERROR,
-    USER_LOGIN
+    USER_LOGIN,
+    PROPERTY_EDITED
 } from "./actions_types";
 
 const initialState = {
@@ -103,10 +104,20 @@ const rootReducer = (state = initialState, { type, payload }) => {
       };
  
       case USER_LOGIN:
-
         return{
           ...state,
           user:payload
+        }
+
+      case PROPERTY_EDITED:
+        const allproperties = state.allproperties
+        const properties = state.properties
+        const allpropertiesFiltered = allproperties.filter((property) => property._id !== payload._id);
+        const propertiesFiltered = properties.filter((property) => property._id !== payload._id);
+        return {
+          ...state,
+          allproperties:[...allpropertiesFiltered, payload],
+          properties:[...propertiesFiltered, payload]
         }
             
     default:
