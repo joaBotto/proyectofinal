@@ -1,10 +1,10 @@
 import axios from "axios";
+import * as Yup from "yup";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import Dropzone from "react-dropzone";
 import Switch from "react-switch";
-import { useDispatch, useSelector } from "react-redux"
 
 export function EditPropertyFromAdmin() {
   const { id } = useParams();
@@ -97,11 +97,44 @@ export function EditPropertyFromAdmin() {
       dates.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
-    setProperty({...property, availableDays:dates})
     return dates;
   }
 
-  console.log("soy dates", dates);
+  
+  const validationSchema = Yup.object().shape({
+    title: Yup.string()
+      .required("Title is required")
+      .min(5, "Very short title, must be at least 5 characters long"),
+    description: Yup.string().required("Description is required"),
+    address: Yup.object().shape({
+      street: Yup.string().required("The street is required"),
+      city: Yup.string().required("The city is required"),
+      state: Yup.string().required("State is required"),
+      zipcode: Yup.number().required("Zip code is required"),
+    }),
+    bedrooms: Yup.number()
+      .required("Number of rooms is required")
+      .min(0)
+      .max(10),
+    bathrooms: Yup.number()
+      .required("Number of bathrooms required")
+      .min(0)
+      .max(10),
+    price: Yup.number().required("Price is required").min(1).max(100000),
+    availableDates: Yup.object().shape({
+      startDate: Yup.date()
+        .required("Required start date")
+        .min(new Date(), "The start date should be from today"),
+      endDate: Yup.date()
+        .required("Required completion date")
+        .min(Yup.ref("startDate"), "The end date must be later than the start date"),
+    }),
+    images: Yup.array()
+      .required("You must add at least 5 images")
+      .test("is-images-length", "You must add at least 5 images", (images) => {
+        return images && images.length === 5;
+      }),
+  });
 
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
@@ -129,8 +162,9 @@ export function EditPropertyFromAdmin() {
       <Formik
         initialValues={property}
         enableReinitialize={true}
-        /* validationSchema={validationSchema} */
+        validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
+          let propertyEdited = {};
           const {
             title,
             description,
@@ -147,7 +181,27 @@ export function EditPropertyFromAdmin() {
             owner,
             _id,
             __v } = values;
-            const propertyEdited = {
+
+            if (dates.length > 0 ) {
+             propertyEdited = {
+                title,
+                description,
+                address,
+                bedrooms,
+                bathrooms,
+                price,
+                type,
+                availableDays:dates,
+                images,
+                amenities,
+                additional,
+                active,
+                owner,
+                _id,
+                __v 
+              }
+            } else {
+             propertyEdited = {
               title,
               description,
               address,
@@ -164,6 +218,7 @@ export function EditPropertyFromAdmin() {
               _id,
               __v 
             }
+          }
             console.log("soy el objeto a mandar", propertyEdited)
             setSubmitting(false);
             
@@ -426,7 +481,8 @@ export function EditPropertyFromAdmin() {
               />
               <ErrorMessage name="availableDays.endDate" component="div" />
             </div>
-            <br></br>
+
+            <div>
             <FieldArray name="images">
               {({ remove }) => (
                 <div className="image-container">
@@ -451,6 +507,7 @@ export function EditPropertyFromAdmin() {
                 </div>
               )}
             </FieldArray>
+            </div>
 
             <Dropzone
               onDrop={async (acceptedFiles) => {
