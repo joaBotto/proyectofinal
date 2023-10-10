@@ -1,5 +1,6 @@
 import axios from "axios";
-// import { GoogleMap, Marker } from "@react-google-maps/api"
+import { GoogleMap, Marker } from "@react-google-maps/api"
+import React from "react";
 
 
 
@@ -23,34 +24,18 @@ if(navigator.geolocation){
 }
 
 
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// window.initMap = function () {
-//     const coordUbicaction = { lat: 0, lng: 0 }; 
-//     const mapDiv = document.getElementById("map"); // este map va  con el ID del  contenedor de mapa en cards
-//     const map = new window.google.maps.Map(mapDiv, {
-//       zoom: 10,
-//       center: coordUbicaction
-//     });
-//     const marker = new window.google.maps.Marker({
-//       position: coordUbicaction,
-//       map: map
-//     });
-//   }
+export const initMap = function () {
+    const coordUbicaction = { lat: 0, lng: 0 }; 
+    const mapDiv = document.getElementById("map"); // este map va  con el ID del  contenedor de mapa en cards
+    const map = new window.google.maps.Map(mapDiv, {
+      zoom: 10,
+      center: coordUbicaction
+    });
+    const marker = new window.google.maps.Marker({
+      position: coordUbicaction,
+      map: map
+    });
+  }
   
   
 

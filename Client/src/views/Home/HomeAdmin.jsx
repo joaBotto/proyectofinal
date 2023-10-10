@@ -20,15 +20,9 @@ export default function HomeAdmin() {
 	return (
 		<div className='mt-5 mx-0'>
 			<h1 className='absolute sm:text-5xl text-xl font-black text-violet mt-10 top-40 left-7 leading-[1.2] font-onest'>
-				FIND A HOME THAT
-				<br /> SUITS YOU
+				ADMINISTRATOR VIEW
 			</h1>
-			<p className='absolute text-lg font-bold text-white top-[320px] left-7 font-onest'>
-				+200 PROPERTIES
-			</p>
-			<p className='absolute text-lg font-bold text-white mt-6 top-[320px] left-7 font-onest'>
-				+400 HAPPY CUSTOMERS
-			</p>
+		
 			<Paginado
 				page={page}
 				setPage={setPage}

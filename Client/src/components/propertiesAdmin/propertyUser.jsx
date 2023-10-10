@@ -1,107 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { loadUserPosts, deletePost, updatePost } from '../../redux/actions';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import Footer from "../../components/Footer/Footer";
+import Container from "@mui/material/Container";
+import Paginado from "../../components/Paginado/paginado";
+import Cards from "../../components/Cards/CardsAdmin";
 
-const UserPosts = () => {
-  const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.userId);
-
-  const [posts, setPosts] = useState([]); // Estado para almacenar las publicaciones
-  const [editingPostId, setEditingPostId] = useState(null);
-  const [editedPostData, setEditedPostData] = useState({
-    title: '',
-    description: '',
-    price: 0,
-    bedrooms: 0,
-    bathrooms: 0,
-  });
+export default function Postuser() {
+  const currentUser = useSelector((state) => state.user);
+  const properties = useSelector((state) => state.properties);
 
   useEffect(() => {
-    const fetchUserPosts = async () => {
-      // Cargar las publicaciones del usuario cuando el componente se monta
-      const response = await dispatch(loadUserPosts(userId));
-      setPosts(response.payload); // Actualizar el estado con las publicaciones cargadas
-    };
+    setPage(1);
+  }, [properties]);
 
-    fetchUserPosts();
-  }, [dispatch, userId]);
+  const [page, setPage] = useState(1);
+  const perPage = 8;
+  const maxPage = Math.ceil(properties.length / perPage);
 
-  const handleDelete = (postId) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
-      dispatch(deletePost(postId));
-      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
-    }
-  };
+  console.log("Usuario actual:", currentUser);
+  console.log("Soy prop en el home", properties);
 
-  const handleEdit = (postId) => {
-    const postToEdit = posts.find((post) => post._id === postId);
-    if (postToEdit) {
-      setEditingPostId(postId);
-      setEditedPostData({
-        title: postToEdit.title,
-        description: postToEdit.description || '',
-        price: postToEdit.price || 0,
-        bedrooms: postToEdit.bedrooms || 0,
-        bathrooms: postToEdit.bathrooms || 0,
-      });
-    }
-  };
+  // Obtener todos los IDs de propiedad del usuario
+  const userPropertyIds = currentUser.properties; // Suponiendo que user.properties contiene un array de IDs
 
-  const handleSaveEdit = () => {
-    dispatch(updatePost(editingPostId, editedPostData));
-    setEditingPostId(null);
-  };
+  console.log("IDs de propiedades del usuario:", userPropertyIds);
 
+  // Filtrar las propiedades que coinciden con los IDs en userPropertyIds
+  const userProperties = properties.filter((property) =>
+    userPropertyIds.includes(property._id)
+  );
+  console.log("Propiedades del usuario:", userProperties);
+
+  // Renderizar solo cuando userProperties no esté vacío
   return (
-    <div>
-      <h2>Tus Publicaciones</h2>
-      <ul>
-        {posts.map((post) => (
-          <li key={post._id}>
-            {editingPostId === post._id ? (
-              <div>
-                <input
-                  type="text"
-                  value={editedPostData.title}
-                  onChange={(e) => setEditedPostData({ ...editedPostData, title: e.target.value })}
-                />
-                <textarea
-                  value={editedPostData.description}
-                  onChange={(e) => setEditedPostData({ ...editedPostData, description: e.target.value })}
-                />
-                <input
-                  type="number"
-                  value={editedPostData.price}
-                  onChange={(e) => setEditedPostData({ ...editedPostData, price: e.target.value })}
-                />
-                <input
-                  type="number"
-                  value={editedPostData.bedrooms}
-                  onChange={(e) => setEditedPostData({ ...editedPostData, bedrooms: e.target.value })}
-                />
-                <input
-                  type="number"
-                  value={editedPostData.bathrooms}
-                  onChange={(e) => setEditedPostData({ ...editedPostData, bathrooms: e.target.value })}
-                />
-                <button onClick={handleSaveEdit}>Guardar</button>
-              </div>
-            ) : (
-              <div>
-                <h3>{post.title}</h3>
-                <p>{post.description}</p>
-                <p>Precio: ${post.price}</p>
-                <p>Habitaciones: {post.bedrooms}</p>
-                <p>Baños: {post.bathrooms}</p>
-                <button onClick={() => handleDelete(post._id)}>Eliminar</button>
-                <button onClick={() => handleEdit(post._id)}>Editar</button>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+    <div className="mt-5 mx-0">
+      {userProperties.length > 0 ? (
+        <>
+          <h1 className="absolute sm:text-5xl text-xl font-black text-violet mt-10 top-40 left-7 leading-[1.2] font-onest">
+            FIND A HOME THAT
+            <br /> SUITS YOU
+          </h1>
+          <p className="absolute text-lg font-bold text-white top-[320px] left-7 font-onest">
+            +200 PROPERTIES
+          </p>
+          <p className="absolute text-lg font-bold text-white mt-6 top-[320px] left-7 font-onest">
+            +400 HAPPY CUSTOMERS
+          </p>
+          <Paginado
+            page={page}
+            setPage={setPage}
+            maxPage={maxPage}
+            products={userProperties}
+          />
+          <div className="p-4">
+            <Cards properties={userProperties} />
+          </div>
+          <Container className="flex justify-center bg-white rounded-full p-4 shadow-md">
+            <Paginado
+              page={page}
+              setPage={setPage}
+              maxPage={maxPage}
+              products={userProperties}
+            />
+          </Container>
+        </>
+      ) : (
+        <p>No properties found for this user.</p> // Puedes mostrar un mensaje si el usuario no tiene propiedades.
+      )}
+      <div className="p-0">
+        <Footer />
+      </div>
     </div>
   );
-};
-
-export default UserPosts;
+}
