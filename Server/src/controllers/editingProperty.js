@@ -1,11 +1,11 @@
-const Properties = require("../models/property")
+const property = require("../models/property")
 
 
-export const editingProperty = async (property) => {
+const editingProperty = async (propertyForEdit) => {
 try {
-    const propertyEdited = await Properties.findOneAndUpdate(
-        { _id: property._id },
-        { $set: property },
+    const propertyEdited = await property.findOneAndUpdate(
+        { _id: propertyForEdit._id },
+        { $set: propertyForEdit },
         { new: true } // Esto evita que devuelva el documento original
       );
       return propertyEdited;

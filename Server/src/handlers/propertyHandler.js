@@ -99,6 +99,7 @@ const editPropertyHandler = async (req, res) => {
       __v,
     }
     const propertyEdited = await editingProperty(propertyForEdit)
+    console.log("retorno",propertyEdited)
     return res.status(200).json(propertyEdited)
 
   } catch (error) {
