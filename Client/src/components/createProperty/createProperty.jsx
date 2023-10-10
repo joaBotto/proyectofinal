@@ -1,16 +1,15 @@
 import React from "react";
 import axios from "axios";
-
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"; // Importa 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Dropzone from "react-dropzone";
 import { createProperty } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 import fondo from "../../assets/img/loginRegister.jpg";
+import { Link, useNavigate } from "react-router-dom"; // Importa 
 import "./createProperty.css"
 import logo from "../../assets/img/logo.png"
+import { useState } from "react";
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
