@@ -49,7 +49,7 @@ const SignUpForm = () => {
     address: "",
     city: "",
     phoneNumber: "",
-    images: [],
+    avatar: null,
   };
 
   const validationSchema = Yup.object({
@@ -78,6 +78,8 @@ const SignUpForm = () => {
     const serviceID = "service_phq6wkb";
     const templateID = "template_d3bst5s";
     const publicID = "A88VMvhYNS70XCfHm";
+
+    emailjs.init(publicID);
 
     const templateParams = {
       from_name: values.name,
@@ -131,20 +133,24 @@ const SignUpForm = () => {
           console.error("Error al cargar la imagen en Cloudinary.");
         }
       }
-
       dispatch(addUser(values));
-      sendEmail(values);
 
-      // Después de que el usuario se haya creado con éxito, establece userCreated en true
-      setUserCreated(true);
+      const response = await axios.post("http://localhost:3001/users", values);
+      if (response.status === 200) {
+        // Después de que el usuario se haya creado con éxito, establece userCreated en true
+        setUserCreated(true);
+        sendEmail();
+      } else {
+        console.error("Error en el registro:", response.data.error);
+      }
 
-      dispatch(addUser(values));
       // Espera 2 segundos antes de redirigir
       setTimeout(() => {
         // Redirige al usuario a la página de inicio ("/")
         navigate("/login");
       }, 7000); // El tiempo está en milisegundos (en este caso, 2 segundos)
     } catch (error) {
+      console.error("Error en la solicitud:", error);
     } finally {
       setSubmitting(false);
       setImage(null);
