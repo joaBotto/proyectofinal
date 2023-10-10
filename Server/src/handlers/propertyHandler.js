@@ -1,7 +1,7 @@
 const creatingProperty = require("../controllers/creatingProperty");
 const getProperties = require("../controllers/getProperties");
 const detailingProperty = require("../controllers/detailingProperty");
-
+const editingProperty = require("../controllers/editingProperty")
 
 const getPropertiesHandler = async (req, res) => {
   try {
@@ -13,7 +13,6 @@ const getPropertiesHandler = async (req, res) => {
 };
 
 const creatingPropertyHandler = async (req, res) => {
-	
   try {
     const {
       title,
@@ -43,16 +42,15 @@ const creatingPropertyHandler = async (req, res) => {
       availableDays,
       images,
       owner,
-      active:true
+      active: true,
     };
-    
+
     const propertyCreated = await creatingProperty(newProperty);
     return res.status(201).json(propertyCreated);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
-
 
 const getPropertyByIdHandler = async (req, res) => {
   const { id } = req.params;
@@ -64,8 +62,54 @@ const getPropertyByIdHandler = async (req, res) => {
   }
 };
 
+const editPropertyHandler = async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      address,
+      bedrooms,
+      bathrooms,
+      price,
+      type,
+      availableDays,
+      images,
+      amenities,
+      additional,
+      active,
+      owner,
+      _id,
+      __v,
+    } = req.body;
+    const propertyForEdit = {
+      title,
+      description,
+      address,
+      bedrooms,
+      bathrooms,
+      price,
+      type,
+      availableDays,
+      images,
+      amenities,
+      additional,
+      active,
+      owner,
+      _id,
+      __v,
+    }
+    const propertyEdited = await editingProperty(propertyForEdit)
+    console.log("retorno",propertyEdited)
+    return res.status(200).json(propertyEdited)
+
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getPropertiesHandler,
   creatingPropertyHandler,
   getPropertyByIdHandler,
+  editPropertyHandler,
 };
