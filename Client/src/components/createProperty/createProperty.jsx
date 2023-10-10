@@ -11,7 +11,7 @@ import "./createProperty.css"
 import logo from "../../assets/img/logo.png"
 import { useState } from "react";
 import { ToastContainer } from 'react-toastify';
-import { toast } from 'react-toastify';
+
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
@@ -20,6 +20,8 @@ export default function CreateProperty() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [PropertyCreated, setPropertyCreated] = useState(false); // Estado para el mensaje de éxito
+const [isFormValid, setFormValid] = useState(false);
+
 
 
   const uploadImagesToCloudinary = async (file) => {
@@ -135,13 +137,6 @@ setSubmitting(false);
       
     }
     
-     // Después de que el usuario se haya creado con éxito, establece userCreated en true
-             // Redirige al usuario a la página de inicio ("/")
-          //  
-
-    
-       // Redirigir al usuario a la página de inicio después de que se haya creado la propiedad
-     
   };
 
   const validationSchema = Yup.object().shape({
@@ -522,7 +517,7 @@ setSubmitting(false);
                 disabled={isSubmitting}
                 className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
                 onClick={(e) => {
-                  e.preventDefault(); // Evitar que el formulario se envíe automáticamente
+                  e.preventDefault(values); // Evitar que el formulario se envíe automáticamente
                   handleSubmit(values, { setSubmitting: () => {} }); // Llamar a la función handleSubmit con los valores y un objeto "setSubmitting" vacío
               console.log("Soy la info a comprobar por que no funciona", values)  }}
               >

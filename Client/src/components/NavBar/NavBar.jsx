@@ -7,6 +7,7 @@ import logo from '../../assets/img/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { filters } from '../../redux/actions';
 
+
 const NavBar = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
