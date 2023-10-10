@@ -16,11 +16,11 @@ import {
 	faCheck,
 	faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import NavBarSimple from "../../components/NavBar/NavBarWithoutImage";
 import ImageCarousel from "../../components/Card/ImageCarousel";
 import ImageGalleryModal from "./Modal";
 import PropertyMap from "./PropertyMap";
 import Booking from "./Booking";
+import NavBar from "../../components/NavBar/NavBar";
 
 const Detail = () => {
 	const { id } = useParams();
@@ -31,7 +31,7 @@ const Detail = () => {
 	}, [dispatch, id]);
 
 	const property = useSelector((state) => state.propertyDetail);
-	const [isModalOpen, setIsModalOpen] = useState(false); // State for opening/closing the modal
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
 
 	const openModal = (image) => {
@@ -52,9 +52,30 @@ const Detail = () => {
 
 	console.log("property detail", property);
 
+	// const originalStartDate = property && property.availableDays[0];
+	// const formattedStartDate = new Date(originalStartDate).toLocaleDateString(
+	// 	"en-US",
+	// 	{
+	// 		year: "numeric",
+	// 		month: "long",
+	// 		day: "numeric",
+	// 	}
+	// );
+
+	// const originalEndDate =
+	// 	property && property.availableDays[property.availableDays.length - 1];
+	// const formattedEndDate = new Date(originalEndDate).toLocaleDateString(
+	// 	"en-US",
+	// 	{
+	// 		year: "numeric",
+	// 		month: "long",
+	// 		day: "numeric",
+	// 	}
+	// );
+
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
-			<NavBarSimple />
+			<NavBar />
 			{property && property.title ? (
 				<div className="w-full px-10 mx-10 py-20">
 					<div>
@@ -106,7 +127,7 @@ const Detail = () => {
 						</div>
 						<div className="w-full">
 							<p className="text-blue font-noto font-bold pb-3">
-								Published X days ago
+								{/* Available from {formattedStartDate} to {formattedEndDate} */}
 							</p>
 							<div className="w-1/2 h-10 grid grid-cols-3 gap-3 place-items-stretch">
 								<div className="flex justify-center items-center rounded-md bg-cyan uppercase">
@@ -145,11 +166,20 @@ const Detail = () => {
 										PROPERTY OWNER
 									</p>
 									<div className="flex flex-row justify-items-center pl-5">
-										<img
-											src="https://via.placeholder.com/150"
-											alt="Placeholder"
-											className="rounded-full object-cover w-11 h-11"
-										/>
+										{property.owner.images > 0 ? (
+											<img
+												src={property.owner.images[0]}
+												alt="Placeholder"
+												className="rounded-full object-cover w-11 h-11"
+											/>
+										) : (
+											<img
+												src="https://via.placeholder.com/150"
+												alt="Placeholder"
+												className="rounded-full object-cover w-11 h-11"
+											/>
+										)}
+
 										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
 											{property.owner.name} from {property.owner.city},{" "}
 											{property.owner.country}
@@ -344,11 +374,11 @@ const Detail = () => {
 							</div>
 							<div className="w-full flex justify-end pr-44 pt-11">
 								<Booking property={property} />
-								<Link to="/reservations">
-									<button className="pt-2 pb-2 pr-10 pl-10 font-onest font-extrabold text-white bg-violet rounded-full hover:bg-pink">
+								{/* <Link to="/">
+									<button className="disabled pt-2 pb-2 pr-10 pl-10 font-onest font-extrabold text-white bg-violet rounded-full hover:bg-pink">
 										BOOK NOW
 									</button>
-								</Link>
+								</Link> */}
 							</div>
 						</div>
 						{isModalOpen && (

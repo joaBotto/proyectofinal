@@ -6,26 +6,18 @@ const Booking = ({ property }) => {
 	const [startDate, setStartDate] = useState(null);
 	const [endDate, setEndDate] = useState(null);
 	const [totalAmount, setTotalAmount] = useState(0);
+	const [totalDays, setTotalDays] = useState(0);
 
 	const calculateTotalAmount = () => {
 		if (startDate && endDate) {
-			const oneDay = 24 * 60 * 60 * 1000;
-			const numberOfDays = Math.round((endDate - startDate) / oneDay);
-
-			const monthlyPrice = property.price;
-			console.log("prop in booking", property);
-			const dailyPrice = monthlyPrice / 30;
-
-			const calculatedTotal = dailyPrice * numberOfDays;
-			console.log(
-				"calcs",
-				oneDay,
-				numberOfDays,
-				monthlyPrice,
-				dailyPrice,
-				calculatedTotal
-			);
+			const start = new Date(startDate);
+			const end = new Date(endDate);
+			const diffTime = Math.abs(end - start);
+			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+			const calculatedTotal = diffDays * property.price;
+			setTotalDays(diffDays);
 			setTotalAmount(calculatedTotal);
+			console.log("usd", start, end, diffTime, diffDays, calculatedTotal);
 		} else {
 			setTotalAmount(0);
 		}
@@ -33,7 +25,6 @@ const Booking = ({ property }) => {
 
 	const handleStartDateChange = (date) => {
 		setStartDate(date);
-		calculateTotalAmount();
 	};
 
 	const handleEndDateChange = (date) => {
@@ -42,9 +33,9 @@ const Booking = ({ property }) => {
 	};
 
 	return (
-		<div className="w-1/2 ml-7">
+		<div className="flex flex-row justify-between items-center w-full ml-7">
 			{/* Date selection */}
-			<div className="mb-4">
+			<div className="flex flex-col justify-start mb-4 mr-5">
 				<p className="text-4xl text-blue font-onest font-extrabold pb-3">
 					SELECT DATES
 				</p>
@@ -71,12 +62,17 @@ const Booking = ({ property }) => {
 					</div>
 				</div>
 			</div>
-			{/* Total amount */}
-			<div className="mb-4">
-				<p className="text-4xl text-blue font-onest font-extrabold pb-3">
-					TOTAL AMOUNT
+			<div className="flex content-start text-left mb-4">
+				<p className="text-4xl text-blue font-onest font-extrabold px-3">
+					DAYS:
 				</p>
-				<p className="text-2xl text-blue font-onest font-extrabold">
+				<p className="text-4xl text-cyan font-onest font-extrabold pr-11">
+					{totalDays}
+				</p>
+				<p className="text-4xl text-blue font-onest font-extrabold px-3">
+					TOTAL:
+				</p>
+				<p className="text-4xl text-cyan font-onest font-extrabold">
 					U$D {totalAmount.toFixed(2)}
 				</p>
 			</div>
