@@ -27,11 +27,54 @@ const Booking = ({ property }) => {
 		setStartDate(date);
 	};
 
-	const handleEndDateChange = (date) => {
-		setEndDate(date);
-		calculateTotalAmount();
-	};
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+    calculateTotalAmount();
+  };
 
+<<<<<<< HEAD
+  return (
+    <div className="w-1/2 ml-7">
+      {/* Date selection */}
+      <div className="mb-4">
+        <p className="text-4xl text-blue font-onest font-extrabold pb-3">
+          SELECT DATES
+        </p>
+        <div className="flex flex-row justify-start">
+          <div className="mr-4">
+            <p className="text-md text-blue font-onest">Check-In:</p>
+            <DatePicker
+              selected={startDate}
+              onChange={handleStartDateChange}
+              minDate={new Date()}
+              dateFormat="yyyy-MM-dd"
+              className="border-2 border-cyan text-blue rounded-lg px-3 py-2"
+            />
+          </div>
+          <div>
+            <p className="text-md text-blue font-onest">Check-Out:</p>
+            <DatePicker
+              selected={endDate}
+              onChange={handleEndDateChange}
+              minDate={startDate || new Date()}
+              dateFormat="yyyy-MM-dd"
+              className="border-2 border-cyan text-blue rounded-lg px-3 py-2"
+            />
+          </div>
+        </div>
+      </div>
+      {/* Total amount */}
+      <div className="mb-4">
+        <p className="text-4xl text-blue font-onest font-extrabold pb-3">
+          TOTAL AMOUNT
+        </p>
+        <p className="text-2xl text-blue font-onest font-extrabold">
+          U$D {totalAmount.toFixed(2)}
+        </p>
+      </div>
+    </div>
+  );
+=======
 	return (
 		<div className="flex flex-row justify-between items-center w-full ml-7">
 			{/* Date selection */}
@@ -78,5 +121,6 @@ const Booking = ({ property }) => {
 			</div>
 		</div>
 	);
+>>>>>>> 261bd728661192d9eac7e471cfb9af4e22f1de22
 };
 export default Booking;
