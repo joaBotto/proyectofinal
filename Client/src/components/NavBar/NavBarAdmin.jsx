@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom'; // Importa useNavigate en lugar de useHistory
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faSignInAlt,
-	faBars,
-	faSignOutAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faBars, faSignOutAlt, } from '@fortawesome/free-solid-svg-icons';
 import fondo from '../../assets/img/fondo1.jpeg';
 import logo from '../../assets/img/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
@@ -58,23 +54,13 @@ const NavBarAdmin = () => {
 					</button>
 				</div>
 				<div className='hidden sm:flex sm:items-center sm:space-x-4 absolute top-10 right-10 mt-4'>
-					<a
-						href='/create'
-						className='font-onest font-black text-blue hover:text-white hover:underline'
-					>
-						CREATE
-					</a>
 					<button
 						onClick={() => {
-							// Realiza cualquier lógica de logout necesaria aquí
-							// Por ejemplo, eliminar la sesión o el token de autenticación
-
-							// Redirige al usuario al home (página principal)
 							navigate('/');
 						}}
 						className='font-onest font-black bg-violet text-red hover:text-white hover:underline'
 					>
-						LOGOUT
+						BACK TO HOME
 					</button>
 
 					<div className='relative group'>

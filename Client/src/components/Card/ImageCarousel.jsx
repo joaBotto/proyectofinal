@@ -42,7 +42,7 @@ const ImageCarousel = ({ images }) => {
 									onClick={() => setActiveIndex(i)}
 								/>
 							))}
-					<button
+				<button
 						className="cursor-pointer bg-transparent rounded-full hover:border-none"
 						onClick={() => setActiveIndex(activeIndex + 1)}
 						disabled={activeIndex === length - 1}

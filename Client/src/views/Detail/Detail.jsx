@@ -20,6 +20,7 @@ import NavBarSimple from "../../components/NavBar/NavBarWithoutImage";
 import ImageCarousel from "../../components/Card/ImageCarousel";
 import ImageGalleryModal from "./Modal";
 import PropertyMap from "./PropertyMap";
+import Booking from "./Booking";
 
 const Detail = () => {
 	const { id } = useParams();
@@ -342,6 +343,7 @@ const Detail = () => {
 								</div>
 							</div>
 							<div className="w-full flex justify-end pr-44 pt-11">
+								<Booking property={property} />
 								<Link to="/reservations">
 									<button className="pt-2 pb-2 pr-10 pl-10 font-onest font-extrabold text-white bg-violet rounded-full hover:bg-pink">
 										BOOK NOW

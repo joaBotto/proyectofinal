@@ -49,11 +49,14 @@ const NavBar = () => {
 							REGISTER YOUR PROPERTY
 						</a>
 					</Link>
-					<Link to='/loginadmin'>
+					{user && user.role === 'admin' && (
+						<Link to='/loginadmin'>
 						<a className='font-onest font-black text-blue hover:text-white hover:underline mr-10 pr-10'>
 							DASHBOARD
 						</a>
 					</Link>
+					)}
+					
 					{user && user.name ? (
 						<button className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-10">
 							{/* // onclick => modal (configuracion => user del estado global ? user.role ? user (cofig cuenta) : admin (conf cuenta y conf de la pag o DASHBOARD) */}
