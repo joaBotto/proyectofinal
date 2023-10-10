@@ -26,7 +26,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="bg-indigo-50">
+    <div className="bg-indigo-50" >
       {location.pathname === "/" && <NavBar />}
       {location.pathname === "/admin" && <NavBarAdmin />}
       {location.pathname === "/postUser" && <NavBarAdmin />}
