@@ -8,6 +8,7 @@ import {
   faHouseUser,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
+
 import fondo from "../../assets/img/fondo1.jpeg";
 import logo from "../../assets/img/logo.png";
 import { useSelector, useDispatch } from "react-redux";
