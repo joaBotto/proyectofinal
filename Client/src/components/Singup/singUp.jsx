@@ -132,13 +132,13 @@ const SignUpForm = () => {
         }
       }
 
-      await dispatch(addUser(values));
+      dispatch(addUser(values));
       sendEmail(values);
 
       // Después de que el usuario se haya creado con éxito, establece userCreated en true
       setUserCreated(true);
 
-      await dispatch(addUser(values));
+      dispatch(addUser(values));
       // Espera 2 segundos antes de redirigir
       setTimeout(() => {
         // Redirige al usuario a la página de inicio ("/")
