@@ -10,10 +10,11 @@ export default function Home() {
 	const user = useSelector((state) => state.user)
 	console.log("soy el user en home", user)
 	console.log("Soy prop en el home", properties);
+	const activeProperties = properties.filter((properties) => properties.active === true)
 	const [page, setPage] = useState(1);
 	const perPage = 8;
-    const maxPage = Math.ceil(properties.length / perPage)
-	const currentPageData = properties.slice((page - 1) * perPage, page * perPage);
+    const maxPage = Math.ceil(activeProperties.length / perPage)
+	const currentPageData = activeProperties.slice((page - 1) * perPage, page * perPage);
 
 	useEffect(() => {
 		setPage(1);
