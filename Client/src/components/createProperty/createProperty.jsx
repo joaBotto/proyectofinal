@@ -12,8 +12,6 @@ import logo from "../../assets/img/logo.png"
 import { useState } from "react";
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
@@ -179,8 +177,13 @@ setSubmitting(false);
       .test("is-images-length", "You must add at least 5 images", (images) => {
         return images && images.length === 5;
       }),
+      
   });
   
+  const handleValidation = (isValid) => {
+    setFormValid(isValid);
+  };
+
 
   return (
 
@@ -205,6 +208,15 @@ setSubmitting(false);
   initialValues={initialValues}
   validationSchema={validationSchema}
   onSubmit={handleSubmit}
+  validateOnChange={true}
+  validateOnBlur={true}
+  validate={() => {
+    const errors = {};
+    const isValid = Object.keys(errors).length === 0;
+    handleValidation(isValid);
+    return errors;
+  }}
+
 >
         {({ values, isSubmitting, setFieldValue }) => (
           <Form className="bg-white rounded-lg p-6 shadow-lg my-10">
@@ -333,6 +345,7 @@ setSubmitting(false);
                 name="type"
                 className="mt-1 p-2 w-full rounded-full border"
               >
+                 <option value="Select Type">SELECT TYPE</option>
                 <option value="house">HOUSE</option>
                 <option value="depto">APPARTMENT</option>
                 <option value="ph">PH</option>
@@ -504,7 +517,6 @@ setSubmitting(false);
               </div>
               
             )} */}
-
 <button
                 type="submit"
                 disabled={isSubmitting}

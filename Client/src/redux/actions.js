@@ -48,28 +48,26 @@ export const getPropertyDetail = (id) => async (dispatch) => {
     };
   }
 
-export const createProperty = (values) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.post(
-        "http://localhost:3001/properties",
-        values);
-     toast.success("The property was created successfully")
-      return dispatch({
-        type: CREATE_PROPERTY,
-        payload: data,
-      });
-      
-    } catch (error) {
-      toast.error("Error when creating the property, missing fields")
-      
-      return {
-        type: ERROR,
-        payload: error.message,
-      };
-    }
+  export const createProperty = (values) => {
+    return async (dispatch) => {
+      try {
+        const { data } = await axios.post("http://localhost:3001/properties", values);
+        toast.success("The property was created successfully");
+        dispatch({
+          type: CREATE_PROPERTY,
+          payload: data,
+        });
+      } catch (error) {
+        toast.error("Error when creating the property, missing fields");
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        });
+        throw error;
+      }
+    };
   };
-};
+ 
 
 export const userLogin = (valores) => {
   const url = "http://localhost:3001/auth/login";

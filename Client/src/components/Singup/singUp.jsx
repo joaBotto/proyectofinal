@@ -159,6 +159,7 @@ const SignUpForm = () => {
               errors.password =
                 "It must contain at least 8 characters, a capital letter, a number and one of the following signs: /, * o -";
             }
+           
             const isValid = Object.keys(errors).length === 0;
             handleValidation(isValid);
             return errors;

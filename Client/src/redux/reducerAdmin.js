@@ -1,7 +1,8 @@
-import { LOAD_USER_POSTS, DELETE_POST, UPDATE_POST } from "./actionsTypesAdmin";
+import { LOAD_USER_POSTS,DELETE_POST, UPDATE_POST } from "./actionsTypesAdmin";
 
 const initialState = {
   userPosts: [],
+
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
