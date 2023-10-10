@@ -18,7 +18,7 @@ import { CalendarDaysIcon, HandRaisedIcon } from "@heroicons/react/24/outline";
 export default function Footer() {
 	return (
 		<div className="relative isolate overflow-hidden bg-gradient-to-tr from-violet via-purple-500 to-indigo-500 py-8 sm:py-24 lg:py-4">
-			<div className="mx-auto max-w-7xl px-6 lg:px-8">
+			<div className="mx-auto w-full overflow-hidden px-6 lg:px-8">
 				<div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
 					<div className="max-w-xl lg:max-w-lg">
 						<h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
