@@ -8,14 +8,14 @@ import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { editProperty } from "../../../redux/actions";
 import Dropzone from "react-dropzone";
 import Switch from "react-switch";
-import Success from "../../modals/success"
+import Success from "../../modals/Success"
+import ModalError from '../../modals/ModalError';
 
 export function EditPropertyFromAdmin() {
   const dispatch = useDispatch();
   const error = useSelector((state)=> state.error)
   const allproperties = useSelector((state)=> state.allproperties)
-  const user = useSelector((state)=> state.user)
-  const [showModalError, setShowModalError] =useState(true);
+  const [showModalError, setShowModalError] =useState(false);
   const [showModalSuccess, setShowModalSuccess] = useState(true);
   
   const { id } = useParams();
@@ -109,6 +109,14 @@ export function EditPropertyFromAdmin() {
     setShowModalSuccess(!showModalSuccess)
   }, [allproperties])
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowModalError(false);
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
+  }, [showModalError]); 
+
   function generateDatesInRange(startDate, endDate) {
     const dates = [];
     let currentDate = new Date(startDate);
@@ -179,6 +187,7 @@ export function EditPropertyFromAdmin() {
   return (
     <div className="flex flex-col w-screen font-noto">
       {showModalSuccess && Success("The post has been edited successfully", "/")}
+      {showModalError && ModalError(error)}
       <Formik
         initialValues={property}
         enableReinitialize={true}
