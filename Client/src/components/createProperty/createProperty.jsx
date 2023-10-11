@@ -386,6 +386,7 @@ export default function CreateProperty() {
 												name="type"
 												className="mt-1 p-2 w-full rounded-full border"
 											>
+												 <option value ="Select Type" > Select Type </option>
 												<option value="house">House</option>
 												<option value="depto">Appartment</option>
 												<option value="ph">Horizontal Property</option>

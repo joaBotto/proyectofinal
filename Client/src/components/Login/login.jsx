@@ -153,7 +153,7 @@ export default function Login() {
 						</form>
 					)}
 				</Formik>
-				<p className="font-onest">
+				<p className="font-onest ">
 					You still don't have an account? <Link to="/signUp">SignUp</Link>
 				</p>
 			</div>

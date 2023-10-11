@@ -36,7 +36,7 @@ const SignUpForm = () => {
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/png",
+    accept: "image/*",
     onDrop,
   });
 
