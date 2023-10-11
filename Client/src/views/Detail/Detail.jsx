@@ -52,26 +52,26 @@ const Detail = () => {
 
 	console.log("property detail", property);
 
-	// const originalStartDate = property && property.availableDays[0];
-	// const formattedStartDate = new Date(originalStartDate).toLocaleDateString(
-	// 	"en-US",
-	// 	{
-	// 		year: "numeric",
-	// 		month: "long",
-	// 		day: "numeric",
-	// 	}
-	// );
+	const originalStartDate = property && property.availableDays[0];
+	const formattedStartDate = new Date(originalStartDate).toLocaleDateString(
+		"en-US",
+		{
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		}
+	);
 
-	// const originalEndDate =
-	// 	property && property.availableDays[property.availableDays.length - 1];
-	// const formattedEndDate = new Date(originalEndDate).toLocaleDateString(
-	// 	"en-US",
-	// 	{
-	// 		year: "numeric",
-	// 		month: "long",
-	// 		day: "numeric",
-	// 	}
-	// );
+	const originalEndDate =
+		property && property.availableDays[property.availableDays.length - 1];
+	const formattedEndDate = new Date(originalEndDate).toLocaleDateString(
+		"en-US",
+		{
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		}
+	);
 
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
@@ -127,7 +127,7 @@ const Detail = () => {
 						</div>
 						<div className="w-full">
 							<p className="text-blue font-noto font-bold pb-3">
-								{/* Available from {formattedStartDate} to {formattedEndDate} */}
+								Available from {formattedStartDate} to {formattedEndDate}
 							</p>
 							<div className="w-1/2 h-10 grid grid-cols-3 gap-3 place-items-stretch">
 								<div className="flex justify-center items-center rounded-md bg-cyan uppercase">
@@ -152,7 +152,7 @@ const Detail = () => {
 							<p className="flex justify-end text-4xl text-blue font-onest font-extrabold mr-2 pr-44 py-3">
 								U$D {property.price}
 							</p>
-							<div className="w-full flex flex-row pr-44">
+							<div className="w-full justify-center align-middle items-center flex flex-row pr-44">
 								<div className="w-1/2 flex flex-col mr-11">
 									<p className="text-3xl text-blue font-onest font-extrabold pt-3">
 										DESCRIPTION
@@ -161,7 +161,7 @@ const Detail = () => {
 										{property.description}
 									</p>
 								</div>
-								<div className="w-1/4 border-2 border-cyan rounded-xl mt-3">
+								<div className="w-1/4 h-full border-2 border-cyan rounded-xl mt-3 pb-5">
 									<p className="text-xl text-blue font-onest font-extrabold pt-3 px-5">
 										PROPERTY OWNER
 									</p>
@@ -186,7 +186,7 @@ const Detail = () => {
 										</p>
 									</div>
 								</div>
-								<div className="w-1/4 border-2 border-cyan rounded-xl ml-3 mt-3">
+								<div className="w-1/4 h-full border-2 border-cyan rounded-xl ml-3 mt-3">
 									<p className="text-xl text-blue font-onest font-extrabold pt-3 px-5">
 										PROPERTY REVIEWS
 									</p>
