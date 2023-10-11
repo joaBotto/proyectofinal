@@ -594,7 +594,7 @@ export default function CreateProperty() {
 									</p>
 									<Dropzone
 										onDrop={async (acceptedFiles) => {
-											if (values.images.length + acceptedFiles.length <= 5) {
+											if (values.images.length + acceptedFiles.length >= 0) {
 												const uploadImageUrl = await uploadImagesToCloudinary(
 													acceptedFiles
 												);
@@ -604,8 +604,6 @@ export default function CreateProperty() {
 												);
 												const newImages = [...values.images, uploadImageUrl];
 												setFieldValue("images", newImages);
-											} else {
-												alert("Upload more images"); // PASAR ALERT A INGLES
 											}
 										}}
 										accept="image/*"

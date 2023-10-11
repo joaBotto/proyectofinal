@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { Carousel } from "@material-tailwind/react";
+import { Carousel, IconButton } from "@material-tailwind/react";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -9,9 +9,29 @@ const ImageCarousel = ({ images }) => {
 	}
 	const location = useLocation();
 
+	const CustomArrow = () => {
+		return null;
+	};
+
 	return (
 		<Carousel
 			className="rounded-xl w-full"
+			prevArrow={({ handlePrev }) => (
+				<IconButton
+					variant="text"
+					color="white"
+					size="lg"
+					onClick={handlePrev}
+				></IconButton>
+			)}
+			nextArrow={({ handleNext }) => (
+				<IconButton
+					variant="text"
+					color="white"
+					size="lg"
+					onClick={handleNext}
+				></IconButton>
+			)}
 			navigation={({ setActiveIndex, activeIndex, length }) => (
 				<div className="py-4 px-1 absolute inset-0 flex items-end bg-transparent justify-between bottom-0 left-0 right-0 z-50 gap-2 hover:border-transparent">
 					<button
@@ -42,7 +62,7 @@ const ImageCarousel = ({ images }) => {
 									onClick={() => setActiveIndex(i)}
 								/>
 							))}
-				<button
+					<button
 						className="cursor-pointer bg-transparent rounded-full hover:border-none"
 						onClick={() => setActiveIndex(activeIndex + 1)}
 						disabled={activeIndex === length - 1}
