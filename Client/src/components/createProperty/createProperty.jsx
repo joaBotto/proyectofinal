@@ -63,7 +63,7 @@ export default function CreateProperty() {
 		bedrooms: 0,
 		bathrooms: 0,
 		price: 0,
-		type: "casa",
+		type: "",
 		availableDates: {
 			startDate: "",
 			endDate: "",
@@ -401,9 +401,11 @@ export default function CreateProperty() {
 												name="type"
 												className="mt-1 p-2 w-full rounded-full border"
 											>
-												<option value="house">House</option>
-												<option value="depto">Appartment</option>
-												<option value="ph">Horizontal Property</option>
+												<option value="House">House</option>
+												<option value="Appartment">Appartment</option>
+												<option value="Horizontal Property">
+													Horizontal Property
+												</option>
 											</Field>
 										</div>
 									</div>

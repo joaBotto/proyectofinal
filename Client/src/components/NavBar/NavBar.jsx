@@ -129,9 +129,9 @@ const NavBar = () => {
 								className="px-3 py-1 w-full rounded-full"
 							>
 								<option value="default">Search by type</option>
-								<option value="depto">Apartment</option>
-								<option value="house">House</option>
-								<option value="ph">Horizontal Property</option>
+								<option value="Appartment">Appartment</option>
+								<option value="House">House</option>
+								<option value="Horizontal Property">Horizontal Property</option>
 							</select>
 							<select
 								onChange={handleChange}

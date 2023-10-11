@@ -9,10 +9,6 @@ const ImageCarousel = ({ images }) => {
 	}
 	const location = useLocation();
 
-	const CustomArrow = () => {
-		return null;
-	};
-
 	return (
 		<Carousel
 			className="rounded-xl w-full"
