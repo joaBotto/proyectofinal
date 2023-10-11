@@ -14,6 +14,8 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+
 export default function CreateProperty() {
 	const user = useSelector((state) => state.user);
 	console.log("soy el usuario en createProperty", user);
@@ -41,6 +43,7 @@ export default function CreateProperty() {
 		}
 	};
 
+	
 	function generateDatesInRange(startDate, endDate) {
 		const dates = [];
 		let currentDate = new Date(startDate);
