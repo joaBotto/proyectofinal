@@ -10,6 +10,7 @@ import Dropzone from "react-dropzone";
 import Switch from "react-switch";
 import Success from "../../modals/Success"
 import ModalError from '../../modals/ModalError';
+import Loading from '../../modals/loading';
 
 export function EditPropertyFromAdmin() {
   const dispatch = useDispatch();
@@ -103,6 +104,7 @@ export function EditPropertyFromAdmin() {
   }, [id]);
 
   useEffect(() => {
+    setShowModalLoading(false)
     setShowModalSuccess(!showModalSuccess)
   }, [allproperties])
 
@@ -115,7 +117,7 @@ export function EditPropertyFromAdmin() {
       setShowModalError(false);
     }, 3000);
     return () => clearTimeout(timeoutId);
-  }, [showModalError]); 
+  }, [showModalError]);
 
   function generateDatesInRange(startDate, endDate) {
     const dates = [];
@@ -188,6 +190,7 @@ export function EditPropertyFromAdmin() {
     <div className="flex flex-col w-screen font-noto">
       {showModalSuccess && Success("The post has been edited successfully", "/")}
       {showModalError && ModalError(error)}
+      {showModalLoading && Loading()}
       <Formik
         initialValues={property}
         enableReinitialize={true}
@@ -249,6 +252,7 @@ export function EditPropertyFromAdmin() {
             }
           }
             console.log("soy el objeto a mandar", propertyEdited)
+            setShowModalLoading(true)
             dispatch(editProperty(propertyEdited))
             setSubmitting(false);
             
