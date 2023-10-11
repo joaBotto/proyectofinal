@@ -52,26 +52,27 @@ const Detail = () => {
 
 	console.log("property detail", property);
 
-	const originalStartDate = property && property.availableDays[0];
-	const formattedStartDate = new Date(originalStartDate).toLocaleDateString(
-		"en-US",
-		{
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-		}
-	);
+	const originalStartDate =
+		property && property.availableDays && property.availableDays[0];
+	const formattedStartDate = originalStartDate
+		? new Date(originalStartDate).toLocaleDateString("en-US", {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+		  })
+		: "N/A";
 
 	const originalEndDate =
-		property && property.availableDays[property.availableDays.length - 1];
-	const formattedEndDate = new Date(originalEndDate).toLocaleDateString(
-		"en-US",
-		{
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-		}
-	);
+		property &&
+		property.availableDays &&
+		property.availableDays[property.availableDays.length - 1];
+	const formattedEndDate = originalEndDate
+		? new Date(originalEndDate).toLocaleDateString("en-US", {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+		  })
+		: "N/A";
 
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
@@ -127,7 +128,8 @@ const Detail = () => {
 						</div>
 						<div className="w-full">
 							<p className="text-blue font-noto font-bold pb-3">
-								Available from {formattedStartDate} to {formattedEndDate}
+								Available from {formattedStartDate || "null"} to{" "}
+								{formattedEndDate || "null"}
 							</p>
 							<div className="w-1/2 h-10 grid grid-cols-3 gap-3 place-items-stretch">
 								<div className="flex justify-center items-center rounded-md bg-cyan uppercase">
