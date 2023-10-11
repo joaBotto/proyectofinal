@@ -136,17 +136,10 @@ const SignUpForm = () => {
       //? -------------------------------------------------------------------------------
       const response = await axios.post("https://localhost:3001/users", values);
       console.log(response);
-      if (response.status === 200) {
-        // Registro correcto
-        setUserCreated(true);
-      } else {
-        // Manejo de errores
-        console.error("Error en el registro:", response.data.error);
-      }
 
       //? -------------------------------------------------------------------------------
 
-      dispatch(addUser(values));
+      await dispatch(addUser(values));
       // Espera 2 segundos antes de redirigir
       setTimeout(() => {
         // Redirige al usuario a la página de inicio ("/")
