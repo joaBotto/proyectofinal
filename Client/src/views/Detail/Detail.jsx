@@ -217,9 +217,9 @@ const Detail = () => {
 										{property.type || "Property"} in {property.address.state},{" "}
 										{property.address.city}
 									</p>
-									{/* <div className="w-full h-[300px]">
+									<div>
 										<PropertyMap property={property} />
-									</div> */}
+									</div>
 								</div>
 								<div className="w-1/2 ml-7">
 									<p className="text-4xl text-blue font-onest font-extrabold pt-3">
