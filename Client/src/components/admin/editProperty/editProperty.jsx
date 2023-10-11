@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
@@ -10,6 +10,11 @@ import Switch from "react-switch";
 
 export function EditPropertyFromAdmin() {
   const dispatch = useDispatch();
+  const error = useSelector((state)=> state.error)
+  const allproperties = useSelector((state)=> state.allproperties)
+  const [showModalError, setShowModalError] =useState(true);
+  const [showModalSuccess, setShowModalSuccess] = useState(true);
+  
   const { id } = useParams();
   let dates = [];
   const [property, setProperty] = useState({
@@ -92,6 +97,14 @@ export function EditPropertyFromAdmin() {
       setProperty({});
     };
   }, [id]);
+
+  useEffect(() => {
+    setShowModalError(!showModalError)
+  },[error])
+
+  useEffect(() => {
+    setShowModalSuccess(!showModalSuccess)
+  }, [allproperties])
 
   function generateDatesInRange(startDate, endDate) {
     const dates = [];
@@ -230,11 +243,10 @@ export function EditPropertyFromAdmin() {
       >
         {({ values, isSubmitting, setFieldValue }) => (
           <Form className="bg-white flex flex-col rounded-xl p-6 shadow-lg my-10 w-1/2 mx-auto items-center">
-             <Link to="/admin">
-              <button className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2">
+              <button className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
+              onClick={() => window.history.back()}>
                 BACK
               </button>
-            </Link>
             <h1 className="text-5xl font-semibold text-left mb-4 text-gray-700">
               Edit Post
             </h1>
