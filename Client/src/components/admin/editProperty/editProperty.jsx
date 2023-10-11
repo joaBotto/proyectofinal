@@ -1,3 +1,4 @@
+import React from 'react'
 import axios from "axios";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux"
@@ -7,6 +8,8 @@ import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { editProperty } from "../../../redux/actions";
 import Dropzone from "react-dropzone";
 import Switch from "react-switch";
+import Success from "../../modals/Success"
+import ModalError from '../../modals/ModalError';
 
 export function EditPropertyFromAdmin() {
   const dispatch = useDispatch();
@@ -14,6 +17,7 @@ export function EditPropertyFromAdmin() {
   const allproperties = useSelector((state)=> state.allproperties)
   const [showModalError, setShowModalError] =useState(true);
   const [showModalSuccess, setShowModalSuccess] = useState(true);
+  const [showModalLoading, setShowModalLoading] = useState(false)
   
   const { id } = useParams();
   let dates = [];
@@ -99,12 +103,19 @@ export function EditPropertyFromAdmin() {
   }, [id]);
 
   useEffect(() => {
+    setShowModalSuccess(!showModalSuccess)
+  }, [allproperties])
+
+  useEffect(() => {
     setShowModalError(!showModalError)
   },[error])
 
   useEffect(() => {
-    setShowModalSuccess(!showModalSuccess)
-  }, [allproperties])
+    const timeoutId = setTimeout(() => {
+      setShowModalError(false);
+    }, 3000);
+    return () => clearTimeout(timeoutId);
+  }, [showModalError]); 
 
   function generateDatesInRange(startDate, endDate) {
     const dates = [];
@@ -175,6 +186,8 @@ export function EditPropertyFromAdmin() {
 
   return (
     <div className="flex flex-col w-screen font-noto">
+      {showModalSuccess && Success("The post has been edited successfully", "/")}
+      {showModalError && ModalError(error)}
       <Formik
         initialValues={property}
         enableReinitialize={true}
