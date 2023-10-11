@@ -1,74 +1,72 @@
 import React, { useState } from "react";
+import { DatePicker } from "antd";
 
 const Booking = ({ property }) => {
-	const [startDate, setStartDate] = useState(null);
-	const [endDate, setEndDate] = useState(null);
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [totalDays, setTotalDays] = useState(0);
 
-	const calculateTotalAmount = () => {
+	const [selectedDates, setSelectedDates] = useState(null);
+
+	const calculateDaysInBetween = (startDate, endDate) => {
+		const start = new Date(startDate.format("YYYY-MM-DD"));
+		const end = new Date(endDate.format("YYYY-MM-DD"));
+		const daysInBetween = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+		setTotalDays(daysInBetween);
+		setTotalAmount(daysInBetween * property.price);
+		return daysInBetween;
+	};
+
+	const handleDateChange = ([startDate, endDate]) => {
+		console.log("From: ", startDate, "To:", endDate);
 		if (startDate && endDate) {
-			const start = new Date(startDate);
-			const end = new Date(endDate);
-			const diffTime = Math.abs(end - start);
-			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-			const calculatedTotal = diffDays * property.price;
-			setTotalDays(diffDays);
-			setTotalAmount(calculatedTotal);
-			console.log("usd", start, end, diffTime, diffDays, calculatedTotal);
-		} else {
-			setTotalAmount(0);
+			const daysInBetween = calculateDaysInBetween(startDate, endDate);
+			console.log("Days in between:", daysInBetween);
 		}
+		setSelectedDates([startDate, endDate]);
+	};
+
+	const clearValues = () => {
+		setTotalAmount(0);
+		setTotalDays(0);
+		setSelectedDates(null);
 	};
 
 	return (
-		<div className="flex flex-row justify-between items-center w-full ml-7">
-			<div className="flex flex-col justify-start mb-4 mr-5">
-				<p className="text-4xl text-blue font-onest font-extrabold pb-3">
+		<div className="flex flex-col w-1/2 items-end pl-7">
+			<div className="flex flex-col justify-start pb-11 mr-5">
+				<p className="text-4xl text-blue font-onest text-right font-extrabold pb-3">
 					SELECT DATES
 				</p>
-				<div className="flex flex-row justify-start">
-					<div className="mr-4">
-						<p className="text-md text-blue font-onest">Check-In:</p>
-						<input
-							type="date"
-							value={startDate}
-							onChange={(event) => {
-								setStartDate(event.target.value);
-								calculateTotalAmount();
-							}}
-							min={new Date().toISOString().split("T")[0]}
-							className="border-2 border-cyan text-blue rounded-lg px-3 py-2"
-						/>
-					</div>
-					<div>
-						<p className="text-md text-blue font-onest">Check-Out:</p>
-						<input
-							type="date"
-							value={endDate}
-							onChange={(event) => {
-								setEndDate(event.target.value);
-								calculateTotalAmount();
-							}}
-							min={startDate || new Date().toISOString().split("T")[0]}
-							className="border-2 border-cyan text-blue rounded-lg px-3 py-2"
-						/>
-					</div>
-				</div>
+				<DatePicker.RangePicker
+					format="DD-MM-YYYY"
+					onChange={handleDateChange}
+					value={selectedDates}
+					className="rounded-full py-2 border-2 border-cyan font-onest text-blue"
+				/>
 			</div>
-			<div className="flex content-start text-left mb-4">
-				<p className="text-4xl text-blue font-onest font-extrabold px-3">
-					DAYS:
-				</p>
-				<p className="text-4xl text-cyan font-onest font-extrabold pr-11">
-					{totalDays}
-				</p>
-				<p className="text-4xl text-blue font-onest font-extrabold px-3">
-					TOTAL:
-				</p>
-				<p className="text-4xl text-cyan font-onest font-extrabold">
-					U$D {totalAmount.toFixed(2)}
-				</p>
+			<div className="flex flex-row justify-between items-center w-full text-left mb-4 mr-4">
+				<div className="flex">
+					<p className="text-2xl text-blue font-onest font-extrabold px-3">
+						DAYS:
+					</p>
+					<p className="text-2xl text-cyan font-onest font-extrabold">
+						{totalDays}
+					</p>
+				</div>
+				<div className="flex">
+					<p className="text-2xl text-blue font-onest font-extrabold px-3">
+						TOTAL:
+					</p>
+					<p className="text-2xl text-cyan font-onest font-extrabold">
+						U$D {totalAmount.toFixed(2)}
+					</p>
+				</div>
+				<button
+					onClick={clearValues}
+					className="rounded-full bg-blue py-1 flex flex-col hover:bg-cyan"
+				>
+					Clear All
+				</button>
 			</div>
 		</div>
 	);
