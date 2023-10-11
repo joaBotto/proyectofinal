@@ -133,13 +133,27 @@ const SignUpForm = () => {
         }
       }
 
-      await dispatch(addUser(values));
+      //? -------------------------------------------------------------------------------
+      const response = await axios.post("https://localhost:3001/users", values);
+      console.log(response);
+      if (response.status === 200) {
+        // Registro correcto
+        setUserCreated(true);
+      } else {
+        // Manejo de errores
+        console.error("Error en el registro:", response.data.error);
+      }
+
+      //? -------------------------------------------------------------------------------
+
+      dispatch(addUser(values));
       // Espera 2 segundos antes de redirigir
       setTimeout(() => {
         // Redirige al usuario a la página de inicio ("/")
         navigate("/login");
       }, 7000); // El tiempo está en milisegundos (en este caso, 2 segundos)
     } catch (error) {
+      console.error("Error en la solicitud:", error);
     } finally {
       setSubmitting(false);
       setImage(null);

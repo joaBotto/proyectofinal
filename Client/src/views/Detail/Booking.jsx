@@ -1,5 +1,3 @@
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import React, { useState } from "react";
 
 const Booking = ({ property }) => {
@@ -23,18 +21,8 @@ const Booking = ({ property }) => {
     }
   };
 
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-  };
-
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-    calculateTotalAmount();
-  };
-
   return (
     <div className="flex flex-row justify-between items-center w-full ml-7">
-      {/* Date selection */}
       <div className="flex flex-col justify-start mb-4 mr-5">
         <p className="text-4xl text-blue font-onest font-extrabold pb-3">
           SELECT DATES
@@ -42,21 +30,27 @@ const Booking = ({ property }) => {
         <div className="flex flex-row justify-start">
           <div className="mr-4">
             <p className="text-md text-blue font-onest">Check-In:</p>
-            <DatePicker
-              selected={startDate}
-              onChange={handleStartDateChange}
-              minDate={new Date()}
-              dateFormat="yyyy-MM-dd"
+            <input
+              type="date"
+              value={startDate}
+              onChange={(event) => {
+                setStartDate(event.target.value);
+                calculateTotalAmount();
+              }}
+              min={new Date().toISOString().split("T")[0]}
               className="border-2 border-cyan text-blue rounded-lg px-3 py-2"
             />
           </div>
           <div>
             <p className="text-md text-blue font-onest">Check-Out:</p>
-            <DatePicker
-              selected={endDate}
-              onChange={handleEndDateChange}
-              minDate={startDate || new Date()}
-              dateFormat="yyyy-MM-dd"
+            <input
+              type="date"
+              value={endDate}
+              onChange={(event) => {
+                setEndDate(event.target.value);
+                calculateTotalAmount();
+              }}
+              min={startDate || new Date().toISOString().split("T")[0]}
               className="border-2 border-cyan text-blue rounded-lg px-3 py-2"
             />
           </div>
@@ -79,4 +73,5 @@ const Booking = ({ property }) => {
     </div>
   );
 };
+
 export default Booking;

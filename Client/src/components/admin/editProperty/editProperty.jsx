@@ -1,15 +1,25 @@
+import React from 'react'
 import axios from "axios";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { editProperty } from "../../../redux/actions";
 import Dropzone from "react-dropzone";
 import Switch from "react-switch";
+import Success from "../../modals/Success"
+import ModalError from '../../modals/ModalError';
+import Loading from '../../modals/loading';
 
 export function EditPropertyFromAdmin() {
   const dispatch = useDispatch();
+  const error = useSelector((state)=> state.error)
+  const allproperties = useSelector((state)=> state.allproperties)
+  const [showModalError, setShowModalError] =useState(true);
+  const [showModalSuccess, setShowModalSuccess] = useState(true);
+  const [showModalLoading, setShowModalLoading] = useState(false)
+  
   const { id } = useParams();
   let dates = [];
   const [property, setProperty] = useState({
@@ -93,6 +103,22 @@ export function EditPropertyFromAdmin() {
     };
   }, [id]);
 
+  useEffect(() => {
+    setShowModalLoading(false)
+    setShowModalSuccess(!showModalSuccess)
+  }, [allproperties])
+
+  useEffect(() => {
+    setShowModalError(!showModalError)
+  },[error])
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowModalError(false);
+    }, 3000);
+    return () => clearTimeout(timeoutId);
+  }, [showModalError]);
+
   function generateDatesInRange(startDate, endDate) {
     const dates = [];
     let currentDate = new Date(startDate);
@@ -161,7 +187,10 @@ export function EditPropertyFromAdmin() {
 
 
   return (
-    <div>
+    <div className="flex flex-col w-screen font-noto">
+      {showModalSuccess && Success("The post has been edited successfully", "/")}
+      {showModalError && ModalError(error)}
+      {showModalLoading && Loading()}
       <Formik
         initialValues={property}
         enableReinitialize={true}
@@ -223,21 +252,22 @@ export function EditPropertyFromAdmin() {
             }
           }
             console.log("soy el objeto a mandar", propertyEdited)
+            setShowModalLoading(true)
             dispatch(editProperty(propertyEdited))
             setSubmitting(false);
             
         }}
       >
         {({ values, isSubmitting, setFieldValue }) => (
-          <Form className="bg-white rounded-lg p-6 shadow-lg my-10">
+          <Form className="bg-white flex flex-col rounded-xl p-6 shadow-lg my-10 w-1/2 mx-auto items-center">
+              <button className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
+              onClick={() => window.history.back()}>
+                BACK
+              </button>
             <h1 className="text-5xl font-semibold text-left mb-4 text-gray-700">
               Edit Post
             </h1>
-            <Link to="/admin">
-              <button className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2">
-                BACK
-              </button>
-            </Link>
+           
             {/* TITULO DE LA PUBLICACION */}
             <div className="block text-left text-gray-700">
               <label htmlFor="title">Title:</label>
@@ -251,9 +281,9 @@ export function EditPropertyFromAdmin() {
                 component="div"
                 className="text-red-600 text-sm"
               />
-            </div>
+            
             {/* DESCRIPCION */}
-            <div className="block text-left text-gray-700">
+           
               <label htmlFor="description">Description:</label>
               <Field
                 as="textarea"
@@ -265,9 +295,9 @@ export function EditPropertyFromAdmin() {
                 component="div"
                 className="text-red-600 text-sm"
               />
-            </div>
+        
             {/* DIRECCION */}
-            <div className="block text-left text-gray-700">
+            
               <label htmlFor="Address" className="block">
                 Address:
               </label>
@@ -318,10 +348,10 @@ export function EditPropertyFromAdmin() {
                 component="div"
                 className="text-red-600 text-sm"
               />
-            </div>
+           
 
             {/* CANT DE CAMAS */}
-            <div className="block text-left text-gray-700">
+            
               <label htmlFor="bedrooms">Bedrooms:</label>
               <Field
                 type="number"
@@ -333,9 +363,9 @@ export function EditPropertyFromAdmin() {
                 component="div"
                 className="text-red-600 text-sm"
               />
-            </div>
+            
             {/* CANT DE BANOS */}
-            <div className="block text-left text-gray-700">
+           
               <label htmlFor="bathrooms">Bathrooms:</label>
               <Field
                 type="number"
@@ -347,9 +377,9 @@ export function EditPropertyFromAdmin() {
                 component="div"
                 className="text-red-600 text-sm"
               />
-            </div>
+            
             {/* PRECIO */}
-            <div className="block text-left text-gray-700">
+            
               <label htmlFor="price">Price:</label>
               <Field
                 type="number"
@@ -361,9 +391,9 @@ export function EditPropertyFromAdmin() {
                 component="div"
                 className="text-red-600 text-sm"
               />
-            </div>
+            
             {/* TIPO(CASA-DEPTO-PH) */}
-            <div className="block text-left text-gray-700">
+           
               <label htmlFor="type">Type:</label>
               <Field
                 as="select"
@@ -374,9 +404,9 @@ export function EditPropertyFromAdmin() {
                 <option value="depto">APPARTMENT</option>
                 <option value="ph">PH</option>
               </Field>
-            </div>
+            
             {/* COMODIDADES(METROS2-ANTIGUEDAD-GARAGE-GRILL-CALEFACCION) */}
-            <div>
+           
               <p>Amenities</p>
 
               <label htmlFor="amenities.covered_area">Covered_area:</label>
@@ -396,10 +426,10 @@ export function EditPropertyFromAdmin() {
                 name="amenities.antique"
                 className="mt-1 p-2 w-full rounded-full border text-black"
               />
-              <div>
+              
                 <ErrorMessage name="amenities.antique" component="div" />
                 <label style={{ display: "block" }}>
-                  <div>
+                  
                     <p>Additional</p>
                     <label style={{ display: "block", marginBottom: "10px" }}>
                       <Field type="checkbox" name="amenities.garage" />
@@ -413,7 +443,7 @@ export function EditPropertyFromAdmin() {
                       <Field type="checkbox" name="amenities.heating" />
                       Heating
                     </label>
-                  </div>
+                
                   <Field type="checkbox" name="additional.swimmingpool" />
                   Swimming Pool
                 </label>
@@ -453,14 +483,14 @@ export function EditPropertyFromAdmin() {
                   <Field type="checkbox" name="additional.balcony_patio" />
                   Balcony_Patio
                 </label>
-              </div>
-            </div>
-
-            <div className="block text-left text-gray-700">
-              <p>
+                <p>
                 La Fecha de disponibilidad de esta propiedad es la siguiente, si
                 la desea modificar ingrese nuevos valores:
               </p>
+           
+
+            
+              
               <label htmlFor="availableDates.startDate">Fecha de inicio:</label>
               <Field name="availableDates.startDate" type="date" />
               <ErrorMessage name="availableDates.startDate" component="div" />
@@ -486,19 +516,23 @@ export function EditPropertyFromAdmin() {
               <ErrorMessage name="availableDays.endDate" component="div" />
             </div>
 
-            <div>
+            
             <FieldArray name="images">
               {({ remove }) => (
-                <div className="image-container">
+                <div className="image-container flex flex-row mt-8">
                   {values.images &&
                     values.images.map((image, index) => (
-                      <div key={index} className="image-wrapper">
+                      <div key={index} className="w-1/5 h-full">
+                        <div className="w-full">
                         <img
-                          style={{ maxWidth: "10em", maxHeight: "10em" }}
                           src={image.imageUrl}
                           alt={image.imageUrl}
+                          className="w-full h-40"
                         />
+                        </div>
+                        <div>
                         <button
+                        className="block mx-auto bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
                           type="button"
                           onClick={() => {
                             remove(index);
@@ -506,12 +540,13 @@ export function EditPropertyFromAdmin() {
                         >
                           Delete
                         </button>
+                        </div>
                       </div>
                     ))}
                 </div>
               )}
             </FieldArray>
-            </div>
+           
 
             <Dropzone
               onDrop={async (acceptedFiles) => {
@@ -552,7 +587,7 @@ export function EditPropertyFromAdmin() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="block bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
+                className="block w-1/3 bg-fuchsia-900 text-white px-4 py-2 rounded-full hover:bg-fuchsia-600 mb-2"
               >
                 Edit
               </button>
