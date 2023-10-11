@@ -15,8 +15,9 @@ export function EditPropertyFromAdmin() {
   const dispatch = useDispatch();
   const error = useSelector((state)=> state.error)
   const allproperties = useSelector((state)=> state.allproperties)
-  const [showModalError, setShowModalError] =useState(false);
+  const [showModalError, setShowModalError] =useState(true);
   const [showModalSuccess, setShowModalSuccess] = useState(true);
+  const [showModalLoading, setShowModalLoading] = useState(false)
   
   const { id } = useParams();
   let dates = [];
@@ -102,18 +103,17 @@ export function EditPropertyFromAdmin() {
   }, [id]);
 
   useEffect(() => {
-    setShowModalError(!showModalError)
-  },[error])
-
-  useEffect(() => {
     setShowModalSuccess(!showModalSuccess)
   }, [allproperties])
+
+  useEffect(() => {
+    setShowModalError(!showModalError)
+  },[error])
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setShowModalError(false);
     }, 3000);
-
     return () => clearTimeout(timeoutId);
   }, [showModalError]); 
 
