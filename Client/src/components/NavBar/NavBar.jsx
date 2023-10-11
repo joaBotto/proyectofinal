@@ -131,7 +131,7 @@ const NavBar = () => {
 								<option value="default">Search by type</option>
 								<option value="depto">Apartment</option>
 								<option value="house">House</option>
-								<option value="ph">PH</option>
+								<option value="ph">Horizontal Property</option>
 							</select>
 							<select
 								onChange={handleChange}
