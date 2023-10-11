@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const imageSchema = new mongoose.Schema({
-  url: {
+  imageUrl: {
     type: String,
     required: true,
   },
@@ -15,28 +15,39 @@ const propertySchema = new mongoose.Schema({
   description: String,
   price: {
     type: Number,
-    required: true,
   },
   address: {
     street: String,
     city: String,
     state: String,
-    zipCode: String,
+    zipcode: String,
   },
   bedrooms: Number,
   bathrooms: Number,
-  availableDates: [
-    {
-      type: Date,
-      required: true,
-    },
-  ],
+  availableDays: [Date],
   images: [imageSchema],
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+
+  type: String,
+  amenities: {
+	covered_area:Number,
+	garage:Boolean,
+	antique:Number, 
+	grill:Boolean,
+	heating:Boolean
+ },
+  additional: {
+    swimmingpool: Boolean,
+    terrace: Boolean,
+    dining_room: Boolean,
+    washing_machine: Boolean,
+    internet_wifi: Boolean,
+    refrigerator: Boolean,
+    microwave: Boolean,
+    coffee_maker: Boolean,
+    patio: Boolean,
+    balcony_patio: Boolean,
   },
+  active:Boolean
 });
 
 const Property = mongoose.model("Property", propertySchema);
