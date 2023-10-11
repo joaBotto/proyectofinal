@@ -1,3 +1,4 @@
+import React from 'react'
 import axios from "axios";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux"
@@ -7,11 +8,13 @@ import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { editProperty } from "../../../redux/actions";
 import Dropzone from "react-dropzone";
 import Switch from "react-switch";
+import Success from "../../modals/success"
 
 export function EditPropertyFromAdmin() {
   const dispatch = useDispatch();
   const error = useSelector((state)=> state.error)
   const allproperties = useSelector((state)=> state.allproperties)
+  const user = useSelector((state)=> state.user)
   const [showModalError, setShowModalError] =useState(true);
   const [showModalSuccess, setShowModalSuccess] = useState(true);
   
@@ -175,6 +178,7 @@ export function EditPropertyFromAdmin() {
 
   return (
     <div className="flex flex-col w-screen font-noto">
+      {showModalSuccess && Success("The post has been edited successfully", "/")}
       <Formik
         initialValues={property}
         enableReinitialize={true}
