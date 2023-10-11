@@ -1,3 +1,4 @@
+import React from 'react'
 import axios from "axios";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +8,8 @@ import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { editProperty } from "../../../redux/actions";
 import Dropzone from "react-dropzone";
 import Switch from "react-switch";
+import Success from "../../modals/Success"
+import ModalError from '../../modals/ModalError';
 
 export function EditPropertyFromAdmin() {
 	const dispatch = useDispatch();
