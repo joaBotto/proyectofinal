@@ -190,7 +190,7 @@ export default function CreateProperty() {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-    >
+      >
       <div className="flex flex-col">
         <div className="flex flex-row justify-center w-screen">
           <Formik
@@ -293,7 +293,7 @@ export default function CreateProperty() {
                       className="text-red-600 text-sm"
                     />
 
-<<<<<<< HEAD
+
 										<label htmlFor="address.zipcode"></label>
 										<Field
 											type="number"
@@ -576,8 +576,9 @@ export default function CreateProperty() {
 														);
 														const startDateValue =
 															values.availableDates.startDate;
-=======
-                    <label htmlFor="address.zipcode"></label>
+                            }}
+
+                    <label htmlFor="address.zipcode">zipcode:</label>
                     <Field
                       type="number"
                       name="address.zipcode"
@@ -860,7 +861,7 @@ export default function CreateProperty() {
                             );
                             const startDateValue =
                               values.availableDates.startDate;
->>>>>>> 4bd9cf364774f85383837063ec66da8e3c14c57e
+
 
                             if (startDateValue && endDateValue) {
                               const startDate = new Date(startDateValue);
