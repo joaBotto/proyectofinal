@@ -19,6 +19,7 @@ const CardAdmin = ({
   location,
   bedrooms,
   bathrooms,
+  area, // Agregamos "area" como un prop
   onEdit,
   onDelete,
 }) => {
@@ -54,7 +55,7 @@ const CardAdmin = ({
           </div>
           <div className="flex justify-center items-center rounded-md bg-cyan">
             <p className="text-sm font-medium text-blue text-center">
-              <FontAwesomeIcon icon={faRulerCombined} /> x m²
+              <FontAwesomeIcon icon={faRulerCombined} /> {area} m²
             </p>
           </div>
         </div>
@@ -69,10 +70,10 @@ const CardAdmin = ({
           </button>
         </Link>
         <button
-          onClick={() => onDelete(_id)} // Llamar a la función de eliminación con el ID como argumento
+          onClick={() => onDelete(_id)}
           className="bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover:bg-pink"
         >
-          <FontAwesomeIcon icon={faTrash} /> delete
+          <FontAwesomeIcon icon={faTrash} /> Delete
         </button>
       </div>
     </div>

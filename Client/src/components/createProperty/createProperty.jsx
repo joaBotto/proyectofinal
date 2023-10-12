@@ -63,7 +63,7 @@ export default function CreateProperty() {
 		bedrooms: 0,
 		bathrooms: 0,
 		price: 0,
-		type: "",
+		type: "House",
 		availableDates: {
 			startDate: "",
 			endDate: "",
