@@ -9,7 +9,7 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      image, 
+      image,
       country,
       city,
       address,
@@ -25,6 +25,7 @@ const createUserHandler = async (req, res) => {
       city,
       address,
       phoneNumber,
+      image,
       active:true,
       role:"user"
     };
@@ -39,7 +40,8 @@ const createUserHandler = async (req, res) => {
       country &&
       city &&
       address &&
-      phoneNumber
+      phoneNumber&&
+      image
     ) {
       // Sube la imagen a Cloudinary primero
       if (image) {
