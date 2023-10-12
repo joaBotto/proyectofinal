@@ -374,13 +374,13 @@ const Detail = () => {
 									</div>
 								</div>
 							</div>
-							<div className="w-full flex justify-end pr-44 pt-11">
+							<div className="w-full flex flex-col items-end justify-end pr-44 pt-11">
 								<Booking property={property} />
-								{/* <Link to="/">
+								<Link to={`/detail/${id}/reservations`}>
 									<button className="disabled pt-2 pb-2 pr-10 pl-10 font-onest font-extrabold text-white bg-violet rounded-full hover:bg-pink">
 										BOOK NOW
 									</button>
-								</Link> */}
+								</Link>
 							</div>
 						</div>
 						{isModalOpen && (

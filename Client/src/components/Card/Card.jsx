@@ -26,7 +26,7 @@ const Card = ({
 					<ImageCarousel images={images} />
 				</div>
 				<h3 className="pt-4 text-lg leading-6 font-onest font-semibold text-blue uppercase">
-					{title?.slice(0, 20)}
+					{title?.slice(0, 30)}
 				</h3>
 			</div>
 			<div className="mx-6 grid grid-rows-3 gap-y-2 font-onest">
