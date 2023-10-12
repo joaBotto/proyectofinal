@@ -8,10 +8,13 @@ import {
 	ERROR,
 	USER_LOGIN,
 	PROPERTY_EDITED,
+	GET_ALL_USERS
 } from "./actions_types";
 
 const initialState = {
 	error: "",
+	allUsers:[],
+	users:[],
 	user: "",
 	properties: [],
 	allproperties: [],
@@ -121,6 +124,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				allproperties: [...allpropertiesFiltered, payload],
 				properties: [...propertiesFiltered, payload],
 			};
+
+			case GET_ALL_USERS:
+				return {
+					...state,
+					allUsers:payload,
+					users:payload
+				}
 
 		default:
 			return {

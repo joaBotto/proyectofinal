@@ -9,7 +9,8 @@ import {
   ERROR,
   USER_LOGIN,
   FILTERS,
-  PROPERTY_EDITED
+  PROPERTY_EDITED,
+  GET_ALL_USERS
 } from "./actions_types";
 
 export const getProperty = () => {
@@ -149,6 +150,23 @@ export const addUser = (user) => async (dispatch) => {
     dispatch({ type: ERROR, payload: error.message });
   }
 };
+
+export const getAllUsers = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = axios.get("http://localhost:3001/users");
+      return dispatch({
+        type: GET_ALL_USERS,
+        payload: data
+      })
+    } catch (error) {
+      return dispatch({
+        type:ERROR,
+        payload: error.message
+      })      
+    }
+  }
+}
 
 // export const filterByUbicacion = (ubicacion) => {
 

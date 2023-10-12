@@ -1,6 +1,6 @@
 //aca importar los controllers ya hechos, y hacer las funciones handlers de cada peticion, con async await + try catch
 const creatingUser = require("../controllers/creatingUser");
-const getUsers = require('../controllers/getUsers');
+const getAllUsers = require('../controllers/getUsers');
 const editUser = require('../controllers/editUser')
 const createUserHandler = async (req, res) => {
   try {
@@ -120,12 +120,11 @@ const createUserHandler = async (req, res) => {
 // };
 
 
-const getUsersHandlers = async (req, res) => {
+const getAllUsersHandlers = async (req, res) => {
   try {
-    const { email } = req.query;
-    const user = await getUsers(email);
-    if (user) {
-      return res.status(200).json(user);
+    const allUsers = await getAllUsers();
+    if (allUsers) {
+      return res.status(200).json(AllUsers);
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -172,4 +171,4 @@ const editUserHandler = async (req, res) => {
 	}
 }
 
-module.exports = { createUserHandler, getUsersHandlers, editUserHandler };
+module.exports = { createUserHandler, getAllUsersHandlers, editUserHandler };

@@ -559,8 +559,7 @@ export function EditPropertyFromAdmin() {
                   );
                   console.log("soy la devolucion del back", uploadImageUrl);
                   const newImages = [...values.images, uploadImageUrl];
-                  setFieldValue("images", newImages);
-                 
+                  setFieldValue("images", newImages);    
               }}
               accept="image/*"
               multiple={false}
