@@ -554,16 +554,13 @@ export function EditPropertyFromAdmin() {
 
             <Dropzone
               onDrop={async (acceptedFiles) => {
-                if (values.images.length + acceptedFiles.length <= 5) {
                   const uploadImageUrl = await uploadImagesToCloudinary(
                     acceptedFiles
                   );
                   console.log("soy la devolucion del back", uploadImageUrl);
                   const newImages = [...values.images, uploadImageUrl];
                   setFieldValue("images", newImages);
-                } else {
-                  alert("No puedes subir más de 5 imágenes."); // PASAR ALERT A INGLES
-                }
+                 
               }}
               accept="image/*"
               multiple={false}
