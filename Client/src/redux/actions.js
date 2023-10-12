@@ -154,7 +154,7 @@ export const addUser = (user) => async (dispatch) => {
 export const getAllUsers = () => {
   return async (dispatch) => {
     try {
-      const { data } = axios.get("http://localhost:3001/users");
+      const { data } = await axios.get("http://localhost:3001/users");
       return dispatch({
         type: GET_ALL_USERS,
         payload: data
