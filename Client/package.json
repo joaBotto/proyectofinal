@@ -25,6 +25,7 @@
     "@mui/material": "^5.14.11",
     "autoprefixer": "^10.4.16",
     "axios": "^1.5.1",
+    "emailjs-com": "^3.2.0",
     "formik": "^2.4.5",
     "leaflet": "^1.9.4",
     "postcss": "^8.4.30",
