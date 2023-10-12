@@ -497,7 +497,7 @@ export function EditPropertyFromAdmin() {
               
               <label htmlFor="availableDates.startDate">Fecha de inicio:</label>
               <Field name="availableDates.startDate" type="date" />
-              <ErrorMessage name="availableDates.startDate" component="div" />
+              <ErrorMessage name="availableDates.startDate" component="div" className="text-red-600 text-sm" />
               <label htmlFor="availableDates.endDate">
                 Fecha de finalizacion:
               </label>
@@ -517,7 +517,7 @@ export function EditPropertyFromAdmin() {
                   }
                 }}
               />
-              <ErrorMessage name="availableDays.endDate" component="div" />
+              <ErrorMessage name="availableDays.endDate" component="div" className="text-red-600 text-sm"/>
             </div>
 
             
@@ -575,6 +575,7 @@ export function EditPropertyFromAdmin() {
                 </div>
               )}
             </Dropzone>
+            <ErrorMessage name="images" component="div" className="text-red-600 text-sm" />
 
             <div className="block text-left text-gray-700">
               <label htmlFor="active">Active posting:</label>
