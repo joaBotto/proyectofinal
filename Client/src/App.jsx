@@ -1,3 +1,4 @@
+
 import './App.css';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -17,6 +18,8 @@ import { EditPropertyFromAdmin } from './components/admin/editProperty/editPrope
 import BookingSystem from './views/Reservations/Reservations';
 import Postuser from './components/propertiesAdmin/propertyUser';
 import PaymentForm from './components/PaymentForm/PaymentForm';
+import GestionUser from './views/gestionUser/GestionUser'
+
 
 function App() {
 	const location = useLocation();
@@ -27,10 +30,10 @@ function App() {
 	}, [dispatch]);
 
 	return (
-		<div className='bg-indigo-50'>
-			{location.pathname === '/' && <NavBar />}
-			{location.pathname === '/admin' && <NavBarAdmin />}
-			{location.pathname === '/postUser' && <NavBarAdmin />}
+		<div className="bg-indigo-50">
+			{location.pathname === "/" && <NavBar />}
+			{location.pathname === "/admin" && <NavBarAdmin />}
+			{location.pathname === "/postUser" && <NavBarAdmin />}
 
 			<Routes>
 				<Route path='/' element={<Home />} />
@@ -42,9 +45,10 @@ function App() {
 				<Route path='/error404' element={<Error404 />} />
 				<Route path='/loginadmin' element={<LoginAdmin />} />
 				<Route path='/admin/property/:id' element={<EditPropertyFromAdmin />} />
-				<Route path='/reservations' element={<BookingSystem />} />
+				<Route path="/detail/:id/reservations" element={<BookingSystem />} />
 				<Route path='/postUser' element={<Postuser />} />
 				<Route path='/checkout' element={<PaymentForm />} />
+				<Route path='/gestionUser' element={<GestionUser />} />
 			</Routes>
 		</div>
 	);

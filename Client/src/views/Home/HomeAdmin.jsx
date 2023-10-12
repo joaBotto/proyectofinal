@@ -7,7 +7,7 @@ import CardsAdmin from '../../components/Cards/CardsAdmin';
 
 export default function HomeAdmin() {
   const properties = useSelector((state) => state.properties);
-  console.log('Soy prop en el home', properties);
+  console.log('Soy prop en el homeAdmin', properties);
 
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(8);
