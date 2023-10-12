@@ -160,9 +160,13 @@ export function EditPropertyFromAdmin() {
     }),
     images: Yup.array()
       .required("You must add at least 5 images")
-      .test("is-images-length", "You must add at least 5 images", (images) => {
-        return images && images.length === 5;
-      }),
+      .test(
+        "is-images-length",
+        "You must add between 5 and 10 images",
+        (images) => {
+          return images && images.length >= 5 && images.length <= 10;
+        }
+      ),
   });
 
   const uploadImagesToCloudinary = async (file) => {
