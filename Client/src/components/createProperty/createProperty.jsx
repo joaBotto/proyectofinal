@@ -294,6 +294,7 @@ export default function CreateProperty() {
                     />
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 										<label htmlFor="address.zipcode"></label>
 										<Field
 											type="number"
@@ -577,6 +578,8 @@ export default function CreateProperty() {
 														const startDateValue =
 															values.availableDates.startDate;
 =======
+=======
+>>>>>>> 4bd9cf364774f85383837063ec66da8e3c14c57e
                     <label htmlFor="address.zipcode"></label>
                     <Field
                       type="number"
@@ -860,7 +863,10 @@ export default function CreateProperty() {
                             );
                             const startDateValue =
                               values.availableDates.startDate;
+<<<<<<< HEAD
 >>>>>>> de4306565065426afab0594feb52702e2807b3a8
+=======
+>>>>>>> 4bd9cf364774f85383837063ec66da8e3c14c57e
 
                             if (startDateValue && endDateValue) {
                               const startDate = new Date(startDateValue);

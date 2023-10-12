@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import {
 	Elements,
 	CardElement,
@@ -23,7 +24,22 @@ const CheckoutForm = () => {
 			card: elements.getElement(CardElement),
 		});
 		if (!error) {
-			console.log(paymentMethod);
+			const { id } = paymentMethod;
+
+			try {
+				const { data } = await axios.post(
+					'http://localhost:3001/api/checkout',
+					{
+						id,
+						amount: 10000,
+					}
+				);
+				console.log(data);
+
+				elements.getElement(CardElement).clear();
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	};
 
