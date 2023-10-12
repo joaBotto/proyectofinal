@@ -171,13 +171,11 @@ export default function CreateProperty() {
 					"The end date must be later than the start date"
 				),
 		}),
-		images: Yup.array().test(
-			"at-least-five-images",
-			"Add at least 5 images",
-			(value) => {
-				return value.length >= 5;
-			}
-		),
+		images: Yup.array()
+		.required("You must add at least 5 images")
+		.test("is-images-length", "You must add at least 5 images", (images) => {
+		  return images && images.length === 5;
+		}),
 	});
 
 	return (
