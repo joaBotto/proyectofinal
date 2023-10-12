@@ -63,7 +63,7 @@ export default function CreateProperty() {
 		bedrooms: 0,
 		bathrooms: 0,
 		price: 0,
-		type: "casa",
+		type: "House",
 		availableDates: {
 			startDate: "",
 			endDate: "",
@@ -134,7 +134,8 @@ export default function CreateProperty() {
 	const validationSchema = Yup.object().shape({
 		title: Yup.string()
 			.required("Title is required")
-			.min(5, "Very short title, must be at least 5 characters long"),
+			.min(5, "Very short title, must be at least 5 characters long")
+			.max(25, "Title too long"),
 		description: Yup.string().required("Description is required"),
 		address: Yup.object().shape({
 			street: Yup.string().required("The street is required"),
@@ -142,14 +143,22 @@ export default function CreateProperty() {
 			state: Yup.string().required("State is required"),
 			zipcode: Yup.number().required("Zip code is required"),
 		}),
+		amenities: Yup.object().shape({
+			covered_area: Yup.number()
+				.required("Covered area is required")
+				.min(10, "Must be 10 or more"),
+			antique: Yup.number()
+				.required("Antiquity is required")
+				.min(0, "Must be 0 or more"),
+		}),
 		bedrooms: Yup.number()
 			.required("Number of rooms is required")
-			.min(0)
-			.max(10),
+			.min(1, "Add at least 1 bedroom")
+			.max(10, "Max 10 bedrooms"),
 		bathrooms: Yup.number()
 			.required("Number of bathrooms required")
-			.min(0)
-			.max(10),
+			.min(1, "Add at least 1 bathroom")
+			.max(10, "Max 10 bedrooms"),
 		price: Yup.number().required("Price is required").min(1).max(100000),
 		availableDates: Yup.object().shape({
 			startDate: Yup.date()
@@ -162,11 +171,13 @@ export default function CreateProperty() {
 					"The end date must be later than the start date"
 				),
 		}),
-		images: Yup.array()
-			.required("You must add at least 5 images")
-			.test("is-images-length", "You must add at least 5 images", (images) => {
-				return images && images.length === 5;
-			}),
+		images: Yup.array().test(
+			"at-least-five-images",
+			"Add at least 5 images",
+			(value) => {
+				return value.length >= 5;
+			}
+		),
 	});
 
 	return (
@@ -185,7 +196,7 @@ export default function CreateProperty() {
 						validationSchema={validationSchema}
 						onSubmit={handleSubmit}
 					>
-						{({ values, isSubmitting, setFieldValue }) => (
+						{({ values, isSubmitting, setFieldValue, isValid, dirty }) => (
 							<Form className="flex flex-row justify-center w-2/3 bg-white rounded-lg p-6 shadow-lg my-10">
 								<div className="flex flex-col w-1/2 space-y-4">
 									<h1 className="text-3xl font-semibold text-left mt-40 mb-4 text-blue font-onest">
@@ -306,6 +317,7 @@ export default function CreateProperty() {
 											</label>
 											<Field
 												type="number"
+												min="1"
 												name="amenities.covered_area"
 												className="mt-1 p-2 w-full rounded-full border text-black"
 											/>
@@ -324,6 +336,7 @@ export default function CreateProperty() {
 											</label>
 											<Field
 												type="number"
+												min="0"
 												name="amenities.antique"
 												className="mt-1 p-2 w-full rounded-full border text-black"
 											/>
@@ -343,6 +356,7 @@ export default function CreateProperty() {
 											</label>
 											<Field
 												type="number"
+												min="0"
 												name="bedrooms"
 												className="mt-1 p-2 w-full rounded-full border"
 											/>
@@ -362,6 +376,7 @@ export default function CreateProperty() {
 											</label>
 											<Field
 												type="number"
+												min="0"
 												name="bathrooms"
 												className="mt-1 p-2 w-full rounded-full border"
 											/>
@@ -536,6 +551,7 @@ export default function CreateProperty() {
 												<ErrorMessage
 													name="availableDates.startDate"
 													component="div"
+													className="text-red-600 text-sm"
 												/>
 											</div>
 											<div className="flex flex-col w-1/2 ml-3">
@@ -569,16 +585,17 @@ export default function CreateProperty() {
 												<ErrorMessage
 													name="availableDays.endDate"
 													component="div"
+													className="text-red-600 text-sm"
 												/>
 											</div>
 										</div>
 									</div>
 									<p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
-										Add your images:
+										Add at least 5 images:{" "}
 									</p>
 									<Dropzone
 										onDrop={async (acceptedFiles) => {
-											if (values.images.length + acceptedFiles.length <= 5) {
+											if (values.images.length + acceptedFiles.length >= 0) {
 												const uploadImageUrl = await uploadImagesToCloudinary(
 													acceptedFiles
 												);
@@ -588,8 +605,6 @@ export default function CreateProperty() {
 												);
 												const newImages = [...values.images, uploadImageUrl];
 												setFieldValue("images", newImages);
-											} else {
-												alert("No puedes subir más de 5 imágenes."); // PASAR ALERT A INGLES
 											}
 										}}
 										accept="image/*"
@@ -602,6 +617,9 @@ export default function CreateProperty() {
 												className="dropzone cursor-pointer"
 											>
 												<input {...getInputProps()} />
+												<p className="text-blue font-noto text-xs">
+													Drag and drop your files here or click to select.
+												</p>
 												<div className="image-container overflow-scroll space-x-2 space-y-2">
 													{" "}
 													{/* Agrega la clase "image-container" aquí */}
@@ -622,15 +640,14 @@ export default function CreateProperty() {
 																)
 														)}
 												</div>
-												{!values.images && (
-													<p className="text-black">
-														Arrastra y suelta archivos aquí o haz clic para
-														seleccionar (máximo 5 imágenes)
-													</p>
-												)}
 											</div>
 										)}
 									</Dropzone>
+									<ErrorMessage
+										name="images"
+										component="div"
+										className="text-red-600 text-sm"
+									/>
 									{/* PRECIO */}
 									<div className="flex flex-row justify-end text-right text-blue mt-4">
 										<p className="flex items-center pl-1 font-onest text-blue font-semibold text-2xl mx-3">
@@ -658,8 +675,19 @@ export default function CreateProperty() {
 										</Link>
 										<button
 											type="submit"
-											disabled={isSubmitting}
-											className="block bg-violet font-onest font-bold text-white px-4 py-2 rounded-full hover:bg-pink mb-2"
+											disabled={
+												isSubmitting ||
+												!isValid ||
+												!dirty ||
+												(values.images && values.images.length < 5)
+											}
+											className={`block font-onest font-bold text-white px-4 py-2 bg-violet rounded-full hover:bg-pink mb-2 ${
+												(isSubmitting ||
+													!isValid ||
+													!dirty ||
+													(values.images && values.images.length < 5)) &&
+												"bg-gray-400 hover:cursor-not-allowed hover:bg-gray-600"
+											}`}
 											onClick={(e) => {
 												e.preventDefault(); // Evitar que el formulario se envíe automáticamente
 												handleSubmit(values, { setSubmitting: () => {} }); // Llamar a la función handleSubmit con los valores y un objeto "setSubmitting" vacío
