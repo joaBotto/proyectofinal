@@ -2,8 +2,11 @@ const { Router } = require("express");
 const router = Router();
 const multer = require("multer");
 const cloudinary = require("../cloudinaryConfig.js");
-const fs = require('fs').promises;
+const fs = require("fs").promises;
 const path = require("path");
+//!-------------------------
+const nodemailer = require("nodemailer");
+//!-------------------------
 
 const { propertiesRouter } = require("./propertiesRouter");
 const { usersRouter } = require("./usersRouter");
@@ -17,10 +20,12 @@ const upload = multer({
 
 router.post("/upload", upload.single("file"), async (req, res) => {
   try {
-    console.log("Recibida solicitud de carga de imagen"); 
+    console.log("Recibida solicitud de carga de imagen");
     if (!req.file) {
       console.log("No se proporcionó ninguna imagen."); // Agrega un log si no se proporciona ninguna imagen
-      return res.status(400).json({ message: "No se proporcionó ninguna imagen." });
+      return res
+        .status(400)
+        .json({ message: "No se proporcionó ninguna imagen." });
     }
     // Guarda el archivo temporalmente en el sistema de archivos local
     let temporaryFilePath;
@@ -35,7 +40,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     await fs.writeFile(temporaryFilePath, req.file.buffer);
 
     const result = await cloudinary.uploader.upload(temporaryFilePath, {
-      folder: 'c57629ef1b093e38460ef8101c94f36653'
+      folder: "c57629ef1b093e38460ef8101c94f36653",
     });
 
     await fs.unlink(temporaryFilePath);
@@ -63,5 +68,6 @@ router.get("/logout", (req, res) => {
     return res.status(401).send("No estás autenticado");
   }
 });
-
+//!--------------- ruta para envio de email -------------------------------------
+router.post("/register", (req, res) => {});
 module.exports = router;

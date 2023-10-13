@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
+// import emailjs from "@emailjs/browser";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -134,8 +134,8 @@ const SignUpForm = () => {
       }
 
       //? -------------------------------------------------------------------------------
-      const response = await axios.post("https://localhost:3001/users", values);
-      console.log(response);
+      // const response = await axios.post("https://localhost:3001/users", values);
+      // console.log(response);
 
       //? -------------------------------------------------------------------------------
 
