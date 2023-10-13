@@ -137,34 +137,34 @@ const getUsersHandlers = async (req, res) => {
 const editUserHandler = async (req, res) => {
 	try {
 		const {
-			//_id,
+			_id,
 			email,
 			password,
 			name,
 			lastName,
-      //image,
+      images,
 			country,
 			city,
 			address,
 			phoneNumber,
-			//properties, 
-			//createdAt,
-			//__v
+			properties, 
+			createdAt,
+			__v
 		 } = req.body;
 		 const user = {
-			//_id,
+			_id,
 			email,
 			password,
 			name,
 			lastName,
-      //image,
+      images,
 			country,
 			city,
 			address,
 			phoneNumber,
-			//properties, 
-			//createdAt,
-			//__v
+			properties, 
+			createdAt,
+			__v
 		 }
 		console.log("soyuserhandler",user)
 		const userEdited = await editUser(user);
