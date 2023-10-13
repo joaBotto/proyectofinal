@@ -8,6 +8,7 @@ const path = require("path");
 const { propertiesRouter } = require("./propertiesRouter");
 const { usersRouter } = require("./usersRouter");
 const { authRouter } = require("./authRouter");
+const { paymentRouter} = require("./payment.routes.js")
 
 const storage = multer.memoryStorage(); // Almacenamiento en memoria (puedes cambiarlo para guardar en disco si lo prefieres)
 const upload = multer({
@@ -49,6 +50,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 router.use("/auth", authRouter);
 router.use("/properties", propertiesRouter); // ruta_backend/properties -> Te lleva al router de propiedades
 router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de users
+router.use("/payment",paymentRouter)
 
 router.get("/logout", (req, res) => {
   if (req.isAuthenticated()) {

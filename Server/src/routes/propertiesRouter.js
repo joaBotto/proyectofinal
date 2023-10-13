@@ -22,3 +22,4 @@ propertiesRouter.post("/", creatingPropertyHandler);
 module.exports = { 
         propertiesRouter
         };
+        

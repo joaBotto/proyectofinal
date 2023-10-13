@@ -1,13 +1,16 @@
-import { Router } from "express";
-import PaymentController from "../controllers/payment.controller";
+const { Router } = require("express");
 
-const router = Router();
+const paymentRouter = Router();
+const {PaymentController} = require(".././controllers/payment.controller")
+
 
 const paymentController = new PaymentController();
-router.post("/create_preference/:cid", paymentController.createOrder);
-router.get("/success", paymentController.successPayment);
-router.get("/failure", paymentController.failurePayment);
-router.get("/pending", paymentController.pendingPayment);
-router.post("/webhook", paymentController.webhook);
+paymentRouter.post("/create_preference/:cid", paymentController.createOrder);
+paymentRouter.get("/success", paymentController.successPayment);
+paymentRouter.get("/failure", paymentController.failurePayment);
+paymentRouter.get("/pending", paymentController.pendingPayment);
+paymentRouter.post("/webhook", paymentController.webhook);
 
-export default router;
+module.exports= {
+    paymentRouter
+}
