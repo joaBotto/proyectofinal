@@ -116,7 +116,7 @@ export const updateUser = (userEdited) => {
       console.log("soydataAccion",data)
       return dispatch({
         type:USER_EDITED,
-        payload:data
+        payload:data,
       })
     } catch (error) {
       return dispatch({

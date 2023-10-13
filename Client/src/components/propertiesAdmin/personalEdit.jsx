@@ -12,7 +12,7 @@ const EditAccount = () => {
     password: user.password,
     name: user.name,
     lastName: user.lastName,
-    image: user.image,
+    images: user.images,
     country: user.country,
     city: user.city,
     address: user.address,

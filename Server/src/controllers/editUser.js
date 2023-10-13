@@ -1,11 +1,11 @@
 const User = require("../models/user"); // Asegúrate de importar el modelo de usuario adecuado
 
-const editUser = async (userForEdit) => {
+const editUser = async (user) => {
   try {
     // Realiza la actualización de los datos del usuario
     const userEdited = await User.findOneAndUpdate(
-      { _id: userForEdit._id }, // Filtra por el _id del usuario que deseas editar
-      { $set: userForEdit }, // Establece los nuevos datos del usuario
+      { _id: user._id }, // Filtra por el _id del usuario que deseas editar
+      { $set: user }, // Establece los nuevos datos del usuario
       { new: true } // Esto evita que devuelva el documento original
     );
 
