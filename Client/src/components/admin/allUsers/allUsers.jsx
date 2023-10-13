@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllUsers } from "../../../redux/actions";
 
-export const AllUsers = () => {
+export const allUsers = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
 
