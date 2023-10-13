@@ -113,6 +113,7 @@ export const updateUser = (userEdited) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.put("http://localhost:3001/users", userEdited);
+      console.log("soydataAccion",data)
       return dispatch({
         type:USER_EDITED,
         payload:data
