@@ -18,7 +18,8 @@ import { EditPropertyFromAdmin } from './components/admin/editProperty/editPrope
 import BookingSystem from './views/Reservations/Reservations';
 import Postuser from './components/propertiesAdmin/propertyUser';
 import PaymentForm from './components/PaymentForm/PaymentForm';
-import GestionUser from './views/gestionUser/GestionUser'
+import GestionUser from './views/gestionUser/GestionUser';
+import EditAccount from './components/propertiesAdmin/personalEdit'
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
 				<Route path='/postUser' element={<Postuser />} />
 				<Route path='/checkout' element={<PaymentForm />} />
 				<Route path='/gestionUser' element={<GestionUser />} />
+				<Route path='/personalEdit' element={<EditAccount />} />
 			</Routes>
 		</div>
 	);

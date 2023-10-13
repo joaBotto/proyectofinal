@@ -1,6 +1,7 @@
  // import React from 'react';
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../redux/actions";
 
 const EditAccount = () => {
   const user = useSelector((state) => state.user); // Obténer los datos del usuario desde el estado de Redux
@@ -8,9 +9,10 @@ const EditAccount = () => {
 
   const [formData, setFormData] = useState({
     email: user.email,
+    password: user.password,
     name: user.name,
     lastName: user.lastName,
-    image: user.image,
+    //images: user.images,
     country: user.country,
     city: user.city,
     address: user.address,
@@ -24,6 +26,7 @@ const EditAccount = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Enviar la solicitud para actualizar la cuenta del usuario
+    console.log("soyformdata",formData)
     dispatch(updateUser(formData));
   };
 
@@ -37,6 +40,13 @@ const EditAccount = () => {
           value={formData.email}
           onChange={handleChange}
           placeholder="Correo Electrónico"
+        />
+        <input
+          type="text" // Cambiado a tipo "password" para ocultar la contraseña
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Contraseña"
         />
         <input
           type="text"

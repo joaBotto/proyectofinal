@@ -137,37 +137,38 @@ const getUsersHandlers = async (req, res) => {
 const editUserHandler = async (req, res) => {
 	try {
 		const {
-			_id,
+			//_id,
 			email,
 			password,
 			name,
 			lastName,
-      image,
+      //image,
 			country,
 			city,
 			address,
 			phoneNumber,
-			properties, 
-			createdAt,
-			__v
+			//properties, 
+			//createdAt,
+			//__v
 		 } = req.body;
 		 const user = {
-			_id,
+			//_id,
 			email,
 			password,
 			name,
 			lastName,
-      image,
+      //image,
 			country,
 			city,
 			address,
 			phoneNumber,
-			properties, 
-			createdAt,
-			__v
+			//properties, 
+			//createdAt,
+			//__v
 		 }
-		
+		console.log("soyuserhandler",user)
 		const userEdited = await editUser(user);
+    console.log("soyuserEditedxd",userEdited)
 		return res.status(200).json(userEdited)
 	} catch (error) {
 		return res.status(500).json({ error: error.message });
