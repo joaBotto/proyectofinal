@@ -126,7 +126,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case USER_EDITED:
       return {
         ...state,
-        user: { ...state.user, ...payload },
+        user: [ ...state.user, ...payload ],
       };
 
     default:

@@ -140,7 +140,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
-      image,
+      //image,
 			country,
 			city,
 			address,
@@ -155,7 +155,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
-      image,
+      //image,
 			country,
 			city,
 			address,
@@ -164,7 +164,7 @@ const editUserHandler = async (req, res) => {
 			//createdAt,
 			//__v
 		 }
-		
+		console.log("soyuserhandler",user)
 		const userEdited = await editUser(user);
     console.log("soyuserEditedxd",userEdited)
 		return res.status(200).json(userEdited)
