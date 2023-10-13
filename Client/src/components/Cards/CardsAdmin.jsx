@@ -16,6 +16,7 @@ export default function CardsAdmin({ properties }) {
 							location={property.address.city}
 							bedrooms={property.bedrooms}
 							bathrooms={property.bathrooms}
+							area={property.amenities?.covered_area || "50"}
 						/>
 					))
 				) : (

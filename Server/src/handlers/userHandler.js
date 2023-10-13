@@ -1,6 +1,6 @@
 //aca importar los controllers ya hechos, y hacer las funciones handlers de cada peticion, con async await + try catch
 const creatingUser = require("../controllers/creatingUser");
-const getUsers = require('../controllers/getUsers');
+const getAllUsers = require('../controllers/getUsers');
 const editUser = require('../controllers/editUser')
 const createUserHandler = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      image, 
+      image,
       country,
       city,
       address,
@@ -25,6 +25,7 @@ const createUserHandler = async (req, res) => {
       city,
       address,
       phoneNumber,
+      image,
       active:true,
       role:"user"
     };
@@ -39,7 +40,8 @@ const createUserHandler = async (req, res) => {
       country &&
       city &&
       address &&
-      phoneNumber
+      phoneNumber&&
+      image
     ) {
       // Sube la imagen a Cloudinary primero
       if (image) {
@@ -120,12 +122,12 @@ const createUserHandler = async (req, res) => {
 // };
 
 
-const getUsersHandlers = async (req, res) => {
+const getAllUsersHandlers = async (req, res) => {
   try {
-    const { email } = req.query;
-    const user = await getUsers(email);
-    if (user) {
-      return res.status(200).json(user);
+    const allUsers = await getAllUsers();
+    console.log("soy allusers", allUsers)
+    if (allUsers) {
+      return res.status(200).json(allUsers);
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -140,7 +142,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
-      image,
+      images,
 			country,
 			city,
 			address,
@@ -155,7 +157,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
-      image,
+      images,
 			country,
 			city,
 			address,
@@ -164,12 +166,13 @@ const editUserHandler = async (req, res) => {
 			createdAt,
 			__v
 		 }
-		
+		console.log("soyuserhandler",user)
 		const userEdited = await editUser(user);
+    console.log("soyuserEditedxd",userEdited)
 		return res.status(200).json(userEdited)
 	} catch (error) {
 		return res.status(500).json({ error: error.message });
 	}
 }
 
-module.exports = { createUserHandler, getUsersHandlers, editUserHandler };
+module.exports = { createUserHandler, getAllUsersHandlers, editUserHandler };
