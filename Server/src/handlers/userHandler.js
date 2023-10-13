@@ -147,7 +147,9 @@ const editUserHandler = async (req, res) => {
 			city,
 			address,
 			phoneNumber,
-			properties, 
+			properties,
+      active,
+      role, 
 			createdAt,
 			__v
 		 } = req.body;
@@ -162,7 +164,9 @@ const editUserHandler = async (req, res) => {
 			city,
 			address,
 			phoneNumber,
-			properties, 
+			properties,
+      active,
+      role, 
 			createdAt,
 			__v
 		 }

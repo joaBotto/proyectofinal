@@ -3,6 +3,7 @@ import { useDispatch, useSelector} from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllUsers } from "../../../redux/actions";
 import Switch from "react-switch";
+import { updateUser } from "../../../redux/actions";
 
 export const AllUsers = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ export const AllUsers = () => {
       return user;
     }})
     setUsersLocal(usersUpdate)
+    const user = usersUpdate.find((user) => user._id === id)
+    dispatch(updateUser(user))
   }
 
   const handleActive = (id, value) => {
@@ -34,7 +37,10 @@ export const AllUsers = () => {
     } else {
       return user;
     }})
-    setUsersLocal(usersUpdate)
+    setUsersLocal(usersUpdate);
+    const user = usersUpdate.find((user) => user._id === id)
+    console.log("soy user", user)
+    dispatch(updateUser(user))
    }
 
   return (

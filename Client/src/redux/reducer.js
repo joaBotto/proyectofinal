@@ -134,9 +134,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				}
 
     case USER_EDITED:
+      const updatedAllUsers = state.allUsers.filter((user) => user._id !== payload._id)
+      const updateUser = state.users.filter((user) => user._id !== payload._id)
       return {
         ...state,
-        user: [ ...state.user, payload ],
+        user:payload,
+        allUsers:[...updatedAllUsers, payload],
+        users: [...updateUser, payload]
       };
 
     default:
