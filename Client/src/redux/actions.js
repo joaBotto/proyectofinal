@@ -10,7 +10,8 @@ import {
   USER_LOGIN,
   FILTERS,
   PROPERTY_EDITED,
-  GET_ALL_USERS
+  GET_ALL_USERS,
+  USER_EDITED
 } from "./actions_types";
 
 export const getProperty = () => {
@@ -106,6 +107,25 @@ export const filters = (type, orderPrice) => {
   return {
     type: FILTERS,
     payload: { type, orderPrice },
+  };
+};
+
+export const updateUser = (userEdited) => {
+  console.log("userEdited",userEdited)
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put("http://localhost:3001/users", userEdited);
+      console.log("soydataAccion",data)
+      return dispatch({
+        type: USER_EDITED,
+        payload: data,
+      })
+    } catch (error) {
+      return dispatch({
+        type: ERROR,
+        payload: error.message
+      })
+    }
   };
 };
 

@@ -9,7 +9,7 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      image, 
+      image,
       country,
       city,
       address,
@@ -25,6 +25,7 @@ const createUserHandler = async (req, res) => {
       city,
       address,
       phoneNumber,
+      image,
       active:true,
       role:"user"
     };
@@ -39,7 +40,8 @@ const createUserHandler = async (req, res) => {
       country &&
       city &&
       address &&
-      phoneNumber
+      phoneNumber&&
+      image
     ) {
       // Sube la imagen a Cloudinary primero
       if (image) {
@@ -139,7 +141,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
-      image,
+      images,
 			country,
 			city,
 			address,
@@ -154,7 +156,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
-      image,
+      images,
 			country,
 			city,
 			address,
@@ -163,8 +165,9 @@ const editUserHandler = async (req, res) => {
 			createdAt,
 			__v
 		 }
-		
+		console.log("soyuserhandler",user)
 		const userEdited = await editUser(user);
+    console.log("soyuserEditedxd",userEdited)
 		return res.status(200).json(userEdited)
 	} catch (error) {
 		return res.status(500).json({ error: error.message });

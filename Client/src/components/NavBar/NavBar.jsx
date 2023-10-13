@@ -79,7 +79,7 @@ const NavBar = () => {
 							</button>
 							{isMenuOpen && (
 								<div className="absolute top-10 right-[-10px] mt-2 space-y-2 flex flex-col items-start bg-white p-5 rounded shadow">
-									<Link to="/postUser">
+									<Link to="/gestionUser">
 										<a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2">
 											<FontAwesomeIcon
 												icon={faGears}
