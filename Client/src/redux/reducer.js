@@ -1,24 +1,27 @@
 import {
-  GET_PROPERTY,
-  GET_PROPERTY_DETAIL,
-  CREATE_PROPERTY,
-  ADD_USER,
-  FILTERS,
-  CLEAN_DETAIL,
-  ERROR,
-  USER_LOGIN,
-  PROPERTY_EDITED,
+	GET_PROPERTY,
+	GET_PROPERTY_DETAIL,
+	CREATE_PROPERTY,
+	ADD_USER,
+	FILTERS,
+	CLEAN_DETAIL,
+	ERROR,
+	USER_LOGIN,
+	PROPERTY_EDITED,
+	GET_ALL_USERS,
   USER_EDITED,
 } from "./actions_types";
 
 const initialState = {
-  error: "",
-  user: "",
-  properties: [],
-  allproperties: [],
-  propertyDetail: {},
-  searchTerm: "",
-  details: [],
+	error: "",
+	allUsers:[],
+	users:[],
+	user: "",
+	properties: [],
+	allproperties: [],
+	propertyDetail: {},
+	searchTerm: "",
+	details: [],
 };
 
 const filterPropertyType = (state, payload) => {
@@ -122,6 +125,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
         allproperties: [...allpropertiesFiltered, payload],
         properties: [...propertiesFiltered, payload],
       };
+      
+			case GET_ALL_USERS:
+				return {
+					...state,
+					allUsers:payload,
+					users:payload
+				}
 
     case USER_EDITED:
       return {
@@ -134,6 +144,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
       };
   }
+
 };
 
 export default rootReducer;

@@ -1,8 +1,11 @@
 const Users = require('../models/user')
 
-const getUsers = (email) => {
-    const user = Users.findOne({email:email});
-    return user;
+const getAllUsers = async () => {
+    const allUsers = await Users.find().lean();
+	if (allUsers) {
+		return allUsers;
+	} else {
+		throw new Error("There are no users");
+	}
 }
-
-module.exports = getUsers;
+module.exports = getAllUsers;
