@@ -25,6 +25,7 @@ const SignUpForm = () => {
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
+    console.log("Imagen recibida", file)
     setImage(file);
 
     const reader = new FileReader();
@@ -36,7 +37,7 @@ const SignUpForm = () => {
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/png",
+    accept: "image/*",
     onDrop,
   });
 
@@ -101,6 +102,7 @@ const SignUpForm = () => {
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
+    console.log("FormData:", formData);
     try {
       const { data } = await axios.post(
         "http://localhost:3001/upload",
@@ -121,13 +123,14 @@ const SignUpForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     console.log("Soy el values", values);
+    console.log("Soy la imagen", image);
     try {
       if (image) {
         const cloudinaryResponse = await uploadImagesToCloudinary(image);
         console.log("soyresponsecloud", cloudinaryResponse);
         if (cloudinaryResponse) {
-          values.avatar = cloudinaryResponse;
-          setImagePreview(values.avatar);
+          values.images = cloudinaryResponse;
+          setImagePreview(values.images);
         } else {
           console.error("Error al cargar la imagen en Cloudinary.");
         }
@@ -141,10 +144,10 @@ const SignUpForm = () => {
 
       await dispatch(addUser(values));
       // Espera 2 segundos antes de redirigir
-      setTimeout(() => {
-        // Redirige al usuario a la página de inicio ("/")
-        navigate("/login");
-      }, 7000); // El tiempo está en milisegundos (en este caso, 2 segundos)
+      // setTimeout(() => {
+      //   // Redirige al usuario a la página de inicio ("/")
+      //   navigate("/login");
+      // }, 7000); // El tiempo está en milisegundos (en este caso, 2 segundos)
     } catch (error) {
       console.error("Error en la solicitud:", error);
     } finally {

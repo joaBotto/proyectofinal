@@ -154,9 +154,16 @@ export default function Login() {
           )}
         </Formik>
         <p className="font-onest">
-          You still don't have an account? <Link to="/signUp">SignUp</Link>
+          You still don't have an account?{" "}
+          <Link
+            to="/signUp"
+            className=" text-white font-onest font-light self-end hover:text-black"
+          >
+            SignUp
+          </Link>
         </p>
       </div>
+      <br />
       <br />
       <br />
       <br />

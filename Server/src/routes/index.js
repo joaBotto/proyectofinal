@@ -69,5 +69,39 @@ router.get("/logout", (req, res) => {
   }
 });
 //!--------------- ruta para envio de email -------------------------------------
-router.post("/register", (req, res) => {});
+router.post("/signUp", (req, res) => {
+  const user = {
+    email,
+    password,
+    active: true,
+  };
+  enviarCorreoConfirmacion(user.email);
+  res.json({
+    message: "Registered user successfully! Your account is active!",
+  });
+});
+
+function enviarCorreoConfirmacion(email) {
+  const transporter = nodemailer.createTransport({
+    service: "Outlook",
+    auth: {
+      user: "inmueble360henry@hotmail.com",
+      pass: "Inmuebles.360",
+    },
+  });
+  const mailOptions = {
+    from: "inmueble360henry@hotmail.com",
+    to: email,
+    subject: "Successfully register",
+    text: "¡Thanks for register on Inmuebles360!",
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log("Error al enviar el correo de confirmacion: ", error);
+    } else {
+      console.log("Correo de confirmacion enviado: ", info.response);
+    }
+  });
+}
+//!--------------------------------------------------------------------------------
 module.exports = router;

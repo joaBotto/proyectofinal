@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { DatePicker } from "antd";
+import moment from "moment";
 
 const Booking = ({ property }) => {
   const [totalAmount, setTotalAmount] = useState(0);
@@ -30,6 +31,7 @@ const Booking = ({ property }) => {
     setTotalDays(0);
     setSelectedDates(null);
   };
+  console.log(property.availableDays[property.availableDays.length - 1]);
 
   return (
     <div className="flex flex-col w-1/2 items-end pl-7">
@@ -42,6 +44,14 @@ const Booking = ({ property }) => {
           onChange={handleDateChange}
           value={selectedDates}
           className="rounded-full py-2 border-2 border-cyan font-onest text-blue"
+          disabledDate={(current) =>
+            current &&
+            (current < moment(property.availableDays[0]) ||
+              current >
+                moment(
+                  property.availableDays[property.availableDays.length - 1]
+                ))
+          }
         />
       </div>
       <div className="flex flex-row justify-between items-center w-full text-left mb-4 mr-4">
