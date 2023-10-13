@@ -1,3 +1,4 @@
+
 import {
 	GET_PROPERTY,
 	GET_PROPERTY_DETAIL,
@@ -115,7 +116,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			);
 			const propertiesFiltered = properties.filter(
 				(property) => property._id !== payload._id
-			);
+		
+				);
 			return {
 				...state,
 				allproperties: [...allpropertiesFiltered, payload],
