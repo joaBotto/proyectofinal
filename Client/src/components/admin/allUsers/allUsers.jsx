@@ -8,30 +8,17 @@ export const AllUsers = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
 
-  const [userChange, setUserChanges] = useState({
-    id: "",
-    email:"",
-    password: "",
-    name: "",
-    lastName: "",
-    country: "",
-    city: "",
-    address: "",
-    phoneNumber: 0,
-    active: true,
-    role: 'user',
-    properties: [],
-    images: [],
-    createdAt:"",
-    __v:""
-  }) 
+  const [usersLocal, setUsersLocal] = useState([...users]);
 
   useEffect(() => {
     dispatch(getAllUsers());
   }, [dispatch]);
 
-  const handleActive = () => {
-    console.log("holarodrigo")
+  const handleActive = (id, valueActive) => {
+    console.log(valueActive)
+    const userToModify = users.find((user) => user._id === id) 
+    setUserChange({...userToModify, active: valueActive});
+    console.log({...userToModify, active: valueActive});
   }
 
   return (
@@ -54,8 +41,8 @@ export const AllUsers = () => {
           </tr>
         </thead>
         <tbody>
-          {users &&
-            users.map((user) => (
+          {usersLocal &&
+            usersLocal.map((user) => (
               <tr>
                 <td>{user.name}</td>
                 <td>{user.lastName}</td>
@@ -72,8 +59,8 @@ export const AllUsers = () => {
                     <option value = "admin">Admin</option>
                   </select>
                 </td>
-                <td>
-                  <Switch onChange={handleActive} checked={user.active} />
+                <td><Switch onChange={()=>{handleActive(user._id, user.active)}} checked={user.active} />
+                  
                 </td>
               </tr>
             ))}
