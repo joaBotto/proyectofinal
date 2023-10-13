@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignInAlt,
+  faSignOutAlt,
   faBars,
   faGears,
   faHouseUser,
@@ -11,7 +12,7 @@ import {
 import fondo from "../../assets/img/fondo1.jpeg";
 import logo from "../../assets/img/logo.png";
 import { useSelector, useDispatch } from "react-redux";
-import { filters } from "../../redux/actions";
+import { filters, userLogOut } from "../../redux/actions";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const NavBar = () => {
   };
 
   const handleLogout = () => {
-    //
+    dispatch(userLogOut());
   };
   return (
     <div className="text-white mb-10">
@@ -112,10 +113,11 @@ const NavBar = () => {
                 </div>
               )}
               <button
-                className="pt-1 pb-1 pr-2 pl-2 text-white bg-violet rounded-full mr-10 hover:bg-pink"
+                className="pt-1 pb-1 pr-2 pl-2 text-white bg-grey rounded-full mr-10 hover:bg-violet"
                 onClick={handleLogout}
               >
-                LogOut
+                LogOut-
+                <FontAwesomeIcon icon={faSignOutAlt} />
               </button>
             </>
           ) : (
