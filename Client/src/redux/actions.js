@@ -9,7 +9,8 @@ import {
   ERROR,
   USER_LOGIN,
   FILTERS,
-  PROPERTY_EDITED
+  PROPERTY_EDITED,
+  USER_EDITED
 } from "./actions_types";
 
 export const getProperty = () => {
@@ -105,6 +106,23 @@ export const filters = (type, orderPrice) => {
   return {
     type: FILTERS,
     payload: { type, orderPrice },
+  };
+};
+
+export const updateUser = (userEdited) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put("http://localhost:3001/users", userEdited);
+      return dispatch({
+        type:USER_EDITED,
+        payload:data
+      })
+    } catch (error) {
+      return dispatch({
+        type:ERROR,
+        payload:error.message
+      })
+    }
   };
 };
 
