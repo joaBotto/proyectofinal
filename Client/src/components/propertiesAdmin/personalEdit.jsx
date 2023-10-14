@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../redux/actions";
 
+
 const EditAccount = () => {
   const user = useSelector((state) => state.user); // Obténer los datos del usuario desde el estado de Redux
   const dispatch = useDispatch();
