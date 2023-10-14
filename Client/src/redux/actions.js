@@ -148,6 +148,7 @@ export const filters = (type, orderPrice) => {
 };
 
 export const updateUser = (userEdited) => {
+<<<<<<< HEAD
 	console.log("userEdited", userEdited);
 	return async (dispatch) => {
 		try {
@@ -164,6 +165,27 @@ export const updateUser = (userEdited) => {
 			});
 		}
 	};
+=======
+  /* console.log("userEdited", userEdited); */
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(
+        "http://localhost:3001/users",
+        userEdited
+      );
+      console.log("soydataAccion", data);
+      return dispatch({
+        type: USER_EDITED,
+        payload: data,
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+>>>>>>> 6da1bd3 (opanel admin)
 };
 
 // export const searchProducto = (query) => {
