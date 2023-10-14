@@ -1,22 +1,23 @@
 import mercadopago from "mercadopago";
 require('dotenv').config();
-import cartController from "./cartController"
 
-const cartController = new CartController();
+
+
 
 export default class PaymentController {
   createOrder = async (req, res) => {
     const cartId = req.params.cid;
     const userEmail = req.session.user.email;
-
-    const items = await cartController.purchaseMp(cartId, userEmail);
-    console.log(items);
-    mercadopago.configure({
-      access_token:process.env.TOKEN_MP_TEST,
-    });
+    mercadopago.configure({access_token:process.env.TOKEN_MP_TEST, });
     try {
       let preference = {
-        items: [items],
+        items: [
+          {
+            title: "Mi Alquiler",
+            unit_price: 200,
+            quantity: 1,
+            currency_id: "USD",
+          }],
         back_urls: {
           success: "http://localhost:3000/api/payment/success",
           failure: "/api/payment/failure",
@@ -25,7 +26,7 @@ export default class PaymentController {
         auto_return: "approved",
       };
 
-      mercadopago.preferences
+      await mercadopago.preferences
         .create(preference)
         .then(function (response) {
           res.json({
@@ -69,23 +70,3 @@ export default class PaymentController {
   };
 }
 
-/*       const result = await mercadopago.preferences.create({
-        items: [
-          {
-            title: "Mi producto",
-            unit_price: 100,
-            quantity: 1,
-            currency_id: "ARS",
-          },
-        ],
-        back_urls: {
-          success: "/api/payment/success",
-          failure: "/api/payment/failure",
-          pending: "/api/payment/pending",
-        },
-        auto_return: "approved",
-        notification_url:
-          "https://b317-2803-9800-b015-7d41-9048-7d1-2a96-cd41.ngrok.io/api/payment/webhook",
-      });
-      
-      console.log(result); */
