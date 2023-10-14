@@ -43,8 +43,6 @@ export default function HomeAdmin() {
   return (
     <div className="mt-5 mx-0">
       <NavBarAdmin/>
-     
-
          {/* FILTROS */}
 
          <div className="bg-white shadow py-2 w-1/3 rounded-full absolute top-[350px] left-[50%] transform translate-x-[-50%] -translate-y-[-50%]">

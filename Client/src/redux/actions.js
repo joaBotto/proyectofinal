@@ -129,7 +129,7 @@ export const filters = (type, orderPrice) => {
 };
 
 export const updateUser = (userEdited) => {
-  console.log("userEdited", userEdited);
+  /* console.log("userEdited", userEdited); */
   return async (dispatch) => {
     try {
       const { data } = await axios.put(
