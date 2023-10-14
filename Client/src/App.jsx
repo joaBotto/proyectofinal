@@ -18,7 +18,7 @@ import BookingSystem from "./views/Reservations/Reservations";
 import Postuser from "./components/propertiesAdmin/propertyUser";
 import PaymentForm from "./components/PaymentForm/PaymentForm";
 import GestionUser from "./views/gestionUser/GestionUser";
-import { allUsers } from "./components/admin/allUsers/allUsers";
+import { AllUsers } from "./components/admin/allUsers/allUsers";
 import EditAccount from "./components/propertiesAdmin/personalEdit";
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
         <Route path="/error404" element={<Error404 />} />
         <Route path="/loginadmin" element={<LoginAdmin />} />
         <Route path="/admin/property/:id" element={<EditPropertyFromAdmin />} />
-        <Route path="/admin/users" element={<allUsers />} />
+        <Route path="/admin/users" element={<AllUsers />} />
         <Route path="/detail/:id/reservations" element={<BookingSystem />} />
         <Route path="/postUser" element={<Postuser />} />
         <Route path="/checkout" element={<PaymentForm />} />
