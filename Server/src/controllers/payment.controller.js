@@ -6,8 +6,8 @@ require('dotenv').config();
 
 export default class PaymentController {
   createOrder = async (req, res) => {
-    const cartId = req.params.cid;
-    const userEmail = req.session.user.email;
+    // const cartId = req.params.cid;
+    // const userEmail = req.session.user.email;
     mercadopago.configure({access_token:process.env.TOKEN_MP_TEST, });
     try {
       let preference = {
@@ -19,9 +19,9 @@ export default class PaymentController {
             currency_id: "USD",
           }],
         back_urls: {
-          success: "http://localhost:3000/api/payment/success",
-          failure: "/api/payment/failure",
-          pending: "/api/payment/pending",
+          success: "http://localhost:3001/api/payment/success",
+          failure: "http://localhost:3001/api/payment/failure",
+          pending: "http://localhost:3001/api/payment/pending",
         },
         auto_return: "approved",
       };
