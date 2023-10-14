@@ -1,27 +1,28 @@
 import {
-	GET_PROPERTY,
-	GET_PROPERTY_DETAIL,
-	CREATE_PROPERTY,
-	ADD_USER,
-	FILTERS,
-	CLEAN_DETAIL,
-	ERROR,
-	USER_LOGIN,
-	PROPERTY_EDITED,
-	GET_ALL_USERS,
+  GET_PROPERTY,
+  GET_PROPERTY_DETAIL,
+  CREATE_PROPERTY,
+  ADD_USER,
+  FILTERS,
+  CLEAN_DETAIL,
+  ERROR,
+  USER_LOGIN,
+  PROPERTY_EDITED,
+  GET_ALL_USERS,
   USER_EDITED,
+  RESET_STATE,
 } from "./actions_types";
 
 const initialState = {
-	error: "",
-	allUsers:[],
-	users:[],
-	user: "",
-	properties: [],
-	allproperties: [],
-	propertyDetail: {},
-	searchTerm: "",
-	details: [],
+  error: "",
+  allUsers: [],
+  users: [],
+  user: "",
+  properties: [],
+  allproperties: [],
+  propertyDetail: {},
+  searchTerm: "",
+  details: [],
 };
 
 const filterPropertyType = (state, payload) => {
@@ -125,13 +126,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
         allproperties: [...allpropertiesFiltered, payload],
         properties: [...propertiesFiltered, payload],
       };
-      
-			case GET_ALL_USERS:
-				return {
-					...state,
-					allUsers:payload,
-					users:payload
-				}
 
     case USER_EDITED:
       const updatedAllUsers = state.allUsers.filter((user) => user._id !== payload._id)
@@ -141,14 +135,25 @@ const rootReducer = (state = initialState, { type, payload }) => {
         user:payload,
         allUsers:[...updatedAllUsers, payload],
         users: [...updateUser, payload]
-      };
 
+    case GET_ALL_USERS:
+      return {
+        ...state,
+        allUsers: payload,
+        users: payload,
+
+      };
+ 
+    case RESET_STATE:
+      return {
+        initialState,
+      };
+  
     default:
       return {
         ...state,
       };
   }
-
 };
 
 export default rootReducer;
