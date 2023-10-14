@@ -135,7 +135,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
         user:payload,
         allUsers:[...updatedAllUsers, payload],
         users: [...updateUser, payload]
-
+      }
+      
     case GET_ALL_USERS:
       return {
         ...state,
