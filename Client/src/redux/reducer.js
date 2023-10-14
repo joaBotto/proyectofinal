@@ -128,15 +128,19 @@ const rootReducer = (state = initialState, { type, payload }) => {
       };
 
     case USER_EDITED:
-      const updatedAllUsers = state.allUsers.filter((user) => user._id !== payload._id)
-      const updateUser = state.users.filter((user) => user._id !== payload._id)
+      const indexAll = state.allUsers.indexOf(payload._id)
+      const copyAllUsers = state.allUsers;
+      copyAllUsers.splice(indexAll, 1, payload);
+      const index = state.users.indexOf(payload._id)
+      const copyUsers = state.users;
+      copyUsers.splice(index, 1, payload)
       return {
         ...state,
         user:payload,
-        allUsers:[...updatedAllUsers, payload],
-        users: [...updateUser, payload]
+        allUsers:copyAllUsers,
+        users:copyUsers
       }
-      
+
     case GET_ALL_USERS:
       return {
         ...state,
