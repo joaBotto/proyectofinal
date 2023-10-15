@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
-import { getPropertyDetail } from "../../redux/actions";
+import { getPropertyDetail, cleanDetail } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faHouse,
@@ -21,6 +21,7 @@ import ImageGalleryModal from "./Modal";
 import PropertyMap from "./PropertyMap";
 import Booking from "./Booking";
 import NavBar from "../../components/NavBar/NavBar";
+import { FadeLoader } from "react-spinners";
 
 const Detail = () => {
 	const { id } = useParams();
@@ -28,6 +29,9 @@ const Detail = () => {
 
 	useEffect(() => {
 		dispatch(getPropertyDetail(id));
+		return () => {
+			dispatch(cleanDetail());
+		};
 	}, [dispatch, id]);
 
 	const property = useSelector((state) => state.propertyDetail);
@@ -375,12 +379,11 @@ const Detail = () => {
 								</div>
 							</div>
 							<div className="w-full flex flex-col items-end justify-end pr-44 pt-11">
-								<Booking property={property} />
-								<Link to={`/detail/${id}/reservations`}>
-									<button className="disabled pt-2 pb-2 pr-10 pl-10 font-onest font-extrabold text-white bg-violet rounded-full hover:bg-pink">
-										BOOK NOW
-									</button>
-								</Link>
+								{property ? (
+									<Booking property={property} />
+								) : (
+									<p>Loading property information...</p>
+								)}
 							</div>
 						</div>
 						{isModalOpen && (
@@ -393,7 +396,9 @@ const Detail = () => {
 					</div>
 				</div>
 			) : (
-				<p>Loading...</p>
+				<div className="flex flex-col items-center w-full h-screen">
+					<FadeLoader color="#54086B" />
+				</div>
 			)}
 		</div>
 	);

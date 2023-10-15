@@ -8,6 +8,7 @@ import {
 	ERROR,
 	USER_LOGIN,
 	PROPERTY_EDITED,
+	CREATE_BOOKING,
 } from "./actions_types";
 
 const initialState = {
@@ -17,7 +18,8 @@ const initialState = {
 	allproperties: [],
 	propertyDetail: {},
 	searchTerm: "",
-	details: [],
+	bookings: [],
+	allBookings: [],
 };
 
 const filterPropertyType = (state, payload) => {
@@ -73,6 +75,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				propertyDetail: payload,
 			};
 
+		case CLEAN_DETAIL:
+			return {
+				...state,
+				propertyDetail: {},
+			};
+
 		case ERROR:
 			return {
 				...state,
@@ -120,6 +128,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				allproperties: [...allpropertiesFiltered, payload],
 				properties: [...propertiesFiltered, payload],
+			};
+
+		case CREATE_BOOKING:
+			return {
+				...state,
+				bookings: [...state.bookings, action.payload],
+				allBookings: [...state.allBookings, action.payload],
 			};
 
 		default:

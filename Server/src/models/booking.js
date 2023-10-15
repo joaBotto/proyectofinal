@@ -11,15 +11,15 @@ const bookingSchema = new mongoose.Schema(
 			required: true,
 		},
 		owner: {
-			type: Schema.Types.ObjectId,
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 		},
 		guest: {
-			type: Schema.Types.ObjectId,
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "Guest",
 		},
 		property: {
-			type: Schema.Types.ObjectId,
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "Property",
 		},
 		totalDays: {

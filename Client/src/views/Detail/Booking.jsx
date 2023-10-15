@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { DatePicker } from "antd";
+import { useParams } from "react-router-dom";
 import moment from "moment";
+import BookingSystem from "../Reservations/Reservations";
 
 const Booking = ({ property }) => {
+	const { id } = useParams();
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [totalDays, setTotalDays] = useState(0);
-
 	const [selectedDates, setSelectedDates] = useState(null);
 
 	const calculateDaysInBetween = (startDate, endDate) => {
@@ -73,10 +75,17 @@ const Booking = ({ property }) => {
 				</div>
 				<button
 					onClick={clearValues}
-					className="rounded-full bg-blue py-1 flex flex-col hover:bg-cyan"
+					className="rounded-full text-white font-onest bg-blue py-1 flex flex-col hover:bg-cyan"
 				>
 					Clear All
 				</button>
+				<Link to={`/detail/${id}/reservations`}>
+					<BookingSystem
+						selectedDates={selectedDates}
+						totalAmount={totalAmount}
+						property={property}
+					/>
+				</Link>
 			</div>
 		</div>
 	);
