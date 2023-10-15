@@ -21,7 +21,7 @@ import PaymentForm from './components/PaymentForm/PaymentForm';
 import GestionUser from './views/gestionUser/GestionUser'
 import { AllUsers } from './components/admin/allUsers/allUsers';
 import EditAccount from './components/propertiesAdmin/personalEdit'
-
+import MercadoPago from './components/PaymentForm/MercadoPago'
 
 function App() {
 	const location = useLocation();
@@ -53,6 +53,7 @@ function App() {
 				<Route path='/checkout' element={<PaymentForm />} />
 				<Route path='/gestionUser' element={<GestionUser />} />
 				<Route path='/personalEdit' element={<EditAccount />} />
+				<Route path='/checkoutMP' element={<MercadoPago />} />
 			</Routes>
 		</div>
 	);

@@ -1,20 +1,22 @@
 import { useState } from "react";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
-require('dotenv').config();
+//require('dotenv').config();
 
 
-const Product = () => {
+const MercadoPago = () => {
   const [preferenceId, setPreferenceId] = useState(null);
 
-  initMercadoPago('TEST-50de6ec5-6fc0-4549-ad6e-04f3d04befed');
+  initMercadoPago("TEST-73dbd49e-e652-4d4f-b28c-a00fc54bb33f");
 
   const createPreference = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/create_preference", {
-        description: "Mi Alquiler",
-        price: 200,
+      const response = await axios.post ("http://localhost:3001/create_preference", {
+        // description: "Mi Alquiler",
+        tittle:"Mi Alquiler",
+        unit_price: 200,
         quantity: 1,
+        currency_id: "USD",
       });
 
       const { id } = response.data;
@@ -45,4 +47,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default MercadoPago;

@@ -8,6 +8,12 @@ const routes = require('./routes/index');
 const Stripe = require('stripe');
 
 const stripe = new Stripe(process.env.API_KEY_STRIPE);
+//mercadopago
+const mercadopago = require("mercadopago");
+
+// Configurar el access token de Mercado Pago
+
+
 
 const passport = require('passport'); //La biblioteca de autenticación para Node.js.
 const LocalStrategy = require('passport-local').Strategy;
@@ -104,7 +110,54 @@ server.post('/api/checkout', async (req, res) => {
 		res.json({ message: error.message });
 	}
 });
-//back para pasarela de pagos fin
+//back para pasarela de pagos fin (STRIPE )
+
+//BACK PARA PASARELA DE PAGOS(MP)
+
+
+
+
+
+server.post("/create_preference", (req, res) => {
+	  //process.env.TOKEN_MP_TEST
+mercadopago.configure({
+	access_token:"TEST-2978822018121145-101417-c3dfca8cd3e4d5c938ffe6bf4c501f36-800229088"
+});
+	let preference = {
+        items: [
+          {
+            title: "Mi Alquiler",
+            unit_price: 200,
+            quantity: 1,
+            currency_id: "USD",
+          }],
+	  back_urls: {
+		success: "http://localhost:3000",
+		failure: "http://localhost:3000",
+		pending: "",
+	  },
+	  auto_return: "approved",
+	};
+  
+	mercadopago.preferences
+	  .create(preference)
+	  .then(function (response) {
+		res.json({
+		  id: response.body.id,
+		});
+	  })
+	  .catch(function (error) {
+		console.log(error);
+	  });
+  });
+
+
+
+
+
+
+
+
 
 server.use('/', routes);
 
