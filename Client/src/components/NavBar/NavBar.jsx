@@ -82,7 +82,7 @@ const NavBar = () => {
                 <FontAwesomeIcon icon={faBars} /> MENU
               </button>
               {isMenuOpen && (
-                <div className="absolute top-10 right-[65px] mt-2 space-y-2 flex flex-col items-start bg-white p-5 rounded shadow">
+                <div className="absolute top-10 right-[90px] mt-2 space-y-2 flex flex-col items-start bg-white p-5 rounded shadow">
                   <Link to="/gestionUser">
                     <a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2">
                       <FontAwesomeIcon
