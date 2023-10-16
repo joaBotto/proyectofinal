@@ -13,6 +13,7 @@ import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LocationSearchInput from './AutoComplete/Geolocation';
 
 export default function CreateProperty() {
 	const user = useSelector((state) => state.user);
@@ -253,6 +254,7 @@ export default function CreateProperty() {
 											Address:
 										</label>
 										<label htmlFor="address.street"></label>
+										<LocationSearchInput/>
 										<Field
 											type="text"
 											name="address.street"
