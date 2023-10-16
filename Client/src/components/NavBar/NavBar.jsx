@@ -12,7 +12,12 @@ import {
 import fondo from "../../assets/img/fondo1.jpeg";
 import logo from "../../assets/img/logo.png";
 import { useSelector, useDispatch } from "react-redux";
-import { filters, userLogOut } from "../../redux/actions";
+import {
+  filters,
+  resetState,
+  userLogOut,
+  getProperty,
+} from "../../redux/actions";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -41,7 +46,10 @@ const NavBar = () => {
 
   const handleLogout = () => {
     dispatch(userLogOut());
+    dispatch(resetState());
+    dispatch(getProperty());
   };
+
   return (
     <div className="text-white mb-10">
       <div

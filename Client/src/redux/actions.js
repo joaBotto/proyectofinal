@@ -109,8 +109,8 @@ export const userLogin = (valores) => {
 
 //!------- User LogOut ---------------
 export const userLogOut = () => {
-  return (dispatch) => {
-    dispatch({ type: USER_LOGOUT });
+  return {
+    type: USER_LOGOUT,
   };
 };
 
