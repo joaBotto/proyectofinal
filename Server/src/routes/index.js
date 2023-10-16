@@ -15,6 +15,7 @@ const upload = multer({
   limits: { fileSize: 3840 * 2160 }, // Límite de tamaño del archivo en bytes (1MB en este caso)
 });
 
+
 router.post("/upload", upload.single("file"), async (req, res) => {
   try {
     console.log("Recibida solicitud de carga de imagen"); 

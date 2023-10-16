@@ -114,15 +114,15 @@ server.post('/api/checkout', async (req, res) => {
 
 //BACK PARA PASARELA DE PAGOS(MP)
 
-
+mercadopago.configure({
+	access_token:"TEST-2978822018121145-101417-c3dfca8cd3e4d5c938ffe6bf4c501f36-800229088"
+});
 
 
 
 server.post("/create_preference", (req, res) => {
 	  //process.env.TOKEN_MP_TEST
-mercadopago.configure({
-	access_token:"TEST-2978822018121145-101417-c3dfca8cd3e4d5c938ffe6bf4c501f36-800229088"
-});
+
 	let preference = {
         items: [
           {
