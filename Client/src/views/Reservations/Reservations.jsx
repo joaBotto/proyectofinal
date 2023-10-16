@@ -33,12 +33,14 @@ const BookingSystem = ({ selectedDates, totalAmount }) => {
 
 	return (
 		<div className="bg-transparent">
-			<button
-				onClick={handleBookNow}
-				className="rounded-full text-white font-onest bg-blue py-1 flex flex-col hover-bg-cyan"
-			>
-				BOOK NOW
-			</button>
+			<Link to={`/detail/${id}/reservations`}>
+				<button
+					onClick={handleBookNow}
+					className="rounded-full text-white font-onest bg-blue py-1 flex flex-col hover-bg-cyan"
+				>
+					BOOK NOW
+				</button>
+			</Link>
 		</div>
 	);
 };

@@ -28,9 +28,17 @@ export default function Home() {
 	useEffect(() => {
 		setPage(1);
 		setLoading(false);
-		if (activeProperties.length === 0) {
-			setError(true);
-		}
+
+		// Set an error if there are no active properties after 5 seconds
+		const errorTimeout = setTimeout(() => {
+			if (activeProperties.length === 0) {
+				setError(true);
+			}
+		}, 5000);
+
+		return () => {
+			clearTimeout(errorTimeout); // Clear the timeout on unmount
+		};
 	}, [properties]);
 
 	return (

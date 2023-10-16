@@ -19,13 +19,17 @@ import {
 import ImageCarousel from "../../components/Card/ImageCarousel";
 import ImageGalleryModal from "./Modal";
 import PropertyMap from "./PropertyMap";
-import Booking from "./Booking";
 import NavBar from "../../components/NavBar/NavBar";
 import { FadeLoader } from "react-spinners";
+import moment from "moment";
+import { DatePicker } from "antd";
+import BookingSystem from "../Reservations/Reservations";
 
 const Detail = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
+
+	const property = useSelector((state) => state.propertyDetail);
 
 	useEffect(() => {
 		dispatch(getPropertyDetail(id));
@@ -34,7 +38,34 @@ const Detail = () => {
 		};
 	}, [dispatch, id]);
 
-	const property = useSelector((state) => state.propertyDetail);
+	const [totalAmount, setTotalAmount] = useState(0);
+	const [totalDays, setTotalDays] = useState(0);
+	const [selectedDates, setSelectedDates] = useState(null);
+
+	const calculateDaysInBetween = (startDate, endDate) => {
+		const start = new Date(startDate.format("YYYY-MM-DD"));
+		const end = new Date(endDate.format("YYYY-MM-DD"));
+		const daysInBetween = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+		setTotalDays(daysInBetween);
+		setTotalAmount(daysInBetween * property.price);
+		return daysInBetween;
+	};
+
+	const handleDateChange = ([startDate, endDate]) => {
+		console.log("From: ", startDate, "To:", endDate);
+		if (startDate && endDate) {
+			const daysInBetween = calculateDaysInBetween(startDate, endDate);
+			console.log("Days in between:", daysInBetween);
+		}
+		setSelectedDates([startDate, endDate]);
+	};
+
+	const clearValues = () => {
+		setTotalAmount(0);
+		setTotalDays(0);
+		setSelectedDates(null);
+	};
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
 
@@ -379,11 +410,58 @@ const Detail = () => {
 								</div>
 							</div>
 							<div className="w-full flex flex-col items-end justify-end pr-44 pt-11">
-								{property ? (
-									<Booking property={property} />
-								) : (
-									<p>Loading property information...</p>
-								)}
+								<div className="flex flex-col w-1/2 items-end pl-7">
+									<div className="flex flex-col justify-start pb-11 mr-5">
+										<p className="text-4xl text-blue font-onest text-right font-extrabold pb-3">
+											SELECT DATES
+										</p>
+										<DatePicker.RangePicker
+											format="DD-MM-YYYY"
+											onChange={handleDateChange}
+											value={selectedDates}
+											className="rounded-full py-2 border-2 border-cyan font-onest text-blue"
+											disabledDate={(current) =>
+												current &&
+												(current < moment(property.availableDays[0]) ||
+													current >
+														moment(
+															property.availableDays[
+																property.availableDays.length - 1
+															]
+														))
+											}
+										/>
+									</div>
+									<div className="flex flex-row justify-between items-center w-full text-left mb-4 mr-4">
+										<div className="flex">
+											<p className="text-2xl text-blue font-onest font-extrabold px-3">
+												DAYS:
+											</p>
+											<p className="text-2xl text-cyan font-onest font-extrabold">
+												{totalDays}
+											</p>
+										</div>
+										<div className="flex">
+											<p className="text-2xl text-blue font-onest font-extrabold px-3">
+												TOTAL:
+											</p>
+											<p className="text-2xl text-cyan font-onest font-extrabold">
+												U$D {totalAmount.toFixed(2)}
+											</p>
+										</div>
+										<button
+											onClick={clearValues}
+											className="rounded-full text-white font-onest bg-blue py-1 flex flex-col hover:bg-cyan"
+										>
+											Clear All
+										</button>
+										<BookingSystem
+											selectedDates={selectedDates}
+											totalAmount={totalAmount}
+											property={property}
+										/>
+									</div>
+								</div>
 							</div>
 						</div>
 						{isModalOpen && (
