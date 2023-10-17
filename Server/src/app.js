@@ -10,8 +10,7 @@ const Stripe = require('stripe');
 const stripe = new Stripe(process.env.API_KEY_STRIPE);
 
 const passport = require('passport'); //La biblioteca de autenticación para Node.js.
-const LocalStrategy = require('passport-local').Strategy;
-const authUser = require('../middlewares/authLocal');
+require('../middlewares/authLocal');
 const Users = require('../src/models/user');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -43,47 +42,18 @@ server.use(
 		cookie: { secure: false }, // ESTA OPCION TE PERMITE CONFIGURAR LAS PROPIEDADES DE LAS COOKIES DE SESION. SI ESTA EN FALSE SE PUEDEN ENVIAR DE CONEXIONES NO SEGURAS EN PRODUCCION SE SETEA EN (TRUE)
 	})
 );
-
-// CONFIGURACION DE PASSPORT.JS
-passport.use(
-	'local',
-	new LocalStrategy(
-		{
-			usernameField: 'email',
-			passwordField: 'password',
-		},
-		async (email, password, done) => {
-			await authUser(email, password, done);
-		}
-	)
-);
-
 // MIDDLEWARE DE PASSPORT
 server.use(passport.initialize());
 server.use(passport.session());
+
+// CONFIGURACION DE PASSPORT.JS
+
+
+
 // CONFIGURA LOS MSJS QUE LLEGAN DE LA ESTRATEGIA
 server.use(flash());
 
-passport.serializeUser((user, done) => {
-	console.log('Serializando usuario:', user);
-	return done(null, user._id);
-});
 
-passport.deserializeUser(async (_id, done) => {
-	console.log('Deserializando usuario por ID:', _id);
-	try {
-		const user = await Users.findById(_id);
-		if (!user) {
-			console.log('Usuario no encontrado.');
-			return done(null, false);
-		}
-		console.log('Usuario deserializado:', user);
-		return done(null, user);
-	} catch (err) {
-		console.log('error en la deserializacion');
-		return done(err, null);
-	}
-});
 //back para pasarela de pagos
 server.use(express.json());
 server.post('/api/checkout', async (req, res) => {
