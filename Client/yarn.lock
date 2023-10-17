@@ -28,15 +28,9 @@
     "@ctrl/tinycolor" "^3.4.0"
 
 "@ant-design/cssinjs@^1.17.0":
-<<<<<<< HEAD
-  version "1.17.0"
-  resolved "https://registry.npmjs.org/@ant-design/cssinjs/-/cssinjs-1.17.0.tgz"
-  integrity sha512-MgGCZ6sfD3yQB0XW0hN4jgixMxApTlDYyct+pc7fRZNO4CaqWWm/9iXkkljNR27lyWLZmm+XiDfcIOo1bnrnMA==
-=======
   version "1.17.1"
   resolved "https://registry.npmjs.org/@ant-design/cssinjs/-/cssinjs-1.17.1.tgz"
   integrity sha512-bDcpNVnNgQUQZSkpPCF0pnLERpxZnilJo4fUQ3vn8thYMGP4CyvoPFjD1RGgWx7mKy8DHVNDlk5cnuyR0/o0/Q==
->>>>>>> 429a6ff (acepatndo cambios)
   dependencies:
     "@babel/runtime" "^7.11.1"
     "@emotion/hash" "^0.8.0"
@@ -237,11 +231,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.22.5"
 
-<<<<<<< HEAD
-"@babel/runtime@^7.10.1", "@babel/runtime@^7.10.4", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.7", "@babel/runtime@^7.18.0", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.15", "@babel/runtime@^7.22.5", "@babel/runtime@^7.22.6", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
-=======
 "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.4", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.7", "@babel/runtime@^7.18.0", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.5", "@babel/runtime@^7.22.6", "@babel/runtime@^7.23.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
->>>>>>> 429a6ff (acepatndo cambios)
   version "7.23.1"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.23.1.tgz"
   integrity sha512-hC2v6p8ZSI/W0HUzh3V8C5g+NwSKzKPtJwSpTjwl0o297GP9+ZLQSkdvHz46CM3LqyoXxq+5G9komY+eSqSO0g==
@@ -454,17 +444,10 @@
   resolved "https://registry.npmjs.org/@emotion/weak-memoize/-/weak-memoize-0.3.1.tgz"
   integrity sha512-EsBwpc7hBUJWAsNPBmJy4hxWx12v6bshQsldrVmjxJoc3isbxhOrF2IcCpaXxfvq03NwkI7sbsOLXbYuqF/8Ww==
 
-<<<<<<< HEAD
-"@esbuild/darwin-x64@0.18.20":
-  version "0.18.20"
-  resolved "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.18.20.tgz"
-  integrity sha512-pc5gxlMDxzm513qPGbCbDukOdsGtKhfxD1zJKXjCCcU7ju50O7MeAZ8c4krSJcOIJGFR+qx21yMMVYwiQvyTyQ==
-=======
 "@esbuild/darwin-arm64@0.18.20":
   version "0.18.20"
   resolved "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.18.20.tgz"
   integrity sha512-bxRHW5kHU38zS2lPTPOyuyTm+S+eobPUnTNkdJEfAddYgEcll4xkT8DB9d2008DtTbl7uJag2HuE5NZAZgnNEA==
->>>>>>> 429a6ff (acepatndo cambios)
 
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
@@ -774,17 +757,10 @@
     csstype "^3.1.2"
     prop-types "^15.8.1"
 
-<<<<<<< HEAD
-"@mui/system@^5.14.11", "@mui/system@^5.8.0":
-  version "5.14.11"
-  resolved "https://registry.npmjs.org/@mui/system/-/system-5.14.11.tgz"
-  integrity sha512-yl8xV+y0k7j6dzBsHabKwoShmjqLa8kTxrhUI3JpqLG358VRVMJRW/ES0HhvfcCi4IVXde+Tc2P3K1akGL8zoA==
-=======
 "@mui/system@^5.14.12", "@mui/system@^5.8.0":
   version "5.14.12"
   resolved "https://registry.npmjs.org/@mui/system/-/system-5.14.12.tgz"
   integrity sha512-6DXfjjLhW0/ia5qU3Crke7j+MnfDbMBOHlLIrqbrEqNs0AuSBv8pXniEGb+kqO0H804NJreRTEJRjCngwOX5CA==
->>>>>>> 429a6ff (acepatndo cambios)
   dependencies:
     "@babel/runtime" "^7.22.15"
     "@mui/private-theming" "^5.14.11"
@@ -795,17 +771,6 @@
     csstype "^3.1.2"
     prop-types "^15.8.1"
 
-<<<<<<< HEAD
-"@mui/types@^7.2.4":
-  version "7.2.4"
-  resolved "https://registry.npmjs.org/@mui/types/-/types-7.2.4.tgz"
-  integrity sha512-LBcwa8rN84bKF+f5sDyku42w1NTxaPgPyYKODsh01U1fVstTClbUoSA96oyRBnSNyEiAVjKm6Gwx9vjR+xyqHA==
-
-"@mui/utils@^5.14.11", "@mui/utils@^5.14.3":
-  version "5.14.11"
-  resolved "https://registry.npmjs.org/@mui/utils/-/utils-5.14.11.tgz"
-  integrity sha512-fmkIiCPKyDssYrJ5qk+dime1nlO3dmWfCtaPY/uVBqCRMBZ11JhddB9m8sjI2mgqQQwRJG5bq3biaosNdU/s4Q==
-=======
 "@mui/types@^7.2.5":
   version "7.2.5"
   resolved "https://registry.npmjs.org/@mui/types/-/types-7.2.5.tgz"
@@ -815,7 +780,6 @@
   version "5.14.12"
   resolved "https://registry.npmjs.org/@mui/utils/-/utils-5.14.12.tgz"
   integrity sha512-RFNXnhKQlzIkIUig6mmv0r5VbtjPdWoaBPYicq25LETdZux59HAqoRdWw15T7lp3c7gXOoE8y67+hTB8C64m2g==
->>>>>>> 429a6ff (acepatndo cambios)
   dependencies:
     "@babel/runtime" "^7.22.15"
     "@types/prop-types" "^15.7.5"
@@ -1026,17 +990,6 @@
   resolved "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.0.tgz"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
-<<<<<<< HEAD
-"@types/prop-types@*", "@types/prop-types@^15.7.5":
-  version "15.7.7"
-  resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.7.tgz"
-  integrity sha512-FbtmBWCcSa2J4zL781Zf1p5YUBXQomPEcep9QZCfRfQgTxz3pJWiDFLebohZ9fFntX5ibzOkSsrJ0TEew8cAog==
-
-"@types/react-dom@^16.8 || ^17.0 || ^18.0", "@types/react-dom@^18.2.7":
-  version "18.2.8"
-  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.8.tgz"
-  integrity sha512-bAIvO5lN/U8sPGvs1Xm61rlRHHaq5rp5N3kp9C+NJ/Q41P8iqjkXSu0+/qu8POsjH9pNWb0OYabFez7taP7omw==
-=======
 "@types/prop-types@*", "@types/prop-types@^15.7.7":
   version "15.7.8"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.8.tgz"
@@ -1046,7 +999,6 @@
   version "18.2.11"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.11.tgz"
   integrity sha512-zq6Dy0EiCuF9pWFW6I6k6W2LdpUixLE4P6XjXU1QHLfak3GPACQfLwEuHzY5pOYa4hzj1d0GxX/P141aFjZsyg==
->>>>>>> 429a6ff (acepatndo cambios)
   dependencies:
     "@types/react" "*"
 
@@ -1393,17 +1345,10 @@ camelcase-css@^2.0.1:
   resolved "https://registry.npmjs.org/camelcase-css/-/camelcase-css-2.0.1.tgz"
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
-<<<<<<< HEAD
-caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001539:
-  version "1.0.30001540"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001540.tgz"
-  integrity sha512-9JL38jscuTJBTcuETxm8QLsFr/F6v0CYYTEU6r5+qSM98P2Q0Hmu0eG1dTG5GBUmywU3UlcVOUSIJYY47rdFSw==
-=======
 caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001541:
   version "1.0.30001546"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001546.tgz"
   integrity sha512-zvtSJwuQFpewSyRrI3AsftF6rM0X80mZkChIt1spBGEvRglCrjTniXvinc8JKRoqTwXAgvqTImaN9igfSMtUBw==
->>>>>>> 429a6ff (acepatndo cambios)
 
 chalk@^2.4.2:
   version "2.4.2"
