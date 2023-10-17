@@ -126,8 +126,8 @@ const SignUpForm = () => {
         const cloudinaryResponse = await uploadImagesToCloudinary(image);
         console.log("soyresponsecloud", cloudinaryResponse);
         if (cloudinaryResponse) {
-          values.images = cloudinaryResponse;
-          setImagePreview(values.images);
+          values.avatar = cloudinaryResponse;
+          setImagePreview(values.avatar);
         } else {
           console.error("Error al cargar la imagen en Cloudinary.");
         }
@@ -172,7 +172,7 @@ const SignUpForm = () => {
             validateOnBlur={false}
             validate={(values) => {
               const errors = {};
-              const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+              const passwordPattern = /^(?=.[A-Z])(?=.[0-9]).{8,}$/;
               if (!passwordPattern.test(values.password)) {
                 errors.password =
                   "It must contain at least 8 characters, a capital letter, a number and one of the following signs: /, * o -";
@@ -183,64 +183,6 @@ const SignUpForm = () => {
             }}
           >
             <Form className="space-y-2">
-
-            {/* <Dropzone
-										onDrop={async (acceptedFiles) => {
-											if (values.images.length + acceptedFiles.length >= 0) {
-												const uploadImageUrl = await uploadImagesToCloudinary(
-													acceptedFiles
-												);
-												console.log(
-													"soy la devolucion del back",
-													uploadImageUrl
-												);
-												const newImages = [...values.images, uploadImageUrl];
-												setFieldValue("images", newImages);
-											}
-										}}
-										accept="image/*"
-										multiple={false}
-										className="dropzone"
-									>
-										{({ getRootProps, getInputProps }) => (
-											<div
-												{...getRootProps()}
-												className="dropzone cursor-pointer"
-											>
-												<input {...getInputProps()} />
-												<p className="text-blue font-noto text-xs">
-													Drag and drop your files here or click to select.
-												</p>
-												<div className="image-container overflow-scroll space-x-2 space-y-2">
-													{" "}
-													{/* Agrega la clase "image-container" aquí */}
-													{/* {values.images &&
-														values.images.map(
-															(e) =>
-																e &&
-																e.imageUrl && (
-																	<img
-																		style={{
-																			maxWidth: "10em",
-																			maxHeight: "10em",
-																		}}
-																		key={e.imageUrl}
-																		src={e.imageUrl}
-																		alt={e.imageUrl}
-																	/>
-																)
-														)}
-												</div>
-											</div>
-										)}
-									</Dropzone>
-									<ErrorMessage
-										name="images"
-										component="div"
-										className="text-red-600 text-sm"
-									/> */} 
-
-
               <div className="flex flex-row mb-2">
                 <div
                   {...getRootProps()}
