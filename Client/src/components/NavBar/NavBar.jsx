@@ -12,7 +12,12 @@ import {
 import fondo from "../../assets/img/fondo1.jpeg";
 import logo from "../../assets/img/logo.png";
 import { useSelector, useDispatch } from "react-redux";
-import { filters, userLogOut } from "../../redux/actions";
+import {
+  filters,
+  resetState,
+  userLogOut,
+  getProperty,
+} from "../../redux/actions";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -41,7 +46,10 @@ const NavBar = () => {
 
   const handleLogout = () => {
     dispatch(userLogOut());
+    dispatch(resetState());
+    dispatch(getProperty());
   };
+
   return (
     <div className="text-white mb-10">
       <div
@@ -82,7 +90,7 @@ const NavBar = () => {
                 <FontAwesomeIcon icon={faBars} /> MENU
               </button>
               {isMenuOpen && (
-                <div className="absolute top-10 right-[65px] mt-2 space-y-2 flex flex-col items-start bg-white p-5 rounded shadow">
+                <div className="absolute top-10 right-[90px] mt-2 space-y-2 flex flex-col items-start bg-white p-5 rounded shadow">
                   <Link to="/gestionUser">
                     <a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2">
                       <FontAwesomeIcon

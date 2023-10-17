@@ -128,32 +128,29 @@ const rootReducer = (state = initialState, { type, payload }) => {
       };
 
     case USER_EDITED:
-      const indexAll = state.allUsers.indexOf(payload._id)
+      const indexAll = state.allUsers.indexOf(payload._id);
       const copyAllUsers = state.allUsers;
       copyAllUsers.splice(indexAll, 1, payload);
-      const index = state.users.indexOf(payload._id)
+      const index = state.users.indexOf(payload._id);
       const copyUsers = state.users;
-      copyUsers.splice(index, 1, payload)
+      copyUsers.splice(index, 1, payload);
       return {
         ...state,
-        user:payload,
-        allUsers:copyAllUsers,
-        users:copyUsers
-      }
+        user: payload,
+        allUsers: copyAllUsers,
+        users: copyUsers,
+      };
 
     case GET_ALL_USERS:
       return {
         ...state,
         allUsers: payload,
         users: payload,
+      };
 
-      };
- 
     case RESET_STATE:
-      return {
-        initialState,
-      };
-  
+      return initialState;
+
     default:
       return {
         ...state,

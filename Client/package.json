@@ -28,6 +28,7 @@
     "antd": "^5.10.0",
     "autoprefixer": "^10.4.16",
     "axios": "^1.5.1",
+    "bootstrap-icons": "^1.11.1",
     "formik": "^2.4.5",
     "leaflet": "^1.9.4",
     "moment": "^2.29.4",
