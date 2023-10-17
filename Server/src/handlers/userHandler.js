@@ -9,7 +9,7 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      image,
+      images,
       country,
       city,
       address,
@@ -20,12 +20,11 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      image,
+      images,
       country,
       city,
       address,
       phoneNumber,
-      image,
       active:true,
       role:"user"
     };
@@ -41,11 +40,11 @@ const createUserHandler = async (req, res) => {
       city &&
       address &&
       phoneNumber&&
-      image
+      images
     ) {
       // Sube la imagen a Cloudinary primero
-      if (image) {
-        const cloudinaryResponse = await uploadImageToCloudinary(image); // Asegúrate de tener la función de subida
+      if (images) {
+        const cloudinaryResponse = await uploadImageToCloudinary(images); // Asegúrate de tener la función de subida
         console.log("Respuesta de Cloudinary:", cloudinaryResponse);
 
         if (cloudinaryResponse.error) {
@@ -55,7 +54,7 @@ const createUserHandler = async (req, res) => {
         }
 
         // Si la subida fue exitosa, actualiza el objeto de usuario con la URL de la imagen
-        user.image = cloudinaryResponse.secure_url;
+        user.images = cloudinaryResponse.secure_url;
       }
 
       // Después de manejar la imagen, procede con la creación del usuario

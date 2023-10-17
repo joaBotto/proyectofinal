@@ -51,6 +51,7 @@ function App() {
         <Route path="/checkout" element={<PaymentForm />} />
         <Route path="/gestionUser" element={<GestionUser />} />
         <Route path="/personalEdit" element={<EditAccount />} />
+        
       </Routes>
     </div>
   );
