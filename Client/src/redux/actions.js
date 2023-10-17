@@ -108,6 +108,7 @@ export const editPropertyAvailability = (propertyId, newAvailableDays) => {
 };
 
 export const userLogin = (valores) => {
+<<<<<<< HEAD
 	const url = "/auth/login";
 	return async (dispatch) => {
 		try {
@@ -124,6 +125,24 @@ export const userLogin = (valores) => {
 			});
 		}
 	};
+=======
+  const url = "http://localhost:3001/auth/login-local";
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(url, valores);
+      const { user } = data;
+      dispatch({
+        type: USER_LOGIN,
+        payload: user,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+>>>>>>> 4a1a964 (cambios)
 };
 
 //!------- User LogOut ---------------
