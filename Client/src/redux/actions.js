@@ -9,7 +9,11 @@ import {
   ERROR,
   USER_LOGIN,
   FILTERS,
-  PROPERTY_EDITED
+  PROPERTY_EDITED,
+  GET_ALL_USERS,
+  USER_EDITED,
+  USER_LOGOUT,
+  RESET_STATE,
 } from "./actions_types";
 
 export const getProperty = () => {
@@ -40,12 +44,11 @@ export const getPropertyDetail = (id) => async (dispatch) => {
 };
 
 export const cleanDetail = () => {
-    return  {
-      type: CLEAN_DETAIL,
-      payload: [],
-    };
+  return {
+    type: CLEAN_DETAIL,
+    payload: [],
   };
-
+};
 
 export const createProperty = (values) => {
   return async (dispatch) => {
@@ -68,16 +71,19 @@ export const createProperty = (values) => {
 export const editProperty = (propertyEdited) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put("http://localhost:3001/properties", propertyEdited);
+      const { data } = await axios.put(
+        "http://localhost:3001/properties",
+        propertyEdited
+      );
       return dispatch({
-        type:PROPERTY_EDITED,
-        payload:data
-      })
+        type: PROPERTY_EDITED,
+        payload: data,
+      });
     } catch (error) {
       return dispatch({
-        type:ERROR,
-        payload:error.message
-      })
+        type: ERROR,
+        payload: error.message,
+      });
     }
   };
 };
@@ -101,10 +107,46 @@ export const userLogin = (valores) => {
   };
 };
 
+//!------- User LogOut ---------------
+export const userLogOut = () => {
+  return {
+    type: USER_LOGOUT,
+  };
+};
+
+export const resetState = () => {
+  return {
+    type: RESET_STATE,
+  };
+};
+//!-----------------------------------
+
 export const filters = (type, orderPrice) => {
   return {
     type: FILTERS,
     payload: { type, orderPrice },
+  };
+};
+
+export const updateUser = (userEdited) => {
+  console.log("userEdited", userEdited);
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(
+        "http://localhost:3001/users",
+        userEdited
+      );
+      console.log("soydataAccion", data);
+      return dispatch({
+        type: USER_EDITED,
+        payload: data,
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
   };
 };
 
@@ -148,6 +190,23 @@ export const addUser = (user) => async (dispatch) => {
     toast.warning("User already exists");
     dispatch({ type: ERROR, payload: error.message });
   }
+};
+
+export const getAllUsers = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("http://localhost:3001/users");
+      return dispatch({
+        type: GET_ALL_USERS,
+        payload: data,
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
 };
 
 // export const filterByUbicacion = (ubicacion) => {
