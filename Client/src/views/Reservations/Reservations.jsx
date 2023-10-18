@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllBookings, getBooking } from "../../redux/actions"; // Assuming getBooking is used for retrieving a single booking
+import { getBooking } from "../../redux/actions"; // Assuming getBooking is used for retrieving a single booking
 import { useParams } from "react-router-dom";
 import NavBar from "../../components/NavBar/NavBar";
 import { FadeLoader } from "react-spinners";

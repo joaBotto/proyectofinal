@@ -4,7 +4,6 @@ import { useParams, Link } from "react-router-dom";
 import {
 	getPropertyDetail,
 	cleanDetail,
-	addNewBooking,
 	getAllBookings,
 } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,8 +19,6 @@ import ImageGalleryModal from "./Modal";
 import PropertyMap from "./PropertyMap";
 import NavBar from "../../components/NavBar/NavBar";
 import { FadeLoader } from "react-spinners";
-import moment from "moment";
-import { DatePicker } from "antd";
 import DisplayCharacteristics from "./Display";
 import BookingDetails from "./Booking";
 
@@ -30,6 +27,7 @@ const Detail = () => {
 	const dispatch = useDispatch();
 
 	const property = useSelector((state) => state.propertyDetail);
+	console.log(property);
 
 	useEffect(() => {
 		dispatch(getPropertyDetail(id));
