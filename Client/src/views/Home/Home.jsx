@@ -8,8 +8,16 @@ import Cards from "../../components/Cards/Cards";
 
 export default function Home() {
 	const properties = useSelector((state) => state.properties);
+<<<<<<< HEAD
 	const user = useSelector((state) => state.user)
 	console.log("soy el user en home", user)
+=======
+	const user = useSelector((state) => state.user);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(false);
+
+	console.log("soy el user en home", user);
+>>>>>>> 5bb7f05 (cambios)
 	console.log("Soy prop en el home", properties);
 	const activeProperties = properties.filter((properties) => properties.active === true)
 	const [page, setPage] = useState(1);
