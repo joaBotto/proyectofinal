@@ -1,5 +1,5 @@
 const getAllBookings = require("../controllers/bookingsControllers/getAllBookings");
-// const getBookings = require("../controllers/bookingsControllers/getBookings");
+const getBookings = require("../controllers/bookingsControllers/getBookings");
 // const editBookings = require("../controllers/bookingsControllers/editBookings");
 // const deleteBooking = require("../controllers/bookingsControllers/deleteBooking");
 const addNewBooking = require("../controllers/bookingsControllers/addNewBooking");
@@ -10,6 +10,16 @@ const getAllBookingsHandler = async (req, res) => {
 		return res.status(200).json(allBookings);
 	} catch (error) {
 		return res.status(500).json({ error: error.message });
+	}
+};
+
+const getBookingByIdHandler = async (req, res) => {
+	const { id } = req.params;
+	try {
+		const booking = await getBookings(id);
+		return res.status(200).json(booking);
+	} catch (error) {
+		return res.status(404).json({ error: error.message });
 	}
 };
 
@@ -50,7 +60,7 @@ const addBookingHandler = async (req, res) => {
 
 module.exports = {
 	getAllBookingsHandler,
-	// getBookingByIdHandler,
+	getBookingByIdHandler,
 	addBookingHandler,
 	// deleteBookingHandler,
 	// editBookingHandler,

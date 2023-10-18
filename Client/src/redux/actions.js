@@ -11,6 +11,8 @@ import {
 	FILTERS,
 	PROPERTY_EDITED,
 	CREATE_BOOKING,
+	GET_ALL_BOOKINGS,
+	GET_BOOKING,
 } from "./actions_types";
 
 export const getProperty = () => {
@@ -160,12 +162,41 @@ export const addNewBooking = (bookingData) => async (dispatch) => {
 			bookingData
 		);
 		toast.success("Booking successfull");
+		console.log("Booking successfull");
 		return dispatch({
 			type: CREATE_BOOKING,
 			payload: data,
 		});
 	} catch (error) {
 		toast.warning("Error in booking");
+
+		return dispatch({ type: ERROR, payload: error.message });
+	}
+};
+
+export const getAllBookings = () => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.get("http://localhost:3001/bookings");
+
+			return dispatch({
+				type: GET_ALL_BOOKINGS,
+				payload: data,
+			});
+		} catch (error) {
+			return dispatch({
+				type: ERROR,
+				payload: error.message,
+			});
+		}
+	};
+};
+
+export const getBooking = (id) => async (dispatch) => {
+	try {
+		const { data } = await axios.get(`http://localhost:3001/bookings/${id}`);
+		return dispatch({ type: GET_BOOKING, payload: data });
+	} catch (error) {
 		return dispatch({ type: ERROR, payload: error.message });
 	}
 };

@@ -1,47 +1,49 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addNewBooking } from "../../redux/actions";
-import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllBookings, getBooking } from "../../redux/actions"; // Assuming getBooking is used for retrieving a single booking
+import { useParams } from "react-router-dom";
+import NavBar from "../../components/NavBar/NavBar";
+import { FadeLoader } from "react-spinners";
 
-const BookingSystem = ({ selectedDates, totalAmount }) => {
+function Reservations() {
 	const { id } = useParams();
 	const dispatch = useDispatch();
+	const booking = useSelector((state) => state.bookingDetail);
 
-	const guest = useSelector((state) => state.user);
-	const property = id;
-	const owner = useSelector((state) => state.properties.owner);
-
-	console.log("guest", guest);
-	console.log("property", property);
-	console.log("owner", owner);
-
-	const handleBookNow = () => {
-		if (selectedDates && totalAmount > 0) {
-			const newBooking = {
-				startDate: selectedDates[0].format("YYYY-MM-DD"),
-				endDate: selectedDates[1].format("YYYY-MM-DD"),
-				owner: owner._id,
-				guest: guest._id,
-				property: property._id,
-				totalDays,
-				totalAmount,
-			};
-			dispatch(addNewBooking(newBooking));
-			console.log(newBooking);
-		}
-	};
+	useEffect(() => {
+		dispatch(getBooking(id));
+	}, [dispatch, id]);
 
 	return (
-		<div className="bg-transparent">
-			<Link to={`/detail/${id}/reservations`}>
-				<button
-					onClick={handleBookNow}
-					className="rounded-full text-white font-onest bg-blue py-1 flex flex-col hover-bg-cyan"
-				>
-					BOOK NOW
-				</button>
-			</Link>
+		<div className="bg-white w-screen h-screen overflow-x-hidden">
+			<NavBar />
+			{booking && booking.property ? (
+				<div className="p-11">
+					<h1 className="text-5xl font-onest font-extrabold uppercase text-cyan">
+						YOUR RESERVATION
+					</h1>
+					<p className="text-blue">
+						{booking.property.title} - {booking.property.address.city}
+					</p>
+					<p className="text-blue">
+						{booking.property.address.street} {booking.property.address.number}
+					</p>
+					<p className="text-blue">
+						{booking.property.address.state} {booking.property.address.country}
+					</p>
+					<p className="text-blue">
+						Check in: {booking.startDate} - Check out: {booking.endDate}
+					</p>
+					<p className="text-blue">Total USD: {booking.totalAmount}</p>
+					<p className="text-blue">Status: {booking.status}</p>
+				</div>
+			) : (
+				<div className="flex flex-col items-center w-full h-screen">
+					<FadeLoader color="#54086B" />
+				</div>
+			)}
 		</div>
 	);
-};
-export default BookingSystem;
+}
+
+export default Reservations;

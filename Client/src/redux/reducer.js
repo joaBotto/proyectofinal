@@ -9,6 +9,8 @@ import {
 	USER_LOGIN,
 	PROPERTY_EDITED,
 	CREATE_BOOKING,
+	GET_ALL_BOOKINGS,
+	GET_BOOKING,
 } from "./actions_types";
 
 const initialState = {
@@ -20,6 +22,7 @@ const initialState = {
 	searchTerm: "",
 	bookings: [],
 	allBookings: [],
+	bookingDetail: {},
 };
 
 const filterPropertyType = (state, payload) => {
@@ -135,6 +138,19 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				bookings: [...state.bookings, action.payload],
 				allBookings: [...state.allBookings, action.payload],
+			};
+
+		case GET_ALL_BOOKINGS:
+			return {
+				...state,
+				bookings: [...payload],
+				allBookings: [...payload],
+			};
+
+		case GET_BOOKING:
+			return {
+				...state,
+				bookingDetail: payload,
 			};
 
 		default:
