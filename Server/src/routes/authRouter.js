@@ -7,7 +7,7 @@ authRouter.post("/login", (req,res,next)=>{
   next()
 },
   passport.authenticate("local", {
-    successRedirect:"http://localhost:3000/",
+    successRedirect:"http://localhost:3000",
     failureRedirect: "http://localhost:3000/login",
   }),
     /* (req, res) => {

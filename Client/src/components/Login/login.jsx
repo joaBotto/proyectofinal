@@ -14,7 +14,7 @@ export default function Login() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  /* const user = useSelector((state) => state.user); */
   const userCreated = useSelector((state) => state.userCreated);
   // console.log(user);
   // console.log(userCreated);
@@ -22,12 +22,12 @@ export default function Login() {
     console.log(valores);
     dispatch(userLogin(valores));
   };
-
+/* 
   useEffect(() => {
     if (user) {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [user, navigate]); */
 
   return (
     <div
