@@ -20,6 +20,7 @@ import Postuser from "./components/propertiesAdmin/propertyUser";
 import PaymentForm from "./components/PaymentForm/PaymentForm";
 import { AllUsers } from "./components/admin/allUsers/allUsers";
 import EditAccount from "./components/propertiesAdmin/personalEdit";
+import EditPaymentInfo from "./components/propertiesAdmin/paymentEdit"
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:3001'
@@ -54,6 +55,7 @@ function App() {
 				<Route path="/checkout" element={<PaymentForm />} />
 				<Route path="/gestionUser" element={<GestionUser />} />
 				<Route path="/personalEdit" element={<EditAccount />} />
+				<Route path="/paymentEdit" element={<EditPaymentInfo />} />
 			</Routes>
 		</div>
 	);
