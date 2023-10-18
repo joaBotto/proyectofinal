@@ -18,7 +18,6 @@ import Reservations from "./views/Reservations/Reservations";
 import GestionUser from "./views/gestionUser/GestionUser";
 import Postuser from "./components/propertiesAdmin/propertyUser";
 import PaymentForm from "./components/PaymentForm/PaymentForm";
-import GestionUser from "./views/gestionUser/GestionUser";
 import { AllUsers } from "./components/admin/allUsers/allUsers";
 import EditAccount from "./components/propertiesAdmin/personalEdit";
 
