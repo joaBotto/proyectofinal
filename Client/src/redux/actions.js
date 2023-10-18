@@ -109,6 +109,7 @@ export const editPropertyAvailability = (propertyId, newAvailableDays) => {
 
 export const userLogin = (valores) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	const url = "/auth/login";
 	return async (dispatch) => {
 		try {
@@ -127,6 +128,9 @@ export const userLogin = (valores) => {
 	};
 =======
   const url = "http://localhost:3001/auth/login-local";
+=======
+  const url = "http://localhost:3001/auth/login";
+>>>>>>> cdda465 (trabajando en auth)
   return async (dispatch) => {
     try {
       const { data } = await axios.post(url, valores);
