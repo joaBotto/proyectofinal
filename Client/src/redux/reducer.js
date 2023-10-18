@@ -14,6 +14,7 @@ import {
 	GET_ALL_USERS,
 	USER_EDITED,
 	RESET_STATE,
+	PROPERTY_DAYS_EDITED,
 } from "./actions_types";
 
 const initialState = {
@@ -135,6 +136,41 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				allproperties: [...allpropertiesFiltered, payload],
 				properties: [...propertiesFiltered, payload],
+			};
+
+		case PROPERTY_DAYS_EDITED:
+			const { propertyId, updatedAvailableDays } = payload;
+
+			const allpropertiesDays = state.allproperties.map((property) => {
+				if (property._id === propertyId) {
+					return {
+						...property,
+						availableDays: updatedAvailableDays,
+					};
+				}
+				return property;
+			});
+
+			const propertiesDays = state.properties.map((property) => {
+				if (property._id === propertyId) {
+					return {
+						...property,
+						availableDays: updatedAvailableDays,
+					};
+				}
+				return property;
+			});
+
+			const updatedPropertyDetail =
+				state.propertyDetail._id === propertyId
+					? { ...state.propertyDetail, availableDays: updatedAvailableDays }
+					: state.propertyDetail;
+
+			return {
+				...state,
+				allproperties: allpropertiesDays,
+				properties: propertiesDays,
+				propertyDetail: updatedPropertyDetail,
 			};
 
 		case CREATE_BOOKING:
