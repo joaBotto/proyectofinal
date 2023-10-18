@@ -11,6 +11,9 @@ import {
 	CREATE_BOOKING,
 	GET_ALL_BOOKINGS,
 	GET_BOOKING,
+	GET_ALL_USERS,
+	USER_EDITED,
+	RESET_STATE,
 } from "./actions_types";
 
 const initialState = {
@@ -23,6 +26,7 @@ const initialState = {
 	bookings: [],
 	allBookings: [],
 	bookingDetail: {},
+	details: [],
 };
 
 const filterPropertyType = (state, payload) => {
@@ -152,6 +156,30 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				bookingDetail: payload,
 			};
+
+		case USER_EDITED:
+			const indexAll = state.allUsers.indexOf(payload._id);
+			const copyAllUsers = state.allUsers;
+			copyAllUsers.splice(indexAll, 1, payload);
+			const index = state.users.indexOf(payload._id);
+			const copyUsers = state.users;
+			copyUsers.splice(index, 1, payload);
+			return {
+				...state,
+				user: payload,
+				allUsers: copyAllUsers,
+				users: copyUsers,
+			};
+
+		case GET_ALL_USERS:
+			return {
+				...state,
+				allUsers: payload,
+				users: payload,
+			};
+
+		case RESET_STATE:
+			return initialState;
 
 		default:
 			return {

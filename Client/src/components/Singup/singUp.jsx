@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
+// import emailjs from "@emailjs/browser";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -25,6 +25,7 @@ const SignUpForm = () => {
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
+    console.log("Imagen recibida", file)
     setImage(file);
 
     const reader = new FileReader();
@@ -36,7 +37,7 @@ const SignUpForm = () => {
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/png",
+    accept: "image/*",
     onDrop,
   });
 
@@ -74,33 +75,34 @@ const SignUpForm = () => {
   };
 
   //----------------------Envio de email----------------------------------
-  const form = useRef();
+  // const form = useRef();
 
-  const sendEmail = (values) => {
-    const serviceID = "service_phq6wkb";
-    const templateID = "template_d3bst5s";
-    const publicID = "A88VMvhYNS70XCfHm";
+  // const sendEmail = (values) => {
+  //   const serviceID = "service_phq6wkb";
+  //   const templateID = "template_d3bst5s";
+  //   const publicID = "A88VMvhYNS70XCfHm";
 
-    const templateParams = {
-      from_name: values.name,
-      to_email: values.email,
-      subject: "Inmuebles360 :)",
-      message: "Bienvenido a nuestra plataforma!",
-    };
+  //   const templateParams = {
+  //     from_name: values.name,
+  //     to_email: values.email,
+  //     subject: "Inmuebles360 :)",
+  //     message: "Bienvenido a nuestra plataforma!",
+  //   };
 
-    emailjs
-      .sendForm(serviceID, templateID, templateParams, form.current, publicID)
-      .then((result) => {
-        alert("Sign Up success: ", result);
-      })
-      .catch((error) => {
-        alert("Something was wrong: ", error);
-      });
-  };
+  //   emailjs
+  //     .sendForm(serviceID, templateID, templateParams, form.current, publicID)
+  //     .then((result) => {
+  //       alert("Sign Up success: ", result);
+  //     })
+  //     .catch((error) => {
+  //       alert("Something was wrong: ", error);
+  //     });
+  // };
   //----------------------------------------------------------------------
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
+    console.log("FormData:", formData);
     try {
       const { data } = await axios.post(
         "http://localhost:3001/upload",
@@ -121,25 +123,33 @@ const SignUpForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     console.log("Soy el values", values);
+    console.log("Soy la imagen", image);
     try {
       if (image) {
         const cloudinaryResponse = await uploadImagesToCloudinary(image);
         console.log("soyresponsecloud", cloudinaryResponse);
         if (cloudinaryResponse) {
-          values.avatar = cloudinaryResponse;
-          setImagePreview(values.avatar);
+          values.images = cloudinaryResponse;
+          setImagePreview(values.images);
         } else {
           console.error("Error al cargar la imagen en Cloudinary.");
         }
       }
 
+      //? -------------------------------------------------------------------------------
+      // const response = await axios.post("https://localhost:3001/users", values);
+      // console.log(response);
+
+      //? -------------------------------------------------------------------------------
+
       await dispatch(addUser(values));
       // Espera 2 segundos antes de redirigir
-      setTimeout(() => {
-        // Redirige al usuario a la página de inicio ("/")
-        navigate("/login");
-      }, 7000); // El tiempo está en milisegundos (en este caso, 2 segundos)
+      // setTimeout(() => {
+      //   // Redirige al usuario a la página de inicio ("/")
+      //   navigate("/login");
+      // }, 7000); // El tiempo está en milisegundos (en este caso, 2 segundos)
     } catch (error) {
+      console.error("Error en la solicitud:", error);
     } finally {
       setSubmitting(false);
       setImage(null);
