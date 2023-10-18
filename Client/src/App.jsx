@@ -5,8 +5,6 @@ import Login from "./components/Login/login";
 import Home from "./views/Home/Home";
 import CreateProperty from "./components/createProperty/createProperty";
 import SignUpForm from "./components/Singup/singUp";
-import { useEffect } from "react";
-import { getProperty } from "./redux/actions";
 import Detail from "../src/views/Detail/Detail";
 import NavBar from "./components/NavBar/NavBar";
 import NavBarAdmin from "./components/NavBar/NavBarAdmin";
@@ -20,17 +18,13 @@ import Postuser from "./components/propertiesAdmin/propertyUser";
 import PaymentForm from "./components/PaymentForm/PaymentForm";
 import { AllUsers } from "./components/admin/allUsers/allUsers";
 import EditAccount from "./components/propertiesAdmin/personalEdit";
-import axios from 'axios'
+import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost:3001'
+axios.defaults.baseURL = "http://localhost:3001";
 
 function App() {
 	const location = useLocation();
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(getProperty());
-	}, [dispatch]);
 
 	return (
 		<div className="bg-indigo-50">

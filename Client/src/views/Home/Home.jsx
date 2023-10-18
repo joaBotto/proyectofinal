@@ -1,16 +1,22 @@
 import { React, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Footer from "../../components/Footer/Footer";
 import Container from "@mui/material/Container";
 import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/Cards";
 import { FadeLoader } from "react-spinners";
+import { getProperty } from "../../redux/actions";
 
 export default function Home() {
+	const dispatch = useDispatch();
 	const properties = useSelector((state) => state.properties);
 	const user = useSelector((state) => state.user);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
+
+	useEffect(() => {
+		dispatch(getProperty());
+	}, [dispatch]);
 
 	console.log("soy el user en home", user);
 	console.log("Soy prop en el home", properties);

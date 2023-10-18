@@ -1,10 +1,16 @@
 const passport = require("passport");
 const { Router } = require("express");
 const propertiesRouter = Router();
-const { getPropertiesHandler, getPropertyByIdHandler, creatingPropertyHandler, editPropertyHandler} = require("../handlers/propertyHandler");
+const {
+	getPropertiesHandler,
+	getPropertyByIdHandler,
+	creatingPropertyHandler,
+	editPropertyHandler,
+	editPropertyAvailability,
+} = require("../handlers/propertyHandler");
 
-
-propertiesRouter.put("/", editPropertyHandler)
+propertiesRouter.put("/", editPropertyHandler);
+propertiesRouter.put("/:id", editPropertyAvailability);
 propertiesRouter.get("/", getPropertiesHandler);
 propertiesRouter.get("/:id", getPropertyByIdHandler);
 propertiesRouter.post("/", creatingPropertyHandler);
@@ -17,8 +23,7 @@ propertiesRouter.post("/", creatingPropertyHandler);
           res.status(401).json({ message: "No autorizado" });
         }
       }, */
- 
 
-module.exports = { 
-        propertiesRouter
-        };
+module.exports = {
+	propertiesRouter,
+};
