@@ -28,7 +28,7 @@ const CheckoutForm = () => {
 
 			try {
 				const { data } = await axios.post(
-					'http://localhost:3001/api/checkout',
+					'/api/checkout',
 					{
 						id,
 						amount: 10000,

@@ -8,9 +8,9 @@ import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { editProperty } from "../../../redux/actions";
 import Dropzone from "react-dropzone";
 import Switch from "react-switch";
-import Success from "../../modals/Success"
-import ModalError from '../../modals/ModalError';
-import Loading from '../../modals/loading';
+import Success from "./modals/Success"
+import ModalError from './modals/ModalError';
+import Loading from './modals/loading';
 
 export function EditPropertyFromAdmin() {
   const dispatch = useDispatch();
@@ -69,7 +69,7 @@ export function EditPropertyFromAdmin() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/properties/${id}`)
+      .get(`/properties/${id}`)
       .then(({ data }) => {
         if (data) {
           setProperty(data);
@@ -174,7 +174,7 @@ export function EditPropertyFromAdmin() {
     formData.append("file", file[0]);
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/upload",
+        "/upload",
         formData,
         {
           headers: {

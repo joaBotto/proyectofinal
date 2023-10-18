@@ -36,7 +36,7 @@ export default function CreateProperty() {
 		formData.append("file", file[0]);
 		try {
 			const { data } = await axios.post(
-				"http://localhost:3001/upload",
+				"/upload",
 				formData,
 				{
 					headers: {
@@ -269,7 +269,7 @@ export default function CreateProperty() {
 		description: Yup.string().required("Description is required"),
 		address: Yup.object().shape({
 			street: Yup.string().required("The street is required"),
-			city: Yup.string().required("The city is required"),
+			// city: Yup.string().required("The city is required"),
 			state: Yup.string().required("State is required"),
 			zipcode: Yup.number().required("Zip code is required"),
 		}),

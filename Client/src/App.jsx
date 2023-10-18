@@ -20,6 +20,9 @@ import Postuser from "./components/propertiesAdmin/propertyUser";
 import PaymentForm from "./components/PaymentForm/PaymentForm";
 import { AllUsers } from "./components/admin/allUsers/allUsers";
 import EditAccount from "./components/propertiesAdmin/personalEdit";
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:3001'
 
 function App() {
 	const location = useLocation();
