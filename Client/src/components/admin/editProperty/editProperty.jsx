@@ -69,7 +69,7 @@ export function EditPropertyFromAdmin() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/properties/${id}`)
+      .get(`/properties/${id}`)
       .then(({ data }) => {
         if (data) {
           setProperty(data);
@@ -174,7 +174,7 @@ export function EditPropertyFromAdmin() {
     formData.append("file", file[0]);
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/upload",
+        "/upload",
         formData,
         {
           headers: {

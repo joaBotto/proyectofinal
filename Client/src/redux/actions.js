@@ -22,7 +22,7 @@ import {
 export const getProperty = () => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.get("http://localhost:3001/properties");
+			const { data } = await axios.get("/properties");
 
 			return dispatch({
 				type: GET_PROPERTY,
@@ -39,7 +39,7 @@ export const getProperty = () => {
 
 export const getPropertyDetail = (id) => async (dispatch) => {
 	try {
-		const { data } = await axios.get(`http://localhost:3001/properties/${id}`);
+		const { data } = await axios.get(`/properties/${id}`);
 		return dispatch({ type: GET_PROPERTY_DETAIL, payload: data });
 	} catch (error) {
 		return dispatch({ type: ERROR, payload: error.message });
@@ -57,7 +57,7 @@ export const createProperty = (values) => {
 	return async (dispatch) => {
 		try {
 			const { data } = await axios.post(
-				"http://localhost:3001/properties",
+				"/properties",
 				values
 			);
 			toast.success("The property was created successfully");
@@ -75,7 +75,7 @@ export const editProperty = (propertyEdited) => {
 	return async (dispatch) => {
 		try {
 			const { data } = await axios.put(
-				"http://localhost:3001/properties",
+				"/properties",
 				propertyEdited
 			);
 			return dispatch({
@@ -92,7 +92,7 @@ export const editProperty = (propertyEdited) => {
 };
 
 export const userLogin = (valores) => {
-	const url = "http://localhost:3001/auth/login";
+	const url = "/auth/login";
 	return async (dispatch) => {
 		try {
 			const { data } = await axios.post(url, valores);
@@ -136,7 +136,7 @@ export const updateUser = (userEdited) => {
 	return async (dispatch) => {
 		try {
 			const { data } = await axios.put(
-				"http://localhost:3001/users",
+				"/users",
 				userEdited
 			);
 			console.log("soydataAccion", data);
@@ -180,7 +180,7 @@ export const updateUser = (userEdited) => {
 
 export const addUser = (user) => async (dispatch) => {
 	try {
-		const { data } = await axios.post("http://localhost:3001/users", user);
+		const { data } = await axios.post("/users", user);
 		console.log("soy data de user", data);
 		const { email, password } = data;
 		toast.success("User created successfully");
@@ -198,7 +198,7 @@ export const addUser = (user) => async (dispatch) => {
 export const addNewBooking = (bookingData) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
-			"http://localhost:3001/bookings",
+			"/bookings",
 			bookingData
 		);
 		toast.success("Booking successfull");
@@ -217,7 +217,7 @@ export const addNewBooking = (bookingData) => async (dispatch) => {
 export const getAllBookings = () => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.get("http://localhost:3001/bookings");
+			const { data } = await axios.get("/bookings");
 
 			return dispatch({
 				type: GET_ALL_BOOKINGS,
@@ -234,7 +234,7 @@ export const getAllBookings = () => {
 
 export const getBooking = (id) => async (dispatch) => {
 	try {
-		const { data } = await axios.get(`http://localhost:3001/bookings/${id}`);
+		const { data } = await axios.get(`/bookings/${id}`);
 		return dispatch({ type: GET_BOOKING, payload: data });
 	} catch (error) {
 		return dispatch({ type: ERROR, payload: error.message });
@@ -244,7 +244,7 @@ export const getBooking = (id) => async (dispatch) => {
 export const getAllUsers = () => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.get("http://localhost:3001/users");
+			const { data } = await axios.get("/users");
 			return dispatch({
 				type: GET_ALL_USERS,
 				payload: data,

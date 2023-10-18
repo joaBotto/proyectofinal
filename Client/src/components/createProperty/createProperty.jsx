@@ -36,7 +36,7 @@ export default function CreateProperty() {
 		formData.append("file", file[0]);
 		try {
 			const { data } = await axios.post(
-				"http://localhost:3001/upload",
+				"/upload",
 				formData,
 				{
 					headers: {

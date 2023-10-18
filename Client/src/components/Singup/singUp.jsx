@@ -105,7 +105,7 @@ const SignUpForm = () => {
     console.log("FormData:", formData);
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/upload",
+        "/upload",
         formData,
         {
           headers: {
@@ -143,11 +143,11 @@ const SignUpForm = () => {
       //? -------------------------------------------------------------------------------
 
       await dispatch(addUser(values));
-      // Espera 2 segundos antes de redirigir
-      // setTimeout(() => {
-      //   // Redirige al usuario a la página de inicio ("/")
-      //   navigate("/login");
-      // }, 7000); // El tiempo está en milisegundos (en este caso, 2 segundos)
+      // Espera 6 segundos antes de redirigir
+      setTimeout(() => {
+        // Redirige al usuario a la página de inicio ("/")
+        navigate("/login");
+      }, 6000); // El tiempo está en milisegundos 
     } catch (error) {
       console.error("Error en la solicitud:", error);
     } finally {

@@ -5,7 +5,7 @@ import { LOAD_USER_POSTS, DELETE_POST, UPDATE_POST } from "./actionsTypesAdmin";
 export const loadUserPosts = (userId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`http://localhost:3001/adminProperties?userId=${userId}`);
+      const response = await axios.get(`/adminProperties?userId=${userId}`);
       dispatch({
         type: LOAD_USER_POSTS,
         payload: response.data,
@@ -23,7 +23,7 @@ export const loadUserPosts = (userId) => {
 export const deletePost = (postId) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`http://localhost:3001/adminProperties/${postId}`);
+      await axios.delete(`/adminProperties/${postId}`);
       dispatch({
         type: DELETE_POST,
         payload: postId,
@@ -41,7 +41,7 @@ export const deletePost = (postId) => {
 export const updatePost = (postId, updatedData) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`http://localhost:3001/adminProperties/${postId}`, updatedData);
+      const response = await axios.put(`/adminProperties/${postId}`, updatedData);
       dispatch({
         type: UPDATE_POST,
         payload: response.data,
