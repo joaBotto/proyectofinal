@@ -51,7 +51,7 @@ const SignUpForm = () => {
     address: "",
     city: "",
     phoneNumber: "",
-    images: [],
+    image: [],
   };
 
   const validationSchema = Yup.object({
@@ -130,7 +130,7 @@ const SignUpForm = () => {
         console.log("soyresponsecloud", cloudinaryResponse);
         if (cloudinaryResponse) {
           values.images = cloudinaryResponse;
-          setImagePreview(values.images);
+          setImagePreview(values.image);
         } else {
           console.error("Error al cargar la imagen en Cloudinary.");
         }

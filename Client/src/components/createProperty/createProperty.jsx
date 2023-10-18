@@ -220,30 +220,6 @@ export default function CreateProperty() {
 		},
 	};
 
-<<<<<<< HEAD
-  return (
-    <div
-      className="w-screen items-center justify-center bg-fuchsia-900"
-      style={{
-        backgroundImage: `url(${fondo})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
-      >
-      <div className="flex flex-col">
-        <div className="flex flex-row justify-center w-screen">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            {({ values, isSubmitting, setFieldValue, isValid, dirty }) => (
-              <Form className="flex flex-row justify-center w-2/3 bg-white rounded-lg p-6 shadow-lg my-10">
-                <div className="flex flex-col w-1/2 space-y-4">
-                  <h1 className="text-3xl font-semibold text-left mt-40 mb-4 text-blue font-onest">
-                    Register your property
-                  </h1>
-=======
 	const handleSubmit = async (values, { setSubmitting }) => {
 		const {
 			title,
@@ -272,7 +248,6 @@ export default function CreateProperty() {
 			type,
 		};
 		console.log("soy la info a mandar", newProperty);
->>>>>>> 9d0f757aaa345efdb5d37689ef2a4819fc5ca616
 
 		try {
 			await dispatch(createProperty(newProperty));
@@ -294,7 +269,7 @@ export default function CreateProperty() {
 		description: Yup.string().required("Description is required"),
 		address: Yup.object().shape({
 			street: Yup.string().required("The street is required"),
-			city: Yup.string().required("The city is required"),
+			// city: Yup.string().required("The city is required"),
 			state: Yup.string().required("State is required"),
 			zipcode: Yup.number().required("Zip code is required"),
 		}),
@@ -425,10 +400,6 @@ export default function CreateProperty() {
 											className="text-red-600 text-sm"
 										/>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9d0f757aaa345efdb5d37689ef2a4819fc5ca616
 										<label htmlFor="address.zipcode"></label>
 										<Field
 											type="number"
@@ -712,295 +683,6 @@ export default function CreateProperty() {
 														);
 														const startDateValue =
 															values.availableDates.startDate;
-<<<<<<< HEAD
-                            }}
-
-                    <label htmlFor="address.zipcode">zipcode:</label>
-                    <Field
-                      type="number"
-                      name="address.zipcode"
-                      placeholder="Zip Code"
-                      className="mt-1 p-2 w-full rounded-full border"
-                    />
-                    <ErrorMessage
-                      name="address.zipcode"
-                      component="div"
-                      className="text-red-600 text-sm"
-                    />
-                  </div>
-                  <p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
-                    Property's Characteristics
-                  </p>
-                  <div className="flex flex-row mx-2 space-x-3">
-                    <div className="w-1/4">
-                      <label
-                        htmlFor="amenities.covered_area"
-                        className="text-blue text-sm font-onest font-thin"
-                      >
-                        Total Area:
-                      </label>
-                      <Field
-                        type="number"
-                        min="1"
-                        name="amenities.covered_area"
-                        className="mt-1 p-2 w-full rounded-full border text-black"
-                      />
-                      <ErrorMessage
-                        name="amenities.covered_area"
-                        component="div"
-                        className="text-red-600 text-sm"
-                      />
-                    </div>
-                    <div className="w-1/4">
-                      <label
-                        htmlFor="amenities.antique"
-                        className="text-blue text-sm font-onest font-thin"
-                      >
-                        Antiquity:
-                      </label>
-                      <Field
-                        type="number"
-                        min="0"
-                        name="amenities.antique"
-                        className="mt-1 p-2 w-full rounded-full border text-black"
-                      />
-                      <ErrorMessage
-                        name="amenities.antique"
-                        component="div"
-                        className="text-red-600 text-sm"
-                      />
-                    </div>
-                    {/* CANT DE CAMAS */}
-                    <div className="w-1/4 block text-left text-gray-700">
-                      <label
-                        htmlFor="bedrooms"
-                        className="text-blue text-sm font-onest font-thin"
-                      >
-                        Bedrooms:
-                      </label>
-                      <Field
-                        type="number"
-                        min="0"
-                        name="bedrooms"
-                        className="mt-1 p-2 w-full rounded-full border"
-                      />
-                      <ErrorMessage
-                        name="bedrooms"
-                        component="div"
-                        className="text-red-600 text-sm"
-                      />
-                    </div>
-                    {/* CANT DE BANOS */}
-                    <div className="w-1/4 block text-left text-gray-700">
-                      <label
-                        htmlFor="bathrooms"
-                        className="text-blue text-sm font-onest font-thin"
-                      >
-                        Bathrooms:
-                      </label>
-                      <Field
-                        type="number"
-                        min="0"
-                        name="bathrooms"
-                        className="mt-1 p-2 w-full rounded-full border"
-                      />
-                      <ErrorMessage
-                        name="bathrooms"
-                        component="div"
-                        className="text-red-600 text-sm"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-row">
-                    {/* TIPO(CASA-DEPTO-PH) */}
-                    <div className="w-full block text-left text-gray-700">
-                      <label
-                        htmlFor="type"
-                        className="pt-5 pl-1 font-onest text-blue font-semibold text-lg"
-                      >
-                        Select your property type:
-                      </label>
-                      <Field
-                        as="select"
-                        name="type"
-                        className="mt-1 p-2 w-full rounded-full border"
-                      >
-                        <option value="House">House</option>
-                        <option value="Appartment">Appartment</option>
-                        <option value="Horizontal Property">
-                          Horizontal Property
-                        </option>
-                      </Field>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-1/2 flex flex-col ml-11 pt-9">
-                  <div className="flex flex-col justify-end pb-11">
-                    <img src={logo} alt="Logo" className="w-2/3 ml-40" />
-                  </div>
-                  {/* COMODIDADES(METROS2-ANTIGUEDAD-GARAGE-GRILL-CALEFACCION) */}
-                  <div className="flex flex-col">
-                    <p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
-                      Amenities
-                    </p>
-                    <div className="relative">
-                      <div className="flex justify-start font-onest">
-                        <div className="flex flex-col mr-10">
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="amenities.garage"
-                              className="form-checkbox"
-                            />
-                            <span>Garage</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="amenities.grill"
-                              className="form-checkbox"
-                            />
-                            <span>Grill</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="amenities.heating"
-                              className="form-checkbox"
-                            />
-                            <span>Heating</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.swimmingpool"
-                              className="form-checkbox"
-                            />
-                            <span>Swimming Pool</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.terrace"
-                              className="form-checkbox"
-                            />
-                            <span>Terrace</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.dining_room"
-                              className="form-checkbox"
-                            />
-                            <span>Dining Room</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.washing_machine"
-                              className="form-checkbox"
-                            />
-                            <span>Washing Machine</span>
-                          </label>
-                        </div>
-                        <div className="flex flex-col pl-6">
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.internet_wifi"
-                              className="form-checkbox"
-                            />
-                            <span>Internet WiFi</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.refrigerator"
-                              className="form-checkbox"
-                            />
-                            <span>Refrigerator</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.microwave"
-                              className="form-checkbox"
-                            />
-                            <span>Microwave</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.coffee_maker"
-                              className="form-checkbox"
-                            />
-                            <span>Coffee Maker</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.patio"
-                              className="form-checkbox"
-                            />
-                            <span>Patio</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <Field
-                              type="checkbox"
-                              name="additional.balcony_patio"
-                              className="form-checkbox"
-                            />
-                            <span>Balcony Patio</span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col text-left mt-4">
-                    <p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
-                      Availability:
-                    </p>
-                    <div className="flex">
-                      <div className="flex flex-col w-1/2">
-                        <label
-                          htmlFor="availableDates.startDate"
-                          className="pl-1 ml-2 font-onest text-blue font-light text-lg"
-                        >
-                          From:
-                        </label>
-                        <Field
-                          name="availableDates.startDate"
-                          type="date"
-                          className="rounded-full text-blue"
-                        />
-                        <ErrorMessage
-                          name="availableDates.startDate"
-                          component="div"
-                          className="text-red-600 text-sm"
-                        />
-                      </div>
-                      <div className="flex flex-col w-1/2 ml-3">
-                        <label
-                          htmlFor="availableDates.endDate"
-                          className="pl-1 ml-2 font-onest text-blue font-light text-lg"
-                        >
-                          To:
-                        </label>
-                        <Field
-                          name="availableDates.endDate"
-                          type="date"
-                          className="rounded-full text-blue"
-                          onChange={(event) => {
-                            const endDateValue = event.target.value;
-                            setFieldValue(
-                              "availableDates.endDate",
-                              endDateValue
-                            );
-                            const startDateValue =
-                              values.availableDates.startDate;
-
-=======
->>>>>>> 9d0f757aaa345efdb5d37689ef2a4819fc5ca616
 
 														if (startDateValue && endDateValue) {
 															const startDate = new Date(startDateValue);

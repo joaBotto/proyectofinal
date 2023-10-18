@@ -9,23 +9,23 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      image,
+      images,
       country,
       city,
       address,
       phoneNumber,
     } = req.body;
+    
     const user = {
       email,
       password,
       name,
       lastName,
-      image,
       country,
       city,
       address,
       phoneNumber,
-      image,
+      images,
       active:true,
       role:"user"
     };
@@ -41,36 +41,37 @@ const createUserHandler = async (req, res) => {
       city &&
       address &&
       phoneNumber&&
-      image
-    ) {
-      // Sube la imagen a Cloudinary primero
-      if (image) {
-        const cloudinaryResponse = await uploadImageToCloudinary(image); // Asegúrate de tener la función de subida
-        console.log("Respuesta de Cloudinary:", cloudinaryResponse);
+      images
+    )
+// {
+//       // Sube la imagen a Cloudinary primero
+//       if (images) {
+//         const cloudinaryResponse = await uploadImagesToCloudinary (images); // Asegúrate de tener la función de subida
+//         console.log("Respuesta de Cloudinary:", cloudinaryResponse);
 
-        if (cloudinaryResponse.error) {
-          // Si hay un error al subir la imagen, responde con el error
-          console.error("Error al cargar la imagen en Cloudinary:", cloudinaryResponse.error);
-          return res.status(500).json({ error: "Error al cargar la imagen en Cloudinary" });
-        }
+//         if (cloudinaryResponse.error) {
+//           // Si hay un error al subir la imagen, responde con el error
+//           console.error("Error al cargar la imagen en Cloudinary:", cloudinaryResponse.error);
+//           return res.status(500).json({ error: "Error al cargar la imagen en Cloudinary" });
+//         }
 
-        // Si la subida fue exitosa, actualiza el objeto de usuario con la URL de la imagen
-        user.image = cloudinaryResponse.secure_url;
-      }
+//         // Si la subida fue exitosa, actualiza el objeto de usuario con la URL de la imagen
+//         user.images = cloudinaryResponse.secure_url;
+//       }
 
-      // Después de manejar la imagen, procede con la creación del usuario
-      const newUser = await creatingUser(user);
-      console.log("Usuario creado con éxito:", newUser);
-      return res.status(201).json(newUser);
-    } else {
-      console.error("Falta información en la solicitud.");
-      return res.status(400).json({ error: "missing data" });
-    }
-  } catch (error) {
-    console.error("Error en la creación de usuario:", error);
-    return res.status(500).json({ error: error.message });
-  }
-};
+//       // Después de manejar la imagen, procede con la creación del usuario
+//       const newUser = await creatingUser(user);
+//       console.log("Usuario creado con éxito:", newUser);
+//       return res.status(201).json(newUser);
+//     } else {
+//       console.error("Falta información en la solicitud.");
+//       return res.status(400).json({ error: "missing data" });
+//     }
+//   } catch (error) {
+//     console.error("Error en la creación de usuario:", error);
+//     return res.status(500).json({ error: error.message });
+//   }
+// };
 
 // const createUserHandler = async (req, res) => {
 //   try {
@@ -95,6 +96,8 @@ const createUserHandler = async (req, res) => {
 //       city,
 //       address,
 //       phoneNumber,
+//       active:true,
+//       role:"user"
 //     };
 //     console.log("Recibida solicitud para crear usuario:", user); // Agrega este registro
 
@@ -106,20 +109,22 @@ const createUserHandler = async (req, res) => {
 //       country &&
 //       city &&
 //       address &&
-//       phoneNumber
-//     ) {
-//       const newUser = await creatingUser(user);
-//       console.log("Usuario creado con éxito:", newUser);
-//       return res.status(201).json(newUser);
-//     } else {
-//       console.error("Falta información en la solicitud.");
-//       return res.status(400).json({ error: "missing data" });
-//     }
-//   } catch (error) {
-//     console.error("Error en la creación de usuario:", error);
-//     return res.status(500).json({ error: error.message });
-//   }
-// };
+//       phoneNumber &&
+//       image
+//     )
+     {
+      const newUser = await creatingUser(user);
+      console.log("Usuario creado con éxito:", newUser);
+      return res.status(201).json(newUser);
+    } else {
+      console.error("Falta información en la solicitud.");
+      return res.status(400).json({ error: "missing data" });
+    }
+  } catch (error) {
+    console.error("Error en la creación de usuario:", error);
+    return res.status(500).json({ error: error.message });
+  }
+};
 
 
 const getAllUsersHandlers = async (req, res) => {

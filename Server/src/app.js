@@ -26,13 +26,14 @@ const corsOptions = {
 	methods: 'GET, POST, OPTIONS, PUT, DELETE',
 	allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Solo permite estos encabezados
 	credentials: true, // Permite enviar cookies
+	optionsSuccessStatus: 204
 };
 
+server.use(cors(corsOptions));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(cookieParser('inmuebles360'));
 server.use(morgan('dev'));
-server.use(cors(corsOptions));
 
 //CONFIG DE EXPRESS-SESSION
 server.use(

@@ -1,5 +1,5 @@
 import React from 'react'
-import error from '../../../public/error.png'
+import error from '../../../../assets/img/error.png'
 
 
 export default function ModalError (message) {
