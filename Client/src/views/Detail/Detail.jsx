@@ -240,9 +240,9 @@ const Detail = () => {
 										{property.type || "Property"} in {property.address.state},{" "}
 										{property.address.city}
 									</p>
-									{/* <div>
+									<div className="h-[500px] w-[500px]">
 										<PropertyMap property={property} />
-									</div> */}
+									</div>
 								</div>
 								{property && <DisplayCharacteristics property={property} />}
 							</div>
