@@ -58,13 +58,13 @@ const EditAccount = () => {
         className="bg-white p-8 rounded-lg shadow-md"
         style={{ maxWidth: "385px" }}
       >
-        <h2 className="text-2xl mb-4 text-blue">Editar Cuenta</h2>
+        <h2 className="text-2xl mb-4 text-blue font-bold">Edit Account</h2>
         <form onSubmit={handleSubmit}>
           {Object.keys(formData).map((field) => (
             <div key={field}>
               {editMode[field] ? (
-                <div>
-                  <label htmlFor={field} className="text-sm text-blue">
+                <div className="  flex justify-between items-center mb-3">
+                  <label htmlFor={field} className="text-sm text-cyan font-bold">
                     Change your {field}
                   </label>
                   <input
@@ -77,7 +77,7 @@ const EditAccount = () => {
                   <button
                     type="button"
                     onClick={() => toggleEditMode(field)}
-                    className="text-violet font-bold"
+                    className="text-blue font-bold hover:text-cyan"
                   >
                     Save
                   </button>
@@ -88,12 +88,12 @@ const EditAccount = () => {
                     {field}
                   </label> */}
                   <div className="  flex justify-between items-center mb-3">
-                    <label className=" text-sm text-violet ">{field}</label>
+                    <label className=" text-sm text-blue font-bold ">{field}:</label>
                     <span>{formData[field]}</span>
                     <button
                       type="button"
                       onClick={() => toggleEditMode(field)}
-                      className="text-violet font-bold "
+                      className="text-blue font-bold hover:text-cyan"
                     >
                       Edit
                     </button>
@@ -106,12 +106,12 @@ const EditAccount = () => {
             type="submit"
             className="bg-violet text-white py-2 px-4 rounded mt-2 mb-2 hover:bg-pink w-80"
           >
-            Guardar Cambios
+            Save Changes
           </button>
         </form>
         <Link to="/gestionUser">
           <button className="bg-blue text-white py-2 px-4 rounded hover:bg-teal-400 w-full">
-            Regresar a Gestion de Usuario
+            Return to User Management
           </button>
         </Link>
       </div>
