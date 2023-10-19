@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faLocationDot,
 	faBed,
 	faBath,
 	faRulerCombined,
+	faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import ImageCarousel from "./ImageCarousel";
+import { addPropertyToSaved } from "../../redux/actions";
 
 const Card = ({
 	_id,
@@ -19,9 +22,27 @@ const Card = ({
 	bathrooms,
 	area,
 }) => {
+	const dispatch = useDispatch();
+	const handleSaveClick = () => {
+		// Dispatch the action to add the property to the saved list
+		console.log("adding saved", {
+			_id,
+		});
+		dispatch(
+			addPropertyToSaved({
+				_id,
+			})
+		);
+	};
 	return (
 		<div className="flex-auto rounded-xl py-2">
 			<div className="px-4 pt-5 sm:px-6">
+				<button
+					onClick={handleSaveClick}
+					className="text-white border-red-400 hover:text-red-500 cursor-pointer"
+				>
+					<FontAwesomeIcon icon={faHeart} size="2x" />
+				</button>
 				<div className="relative rounded-xl h-[300px] shadow overflow-hidden">
 					<ImageCarousel images={images} />
 				</div>
@@ -29,6 +50,7 @@ const Card = ({
 					{title?.slice(0, 30)}
 				</h3>
 			</div>
+
 			<div className="mx-6 grid grid-rows-3 gap-y-2 font-onest">
 				<p className="text-sm mt-1 pb-0 mb-0 font-medium text-blue">
 					<FontAwesomeIcon icon={faLocationDot} /> {location}

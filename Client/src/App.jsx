@@ -18,6 +18,7 @@ import Postuser from "./components/propertiesAdmin/propertyUser";
 import PaymentForm from "./components/PaymentForm/PaymentForm";
 import { AllUsers } from "./components/admin/allUsers/allUsers";
 import EditAccount from "./components/propertiesAdmin/personalEdit";
+import SavedProperties from "./views/Saved/Saved";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3001";
@@ -48,6 +49,7 @@ function App() {
 				<Route path="/checkout" element={<PaymentForm />} />
 				<Route path="/gestionUser" element={<GestionUser />} />
 				<Route path="/personalEdit" element={<EditAccount />} />
+				<Route path="/saved" element={<SavedProperties />} />
 			</Routes>
 		</div>
 	);

@@ -18,9 +18,24 @@ import {
 	USER_LOGOUT,
 	RESET_STATE,
 	PROPERTY_DAYS_EDITED,
+	SAVE_PROPERTY,
+	REMOVE_FROM_SAVED,
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
+export const addPropertyToSaved = (propertyId) => {
+	return async (dispatch) => {
+		console.log(propertyId);
+		try {
+			return dispatch({
+				type: SAVE_PROPERTY,
+				payload: propertyId,
+			});
+		} catch (error) {
+			console.error("Error adding property to saved list:", error);
+		}
+	};
+};
 
 export const getProperty = () => {
 	return async (dispatch) => {

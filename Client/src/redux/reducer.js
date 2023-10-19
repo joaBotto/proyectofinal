@@ -15,6 +15,8 @@ import {
 	USER_EDITED,
 	RESET_STATE,
 	PROPERTY_DAYS_EDITED,
+	SAVE_PROPERTY,
+	REMOVE_FROM_SAVED,
 } from "./actions_types";
 
 const initialState = {
@@ -28,6 +30,7 @@ const initialState = {
 	allBookings: [],
 	bookingDetail: {},
 	details: [],
+	savedProperties: [],
 };
 
 const filterPropertyType = (state, payload) => {
@@ -213,6 +216,24 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				allUsers: payload,
 				users: payload,
 			};
+
+		case SAVE_PROPERTY:
+			const copySavedProperties = state.allproperties;
+			const savedProperties = copySavedProperties.filter(
+				(prop) => prop._id === payload && prop.status === "available"
+			);
+			return {
+				...state,
+				savedProperties: savedProperties,
+			};
+
+		// case REMOVE_FROM_SAVED:
+		// 	const removeIndex = state.allproperties.findIndex(
+		// 		(p) => p._id === action.payload
+		// 	);
+		// 	const removedProperties = [...state.allproperties];
+		// 	removedProperties.splice(removeIndex, 1);
+		// 	return { ...state, allproperties: removedProperties };
 
 		case RESET_STATE:
 			return initialState;
