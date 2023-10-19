@@ -25,7 +25,7 @@ import {
 // const URL = "http://localhost:3001";
 export const addPropertyToSaved = (propertyId) => {
 	return async (dispatch) => {
-		console.log(propertyId);
+		console.log("pruebajon",propertyId);
 		try {
 			return dispatch({
 				type: SAVE_PROPERTY,

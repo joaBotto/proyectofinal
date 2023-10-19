@@ -1,14 +1,24 @@
+import React from "react";
 import { useSelector } from "react-redux";
+import Cards from "../../components/Cards/Cards";
 
 function SavedProperties() {
-	const savedProperties = useSelector((state) => state.savedProperties);
-	console.log(savedProperties);
+  const savedProperty = useSelector((state) => state.savedProperties);
 
-	return (
-		<div>
-			<h2>Saved Properties</h2>
-		</div>
-	);
+  console.log("savedProperty:", savedProperty);
+
+  return (
+    <div>
+      <h2>My Favorites</h2>
+      {savedProperty.length === 0 ? (
+        <p>No properties in your favorites.</p>
+      ) : (
+        <div className="p-4">
+			<Cards properties={savedProperty} />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default SavedProperties;
