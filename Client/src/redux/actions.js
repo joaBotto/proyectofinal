@@ -17,7 +17,10 @@ import {
 	USER_EDITED,
 	USER_LOGOUT,
 	RESET_STATE,
+	PROPERTY_DAYS_EDITED,
 } from "./actions_types";
+
+// const URL = "http://localhost:3001";
 
 export const getProperty = () => {
 	return async (dispatch) => {
@@ -56,10 +59,7 @@ export const cleanDetail = () => {
 export const createProperty = (values) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.post(
-				"/properties",
-				values
-			);
+			const { data } = await axios.post("/properties", values);
 			toast.success("The property was created successfully");
 			return dispatch({
 				type: CREATE_PROPERTY,
@@ -74,16 +74,32 @@ export const createProperty = (values) => {
 export const editProperty = (propertyEdited) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.put(
-				"/properties",
-				propertyEdited
-			);
+			const { data } = await axios.put("/properties", propertyEdited);
 			return dispatch({
 				type: PROPERTY_EDITED,
 				payload: data,
 			});
 		} catch (error) {
 			return dispatch({
+				type: ERROR,
+				payload: error.message,
+			});
+		}
+	};
+};
+
+export const editPropertyAvailability = (propertyId, newAvailableDays) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.put(`/properties/${propertyId}`, {
+				availableDays: newAvailableDays,
+			});
+			dispatch({
+				type: PROPERTY_DAYS_EDITED,
+				payload: data,
+			});
+		} catch (error) {
+			dispatch({
 				type: ERROR,
 				payload: error.message,
 			});
@@ -135,10 +151,7 @@ export const updateUser = (userEdited) => {
 	console.log("userEdited", userEdited);
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.put(
-				"/users",
-				userEdited
-			);
+			const { data } = await axios.put("/users", userEdited);
 			console.log("soydataAccion", data);
 			return dispatch({
 				type: USER_EDITED,
@@ -197,10 +210,7 @@ export const addUser = (user) => async (dispatch) => {
 
 export const addNewBooking = (bookingData) => async (dispatch) => {
 	try {
-		const { data } = await axios.post(
-			"/bookings",
-			bookingData
-		);
+		const { data } = await axios.post("/bookings", bookingData);
 		toast.success("Booking successfull");
 		console.log("Booking successfull");
 		return dispatch({

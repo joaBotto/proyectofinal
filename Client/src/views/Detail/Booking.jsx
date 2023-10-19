@@ -1,22 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-	getPropertyDetail,
-	cleanDetail,
 	addNewBooking,
 	getAllBookings,
+	editPropertyAvailability,
 } from "../../redux/actions";
 import moment from "moment";
 import { DatePicker } from "antd";
+import { CloseCircleOutlined } from "@ant-design/icons";
 
 function BookingDetails({ property }) {
 	const dispatch = useDispatch();
+
+	console.log("prop in booking Details", property);
 
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [totalDays, setTotalDays] = useState(0);
 	const [selectedDates, setSelectedDates] = useState(null);
 	const [reservationDetails, setReservationDetails] = useState(false);
+	const [updatedAvailableDates, setUpdatedAvailableDates] = useState(
+		property.availableDays
+	);
+
+	console.log(property.availableDays);
+
+	useEffect(() => {
+		setUpdatedAvailableDates(property.availableDays);
+	}, [property]);
 
 	const calculateDaysInBetween = (startDate, endDate) => {
 		const start = new Date(startDate.format("YYYY-MM-DD"));
@@ -29,7 +40,6 @@ function BookingDetails({ property }) {
 	};
 
 	const handleDateChange = ([startDate, endDate]) => {
-		console.log("From: ", startDate, "To:", endDate);
 		if (startDate && endDate) {
 			const daysInBetween = calculateDaysInBetween(startDate, endDate);
 			console.log("Days in between:", daysInBetween);
@@ -45,11 +55,24 @@ function BookingDetails({ property }) {
 	const guest = useSelector((state) => state.user);
 	const [isReservationVisible, setReservationVisible] = useState(false);
 
+	const updatePropertyAvailability = (property, startDate, endDate) => {
+		const updatedAvailableDays = property.availableDays.filter((date) => {
+			const currentDate = new Date(date);
+			return currentDate < startDate || currentDate > endDate;
+		});
+
+		setUpdatedAvailableDates(updatedAvailableDays);
+
+		console.log("updated days array", updatedAvailableDays);
+		dispatch(editPropertyAvailability(property._id, updatedAvailableDays));
+	};
+
 	const handleBookNow = async () => {
 		try {
 			if (selectedDates && totalAmount > 0) {
 				const start = new Date(selectedDates[0]);
 				const end = new Date(selectedDates[1]);
+				updatePropertyAvailability(property, start, end);
 				const startDate = moment(start).format("DD-MM-YYYY");
 				const endDate = moment(end).format("DD-MM-YYYY");
 
@@ -84,7 +107,7 @@ function BookingDetails({ property }) {
 	};
 
 	return (
-		<div className="w-full flex flex-col items-end justify-end pr-20 pt-11">
+		<div className="w-full flex flex-col items-end justify-end pt-11">
 			<div className="flex flex-col w-2/3 items-end pl-7">
 				<div className="flex flex-col justify-start pb-5 mr-5">
 					<p className="text-4xl text-blue font-onest text-right font-extrabold pb-3">
@@ -95,21 +118,22 @@ function BookingDetails({ property }) {
 							format="DD-MM-YYYY"
 							onChange={handleDateChange}
 							value={selectedDates}
-							className="rounded-full py-2 mr-5 border-2 border-cyan font-onest text-blue"
+							className="rounded-full py-1 border-2 border-cyan font-onest text-blue"
 							disabledDate={(current) =>
 								current &&
-								(current < moment(property.availableDays[0]) ||
-									current >
-										moment(
-											property.availableDays[property.availableDays.length - 1]
-										))
+								!updatedAvailableDates.some((date) =>
+									current.isSame(moment(date), "day")
+								)
 							}
+							showToday={true}
+							suffixIcon={null}
+							clearIcon={null}
 						/>
 						<button
 							onClick={clearValues}
-							className="rounded-full text-center justify-center text-white font-onest bg-blue py-1 flex flex-col hover:bg-cyan"
+							className="flex flex-col justify-center pl-2"
 						>
-							Clear
+							<CloseCircleOutlined className=" text-gray-600 text-xl hover:text-cyan" />
 						</button>
 					</div>
 				</div>
