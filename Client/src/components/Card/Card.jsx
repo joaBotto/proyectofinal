@@ -29,9 +29,9 @@ const Card = ({
       _id,
     });
     dispatch(
-      addPropertyToSaved({
+      addPropertyToSaved(
         _id,
-      })
+      )
     );
   };
   return (

@@ -218,15 +218,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
       };
 
     case SAVE_PROPERTY:
-      const copySavedProperties = state.allproperties;
-      const savedProperties = copySavedProperties.filter(
-        (prop) => prop._id === payload._id 
+      const propertyToAdd = state.allproperties.find(
+        (prop) => prop._id === payload
       );
-      console.log("pruebareducer", savedProperties);
-      return {
-        ...state,
-        savedProperties: savedProperties,
-      };
+
+      if (propertyToAdd) {
+        // Verifica si la propiedad ya está en la lista de guardadas
+        const isAlreadySaved = state.savedProperties.some(
+          (savedProp) => savedProp._id === propertyToAdd._id
+        );
+
+        if (!isAlreadySaved) {
+          return {
+            ...state,
+            savedProperties: [...state.savedProperties, propertyToAdd],
+          };
+        }
+      }
 
     // case REMOVE_FROM_SAVED:
     // 	const removeIndex = state.allproperties.findIndex(
