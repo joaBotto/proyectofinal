@@ -21,6 +21,8 @@ import NavBar from "../../components/NavBar/NavBar";
 import { FadeLoader } from "react-spinners";
 import DisplayCharacteristics from "./Display";
 import BookingDetails from "./Booking";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
 
 const Detail = () => {
 	const { id } = useParams();
@@ -169,43 +171,62 @@ const Detail = () => {
 									<p className="text-xl text-blue font-onest font-extrabold pt-3 px-5">
 										PROPERTY OWNER
 									</p>
-									<div className="flex flex-row justify-items-center pl-5">
-										{property.owner.images > 0 ? (
-											<img
-												src={property.owner.images[0]}
-												alt="Placeholder"
-												className="rounded-full object-cover w-11 h-11"
-											/>
-										) : (
-											<img
-												src="https://via.placeholder.com/150"
-												alt="Placeholder"
-												className="rounded-full object-cover w-11 h-11"
-											/>
-										)}
-
+									<div className="flex flex-col md:flex-row items-center pl-5">
+										<div className="flex  rounded-full">
+											{property.owner?.images[0]?.imageUrl ? (
+												<Avatar
+													size={{
+														xs: 24,
+														sm: 32,
+														md: 40,
+														lg: 64,
+														xl: 80,
+														xxl: 100,
+													}}
+													src={property.owner.images[0].imageUrl}
+												/>
+											) : (
+												<Avatar
+													size={{
+														xs: 24,
+														sm: 32,
+														md: 40,
+														lg: 64,
+														xl: 80,
+														xxl: 100,
+													}}
+													icon={<UserOutlined />}
+												/>
+											)}
+										</div>
 										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
 											{property.owner.name} from {property.owner.city},{" "}
 											{property.owner.country}
 										</p>
 									</div>
 								</div>
-								<div className="w-1/4 h-full border-2 border-cyan rounded-xl ml-3 mt-3">
+								<div className="w-1/4 ml-3 h-full border-2 border-cyan rounded-xl mt-3 pb-5">
 									<p className="text-xl text-blue font-onest font-extrabold pt-3 px-5">
 										PROPERTY REVIEWS
 									</p>
-									<div className="flex items-center justify-start pb-5">
-										<div className="flex flex-row justify-items-center pl-5">
-											<img
-												src="https://via.placeholder.com/150"
-												alt="Placeholder"
-												className="rounded-full object-cover w-11 h-11"
+									<div className="flex flex-col md:flex-row items-center pl-5">
+										<div className="flex  rounded-full">
+											<Avatar
+												size={{
+													xs: 24,
+													sm: 32,
+													md: 40,
+													lg: 64,
+													xl: 80,
+													xxl: 100,
+												}}
+												icon={<UserOutlined />}
 											/>
-											<p className="text-xs text-blue font-noto text-left font-light pl-2 pt-2">
-												"Lorem ipsum dolor sit amet consectetur adipisicing
-												elit. Iste"
-											</p>
 										</div>
+										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
+											"Lorem ipsum dolor sit amet consectetur adipisicing elit.
+											Facilis possimus neque adipisci maiores."
+										</p>
 									</div>
 								</div>
 							</div>
