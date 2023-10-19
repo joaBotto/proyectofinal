@@ -236,6 +236,17 @@ const rootReducer = (state = initialState, { type, payload }) => {
         }
       }
 
+/* 	  case SAVE_PROPERTY:
+      const copySavedProperties = state.allproperties;
+      const savedProperties = copySavedProperties.filter(
+        (prop) => prop._id === payload._id 
+      );
+      console.log("pruebareducer", savedProperties);
+      return {
+        ...state,
+        savedProperties: savedProperties,
+      }; */
+
     // case REMOVE_FROM_SAVED:
     // 	const removeIndex = state.allproperties.findIndex(
     // 		(p) => p._id === action.payload

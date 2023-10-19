@@ -34,6 +34,18 @@ const Card = ({
       )
     );
   };
+
+/*   const handleSaveClick = () => {
+    // Dispatch the action to add the property to the saved list
+    console.log("adding saved", {
+      _id,
+    });
+    dispatch(
+      addPropertyToSaved({
+        _id,
+      })
+    );
+  }; */
   return (
     <div className="flex-auto rounded-xl py-2">
       <div className="px-4 pt-5 sm:px-6">
