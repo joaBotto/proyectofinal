@@ -8,6 +8,7 @@ const routes = require('./routes/index');
 const Stripe = require('stripe');
 
 const stripe = new Stripe(process.env.API_KEY_STRIPE);
+
 //mercadopago
 const mercadopago = require("mercadopago");
 
@@ -32,13 +33,14 @@ const corsOptions = {
 	methods: 'GET, POST, OPTIONS, PUT, DELETE',
 	allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Solo permite estos encabezados
 	credentials: true, // Permite enviar cookies
+	optionsSuccessStatus: 204
 };
 
+server.use(cors(corsOptions));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(cookieParser('inmuebles360'));
 server.use(morgan('dev'));
-server.use(cors(corsOptions));
 
 //CONFIG DE EXPRESS-SESSION
 server.use(
@@ -96,7 +98,7 @@ server.post('/api/checkout', async (req, res) => {
 	try {
 		const { id, amount } = req.body;
 
-		const payment = await stripe.paymentIntents.create({
+		const payment = await stripe.paymentIntents.Screate({
 			amount,
 			currency: 'USD',
 			description: '',
@@ -110,18 +112,20 @@ server.post('/api/checkout', async (req, res) => {
 		res.json({ message: error.message });
 	}
 });
-//back para pasarela de pagos fin (STRIPE )
+//back para pasarela de pagos fin
 
 //BACK PARA PASARELA DE PAGOS(MP)
 
 mercadopago.configure({
-	access_token:"TEST-2978822018121145-101417-c3dfca8cd3e4d5c938ffe6bf4c501f36-800229088"
+	access_token:process.env.TOKEN_MP_TEST
+	//
+	//"TEST-2978822018121145-101417-c3dfca8cd3e4d5c938ffe6bf4c501f36-800229088"
 });
 
 
 
 server.post("/create_preference", (req, res) => {
-	  //process.env.TOKEN_MP_TEST
+	  //
 
 	let preference = {
         items: [
@@ -150,9 +154,6 @@ server.post("/create_preference", (req, res) => {
 		console.log(error);
 	  });
   });
-
-
-
 
 
 
