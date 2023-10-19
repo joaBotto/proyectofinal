@@ -1,26 +1,44 @@
-import React from "react";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import React, { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 const PropertyMap = ({ property }) => {
-	const latitude = -34.61315;
-	const longitude = -58.37723;
+	const [coordinates, setCoordinates] = useState([51.505, -0.09]);
+
+	useEffect(() => {
+		if (property.address && property.address.zipcode) {
+			const zipCode = property.address.zipcode;
+
+			fetch(
+				`https://nominatim.openstreetmap.org/search?format=json&q=${zipCode}`
+			)
+				.then((response) => response.json())
+				.then((data) => {
+					if (data.length > 0) {
+						const location = data[0];
+						setCoordinates([location.lat, location.lon]);
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching coordinates:", error);
+				});
+		}
+	}, [property.address]);
 
 	return (
-		<div className="w-full h-full overflow-hidden">
-			<div className="mt-4 w-full h-full">
-				<MapContainer
-					center={[latitude, longitude]}
-					zoom={12}
-					style={{ width: "100%", height: "100%" }}
-				>
-					<TileLayer
-						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-					/>
-					<Marker position={[latitude, longitude]} />
-				</MapContainer>
-			</div>
-		</div>
+		<MapContainer center={coordinates} zoom={13} scrollWheelZoom={false}>
+			<TileLayer
+				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+			/>
+			<Marker position={coordinates}>
+				<Popup>
+					Property Location
+					<br />
+					Easily customizable.
+				</Popup>
+			</Marker>
+		</MapContainer>
 	);
 };
 
