@@ -415,12 +415,7 @@ const SignUpForm = () => {
                   Sign Up
                 </button>
                 <div className="flex justify-between">
-                  <button
-                    type="submit"
-                    className="mt-2 bg-light-blue-800 font-onest text-white px-4 py-1 rounded-full hover:bg-pink"
-                  >
-                    Sign Up With Google
-                  </button>
+                 
                   <Link to="/">
                     <button className="mt-2 flex justify-end bg-red-500 font-onest text-white px-4 py-2 rounded-full hover:bg-pink">
                       Cancel
