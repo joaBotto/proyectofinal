@@ -222,21 +222,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
         (prop) => prop._id === payload
       );
 
-      if (propertyToAdd) {
-        // Verifica si la propiedad ya está en la lista de guardadas
-        const isAlreadySaved = state.savedProperties.some(
-          (savedProp) => savedProp._id === propertyToAdd._id
-        );
+      return {
+        ...state,
+        savedProperties: [...state.savedProperties, propertyToAdd],
+      };
 
-        if (!isAlreadySaved) {
-          return {
-            ...state,
-            savedProperties: [...state.savedProperties, propertyToAdd],
-          };
-        }
-      }
+    case REMOVE_FROM_SAVED:
+      // Filtrar la propiedad a eliminar de la lista de propiedades guardadas
+      const updatedSavedProperties = state.savedProperties.filter(
+        (prop) => prop._id !== payload
+      );
 
-/* 	  case SAVE_PROPERTY:
+      return {
+        ...state,
+        savedProperties: updatedSavedProperties,
+      };
+
+    /* 	  case SAVE_PROPERTY:
       const copySavedProperties = state.allproperties;
       const savedProperties = copySavedProperties.filter(
         (prop) => prop._id === payload._id 

@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +10,10 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import ImageCarousel from "./ImageCarousel";
-import { addPropertyToSaved } from "../../redux/actions";
+import {
+  addPropertyToSaved,
+  removePropertyFromSaved,
+} from "../../redux/actions";
 
 const Card = ({
   _id,
@@ -23,19 +27,25 @@ const Card = ({
   area,
 }) => {
   const dispatch = useDispatch();
-  const handleSaveClick = () => {
-    // Dispatch the action to add the property to the saved list
-    console.log("adding saved", {
-      _id,
-    });
-    dispatch(
-      addPropertyToSaved(
-        _id,
-      )
-    );
-  };
+  const [isSaved, setIsSaved] = useState(false);
 
-/*   const handleSaveClick = () => {
+  const handleSaveClick = () => {
+    if (!isSaved) {
+      // Dispatch the action to add the property to the saved list
+      console.log("Agregando a favoritos", _id);
+      dispatch(addPropertyToSaved(_id));
+    } else {
+      console.log("Eliminando de favoritos", _id);
+      dispatch(removePropertyFromSaved(_id));
+    }
+    setIsSaved(!isSaved); // Toggle the state
+   
+  };
+  useEffect(() => {
+    console.log("isSaved ahora es:", isSaved);
+  }, [isSaved]);
+
+  /*   const handleSaveClick = () => {
     // Dispatch the action to add the property to the saved list
     console.log("adding saved", {
       _id,
@@ -46,13 +56,16 @@ const Card = ({
       })
     );
   }; */
+
+  const heartClasses = `text-blue border-red-400 `;
+  const isSavedClass = isSaved ? "text-cyan" : "";
+
+  const combinedClasses = `${heartClasses} ${isSavedClass}`;
+
   return (
     <div className="flex-auto rounded-xl py-2">
       <div className="px-4 pt-5 sm:px-6">
-        <button
-          onClick={handleSaveClick}
-          className="text-white border-red-400 hover:text-red-500 cursor-pointer"
-        >
+        <button onClick={handleSaveClick} className={combinedClasses}>
           <FontAwesomeIcon icon={faHeart} size="2x" />
         </button>
         <div className="relative rounded-xl h-[300px] shadow overflow-hidden">
