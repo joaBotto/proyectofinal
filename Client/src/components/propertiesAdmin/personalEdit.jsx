@@ -17,6 +17,9 @@ const EditAccount = () => {
     city: user.city,
     address: user.address,
     phoneNumber: user.phoneNumber,
+  //AGREGARE IMAGEN
+    images: user.images
+    
   });
 
   const [editMode, setEditMode] = useState({
@@ -28,6 +31,8 @@ const EditAccount = () => {
     city: false,
     address: false,
     phoneNumber: false,
+    //todo images , lo estoy AGREGANDO YO JEJE, ESPECIFICO POR SI ROMPE
+    images: []
   });
 
   const handleChange = (e) => {
