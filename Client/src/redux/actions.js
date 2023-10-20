@@ -108,48 +108,26 @@ export const editPropertyAvailability = (propertyId, newAvailableDays) => {
 };
 
 export const userLogin = (valores) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-	const url = "/auth/login";
-	return async (dispatch) => {
-		try {
-			const { data } = await axios.post(url, valores);
-			const { user } = data;
-			dispatch({
-				type: USER_LOGIN,
-				payload: user,
-			});
-		} catch (error) {
-			dispatch({
-				type: ERROR,
-				payload: error.message,
-			});
-		}
-	};
-=======
-  const url = "http://localhost:3001/auth/login-local";
-=======
+
   const url = "http://localhost:3001/auth/login";
->>>>>>> cdda465 (trabajando en auth)
+
   return async (dispatch) => {
     try {
       const { data } = await axios.post(url, valores);
       const { user } = data;
-     return dispatch({
+      dispatch({
         type: USER_LOGIN,
         payload: user,
       });
     } catch (error) {
-      return dispatch({
+      dispatch({
         type: ERROR,
         payload: error.message,
       });
     }
   };
->>>>>>> 4a1a964 (cambios)
+
 };
-
-
 
 //!------- User LogOut ---------------
 export const userLogOut = () => {
@@ -173,7 +151,6 @@ export const filters = (type, orderPrice) => {
 };
 
 export const updateUser = (userEdited) => {
-<<<<<<< HEAD
 	console.log("userEdited", userEdited);
 	return async (dispatch) => {
 		try {
@@ -190,27 +167,6 @@ export const updateUser = (userEdited) => {
 			});
 		}
 	};
-=======
-  /* console.log("userEdited", userEdited); */
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.put(
-        "http://localhost:3001/users",
-        userEdited
-      );
-      console.log("soydataAccion", data);
-      return dispatch({
-        type: USER_EDITED,
-        payload: data,
-      });
-    } catch (error) {
-      return dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
-  };
->>>>>>> 6da1bd3 (opanel admin)
 };
 
 // export const searchProducto = (query) => {
