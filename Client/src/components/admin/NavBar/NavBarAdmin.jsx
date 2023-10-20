@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom"; // Importa useNavigate en lugar de useHistory
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSignInAlt,
-  faBars,
-  faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate en lugar de useHistory
 import fondo from "../../../assets/img/fondo1.jpeg";
 import logo from "../../../assets/img/logo.png";
-import { useSelector, useDispatch } from "react-redux";
-import DropdownMenu from "../../utils/DropdownMenu";
+
+
 
 const NavBarAdmin = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-
+  
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {

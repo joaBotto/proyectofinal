@@ -12,7 +12,6 @@ import NavBar from "./components/NavBar/NavBar";
 import NavBarAdmin from "./components/admin/NavBar/NavBarAdmin";
 import HomeAdmin from "../src/components/admin/Posts/Posts";
 import Error404 from "./components/Error/Error404";
-import LoginAdmin from "./components/Login/LoginAdmin";
 import { EditPropertyFromAdmin } from "./components/admin/editProperty/editProperty";
 import BookingSystem from "./views/Reservations/Reservations";
 import Postuser from "./components/propertiesAdmin/propertyUser";
@@ -41,7 +40,6 @@ function App() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/signUp" element={<SignUpForm />} />
         <Route path="/error404" element={<Error404 />} />
-        <Route path="/loginadmin" element={<LoginAdmin />} />
         <Route path="/detail/:id/reservations" element={<BookingSystem />} />
         <Route path="/postUser" element={<Postuser />} />
         <Route path="/checkout" element={<PaymentForm />} />

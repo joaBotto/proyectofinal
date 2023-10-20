@@ -4,6 +4,7 @@ import Footer from "../../components/Footer/Footer";
 import Container from "@mui/material/Container";
 import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/Cards";
+import axios from "axios"
 
 export default function Home() {
 	const properties = useSelector((state) => state.properties);
@@ -15,6 +16,7 @@ export default function Home() {
 	const perPage = 8;
     const maxPage = Math.ceil(activeProperties.length / perPage)
 	const currentPageData = activeProperties.slice((page - 1) * perPage, page * perPage);
+
 
 	useEffect(() => {
 		setPage(1);
