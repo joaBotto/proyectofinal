@@ -29,31 +29,57 @@ const corsOptions = {
 	optionsSuccessStatus: 204
 };
 
+server.use(express.json());
 server.use(cors(corsOptions));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-server.use(cookieParser('inmuebles360'));
+server.use(cookieParser());
 server.use(morgan('dev'));
+server.use((req, res, next) => {
+	console.log("Cookies que llegan:", req.cookies);
+	next(); // Continúa con la ejecución de la solicitud
+  });
 
 //CONFIG DE EXPRESS-SESSION
 server.use(
 	session({
-		secret: 'inmuebles360', // ESTA CADENA SE UTILIZA PARA FIRMAR COOKIES Y DEBE MANTENERSE EN SECRETO
+		secret: 'inmuebles', // ESTA CADENA SE UTILIZA PARA FIRMAR COOKIES Y DEBE MANTENERSE EN SECRETO
 		resave: false, // ESTA OPCION DETERMINA SI LA SESION SE DEBE VOLVER A GUARDAR EN EL ALMACEN DE SESIONES INCLUSO SI NO HA HABIDO CAMBIOS DURANTE LA SOLICITUD (FALSE)
 		saveUninitialized: false, // ESTA OPCION DETERMINA SI LA SESION SE DEBE VOLVER A GUARDAR INCLUSO SI NO HA SIDO MODIFICADA DUARNTE LA SOLICITUD, SE GUARDA EN EL SERVIDOR (TRUE)
 		cookie: { secure: false }, // ESTA OPCION TE PERMITE CONFIGURAR LAS PROPIEDADES DE LAS COOKIES DE SESION. SI ESTA EN FALSE SE PUEDEN ENVIAR DE CONEXIONES NO SEGURAS EN PRODUCCION SE SETEA EN (TRUE)
+		logErrors: true
 	})
 );
 // MIDDLEWARE DE PASSPORT
 server.use(passport.initialize());
 server.use(passport.session());
 
+passport.serializeUser((user, done) => {
+	console.log('Serializando usuario:', user);
+	return done(null, user._id);
+});
+
+passport.deserializeUser(async (_id, done) => {
+	console.log('Deserializando usuario por ID:', _id);
+	try {
+		const user = await Users.findById(_id);
+		if (!user) {
+			console.log('Usuario no encontrado.');
+			return done(null, false);
+		}
+		console.log('Usuario deserializado:', user);
+		return done(null, user);
+	} catch (err) {
+		console.log('error en la deserializacion');
+		return done(err, null);
+	}
+});
+
 // CONFIGURA LOS MSJS QUE LLEGAN DE LA ESTRATEGIA
 server.use(flash());
 
 
 //back para pasarela de pagos
-server.use(express.json());
 /* server.post('/api/checkout', async (req, res) => {
 	try {
 		const { id, amount } = req.body;

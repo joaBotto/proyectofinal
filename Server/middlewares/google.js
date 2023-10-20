@@ -14,19 +14,19 @@ passport.use("auth-google",
   },
   async function (req, accessToken, refreshToken, profile, done) {
 try {
-  const user = {
+  const userGoogle = {
     email:profile.emails[0].value,
     name:`${profile.name.givenName}`,
     lastName:`${profile.name.familyName}`,
     image:profile.photos[0].value
 }
-console.log("soy user de google", user)
-let userRegister = await Users.findOne({ email:profile.emails[0].value});
-if (!userRegister) {
-  userRegister = await Users.create(user);
+console.log("soy user de google", userGoogle)
+let user = await Users.findOne({ email:profile.emails[0].value});
+if (!user) {
+  user = await Users.create(userGoogle);
 }
-console.log("soy userRegister", userRegister)
-done(null, userRegister)
+console.log("soy userRegister", user)
+done(null, user)
 
 
 } catch (error) {
@@ -37,9 +37,9 @@ done(null, userRegister)
   }
 ));
 
-passport.serializeUser((userRegister, done) => {
-	console.log('Serializando usuario:', userRegister);
-	return done(null, userRegister._id);
+passport.serializeUser((user, done) => {
+	console.log('Serializando usuario:', user);
+	return done(null, user._id);
 });
 
 passport.deserializeUser(async (_id, done) => {

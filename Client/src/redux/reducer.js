@@ -15,6 +15,7 @@ import {
 	USER_EDITED,
 	RESET_STATE,
 	PROPERTY_DAYS_EDITED,
+	USER_AUTHENTICATED
 } from "./actions_types";
 
 const initialState = {
@@ -65,6 +66,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				properties: [...payload],
 				filteredData: [...payload],
 			};
+		
+		case USER_AUTHENTICATED:
+			return {
+				...state,
+				user:payload
+			}
 
 		case CREATE_PROPERTY:
 			return {
