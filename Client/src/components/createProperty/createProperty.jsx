@@ -17,11 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	getLatLng,
-  } from 'react-places-autocomplete';
-  
-
-
-
+} from "react-places-autocomplete";
 
 export default function CreateProperty() {
 	const user = useSelector((state) => state.user);
@@ -35,15 +31,11 @@ export default function CreateProperty() {
 		const formData = new FormData();
 		formData.append("file", file[0]);
 		try {
-			const { data } = await axios.post(
-				"/upload",
-				formData,
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				}
-			);
+			const { data } = await axios.post("/upload", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
 			return data;
 		} catch (error) {
 			console.error("Error al cargar la imagen:", error);
@@ -60,126 +52,137 @@ export default function CreateProperty() {
 		return dates;
 	}
 
-
 	const LocationSearchInput = ({ field, form: { setFieldValue } }) => {
 		const [state, setState] = useState({
-		  street: '',
-		  locality: '',
-		  city: '',
-		  latLng: null,
+			street: "",
+			locality: "",
+			city: "",
+			latLng: null,
 		});
-	  
-		const handleChange = (address, isSuggestion) => {
-		  if (!address) {
-			// Si la dirección es vacía, restablecer los valores de locality y city
-			setState({
-			  street: '',
-			  locality: '',
-			  city: '',
-			});
-		  } else {
-			// Si es una sugerencia, actualiza street y activa la obtención de datos
-			if (isSuggestion) {
-			  setState({ street: address }, () => {
-				handleSelect(address);
-			  });
-			} else {
-			  setState({ street: address });
-			}
-		  }
-		};
-	  
-		const handleSelect = (address) => {
-		  geocodeByAddress(address)
-			.then((results) => {
-			  const result = results[0];
-			  return Promise.all([getLatLng(result), result.address_components]);
-			})
-			.then(([latLng, addressComponents]) => {
-			  setState({
-				latLng,
-				locality: extractAddressComponent(addressComponents, 'locality'),
-				city: extractAddressComponent(addressComponents, 'administrative_area_level_1'),
-			  });
-	  
-			  console.log('Success', latLng, state.locality, state.city);
-			  setFieldValue('address.street', state.street);
-			  setFieldValue('address.city', state.city);
-			  setFieldValue('address.state', state.locality);
-			})
-			.catch((error) => console.error('Error', error));
-		};
-	  
-		const extractAddressComponent = (addressComponents, type) => {
-		  const component = addressComponents.find((comp) => comp.types.includes(type));
-		  return component ? component.long_name : '';
-		};
-	  
-		return (
-		  <div>
-			<PlacesAutocomplete
-			  value={state.street}
-			  onChange={(address) => handleChange(address, false)}
-			  onSelect={(address) => handleSelect(address)}
-			  googleCallbackName="initOne"
-			>
-			  {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-				<div className="block pt-5 text-left text-gray-700">
-				  
-				  <input
-					{...getInputProps({
-					  placeholder: 'Street ...',
-					  className:"mt-1 p-2 w-full rounded-full border",
-					})}
-				  />
-				  <ErrorMessage
-					name="address.street"
-					component="div"
-					className="text-red-600 text-sm"
-				  />
-				  <div className="autocomplete-dropdown-container">
-					{loading && <div>Loading...</div>}
-					{suggestions.map((suggestion) => {
-					  const className = suggestion.active
-						? 'suggestion-item--active'
-						: 'suggestion-item';
-					  const style = suggestion.active
-						? { backgroundColor: '#fafafa', cursor: 'pointer' }
-						: { backgroundColor: '#ffffff', cursor: 'pointer' };
-					  return (
-						<div
-						  {...getSuggestionItemProps(suggestion, {
-							className,
-							style,
-						  })}
-						>
-						  <span>{suggestion.description}</span>
-						</div>
-					  );
-					})}
-				  </div>
-				</div>
-			  )}
-			</PlacesAutocomplete>
-	  
-			<div className="block pt-5 text-left text-gray-700">
-			  
-			  <input type="text"
-			   value={state.locality}
-			   placeholder = 'Locality'
-			  className ="mt-1 p-2 w-full rounded-full border" readOnly />
-			</div>
-			<div className="block pt-5 text-left text-gray-700">
-		
-			  <input type="text" 
-			  value={state.city}
-			  placeholder = 'City'
-			  className ="mt-1 p-2 w-full rounded-full border" readOnly />
-			</div>
-		  </div>
-		);
-	  };
 
+		const handleChange = (address, isSuggestion) => {
+			if (!address) {
+				// Si la dirección es vacía, restablecer los valores de locality y city
+				setState({
+					street: "",
+					locality: "",
+					city: "",
+				});
+			} else {
+				// Si es una sugerencia, actualiza street y activa la obtención de datos
+				if (isSuggestion) {
+					setState({ street: address }, () => {
+						handleSelect(address);
+					});
+				} else {
+					setState({ street: address });
+				}
+			}
+		};
+
+		const handleSelect = (address) => {
+			geocodeByAddress(address)
+				.then((results) => {
+					const result = results[0];
+					return Promise.all([getLatLng(result), result.address_components]);
+				})
+				.then(([latLng, addressComponents]) => {
+					setState({
+						latLng,
+						locality: extractAddressComponent(addressComponents, "locality"),
+						city: extractAddressComponent(
+							addressComponents,
+							"administrative_area_level_1"
+						),
+					});
+
+					console.log("Success", latLng, state.locality, state.city);
+					setFieldValue("address.street", state.street);
+					setFieldValue("address.city", state.city);
+					setFieldValue("address.state", state.locality);
+				})
+				.catch((error) => console.error("Error", error));
+		};
+
+		const extractAddressComponent = (addressComponents, type) => {
+			const component = addressComponents.find((comp) =>
+				comp.types.includes(type)
+			);
+			return component ? component.long_name : "";
+		};
+
+		return (
+			<div>
+				<PlacesAutocomplete
+					value={state.street}
+					onChange={(address) => handleChange(address, false)}
+					onSelect={(address) => handleSelect(address)}
+					googleCallbackName="initOne"
+				>
+					{({
+						getInputProps,
+						suggestions,
+						getSuggestionItemProps,
+						loading,
+					}) => (
+						<div className="block pt-5 text-left text-gray-700">
+							<input
+								{...getInputProps({
+									placeholder: "Street ...",
+									className: "mt-1 p-2 w-full rounded-full border",
+								})}
+							/>
+							<ErrorMessage
+								name="address.street"
+								component="div"
+								className="text-red-600 text-sm"
+							/>
+							<div className="autocomplete-dropdown-container">
+								{loading && <div>Loading...</div>}
+								{suggestions.map((suggestion) => {
+									const className = suggestion.active
+										? "suggestion-item--active"
+										: "suggestion-item";
+									const style = suggestion.active
+										? { backgroundColor: "#fafafa", cursor: "pointer" }
+										: { backgroundColor: "#ffffff", cursor: "pointer" };
+									return (
+										<div
+											{...getSuggestionItemProps(suggestion, {
+												className,
+												style,
+											})}
+										>
+											<span>{suggestion.description}</span>
+										</div>
+									);
+								})}
+							</div>
+						</div>
+					)}
+				</PlacesAutocomplete>
+
+				<div className="block pt-5 text-left text-gray-700">
+					<input
+						type="text"
+						value={state.locality}
+						placeholder="Locality"
+						className="mt-1 p-2 w-full rounded-full border"
+						readOnly
+					/>
+				</div>
+				<div className="block pt-5 text-left text-gray-700">
+					<input
+						type="text"
+						value={state.city}
+						placeholder="City"
+						className="mt-1 p-2 w-full rounded-full border"
+						readOnly
+					/>
+				</div>
+			</div>
+		);
+	};
 
 	const initialValues = {
 		title: "",
@@ -376,17 +379,15 @@ export default function CreateProperty() {
 									</div>
 									{/* DIRECCION */}
 									<div className="block pt-5 text-left text-gray-700">
-										<label
-											htmlFor="Address"
-										/>
+										<label htmlFor="Address" />
 										<p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
-										Address:
+											Address:
 										</p>
-                                          <Field
-                                       component={LocationSearchInput}
-                                       name="address"
-                                       setFieldValue={setFieldValue}
-                                       />
+										<Field
+											component={LocationSearchInput}
+											name="address"
+											setFieldValue={setFieldValue}
+										/>
 										<label htmlFor="address.state"></label>
 										<Field
 											type="text"

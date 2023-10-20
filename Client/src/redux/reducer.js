@@ -15,6 +15,7 @@ import {
 	USER_EDITED,
 	RESET_STATE,
 	PROPERTY_DAYS_EDITED,
+	USER_AUTHENTICATED
 } from "./actions_types";
 
 const initialState = {
@@ -65,6 +66,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				properties: [...payload],
 				filteredData: [...payload],
 			};
+		
+		case USER_AUTHENTICATED:
+			return {
+				...state,
+				user:payload
+			}
 
 		case CREATE_PROPERTY:
 			return {
@@ -138,6 +145,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				properties: [...propertiesFiltered, payload],
 			};
 
+
 		case PROPERTY_DAYS_EDITED:
 			const { propertyId, updatedAvailableDays } = payload;
 
@@ -200,9 +208,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			const index = state.users.indexOf(payload._id);
 			const copyUsers = state.users;
 			copyUsers.splice(index, 1, payload);
+			const userCopy = payload
 			return {
 				...state,
-				user: payload,
+				user: userCopy,
 				allUsers: copyAllUsers,
 				users: copyUsers,
 			};

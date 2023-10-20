@@ -18,9 +18,18 @@ import {
 	USER_LOGOUT,
 	RESET_STATE,
 	PROPERTY_DAYS_EDITED,
+	USER_AUTHENTICATED
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
+
+
+export const userAuthenticated = (user) => {
+	return {
+		type:USER_AUTHENTICATED,
+		payload: user
+	}
+}
 
 export const getProperty = () => {
 	return async (dispatch) => {
@@ -108,22 +117,25 @@ export const editPropertyAvailability = (propertyId, newAvailableDays) => {
 };
 
 export const userLogin = (valores) => {
-	const url = "/auth/login";
-	return async (dispatch) => {
-		try {
-			const { data } = await axios.post(url, valores);
-			const { user } = data;
-			dispatch({
-				type: USER_LOGIN,
-				payload: user,
-			});
-		} catch (error) {
-			dispatch({
-				type: ERROR,
-				payload: error.message,
-			});
-		}
-	};
+
+  const url = "http://localhost:3001/auth/login";
+
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(url, valores);
+      const { user } = data;
+      dispatch({
+        type: USER_LOGIN,
+        payload: user,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+
 };
 
 //!------- User LogOut ---------------

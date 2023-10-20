@@ -9,6 +9,14 @@ import {
 import moment from 'moment';
 import { DatePicker } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
+import {
+	LoadingOutlined,
+	SmileOutlined,
+	CreditCardOutlined,
+	HomeOutlined,
+	SolutionOutlined,
+} from '@ant-design/icons';
+import { Steps } from 'antd';
 
 function BookingDetails({ property }) {
 	const dispatch = useDispatch();
@@ -178,15 +186,17 @@ function BookingDetails({ property }) {
 							</div>
 						</div>
 						<div className='w-full flex flex-col items-end pr-8'>
-							<button
-								onClick={selectedDates ? handleBookNow : null}
-								disabled={!selectedDates}
-								className={`rounded-full text-white font-onest py-1 px-3 flex flex-col ${
-									!selectedDates ? ' bg-gray-500 ' : 'bg-blue hover:bg-cyan'
-								}`}
-							>
-								CONFIRM RESERVATION
-							</button>
+							{!isReservationVisible && (
+								<button
+									onClick={selectedDates ? handleBookNow : null}
+									disabled={!selectedDates}
+									className={`rounded-full text-white font-onest py-1 px-3 flex flex-col ${
+										!selectedDates ? ' bg-gray-500 ' : 'bg-blue hover:bg-cyan'
+									}`}
+								>
+									CONFIRM RESERVATION
+								</button>
+							)}
 						</div>
 						<div className='flex flex-col w-full p-5'>
 							{isReservationVisible && (
@@ -203,18 +213,78 @@ function BookingDetails({ property }) {
 					</div>
 				</div>
 			)}
-			<div className='flex flex-col justify-start pb-11 mr-5'>
+			{selectedDates && !isReservationVisible ? (
+				<div className='flex justify-center align-middle w-full'>
+					<Steps
+						className='w-full rounded-full p-3 font-noto font-light'
+						items={[
+							{
+								title: 'Selected',
+								status: 'finish',
+								icon: <HomeOutlined className='text-blue' />,
+							},
+							{
+								title: 'Reserve',
+								status: 'process',
+								icon: <LoadingOutlined className='text-cyan' />,
+							},
+							{
+								title: 'Pay',
+								status: 'wait',
+								icon: <CreditCardOutlined />,
+							},
+							{
+								title: 'Booked',
+								status: 'wait',
+								icon: <SmileOutlined />,
+							},
+						]}
+					/>
+				</div>
+			) : selectedDates && isReservationVisible ? (
+				<div className='flex justify-center align-middle w-full'>
+					<Steps
+						className='w-full rounded-full p-3 font-noto font-light'
+						items={[
+							{
+								title: 'Selected',
+								status: 'finish',
+								icon: <HomeOutlined className='text-blue' />,
+							},
+							{
+								title: 'Reserved',
+								status: 'finish',
+								icon: <SolutionOutlined className='text-blue' />,
+							},
+							{
+								title: 'Pay',
+								status: 'wait',
+								icon: <CreditCardOutlined className='text-cyan' />,
+							},
+							{
+								title: 'Booked',
+								status: 'wait',
+								icon: <SmileOutlined />,
+							},
+						]}
+					/>
+				</div>
+			) : (
+				<></>
+			)}
+			<div className='flex flex-col justify-start pb-11 mr-1'>
 				<Link to={`/detail/reservations/${bookingId}`}>
 					<button
 						disabled={!selectedDates}
 						className={`rounded-full font-onest flex flex-col ${
 							!selectedDates
 								? 'text-red-600 text-sm'
-								: 'text-white bg-violet hover:bg-pink py-1 px-3'
+								: 'text-white bg-violet hover:bg-pink py-1 px-10'
 						}`}
+						property={property}
 					>
 						{selectedDates
-							? 'BOOK NOW'
+							? 'CHECKOUT'
 							: 'please choose valid reservation dates'}
 					</button>
 				</Link>
