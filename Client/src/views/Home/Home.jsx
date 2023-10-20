@@ -31,6 +31,7 @@ export default function Home() {
 		page * perPage
 	);
 
+
 	useEffect(() => {
 		setPage(1);
 		setLoading(false);

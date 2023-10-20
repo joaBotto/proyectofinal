@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getAllUsers } from "../../../redux/actions";
 import Switch from "react-switch";
 import { updateUser } from "../../../redux/actions";
+import NavBarAdmin from "../NavBar/NavBarAdmin";
 
 export const AllUsers = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ export const AllUsers = () => {
 
   return (
     <div>
+      <NavBarAdmin/>
       <h1>All Users</h1>
       <table>
         <thead>
