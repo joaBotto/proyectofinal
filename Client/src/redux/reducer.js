@@ -138,6 +138,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				properties: [...propertiesFiltered, payload],
 			};
 
+
 		case PROPERTY_DAYS_EDITED:
 			const { propertyId, updatedAvailableDays } = payload;
 

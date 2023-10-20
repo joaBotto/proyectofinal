@@ -7,10 +7,11 @@ const morgan = require('morgan');
 const routes = require('./routes/index');
 const Stripe = require('stripe');
 
-const stripe = new Stripe(process.env.API_KEY_STRIPE);
+/* const stripe = new Stripe(process.env.API_KEY_STRIPE); */
 
 const passport = require('passport'); //La biblioteca de autenticación para Node.js.
 require('../middlewares/authLocal');
+require('../middlewares/google')
 const Users = require('../src/models/user');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -21,7 +22,7 @@ const storage = multer.memoryStorage(); // Almacenamiento en memoria (puedes cam
 const server = express();
 
 const corsOptions = {
-	origin: "http://localhost:3000",
+	origin: "http://localhost:3000", // Permite solicitudes desde este origen
 	methods: 'GET, POST, OPTIONS, PUT, DELETE',
 	allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Solo permite estos encabezados
 	credentials: true, // Permite enviar cookies
@@ -47,17 +48,13 @@ server.use(
 server.use(passport.initialize());
 server.use(passport.session());
 
-// CONFIGURACION DE PASSPORT.JS
-
-
-
 // CONFIGURA LOS MSJS QUE LLEGAN DE LA ESTRATEGIA
 server.use(flash());
 
 
 //back para pasarela de pagos
 server.use(express.json());
-server.post('/api/checkout', async (req, res) => {
+/* server.post('/api/checkout', async (req, res) => {
 	try {
 		const { id, amount } = req.body;
 
@@ -76,7 +73,7 @@ server.post('/api/checkout', async (req, res) => {
 	}
 });
 //back para pasarela de pagos fin
-
+ */
 server.use('/', routes);
 
 server.use((err, req, res, next) => {

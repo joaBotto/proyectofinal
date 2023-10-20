@@ -135,12 +135,12 @@ export const userLogin = (valores) => {
     try {
       const { data } = await axios.post(url, valores);
       const { user } = data;
-      dispatch({
+     return dispatch({
         type: USER_LOGIN,
         payload: user,
       });
     } catch (error) {
-      dispatch({
+      return dispatch({
         type: ERROR,
         payload: error.message,
       });
@@ -148,6 +148,8 @@ export const userLogin = (valores) => {
   };
 >>>>>>> 4a1a964 (cambios)
 };
+
+
 
 //!------- User LogOut ---------------
 export const userLogOut = () => {
