@@ -6,6 +6,7 @@ import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/Cards";
 import { FadeLoader } from "react-spinners";
 import { getProperty } from "../../redux/actions";
+import { userAuthenticated } from "../../redux/actions";
 import axios from 'axios'
 
 export default function Home() {
@@ -22,8 +23,10 @@ export default function Home() {
 	useEffect(() => {
 		axios.get("http://localhost:3001/auth/user", { withCredentials: true })
 		.then((response) => {
-			const user = response.data
-			console.log("RODRIGO", user)
+			const user = response.data.user
+			if (user) {
+				dispatch(userAuthenticated(user))
+			}
 		})
 		.catch((error) => {
 			window.alert(error.message)
