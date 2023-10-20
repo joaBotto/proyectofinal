@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationDot,
@@ -27,10 +27,10 @@ const Card = ({
   area,
 }) => {
   const dispatch = useDispatch();
-  const [isSaved, setIsSaved] = useState(false);
+  const savedProperty = useSelector((state) => state.savedProperties);
 
   const handleSaveClick = () => {
-    if (!isSaved) {
+    if (!savedProperty.find(property => property._id === _id)) {
       // Dispatch the action to add the property to the saved list
       console.log("Agregando a favoritos", _id);
       dispatch(addPropertyToSaved(_id));
@@ -38,27 +38,10 @@ const Card = ({
       console.log("Eliminando de favoritos", _id);
       dispatch(removePropertyFromSaved(_id));
     }
-    setIsSaved(!isSaved); // Toggle the state
-   
   };
-  useEffect(() => {
-    console.log("isSaved ahora es:", isSaved);
-  }, [isSaved]);
-
-  /*   const handleSaveClick = () => {
-    // Dispatch the action to add the property to the saved list
-    console.log("adding saved", {
-      _id,
-    });
-    dispatch(
-      addPropertyToSaved({
-        _id,
-      })
-    );
-  }; */
 
   const heartClasses = `text-blue border-red-400 `;
-  const isSavedClass = isSaved ? "text-cyan" : "";
+  const isSavedClass = savedProperty.find(property => property._id === _id) ? "text-cyan" : "";
 
   const combinedClasses = `${heartClasses} ${isSavedClass}`;
 
