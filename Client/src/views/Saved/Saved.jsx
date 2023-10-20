@@ -4,18 +4,18 @@ import Cards from "../../components/Cards/Cards";
 import { updateUser } from "../../redux/actions";
 
 function SavedProperties() {
-  const savedProperty = useSelector((state) => state.savedProperties);
+  const user = useSelector((state) => state.user);
 
-  console.log("savedProperty:", savedProperty);
+  console.log("savedProperty:", user.savedProperties);
 
   return (
     <div>
       <h2>My Favorites</h2>
-      {savedProperty.length === 0 ? (
+      {user.savedProperties.length === 0 ? (
         <p>No properties in your favorites.</p>
       ) : (
         <div className="p-4">
-			<Cards properties={savedProperty} />
+			<Cards properties={user.savedProperties} />
         </div>
       )}
     </div>

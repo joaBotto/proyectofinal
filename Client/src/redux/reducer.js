@@ -225,6 +225,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         savedProperties: [...state.savedProperties, propertyToAdd],
+        user: {
+          ...state.user,
+          savedProperties: [...state.user.savedProperties, propertyToAdd],
+        },
       };
 
     case REMOVE_FROM_SAVED:
@@ -236,6 +240,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         savedProperties: updatedSavedProperties,
+        user: { ...state.user, savedProperties: updatedSavedProperties },
       };
 
     /* 	  case SAVE_PROPERTY:

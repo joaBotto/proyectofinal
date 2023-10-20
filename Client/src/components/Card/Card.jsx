@@ -13,6 +13,7 @@ import ImageCarousel from "./ImageCarousel";
 import {
   addPropertyToSaved,
   removePropertyFromSaved,
+  updateUser,
 } from "../../redux/actions";
 
 const Card = ({
@@ -28,15 +29,20 @@ const Card = ({
 }) => {
   const dispatch = useDispatch();
   const savedProperty = useSelector((state) => state.savedProperties);
+  const user = useSelector((state)=> state.user)
 
   const handleSaveClick = () => {
     if (!savedProperty.find(property => property._id === _id)) {
       // Dispatch the action to add the property to the saved list
       console.log("Agregando a favoritos", _id);
       dispatch(addPropertyToSaved(_id));
+      const userEdited = {...user, savedProperties:[...savedProperty]}
+      dispatch(updateUser(userEdited))
     } else {
       console.log("Eliminando de favoritos", _id);
       dispatch(removePropertyFromSaved(_id));
+      const userEdited = {...user, savedProperties:[...savedProperty]}
+      dispatch(updateUser(userEdited))
     }
   };
 
