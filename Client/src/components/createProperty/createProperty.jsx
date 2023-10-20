@@ -223,7 +223,7 @@ export default function CreateProperty() {
 		},
 	};
 
-	const handleSubmit = async (values, { setSubmitting }) => {
+	const handleSubmit = async (values, { setSubmitting },) => {
 		const {
 			title,
 			additional,
@@ -256,7 +256,7 @@ export default function CreateProperty() {
 			await dispatch(createProperty(newProperty));
 			setTimeout(() => {
 				navigate("/");
-			}, 7000);
+			}, 6000);
 		} catch (error) {
 			console.error("Error creating property:", error);
 		} finally {
