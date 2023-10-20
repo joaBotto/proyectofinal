@@ -27,13 +27,10 @@ const CheckoutForm = () => {
 			const { id } = paymentMethod;
 
 			try {
-				const { data } = await axios.post(
-					'/api/checkout',
-					{
-						id,
-						amount: 10000,
-					}
-				);
+				const { data } = await axios.post('/api/checkout', {
+					id,
+					amount: 10000,
+				});
 				console.log(data);
 
 				elements.getElement(CardElement).clear();
