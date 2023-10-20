@@ -69,46 +69,22 @@ router.get("/logout", (req, res) => {
   }
 });
 //!--------------- ruta para envio de email -------------------------------------
-// router.post("/auth/login/:email/code", (req, res) => {
-//   const { email } = req.params;
-//   const user = {
-//     email,
-//     active: true,
-//   };
-//   enviarCorreoConfirmacion(user.email);
-//   res.status(200).json({
-//     message: "Registered user successfully! Your account is active!",
-//   });
-// });
+router.post("/auth/login/:email/code", (req, res) => {
+  const { email } = req.params;
+  const user = {
+    email,
+    active: true,
+  };
 
-// async function enviarCorreoConfirmacion(email) {
-//   const transporter = nodemailer.createTransport({
-//     host: "smtp-mail.outlook.com",
-//     port: 587,
-//     secure: false,
-//     auth: {
-//       user: "inmuebles360henry@hotmail.com",
-//       pass: "Inmuebles.360",
-//     },
-//   });
-//   const mailOptions = {
-//     from: process.env.EMAIL,
-//     to: email,
-//     subject: "Successfully register",
-//     body: "¡Thanks for register on Inmuebles360!",
-//   };
-//   const result = transporter.sendMail(mailOptions, (error, info) => {
-//     if (error) {
-//       console.log("Error al enviar el correo de confirmacion: ", error);
-//     } else {
-//       console.log("Correo de confirmacion enviado: ", info.response);
-//     }
-//     console.log({ result });
-//   });
-// }
-router.post("/auth/login/:email/code", async function (req, res) {
+  enviarCorreoConfirmacion(user.email);
+  res.status(200).json({
+    message: "Registered user successfully! Your account is active!",
+  });
+});
+
+async function enviarCorreoConfirmacion(email) {
   const transporter = nodemailer.createTransport({
-    host: "smtp.ofice365.com",
+    host: "smtp-mail.outlook.com",
     port: 587,
     secure: false,
     auth: {
@@ -116,15 +92,20 @@ router.post("/auth/login/:email/code", async function (req, res) {
       pass: process.env.PASSWORD,
     },
   });
-  const { email } = req.params;
-  const result = await transporter.sendMail({
+
+  const mailOptions = {
     from: process.env.EMAIL,
     to: email,
-    subject: "Thanks for register on Inmuebles360!",
-    body: "Register successfully!",
-  });
-  console.log({ result });
-  res.status(200).json({ ok: true, message: "You are now registered on i360" });
-});
+    subject: "Successfully register",
+    body: "¡Thanks for register on Inmuebles360!",
+  };
+  try {
+    console.log(process.env.EMAIL);
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Correo de confirmación enviado: ", info.response);
+  } catch (error) {
+    console.log("Error al enviar el correo de confirmación: ", error);
+  }
+}
 //!--------------------------------------------------------------------------------
 module.exports = router;
