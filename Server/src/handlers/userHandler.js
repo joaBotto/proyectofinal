@@ -10,7 +10,7 @@ const createUserHandler = async (req, res) => {
   password,
   name,
   lastName,
-  images,
+  image,
   country,
   city,
   address,
@@ -21,7 +21,7 @@ const createUserHandler = async (req, res) => {
   password,
   name,
   lastName,
-  images,
+  image,
   country,
   city,
   address,
@@ -37,7 +37,7 @@ const createUserHandler = async (req, res) => {
     city &&
     address &&
     phoneNumber
-    && images
+    && image
     ) {
     const newUser = await creatingUser(user);
     console.log("Usuario creado con éxito:", newUser);
@@ -73,7 +73,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
-      images,
+      image,
 			country,
 			city,
 			address,
@@ -90,7 +90,7 @@ const editUserHandler = async (req, res) => {
 			password,
 			name,
 			lastName,
-      images,
+      image,
 			country,
 			city,
 			address,
