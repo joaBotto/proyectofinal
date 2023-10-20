@@ -6,6 +6,7 @@ import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/Cards";
 import { FadeLoader } from "react-spinners";
 import { getProperty } from "../../redux/actions";
+import axios from 'axios'
 
 export default function Home() {
 	const dispatch = useDispatch();
@@ -17,6 +18,17 @@ export default function Home() {
 	useEffect(() => {
 		dispatch(getProperty());
 	}, [dispatch]);
+
+	useEffect(() => {
+		axios.get("http://localhost:3001/auth/user", { withCredentials: true })
+		.then((response) => {
+			const user = response.data
+			console.log("RODRIGO", user)
+		})
+		.catch((error) => {
+			window.alert(error.message)
+		})
+	}, [])
 
 	console.log("soy el user en home", user);
 	console.log("Soy prop en el home", properties);
