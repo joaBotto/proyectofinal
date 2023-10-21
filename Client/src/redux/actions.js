@@ -18,6 +18,8 @@ import {
 	USER_LOGOUT,
 	RESET_STATE,
 	PROPERTY_DAYS_EDITED,
+	SEARCH_BY_QUERY,
+	SET_SEARCH_QUERY,
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
@@ -47,6 +49,22 @@ export const getPropertyDetail = (id) => async (dispatch) => {
 	} catch (error) {
 		return dispatch({ type: ERROR, payload: error.message });
 	}
+};
+
+export const searchByQuery = (search) => {
+	return {
+		type: SEARCH_BY_QUERY,
+		payload: search.toLowerCase(),
+	};
+};
+
+export const setSearchQuery = (query) => {
+	return (dispatch) => {
+		dispatch({
+			type: SET_SEARCH_QUERY,
+			payload: query,
+		});
+	};
 };
 
 export const cleanDetail = () => {
@@ -108,25 +126,23 @@ export const editPropertyAvailability = (propertyId, newAvailableDays) => {
 };
 
 export const userLogin = (valores) => {
+	const url = "http://localhost:3001/auth/login";
 
-  const url = "http://localhost:3001/auth/login";
-
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.post(url, valores);
-      const { user } = data;
-      dispatch({
-        type: USER_LOGIN,
-        payload: user,
-      });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
-  };
-
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.post(url, valores);
+			const { user } = data;
+			dispatch({
+				type: USER_LOGIN,
+				payload: user,
+			});
+		} catch (error) {
+			dispatch({
+				type: ERROR,
+				payload: error.message,
+			});
+		}
+	};
 };
 
 //!------- User LogOut ---------------

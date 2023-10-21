@@ -15,6 +15,8 @@ import {
 	USER_EDITED,
 	RESET_STATE,
 	PROPERTY_DAYS_EDITED,
+	SEARCH_BY_QUERY,
+	SET_SEARCH_QUERY,
 } from "./actions_types";
 
 const initialState = {
@@ -23,7 +25,7 @@ const initialState = {
 	properties: [],
 	allproperties: [],
 	propertyDetail: {},
-	searchTerm: "",
+	searchQuery: "",
 	bookings: [],
 	allBookings: [],
 	bookingDetail: {},
@@ -64,6 +66,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				allproperties: [...payload],
 				properties: [...payload],
 				filteredData: [...payload],
+			};
+
+		case SEARCH_BY_QUERY:
+			const titleToSearch = payload.toLowerCase();
+			const filterByQuery = state.allproperties.filter((property) => {
+				return property.title.toLowerCase().includes(titleToSearch);
+			});
+			return {
+				...state,
+				properties: filterByQuery,
+			};
+
+		case SET_SEARCH_QUERY:
+			return {
+				...state,
+				searchQuery: payload,
+				properties: payload,
 			};
 
 		case CREATE_PROPERTY:
@@ -138,7 +157,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				properties: [...propertiesFiltered, payload],
 			};
 
-
 		case PROPERTY_DAYS_EDITED:
 			const { propertyId, updatedAvailableDays } = payload;
 
@@ -201,7 +219,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			const index = state.users.indexOf(payload._id);
 			const copyUsers = state.users;
 			copyUsers.splice(index, 1, payload);
-			const userCopy = payload
+			const userCopy = payload;
 			return {
 				...state,
 				user: userCopy,

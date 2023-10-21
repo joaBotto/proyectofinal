@@ -4,8 +4,9 @@ import Footer from "../../components/Footer/Footer";
 import Container from "@mui/material/Container";
 import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/Cards";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import { FadeLoader } from "react-spinners";
-import { getProperty } from "../../redux/actions";
+import { getProperty, searchByQuery } from "../../redux/actions";
 
 export default function Home() {
 	const dispatch = useDispatch();
@@ -31,7 +32,6 @@ export default function Home() {
 		page * perPage
 	);
 
-
 	useEffect(() => {
 		setPage(1);
 		setLoading(false);
@@ -47,6 +47,15 @@ export default function Home() {
 			clearTimeout(errorTimeout); // Clear the timeout on unmount
 		};
 	}, [properties]);
+
+	//Search By Query
+	const searchQuery = useSelector((state) => state.searchQuery);
+	useEffect(() => {
+		if (searchQuery) {
+			dispatch(searchByQuery(searchQuery));
+		}
+		setLoading(false);
+	}, [searchQuery, dispatch, setLoading]);
 
 	return (
 		<div className="mt-5 mx-0">
@@ -72,6 +81,7 @@ export default function Home() {
 					<p className="absolute text-lg font-bold text-white mt-6 top-[320px] left-7 font-onest">
 						+400 HAPPY CUSTOMERS
 					</p>
+					<SearchBar />
 					<Paginado
 						page={page}
 						setPage={setPage}
@@ -79,7 +89,7 @@ export default function Home() {
 						products={properties}
 					/>
 					<div className="p-4">
-						<Cards properties={currentPageData} />
+						<Cards properties={currentPageData} searchQuery={searchQuery} />
 					</div>
 					<Container className="flex justify-center bg-white rounded-full p-4 shadow-md">
 						<Paginado
