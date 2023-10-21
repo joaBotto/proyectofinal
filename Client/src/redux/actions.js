@@ -20,9 +20,17 @@ import {
 	PROPERTY_DAYS_EDITED,
 	SEARCH_BY_QUERY,
 	SET_SEARCH_QUERY,
+	USER_AUTHENTICATED,
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
+
+export const userAuthenticated = (user) => {
+	return {
+		type: USER_AUTHENTICATED,
+		payload: user,
+	};
+};
 
 export const getProperty = () => {
 	return async (dispatch) => {

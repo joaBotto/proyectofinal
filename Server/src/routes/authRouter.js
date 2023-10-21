@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const authRouter = Router();
 const passport = require("passport");
+const ensureAuthenticated = require('../../middlewares/ensureAuthenticated')
 
 
 
@@ -34,7 +35,7 @@ authRouter.get("/google/callback", passport.authenticate("auth-google", {
   res.redirect("http://localhost:3000");
 });
 
-authRouter.get("/user", (req,res) => {
+authRouter.get("/user", ensureAuthenticated, (req,res) => {
   const user = req.user
   console.log(user)
   res.status(200).json({user})

@@ -17,6 +17,7 @@ import {
 	PROPERTY_DAYS_EDITED,
 	SEARCH_BY_QUERY,
 	SET_SEARCH_QUERY,
+	USER_AUTHENTICATED,
 } from "./actions_types";
 
 const initialState = {
@@ -66,6 +67,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				allproperties: [...payload],
 				properties: [...payload],
 				filteredData: [...payload],
+			};
+
+		case USER_AUTHENTICATED:
+			return {
+				...state,
+				user: payload,
 			};
 
 		case SEARCH_BY_QUERY:
