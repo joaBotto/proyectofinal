@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios'
 
 export default function Login() {
   let regExPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9/*-]{1,15}$/;
@@ -18,9 +19,17 @@ export default function Login() {
   const userCreated = useSelector((state) => state.userCreated);
   // console.log(user);
   // console.log(userCreated);
-  const handleSubmit = (valores) => {
+  const handleSubmit = async (valores) => {
     console.log(valores);
-    dispatch(userLogin(valores));
+    /* dispatch(userLogin(valores)); */
+    await axios.post('http://localhost:3001/auth/login', valores, { withCredentials: true })
+    .then(response => {
+      console.log('Respuesta del servidor:', response);
+      console.log('Datos recibidos:', response.data);
+    })
+    .catch(error => {
+      console.error('Error al realizar la solicitud:', error);
+    });
   };
 
   const handleGoogle = () => {
