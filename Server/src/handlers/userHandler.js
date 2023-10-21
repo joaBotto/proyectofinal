@@ -103,6 +103,7 @@ const editUserHandler = async (req, res) => {
 			createdAt,
 			__v
 		 }
+    console.log("soysaveeeehandler",savedProperties)
 		console.log("soyuserhandler",user)
 		const userEdited = await editUser(user);
     console.log("soyuserEditedxd",userEdited)

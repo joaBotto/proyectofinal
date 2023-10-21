@@ -30,19 +30,33 @@ const Card = ({
   const dispatch = useDispatch();
   const savedProperty = useSelector((state) => state.savedProperties);
   const user = useSelector((state)=> state.user)
+  const allproperties = useSelector((state)=> state.allproperties)
+
 
   const handleSaveClick = () => {
-    if (!savedProperty.find(property => property._id === _id)) {
-      // Dispatch the action to add the property to the saved list
-      console.log("Agregando a favoritos", _id);
-      dispatch(addPropertyToSaved(_id));
-      const userEdited = {...user, savedProperties:[...savedProperty]}
-      dispatch(updateUser(userEdited))
+    if (!savedProperty.find((property) => property._id === _id)) {
+      // Buscar el objeto en allproperties por _id
+      const propertyToAdd = allproperties.find((property) => property._id === _id);
+
+      if (propertyToAdd) {
+        // Dispatch the action to add the property to the saved list
+        console.log("Agregando a favoritos", _id);
+        dispatch(addPropertyToSaved(_id));
+
+        // Agregar el objeto al usuario
+        const userEdited = { ...user, savedProperties: [...user.savedProperties, propertyToAdd] };
+        dispatch(updateUser(userEdited));
+      }
     } else {
       console.log("Eliminando de favoritos", _id);
       dispatch(removePropertyFromSaved(_id));
-      const userEdited = {...user, savedProperties:[...savedProperty]}
-      dispatch(updateUser(userEdited))
+
+      // Actualizar el usuario sin el objeto eliminado
+      const userEdited = {
+        ...user,
+        savedProperties: user.savedProperties.filter((property) => property._id !== _id),
+      };
+      dispatch(updateUser(userEdited));
     }
   };
 

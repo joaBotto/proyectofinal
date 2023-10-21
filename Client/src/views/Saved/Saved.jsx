@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Cards from "../../components/Cards/Cards";
-import { updateUser } from "../../redux/actions";
+//import { updateUser } from "../../redux/actions";
 
 function SavedProperties() {
   const user = useSelector((state) => state.user);
