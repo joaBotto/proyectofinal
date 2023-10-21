@@ -273,7 +273,7 @@ function BookingDetails({ property }) {
 				<></>
 			)}
 			<div className='flex flex-col justify-start pb-11 mr-1'>
-				<Link to={`/detail/reservations/${bookingId}`}>
+				<Link to={'/checkout'}>
 					<button
 						disabled={!selectedDates}
 						className={`rounded-full font-onest flex flex-col ${

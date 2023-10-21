@@ -43,6 +43,7 @@ const CheckoutForm = () => {
 	return (
 		<div className='w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg text-center'>
 			<h1 className='text-2xl font-semibold mb-4'>Pasarela de Pagos</h1>
+			<h2>Hola</h2>
 			<form onSubmit={handleSubmit}>
 				<div className='mb-4'>
 					<CardElement
