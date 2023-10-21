@@ -118,7 +118,7 @@ export const editPropertyAvailability = (propertyId, newAvailableDays) => {
 
 export const userLogin = (valores) => {
 
-  const url = "http://localhost:3001/auth/login";
+  const url = "/auth/login";
 
   return async (dispatch) => {
     try {
