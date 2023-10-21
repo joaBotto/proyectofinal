@@ -37,7 +37,7 @@ function App() {
 				<Route path='/detail/:id' element={<Detail />} />
 				<Route path='/signUp' element={<SignUpForm />} />
 				<Route path='/error404' element={<Error404 />} />
-				<Route path='/detail/:id/reservations' element={<Reservations />} />
+				<Route path='/detail/reservations/:id' element={<Reservations />} />
 				<Route path='/postUser' element={<Postuser />} />
 				<Route path='/checkout' element={<PaymentForm />} />
 				<Route path='/gestionUser' element={<GestionUser />} />

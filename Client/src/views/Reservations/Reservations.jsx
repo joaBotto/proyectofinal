@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getBooking } from '../../redux/actions'; // Assuming getBooking is used for retrieving a single booking
+import { getBooking } from '../../redux/actions'; // Suponiendo que getBooking se usa para recuperar una sola reserva
 import { useParams } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar';
 import { FadeLoader } from 'react-spinners';
+import PaymentForm from '../../components/PaymentForm/PaymentForm';
 
 function Reservations() {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const booking = useSelector((state) => state.bookingDetail);
+
+	console.log(booking);
 
 	useEffect(() => {
 		dispatch(getBooking(id));
@@ -42,6 +45,7 @@ function Reservations() {
 					<FadeLoader color='#54086B' />
 				</div>
 			)}
+			{booking.totalAmount && <PaymentForm totalAmount={booking.totalAmount} />}
 		</div>
 	);
 }

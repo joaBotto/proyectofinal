@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 import {
 	Elements,
 	CardElement,
@@ -12,7 +14,8 @@ const stripePromise = loadStripe(
 	'pk_test_51O05j9I6gYqlkFFnCH6Jn4JTYyyzAGAZ8fZk2KDKUGzwTTMQ20XhGGuGp7DnkOXLPESmkC5PGBoxHO9MyMyS8KOZ00ld8wpuns'
 );
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ totalAmount }) => {
+	console.log(totalAmount);
 	const stripe = useStripe();
 	const elements = useElements();
 
@@ -29,7 +32,7 @@ const CheckoutForm = () => {
 			try {
 				const { data } = await axios.post('/api/checkout', {
 					id,
-					amount: 10000,
+					amount: totalAmount * 100,
 				});
 				console.log(data);
 
@@ -43,7 +46,8 @@ const CheckoutForm = () => {
 	return (
 		<div className='w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg text-center'>
 			<h1 className='text-2xl font-semibold mb-4'>Pasarela de Pagos</h1>
-			<h2>Hola</h2>
+			<h2>USD: {totalAmount}</h2>
+
 			<form onSubmit={handleSubmit}>
 				<div className='mb-4'>
 					<CardElement
@@ -75,10 +79,10 @@ const CheckoutForm = () => {
 	);
 };
 
-const PaymentForm = () => {
+const PaymentForm = ({ totalAmount }) => {
 	return (
 		<Elements stripe={stripePromise}>
-			<CheckoutForm />
+			<CheckoutForm totalAmount={totalAmount} />
 		</Elements>
 	);
 };
