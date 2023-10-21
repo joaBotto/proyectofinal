@@ -78,7 +78,10 @@ const CheckoutForm = () => {
 };
 
 const PaymentForm = () => {
+	// const booking = useSelector((state) => state.bookingDetail.totalAmount);
+
 	return (
+	
 		<Elements stripe={stripePromise}>
 			<CheckoutForm />
 		</Elements>
