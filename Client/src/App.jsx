@@ -30,6 +30,7 @@ function App() {
 			{location.pathname === '/' && <NavBar />}
 			{location.pathname === '/postUser' && <NavBarAdmin />}
 
+
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/login' element={<Login />} />
@@ -50,6 +51,7 @@ function App() {
 			</Routes>
 		</div>
 	);
+
 }
 export default App;
 
