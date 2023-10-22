@@ -99,6 +99,8 @@ server.post('/api/checkout', async (req, res) => {
 });
 //back para pasarela de pagos fin
 
+
+
 server.use('/', routes);
 
 server.use((err, req, res, next) => {

@@ -57,4 +57,19 @@ authRouter.post("/login", passport.authenticate("local", {
 }));
 
 
+/* router.get("/logout", (req, res) => {
+  if (req.isAuthenticated()) {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error al cerrar la sesión");
+      }
+      return res.status(200).send("La sesión se ha cerrado correctamente");
+    });
+  } else {
+    return res.status(401).send("No estás autenticado");
+  }
+}); */
+
+
 module.exports = { authRouter };
