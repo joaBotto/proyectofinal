@@ -19,17 +19,9 @@ export default function Login() {
   const userCreated = useSelector((state) => state.userCreated);
   // console.log(user);
   // console.log(userCreated);
-  const handleSubmit = async (valores) => {
+  const handleSubmit = (valores) => {
     console.log(valores);
-    /* dispatch(userLogin(valores)); */
-    await axios.post('http://localhost:3001/auth/login', valores, { withCredentials: true })
-    .then(response => {
-      console.log('Respuesta del servidor:', response);
-      console.log('Datos recibidos:', response.data);
-    })
-    .catch(error => {
-      console.error('Error al realizar la solicitud:', error);
-    });
+    dispatch(userLogin(valores));
   };
 
   const handleGoogle = () => {

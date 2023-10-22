@@ -74,7 +74,7 @@ const NavBar = () => {
             </a>
           </Link>
           {user && user.role === "admin" && (
-            <Link to="/loginadmin">
+            <Link to="/admin">
               <a className="font-onest font-black text-blue hover:text-white hover:underline mr-10 pr-10">
                 DASHBOARD
               </a>

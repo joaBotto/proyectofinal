@@ -5,7 +5,7 @@ const ensureAuthenticated = require('../../middlewares/ensureAuthenticated')
 
 
 
-/* authRouter.post("/login", (req, res, next) => {
+authRouter.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return res.status(500).json({ error: 'Error en el servidor' });
@@ -24,7 +24,7 @@ const ensureAuthenticated = require('../../middlewares/ensureAuthenticated')
     });
   })(req, res, next);
 });
- */
+
 
 /* authRouter.post("/login", passport.authenticate("local", {
   failureRedirect: "http://localhost:3000/login",
