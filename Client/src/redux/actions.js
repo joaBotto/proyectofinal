@@ -21,6 +21,7 @@ import {
 	SEARCH_BY_QUERY,
 	SET_SEARCH_QUERY,
 	USER_AUTHENTICATED,
+	CLEAR_SEARCH,
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
@@ -292,6 +293,12 @@ export const getAllUsers = () => {
 				payload: error.message,
 			});
 		}
+	};
+};
+
+export const clearSearch = () => {
+	return {
+		type: CLEAR_SEARCH,
 	};
 };
 

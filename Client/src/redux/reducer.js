@@ -18,6 +18,7 @@ import {
 	SEARCH_BY_QUERY,
 	SET_SEARCH_QUERY,
 	USER_AUTHENTICATED,
+	CLEAR_SEARCH,
 } from "./actions_types";
 
 const initialState = {
@@ -76,13 +77,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case SEARCH_BY_QUERY:
-			const titleToSearch = payload.toLowerCase();
-			const filterByQuery = state.allproperties.filter((property) => {
-				return property.title.toLowerCase().includes(titleToSearch);
+			const search = payload.toLowerCase();
+			const filterByQuery = state.searchQuery
+				? state.properties
+				: state.allproperties;
+			const filteredByQuery = filterByQuery.filter((property) => {
+				return property.title.toLowerCase().includes(search);
 			});
 			return {
 				...state,
-				properties: filterByQuery,
+				properties: filteredByQuery,
 			};
 
 		case SET_SEARCH_QUERY:
@@ -90,6 +94,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				searchQuery: payload,
 				properties: payload,
+			};
+
+		case CLEAR_SEARCH:
+			return {
+				...state,
+				searchQuery: "",
+				properties: state.allproperties,
 			};
 
 		case CREATE_PROPERTY:

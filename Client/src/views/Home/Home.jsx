@@ -7,7 +7,6 @@ import Cards from "../../components/Cards/Cards";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { FadeLoader } from "react-spinners";
 import { getProperty, searchByQuery } from "../../redux/actions";
-import { getProperty } from "../../redux/actions";
 import { userAuthenticated } from "../../redux/actions";
 import axios from "axios";
 
@@ -15,12 +14,18 @@ export default function Home() {
 	const dispatch = useDispatch();
 	const properties = useSelector((state) => state.properties);
 	const user = useSelector((state) => state.user);
+	const searchQuery = useSelector((state) => state.searchQuery);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
+	const [noResults, setNoResults] = useState(false);
 
 	useEffect(() => {
-		dispatch(getProperty());
-	}, [dispatch]);
+		if (searchQuery) {
+			dispatch(searchByQuery(searchQuery));
+		} else {
+			dispatch(getProperty());
+		}
+	}, [dispatch, searchQuery]);
 
 	useEffect(() => {
 		axios
@@ -53,38 +58,41 @@ export default function Home() {
 		setPage(1);
 		setLoading(false);
 
-		// Set an error if there are no active properties after 5 seconds
 		const errorTimeout = setTimeout(() => {
 			if (activeProperties.length === 0) {
-				setError(true);
+				setNoResults(true);
+				setLoading(false);
 			}
-		}, 5000);
+		}, 3000);
 
 		return () => {
-			clearTimeout(errorTimeout); // Clear the timeout on unmount
+			clearTimeout(errorTimeout);
 		};
 	}, [properties]);
 
-	//Search By Query
-	const searchQuery = useSelector((state) => state.searchQuery);
-	useEffect(() => {
-		if (searchQuery) {
-			dispatch(searchByQuery(searchQuery));
-		}
-		setLoading(false);
-	}, [searchQuery, dispatch, setLoading]);
-
 	return (
 		<div className="mt-5 mx-0">
+			<div className="w-full absolute top-[400px] flex xl:justify-center md:ml-3">
+				<SearchBar />
+			</div>
 			{loading ? (
 				<div className="flex justify-center items-center h-screen">
 					<FadeLoader color="#54086B" />
 				</div>
-			) : error ? (
+			) : noResults ? (
 				<div className="flex justify-center items-center h-screen">
 					<h1 className="text-3xl font-bold text-violet">
 						There are no active properties
 					</h1>
+					<button
+						onClick={() => {
+							setNoResults(false);
+							dispatch(getProperty());
+						}}
+						className="text-cyan hover:underline"
+					>
+						Show all properties
+					</button>
 				</div>
 			) : (
 				<div className="mt-5 mx-0">
@@ -98,23 +106,31 @@ export default function Home() {
 					<p className="absolute text-lg font-bold text-white mt-6 top-[320px] left-7 font-onest">
 						+400 HAPPY CUSTOMERS
 					</p>
-					<SearchBar />
-					<Paginado
-						page={page}
-						setPage={setPage}
-						maxPage={maxPage}
-						products={properties}
-					/>
-					<div className="p-4">
-						<Cards properties={currentPageData} searchQuery={searchQuery} />
-					</div>
-					<Container className="flex justify-center bg-white rounded-full p-4 shadow-md">
+					<div className="">
 						<Paginado
 							page={page}
 							setPage={setPage}
 							maxPage={maxPage}
 							products={properties}
 						/>
+					</div>
+					<div className="p-4">
+						<Cards properties={currentPageData} searchQuery={searchQuery} />
+					</div>
+					<Container className="flex flex-row mb-3 justify-center">
+						<Paginado
+							page={page}
+							setPage={setPage}
+							maxPage={maxPage}
+							products={properties}
+						/>
+						<p className="my-4 font-noto text-blue flex justify-center text-sm space-x-1">
+							<p> Showing </p>{" "}
+							<p className="font-black"> {currentPageData.length} </p>{" "}
+							<p> out of </p>
+							<p className="font-black">{activeProperties.length}</p>
+							<p>total properties</p>
+						</p>
 					</Container>
 					<div className="p-0">
 						<Footer />
