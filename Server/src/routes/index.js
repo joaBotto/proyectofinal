@@ -11,6 +11,7 @@ const { usersRouter } = require("./usersRouter");
 const { authRouter } = require("./authRouter");
 const { bookingsRouter } = require("./bookingsRouter.js");
 
+
 const storage = multer.memoryStorage(); // Almacenamiento en memoria (puedes cambiarlo para guardar en disco si lo prefieres)
 const upload = multer({
   storage: storage, // Utiliza el almacenamiento en memoria
@@ -55,19 +56,9 @@ router.use("/properties", propertiesRouter); // ruta_backend/properties -> Te ll
 router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de users
 router.use("/bookings", bookingsRouter);
 
-router.get("/logout", (req, res) => {
-  if (req.isAuthenticated()) {
-    req.session.destroy((err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send("Error al cerrar la sesión");
-      }
-      return res.status(200).send("La sesión se ha cerrado correctamente");
-    });
-  } else {
-    return res.status(401).send("No estás autenticado");
-  }
-});
+
+
+
 //!--------------- ruta para envio de email -------------------------------------
 router.post("/auth/login/:email/code", (req, res) => {
   const { email } = req.params;

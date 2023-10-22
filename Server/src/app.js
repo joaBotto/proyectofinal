@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const routes = require('./routes/index');
+require('./scheduled tasks/sendEmailAtTheEndOfTheReservation.js')
 const Stripe = require('stripe');
 
 const stripe = new Stripe(process.env.API_KEY_STRIPE);
@@ -98,6 +99,8 @@ server.post('/api/checkout', async (req, res) => {
 	}
 });
 //back para pasarela de pagos fin
+
+
 
 server.use('/', routes);
 
