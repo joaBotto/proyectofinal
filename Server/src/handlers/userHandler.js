@@ -1,7 +1,7 @@
 //aca importar los controllers ya hechos, y hacer las funciones handlers de cada peticion, con async await + try catch
 const creatingUser = require("../controllers/creatingUser");
-const getAllUsers = require('../controllers/getUsers');
-const editUser = require('../controllers/editUser')
+const getAllUsers = require("../controllers/getUsers");
+const editUser = require("../controllers/editUser");
 
 const createUserHandler = async (req, res) => {
   try {
@@ -39,24 +39,23 @@ const createUserHandler = async (req, res) => {
     phoneNumber
     && image
     ) {
-    const newUser = await creatingUser(user);
-    console.log("Usuario creado con éxito:", newUser);
-    return res.status(201).json(newUser);
+      const newUser = await creatingUser(user);
+      console.log("Usuario creado con éxito:", newUser);
+      return res.status(201).json(newUser);
     } else {
-    console.error("Falta información en la solicitud.");
-    return res.status(400).json({ error: "missing data" });
+      console.error("Falta información en la solicitud.");
+      return res.status(400).json({ error: "missing data" });
     }
-    } catch (error) {
+  } catch (error) {
     console.error("Error en la creación de usuario:", error);
     return res.status(500).json({ error: error.message });
-       }
-    };
-
+  }
+};
 
 const getAllUsersHandlers = async (req, res) => {
   try {
     const allUsers = await getAllUsers();
-    console.log("soy allusers", allUsers)
+    console.log("soy allusers", allUsers);
     if (allUsers) {
       return res.status(200).json(allUsers);
     }
@@ -66,6 +65,7 @@ const getAllUsersHandlers = async (req, res) => {
 };
 
 const editUserHandler = async (req, res) => {
+
 	try {
 		const {
 			_id,
@@ -97,17 +97,17 @@ const editUserHandler = async (req, res) => {
 			phoneNumber,
 			properties,
       active,
-      role, 
-			createdAt,
-			__v
-		 }
-		console.log("soyuserhandler",user)
-		const userEdited = await editUser(user);
-    console.log("soyuserEditedxd",userEdited)
-		return res.status(200).json(userEdited)
-	} catch (error) {
-		return res.status(500).json({ error: error.message });
-	}
-}
+      role,
+      createdAt,
+      __v,
+    };
+    console.log("soyuserhandler", user);
+    const userEdited = await editUser(user);
+    console.log("soyuserEditedxd", userEdited);
+    return res.status(200).json(userEdited);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = { createUserHandler, getAllUsersHandlers, editUserHandler };
