@@ -18,13 +18,21 @@ try {
     email:profile.emails[0].value,
     name:`${profile.name.givenName}`,
     lastName:`${profile.name.familyName}`,
-    image:profile.photos[0].value
+    image:profile.photos[0].value,
+    role:"user",
+    active: true
 }
 console.log("soy user de google", userGoogle)
 let user = await Users.findOne({ email:profile.emails[0].value});
+
 if (!user) {
   user = await Users.create(userGoogle);
 }
+
+if (user.active === false) {
+  done(null, false)
+}
+
 console.log("soy userRegister", user)
 done(null, user)
 

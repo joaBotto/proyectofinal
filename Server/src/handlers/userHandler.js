@@ -5,39 +5,39 @@ const editUser = require("../controllers/editUser");
 
 const createUserHandler = async (req, res) => {
   try {
-    const {
-      email,
-      password,
-      name,
-      lastName,
-      images,
-      country,
-      city,
-      address,
-      phoneNumber,
-    } = req.body;
-    const user = {
-      email,
-      password,
-      name,
-      lastName,
-      images,
-      country,
-      city,
-      address,
-      phoneNumber,
-    };
-    console.log("Recibida solicitud para crear usuario:", user);
-    if (
-      email &&
-      password &&
-      name &&
-      lastName &&
-      country &&
-      city &&
-      address &&
-      phoneNumber &&
-      images
+  const {
+  email,
+  password,
+  name,
+  lastName,
+  image,
+  country,
+  city,
+  address,
+  phoneNumber,
+  } = req.body;
+  const user = {
+  email,
+  password,
+  name,
+  lastName,
+  image,
+  country,
+  city,
+  address,
+  phoneNumber,
+  };
+  console.log("Recibida solicitud para crear usuario:", user);
+  if (
+    email &&
+    password &&
+    name &&
+    lastName &&
+    country &&
+    city &&
+    address &&
+    phoneNumber
+    && image
     ) {
       const newUser = await creatingUser(user);
       console.log("Usuario creado con éxito:", newUser);
@@ -65,36 +65,37 @@ const getAllUsersHandlers = async (req, res) => {
 };
 
 const editUserHandler = async (req, res) => {
-  try {
-    const {
-      _id,
-      email,
-      password,
-      name,
-      lastName,
-      images,
-      country,
-      city,
-      address,
-      phoneNumber,
-      properties,
+
+	try {
+		const {
+			_id,
+			email,
+			password,
+			name,
+			lastName,
+      image,
+			country,
+			city,
+			address,
+			phoneNumber,
+			properties,
       active,
-      role,
-      createdAt,
-      __v,
-    } = req.body;
-    const user = {
-      _id,
-      email,
-      password,
-      name,
-      lastName,
-      images,
-      country,
-      city,
-      address,
-      phoneNumber,
-      properties,
+      role, 
+			createdAt,
+			__v
+		 } = req.body;
+		 const user = {
+			_id,
+			email,
+			password,
+			name,
+			lastName,
+      image,
+			country,
+			city,
+			address,
+			phoneNumber,
+			properties,
       active,
       role,
       createdAt,

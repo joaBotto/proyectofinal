@@ -6,7 +6,7 @@ import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/Cards";
 import { FadeLoader } from "react-spinners";
 import { getProperty } from "../../redux/actions";
-import { userAuthenticated } from "../../redux/actions";
+import { userAuthenticated, errorType } from "../../redux/actions";
 import axios from 'axios'
 
 export default function Home() {
@@ -29,7 +29,7 @@ export default function Home() {
 			}
 		})
 		.catch((error) => {
-			window.alert(error.message)
+			dispatch(errorType(error.message))
 		})
 	}, [])
 
