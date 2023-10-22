@@ -50,13 +50,15 @@ function App() {
 				<Route path='/admin/property/:id' element={<EditPropertyFromAdmin />} />
 				<Route path='/admin/users' element={<AllUsers />} />
 				<Route path='/paymentEdit' element={<EditPaymentInfo />} />
-				<Route path="/loginadmin" element={<LoginAdmin />} />
+				
 			</Routes>
 		</div>
 	);
 
 }
 export default App;
+
+
 
 /* import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";

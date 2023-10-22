@@ -16,7 +16,7 @@ export default function Cards({ properties }) {
 									description={property.description}
 									price={property.price}
 									images={property.images || "Sin img"}
-									location={property.address.city}
+									location={property.address.street}
 									bedrooms={property.bedrooms}
 									bathrooms={property.bathrooms}
 									area={property.amenities?.covered_area || "50"}
