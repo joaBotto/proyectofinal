@@ -25,6 +25,16 @@ authRouter.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+
+/* authRouter.post("/login", passport.authenticate("local", {
+  failureRedirect: "http://localhost:3000/login",
+}), (req,res ) => {
+  console.log("La autenticación tuvo éxito");
+  console.log("Usuario autenticado:", req.user);
+  res.redirect("http://localhost:3000");
+}); */
+
+
 authRouter.get("/google", passport.authenticate("auth-google", {scope:['profile','email']}))
 
 authRouter.get("/google/callback", passport.authenticate("auth-google", {
@@ -40,6 +50,11 @@ authRouter.get("/user", ensureAuthenticated, (req,res) => {
   console.log(user)
   res.status(200).json({user})
 })
+
+authRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "http://localhost:3000", // Redirige en caso de autenticación exitosa
+  failureRedirect: "http://localhost:3000/login",
+}));
 
 
 module.exports = { authRouter };
