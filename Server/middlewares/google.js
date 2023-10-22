@@ -20,11 +20,7 @@ try {
     lastName:`${profile.name.familyName}`,
     image:profile.photos[0].value,
     role:"user",
-<<<<<<< HEAD
-    active: true
-=======
     active:true
->>>>>>> 38e3681 (cambios)
 }
 console.log("soy user de google", userGoogle)
 let user = await Users.findOne({ email:profile.emails[0].value});
