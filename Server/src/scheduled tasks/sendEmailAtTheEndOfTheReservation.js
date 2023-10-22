@@ -13,7 +13,6 @@ const transporter = nodemailer.createTransport({
     },
   })
 
-
 cron.schedule('0 0 * * *', async () => {
   try {
     
@@ -26,6 +25,7 @@ cron.schedule('0 0 * * *', async () => {
         to: booking.guest.email,
         subject: '¡Gracias por hospedarte con nosotros!',
         text: 'Deja tu revisión sobre tu estadía en nuestro sitio.',
+        /* ACA HAY QUE ENVIARLE LA URL PARA QUE DEJE SU OPINION */
       };
 
       await transporter.sendMail(mailOptions);
