@@ -20,7 +20,8 @@ import {
   PROPERTY_DAYS_EDITED,
   SAVE_PROPERTY,
   REMOVE_FROM_SAVED,
-  USER_AUTHENTICATED
+  USER_AUTHENTICATED,
+  DELETE_PROPERTY
 
 } from "./actions_types";
 
@@ -102,14 +103,6 @@ export const searchByQuery = (search) => {
 	};
 };
 
-/* export const setSearchQuery = (query) => {
-	return (dispatch) => {
-		dispatch({
-			type: SET_SEARCH_QUERY,
-			payload: query,
-		});
-	};
-}; */
 
 export const cleanDetail = () => {
   return {
@@ -304,3 +297,21 @@ export const getAllUsers = () => {
     }
   };
 };
+
+export const propertyDelete = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`/properties/${id}`);
+      return dispatch({
+        type: DELETE_PROPERTY,
+        payload: data,
+      });
+      
+    } catch (error) {
+       return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  }
+}

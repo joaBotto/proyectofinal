@@ -17,7 +17,8 @@ import {
   PROPERTY_DAYS_EDITED,
   SAVE_PROPERTY,
   REMOVE_FROM_SAVED,
-  USER_AUTHENTICATED
+  USER_AUTHENTICATED,
+  DELETE_PROPERTY
 } from "./actions_types";
 
 const initialState = {
@@ -53,13 +54,13 @@ const filterSeachBar = (state, payload) => {
 			if (prop.address.state.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
 			return prop
 		}});
-		// console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR STATE", filterResult)
+		console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR STATE", filterResult)
 		if(filterResult.length === 0) {
 			filterResult = copyProperties.filter((prop) => {
 				if (prop.title.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
 				return prop
 			}});
-			// console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR TITLE", filterResult)
+			console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR TITLE", filterResult)
 		}
 		return filterResult
 	}
@@ -278,6 +279,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
         savedProperties: updatedSavedProperties,
         user: { ...state.user, savedProperties: updatedSavedProperties },
       };
+
+	  case DELETE_PROPERTY:
+		const copyAllProperties = state.allproperties.filter((property) => property._id !== payload._id);
+		const copyProperties = state.properties.filter((property) => property._id !== payload._id);
+		return {
+			...state,
+			allproperties: copyAllProperties,
+			properties: copyProperties
+		}
 
 		case RESET_STATE:
 			return initialState;
