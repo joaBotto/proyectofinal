@@ -44,6 +44,27 @@ const filterPropertyType = (state, payload) => {
   }
 };
 
+const filterSeachBar = (state, payload) => {
+	let copyProperties = state.properties
+	if (payload.search === "") {
+		return state.properties
+	} else {
+		let filterResult = copyProperties.filter((prop) => {
+			if (prop.address.state.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
+			return prop
+		}});
+		console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR STATE", filterResult)
+		if(filterResult.length === 0) {
+			filterResult = copyProperties.filter((prop) => {
+				if (prop.title.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
+				return prop
+			}});
+			console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR TITLE", filterResult)
+		}
+		return filterResult
+	}
+}
+
 const orderPropertyPrice = (state, payload) => {
   let propertyOrdenated = [...state.properties];
   if (payload.orderPrice === "default") {
@@ -69,12 +90,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				properties: [...payload],
 				filteredData: [...payload],
 			};
-		
+
 		case USER_AUTHENTICATED:
 			return {
 				...state,
-				user:payload
-			}
+				user: payload,
+			};
 
 		case CREATE_PROPERTY:
 			return {
@@ -108,10 +129,14 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
 		case FILTERS:
 			const filterPropertyForType = filterPropertyType(state, payload);
+			const filterBySearchBar = filterSeachBar({
+				...state,
+				properties:filterPropertyForType
+			}, payload)
 			const orderPropertyForPrice = orderPropertyPrice(
 				{
 					...state,
-					properties: filterPropertyForType,
+					properties: filterBySearchBar,
 				},
 				payload
 			);
@@ -147,7 +172,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				allproperties: [...allpropertiesFiltered, payload],
 				properties: [...propertiesFiltered, payload],
 			};
-
 
 		case PROPERTY_DAYS_EDITED:
 			const { propertyId, updatedAvailableDays } = payload;
@@ -211,7 +235,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			const index = state.users.indexOf(payload._id);
 			const copyUsers = state.users;
 			copyUsers.splice(index, 1, payload);
-			const userCopy = payload
+			const userCopy = payload;
 			return {
 				...state,
 				user: userCopy,

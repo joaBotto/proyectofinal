@@ -5,6 +5,7 @@ const editingProperty = require("../controllers/editingProperty");
 const updatingAvailableDays = require("../controllers/updatingAvailableDays");
 
 const getPropertiesHandler = async (req, res) => {
+	
 	try {
 		const allProperties = await getProperties();
 		return res.status(200).json(allProperties);

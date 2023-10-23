@@ -21,6 +21,7 @@ import {
   SAVE_PROPERTY,
   REMOVE_FROM_SAVED,
   USER_AUTHENTICATED
+
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
@@ -51,13 +52,12 @@ export const removePropertyFromSaved = (propertyId) => {
   };
 };
 
-
 export const userAuthenticated = (user) => {
 	return {
-		type:USER_AUTHENTICATED,
-		payload: user
-	}
-}
+		type: USER_AUTHENTICATED,
+		payload: user,
+	};
+};
 
 export const errorType = (message) => {
 	return {
@@ -94,6 +94,22 @@ export const getPropertyDetail = (id) => async (dispatch) => {
     return dispatch({ type: ERROR, payload: error.message });
   }
 };
+
+export const searchByQuery = (search) => {
+	return {
+		type: SEARCH_BY_QUERY,
+		payload: search.toLowerCase(),
+	};
+};
+
+/* export const setSearchQuery = (query) => {
+	return (dispatch) => {
+		dispatch({
+			type: SET_SEARCH_QUERY,
+			payload: query,
+		});
+	};
+}; */
 
 export const cleanDetail = () => {
   return {
@@ -186,11 +202,11 @@ export const resetState = () => {
 };
 //!-----------------------------------
 
-export const filters = (type, orderPrice) => {
-  return {
-    type: FILTERS,
-    payload: { type, orderPrice },
-  };
+export const filters = (type, orderPrice, search) => {
+	return {
+		type: FILTERS,
+		payload: { type, orderPrice, search },
+	};
 };
 
 export const updateUser = (userEdited) => {
@@ -288,4 +304,3 @@ export const getAllUsers = () => {
     }
   };
 };
-

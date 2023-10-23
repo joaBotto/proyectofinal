@@ -1,12 +1,17 @@
 import Card from "../Card/Card";
 import FadeLoader from "react-spinners/FadeLoader";
 
-export default function Cards({ properties }) {
+export default function Cards({ properties, searchQuery }) {
+	const propertiesToShow = searchQuery
+		? properties.filter((property) =>
+				property.title.toLowerCase().includes(searchQuery.toLowerCase())
+		  )
+		: properties;
 	return (
 		<div className="p-4">
 			<div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-				{properties.length > 0 ? (
-					properties.map(
+				{propertiesToShow.length > 0 ? (
+					propertiesToShow.map(
 						(property) =>
 							property.active === true && (
 								<Card
