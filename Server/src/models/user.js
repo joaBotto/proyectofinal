@@ -65,6 +65,8 @@ const userSchema = new mongoose.Schema({
   active:Boolean,
   role: String,
 
+  savedProperties: [],
+
   properties: [
     {
       type: mongoose.Schema.Types.ObjectId,

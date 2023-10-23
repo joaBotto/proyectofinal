@@ -2,6 +2,7 @@
 const creatingUser = require("../controllers/creatingUser");
 const getAllUsers = require("../controllers/getUsers");
 const editUser = require("../controllers/editUser");
+// const { enviarCorreoConfirmacion } = require("../routes/index");
 
 const createUserHandler = async (req, res) => {
   try {
@@ -10,7 +11,7 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      images,
+      image,
       country,
       city,
       address,
@@ -21,7 +22,7 @@ const createUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      images,
+      image,
       country,
       city,
       address,
@@ -37,9 +38,10 @@ const createUserHandler = async (req, res) => {
       city &&
       address &&
       phoneNumber &&
-      images
+      image
     ) {
       const newUser = await creatingUser(user);
+      // await enviarCorreoConfirmacion(newUser.email);
       console.log("Usuario creado con éxito:", newUser);
       return res.status(201).json(newUser);
     } else {
@@ -73,6 +75,7 @@ const editUserHandler = async (req, res) => {
       name,
       lastName,
       images,
+      savedProperties,
       country,
       city,
       address,
@@ -90,6 +93,7 @@ const editUserHandler = async (req, res) => {
       name,
       lastName,
       images,
+      savedProperties,
       country,
       city,
       address,
@@ -100,6 +104,7 @@ const editUserHandler = async (req, res) => {
       createdAt,
       __v,
     };
+    console.log("soysaveeeehandler", savedProperties);
     console.log("soyuserhandler", user);
     const userEdited = await editUser(user);
     console.log("soyuserEditedxd", userEdited);

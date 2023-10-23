@@ -40,7 +40,11 @@ const NavBarAdmin = () => {
           >
             {menuOpen ? "Cerrar Menú" : "Abrir Menú"}
           </button>
-          <aside className="absolute top-40 left-0 bg-gray-200 shadow-lg">
+          <aside
+        className={`absolute top-0 left-0 bg-gray-200 shadow-lg w-64 h-screen overflow-y-auto ${
+          menuOpen ? "block" : "hidden"
+        }`}
+      >
             {menuOpen && (
               <ul className="text-black">
                 <Link to="/admin/properties">

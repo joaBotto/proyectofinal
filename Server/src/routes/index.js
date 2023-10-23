@@ -55,30 +55,19 @@ router.use("/properties", propertiesRouter); // ruta_backend/properties -> Te ll
 router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de users
 router.use("/bookings", bookingsRouter);
 
-router.get("/logout", (req, res) => {
-  if (req.isAuthenticated()) {
-    req.session.destroy((err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send("Error al cerrar la sesión");
-      }
-      return res.status(200).send("La sesión se ha cerrado correctamente");
-    });
-  } else {
-    return res.status(401).send("No estás autenticado");
-  }
-});
 //!--------------- ruta para envio de email -------------------------------------
 router.post("/auth/login/:email/code", (req, res) => {
   const { email } = req.params;
+  const { password } = req.query;
   const user = {
     email,
+    password,
     active: true,
   };
 
   enviarCorreoConfirmacion(user.email);
   res.status(200).json({
-    message: "Registered user successfully! Your account is active!",
+    message: "Registered user successfully!",
   });
 });
 
@@ -96,8 +85,8 @@ async function enviarCorreoConfirmacion(email) {
   const mailOptions = {
     from: process.env.EMAIL,
     to: email,
-    subject: "Successfully register",
-    body: "¡Thanks for register on Inmuebles360!",
+    subject: "Inmuebles 360 --> Successfully register",
+    text: "¡Thanks for register on Inmuebles360! Your account is active now, u can view our properties and find one that suits you :)",
   };
   try {
     console.log(process.env.EMAIL);

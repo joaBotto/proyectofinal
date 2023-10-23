@@ -112,7 +112,7 @@ const Detail = () => {
 								</div>
 								<div className="w-full flex flex-row flex-wrap justify-start overflow-x-hidden overflow-y-scroll">
 									<p className="ml-5 text-blue font-onest font-bold underline pb-3">
-										♥︎SAVE PROPERTY
+										♥︎ SAVE PROPERTY
 									</p>
 									<div className="flex flex-row flex-wrap">
 										{property.images.map((image, index) => (
