@@ -99,7 +99,7 @@ export default function Home() {
 	return (
 		<div className="mt-5 mx-0">
 			<div className="w-full absolute top-[400px] flex xl:justify-center md:ml-3">
-				<SearchBar handleChange={handleChange} search={search} setSearch={setSearch} handleSubmit={handleSubmit} />
+				<SearchBar handleChange={handleChange} search={search} setSearch={setSearch} />
 			</div>
 			
 				<div className="bg-transparent flex flex-row justify-end py-2 w-full rounded-full">
@@ -169,7 +169,7 @@ export default function Home() {
 						/>
 					</div>
 					<div className="p-4">
-						<Cards properties={currentPageData} searchQuery={searchQuery} />
+						<Cards properties={currentPageData}/>
 					</div>
 					<Container className="flex flex-row mb-3 justify-center">
 						<Paginado
