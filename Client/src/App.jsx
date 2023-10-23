@@ -30,7 +30,7 @@ function App() {
 	return (
 		<div className='bg-indigo-50'>
 			{location.pathname === '/' && <NavBar />}
-			{location.pathname === '/postUser' && <NavBarAdmin />}
+			{location.pathname === '/postUser' && <NavBar />}
 
 
 			<Routes>
