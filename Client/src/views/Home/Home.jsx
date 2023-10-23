@@ -75,7 +75,7 @@ export default function Home() {
 			});
 	}, []);
 
-	// console.log("soy el user en home", user);
+	console.log("soy el user en home", user);
 	console.log("Soy prop en el home", properties);
 	const activeProperties = properties.filter(
 		(properties) => properties.active === true
