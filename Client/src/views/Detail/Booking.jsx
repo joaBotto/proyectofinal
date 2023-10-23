@@ -26,10 +26,15 @@ function BookingDetails({ property }) {
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [totalDays, setTotalDays] = useState(0);
 	const [selectedDates, setSelectedDates] = useState(null);
+	const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
 	const [reservationDetails, setReservationDetails] = useState(false);
 	const [updatedAvailableDates, setUpdatedAvailableDates] = useState(
 		property.availableDays
 	);
+	const [isReservationConfirmed, setIsReservationConfirmed] = useState(false)
+
+
+
 
 	console.log(property.availableDays);
 
@@ -51,6 +56,7 @@ function BookingDetails({ property }) {
 		if (startDate && endDate) {
 			const daysInBetween = calculateDaysInBetween(startDate, endDate);
 			console.log('Days in between:', daysInBetween);
+			setShowConfirmationMessage(true);
 		}
 		setSelectedDates([startDate, endDate]);
 	};
@@ -100,6 +106,7 @@ function BookingDetails({ property }) {
 				await dispatch(addNewBooking(bookingDetails));
 				await dispatch(getAllBookings());
 				setReservationVisible(true);
+				setIsReservationConfirmed(true)
 			}
 		} catch (error) {
 			console.log(error);
@@ -146,6 +153,12 @@ function BookingDetails({ property }) {
 					</div>
 				</div>
 			</div>
+
+			{/* {showConfirmationMessage && (
+        <div className="text-red-500 font-onest">
+          Please confirm your reservation before proceeding to checkout.
+        </div>
+      )} */}
 			{reservationDetails && (
 				<div className='w-2/3 flex flex-col justify-start items-start text-left my-4 mr-4'>
 					<p className='text-4xl text-blue font-onest text-right font-extrabold'>
@@ -189,7 +202,7 @@ function BookingDetails({ property }) {
 							{!isReservationVisible && (
 								<button
 									onClick={selectedDates ? handleBookNow : null}
-									disabled={!selectedDates}
+									disabled={!selectedDates || isReservationConfirmed }
 									className={`rounded-full text-white font-onest py-1 px-3 flex flex-col ${
 										!selectedDates ? ' bg-gray-500 ' : 'bg-blue hover:bg-cyan'
 									}`}
@@ -275,7 +288,7 @@ function BookingDetails({ property }) {
 			<div className='flex flex-col justify-start pb-11 mr-1'>
 				<Link to={`/detail/reservations/${bookingId}`}>
 					<button
-						disabled={!selectedDates}
+						disabled={!selectedDates || !isReservationConfirmed}
 						className={`rounded-full font-onest flex flex-col ${
 							!selectedDates
 								? 'text-red-600 text-sm'
@@ -289,6 +302,11 @@ function BookingDetails({ property }) {
 					</button>
 				</Link>
 			</div>
+			{showConfirmationMessage && (
+	<div className="text-red-500 font-onest mt-4">
+	  Please confirm your reservation before proceeding to checkout.
+	</div>
+  )}
 		</div>
 	);
 }
