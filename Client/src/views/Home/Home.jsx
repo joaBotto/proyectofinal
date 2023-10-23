@@ -14,9 +14,7 @@ export default function Home() {
 	const dispatch = useDispatch();
 	const properties = useSelector((state) => state.properties);
 	const user = useSelector((state) => state.user);
-	const searchQuery = useSelector((state) => state.searchQuery);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(false);
 	const [noResults, setNoResults] = useState(false);
 
 
