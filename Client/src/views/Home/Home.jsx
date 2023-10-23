@@ -6,7 +6,7 @@ import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/Cards";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { FadeLoader } from "react-spinners";
-import { getProperty, searchByQuery } from "../../redux/actions";
+import { getProperty, searchByQuery, filters } from "../../redux/actions";
 import { userAuthenticated } from "../../redux/actions";
 import axios from "axios";
 
@@ -18,6 +18,40 @@ export default function Home() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const [noResults, setNoResults] = useState(false);
+
+
+// ----------------FILTROS---------------------------
+	const [type, setType] = useState("");
+	const [orderPrice, setOrderPrice] = useState("");
+	const [search, setSearch] = useState("");
+	
+
+	const handleChange = (event) => {
+		const name = event.target.name;
+
+		if(name === "searchBar"){
+			setSearch(event.target.value)
+			console.log("soy el searchBar", event.target.value)
+		}
+		if (name === "type") {
+			setType(event.target.value);
+			dispatch(filters(event.target.value, orderPrice, search));
+		}
+		if (name === "price") {
+			setOrderPrice(event.target.value);
+			dispatch(filters(type, event.target.value, search));
+		}
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		dispatch(filters(type, orderPrice, search));
+		console.log("SOY LOS FILTROS", type, orderPrice, search)
+		setPage(1);
+	};
+
+
+	// -----------------------------------------------------
 
 	useEffect(() => {
 		if (searchQuery) {
@@ -41,7 +75,7 @@ export default function Home() {
 			});
 	}, []);
 
-	console.log("soy el user en home", user);
+	// console.log("soy el user en home", user);
 	console.log("Soy prop en el home", properties);
 	const activeProperties = properties.filter(
 		(properties) => properties.active === true
@@ -73,8 +107,36 @@ export default function Home() {
 	return (
 		<div className="mt-5 mx-0">
 			<div className="w-full absolute top-[400px] flex xl:justify-center md:ml-3">
-				<SearchBar />
+				<SearchBar handleChange={handleChange} search={search} setSearch={setSearch} handleSubmit={handleSubmit} />
 			</div>
+			
+				<div className="bg-transparent flex flex-row justify-end py-2 w-full rounded-full">
+					<div className="w-1/3 mr-4 flex justify-end py-2 px-2"style={{ marginTop: '20px' }}>
+						<p className="text-xl font-semibold text-blue flex space-x-2">
+							<select
+								onChange={handleChange}
+								name="type"
+								className="px-3 py-1 w-full border-blue border-b-4 border-r-2 rounded-full shadow-md"
+							>
+								<option value="default">Search by type</option>
+								<option value="Appartment">Appartment</option>
+								<option value="House">House</option>
+								<option value="Horizontal Property">Horizontal Property</option>
+							</select>
+							<select
+								onChange={handleChange}
+								name="price"
+								className="px-3 py-1 w-full border-blue border-b-4 border-r-2 rounded-full shadow-md"
+							>
+								<option value="default">Search by price</option>
+								<option value="-">Lowest to highest</option>
+								<option value="+">Highest to lowest</option>
+							</select>
+						</p>
+					</div>
+				</div>
+
+
 			{loading ? (
 				<div className="flex justify-center items-center h-screen">
 					<FadeLoader color="#54086B" />

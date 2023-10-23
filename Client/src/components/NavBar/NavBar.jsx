@@ -14,7 +14,6 @@ import fondo from "../../assets/img/fondo1.jpeg";
 import logo from "../../assets/img/logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import {
-	filters,
 	resetState,
 	userLogOut,
 	getProperty,
@@ -25,21 +24,7 @@ const NavBar = () => {
 	const location = useLocation();
 	const user = useSelector((state) => state.user);
 
-	const [type, setType] = useState("");
-	const [orderPrice, setOrderPrice] = useState("");
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-	const handleChange = (event) => {
-		const name = event.target.name;
-		if (name === "type") {
-			setType(event.target.value);
-			dispatch(filters(event.target.value, orderPrice));
-		}
-		if (name === "price") {
-			setOrderPrice(event.target.value);
-			dispatch(filters(type, event.target.value));
-		}
-	};
 
 	const toggleMenu = () => {
 		setIsMenuOpen(!isMenuOpen);
@@ -147,33 +132,7 @@ const NavBar = () => {
 					)}
 				</div>
 			</div>
-			{location.pathname === "/" && (
-				<div className="bg-transparent flex flex-row justify-end py-2 w-full rounded-full">
-					<div className="w-1/3 mr-4 flex justify-end py-2 px-2">
-						<p className="text-xl font-semibold text-blue flex space-x-2">
-							<select
-								onChange={handleChange}
-								name="type"
-								className="px-3 py-1 w-full border-blue border-b-4 border-r-2 rounded-full shadow-md"
-							>
-								<option value="default">Search by type</option>
-								<option value="Appartment">Appartment</option>
-								<option value="House">House</option>
-								<option value="Horizontal Property">Horizontal Property</option>
-							</select>
-							<select
-								onChange={handleChange}
-								name="price"
-								className="px-3 py-1 w-full border-blue border-b-4 border-r-2 rounded-full shadow-md"
-							>
-								<option value="default">Search by price</option>
-								<option value="-">Lowest to highest</option>
-								<option value="+">Highest to lowest</option>
-							</select>
-						</p>
-					</div>
-				</div>
-			)}
+	
 		</div>
 	);
 };

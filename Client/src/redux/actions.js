@@ -19,9 +19,7 @@ import {
 	RESET_STATE,
 	PROPERTY_DAYS_EDITED,
 	SEARCH_BY_QUERY,
-	SET_SEARCH_QUERY,
 	USER_AUTHENTICATED,
-	CLEAR_SEARCH,
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
@@ -67,14 +65,14 @@ export const searchByQuery = (search) => {
 	};
 };
 
-export const setSearchQuery = (query) => {
+/* export const setSearchQuery = (query) => {
 	return (dispatch) => {
 		dispatch({
 			type: SET_SEARCH_QUERY,
 			payload: query,
 		});
 	};
-};
+}; */
 
 export const cleanDetail = () => {
 	return {
@@ -168,10 +166,10 @@ export const resetState = () => {
 };
 //!-----------------------------------
 
-export const filters = (type, orderPrice) => {
+export const filters = (type, orderPrice, search) => {
 	return {
 		type: FILTERS,
-		payload: { type, orderPrice },
+		payload: { type, orderPrice, search },
 	};
 };
 
@@ -194,30 +192,6 @@ export const updateUser = (userEdited) => {
 	};
 };
 
-// export const searchProducto = (query) => {
-//   return async (dispatch) => {
-//     try {
-//       let response;
-//       if (!query) {
-//         // Si no se proporciona una ciudad, obtén todos los inmuebles
-//         response = await axios.get(`${URL}//`);
-//       } else {
-//         // Si se proporciona una ciudad, realiza la búsqueda por ciudades
-//         response = await axios.get(`${URL}/${query}`);
-//       }
-//       const inmuebles = response.data;
-//       dispatch({
-//         type: SEARCH_PRODUCTO,
-//         payload: inmuebles,
-//       });
-//     } catch (error) {
-//       dispatch({
-//         type: ERROR,
-//         payload: "City not found",
-//       });
-//     }
-//   };
-// };
 
 export const addUser = (user) => async (dispatch) => {
 	try {
@@ -296,11 +270,6 @@ export const getAllUsers = () => {
 	};
 };
 
-export const clearSearch = () => {
-	return {
-		type: CLEAR_SEARCH,
-	};
-};
 
 // export const filterByUbicacion = (ubicacion) => {
 

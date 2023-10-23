@@ -15,10 +15,7 @@ import {
 	USER_EDITED,
 	RESET_STATE,
 	PROPERTY_DAYS_EDITED,
-	SEARCH_BY_QUERY,
-	SET_SEARCH_QUERY,
 	USER_AUTHENTICATED,
-	CLEAR_SEARCH,
 } from "./actions_types";
 
 const initialState = {
@@ -34,11 +31,24 @@ const initialState = {
 	details: [],
 };
 
+const filterSeachBar = (state, payload) => {
+let copyProperties = state.properties
+if (payload.search === "") {
+	return state.allproperties
+} else {
+	let filterResult = copyProperties.filter((prop) => prop.address.state.toLowerCase().trim() === payload.search.toLowerCase().trim());
+	if(!filterResult) {
+		filterResult = copyProperties.filter((prop) => prop.title.toLowerCase().trim() === payload.search.toLowerCase().trim());
+	}
+	return filterResult
+}
+}
+
 const filterPropertyType = (state, payload) => {
 	if (payload.type === "default") {
 		return state.allproperties;
 	} else {
-		return state.allproperties.filter(
+		return state.properties.filter(
 			(property) => property.type === payload.type
 		);
 	}
@@ -76,33 +86,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				user: payload,
 			};
 
-		case SEARCH_BY_QUERY:
-			const search = payload.toLowerCase();
-			const filterByQuery = state.searchQuery
-				? state.properties
-				: state.allproperties;
-			const filteredByQuery = filterByQuery.filter((property) => {
-				return property.title.toLowerCase().includes(search);
-			});
-			return {
-				...state,
-				properties: filteredByQuery,
-			};
-
-		case SET_SEARCH_QUERY:
-			return {
-				...state,
-				searchQuery: payload,
-				properties: payload,
-			};
-
-		case CLEAR_SEARCH:
-			return {
-				...state,
-				searchQuery: "",
-				properties: state.allproperties,
-			};
-
 		case CREATE_PROPERTY:
 			return {
 				...state,
@@ -134,7 +117,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case FILTERS:
-			const filterPropertyForType = filterPropertyType(state, payload);
+			const filterBySearchBar = filterSeachBar(state, payload)
+			const filterPropertyForType = filterPropertyType({
+				...state,
+				properties:filterBySearchBar
+			}, payload);
 			const orderPropertyForPrice = orderPropertyPrice(
 				{
 					...state,

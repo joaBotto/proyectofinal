@@ -1,26 +1,8 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { searchByQuery, clearSearch } from "../../redux/actions";
 
-const SearchBar = () => {
-	const dispatch = useDispatch();
-	const [search, setSearch] = useState("");
-
-	const [currentPage, setCurrentPage] = useState(1);
-
-	const handleSearchChange = (event) => {
-		setSearch(event.target.value);
-	};
-
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		dispatch(searchByQuery(search));
-		setCurrentPage(1);
-	};
+const SearchBar = ({handleChange, search, handleSubmit, setSearch}) => {
 
 	const handleClearSearch = () => {
 		setSearch("");
-		dispatch(clearSearch());
 	};
 
 	return (
@@ -30,8 +12,9 @@ const SearchBar = () => {
 					className="font-onest text-blue px-3 py-1 w-full border-blue border-b-4 border-r-2 rounded-full shadow-md"
 					type="text"
 					placeholder="Search..."
+					name="searchBar"
 					value={search}
-					onChange={handleSearchChange}
+					onChange={handleChange}
 				/>
 				<button
 					type="submit"
