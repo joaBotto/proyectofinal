@@ -53,13 +53,13 @@ const filterSeachBar = (state, payload) => {
 			if (prop.address.state.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
 			return prop
 		}});
-		console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR STATE", filterResult)
+		// console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR STATE", filterResult)
 		if(filterResult.length === 0) {
 			filterResult = copyProperties.filter((prop) => {
 				if (prop.title.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
 				return prop
 			}});
-			console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR TITLE", filterResult)
+			// console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR TITLE", filterResult)
 		}
 		return filterResult
 	}
@@ -95,6 +95,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				user: payload,
+				savedProperties: [...state.user.savedProperties]
+
 			};
 
 		case CREATE_PROPERTY:
@@ -156,6 +158,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				user: payload,
+				savedProperties: [...state.user.savedProperties]
 			};
 
 		case PROPERTY_EDITED:

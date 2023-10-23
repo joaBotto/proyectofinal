@@ -56,6 +56,7 @@ export default function Home() {
 		axios.get("http://localhost:3001/auth/user", { withCredentials: true })
 		.then((response) => {
 			const user = response.data.user
+			console.log("AUTENTICADO POR GOOGLE", user)
 			if (user) {
 				dispatch(userAuthenticated(user))
 			}
