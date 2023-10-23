@@ -47,12 +47,14 @@ const filterSeachBar = (state, payload) => {
 		return state.properties
 	} else {
 		let filterResult = copyProperties.filter((prop) => prop.address.state.toLowerCase().trim() === payload.search.toLowerCase().trim());
-		if(!filterResult) {
+		console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR STATE", filterResult)
+		if(filterResult.length === 0) {
 			filterResult = copyProperties.filter((prop) => prop.title.toLowerCase().trim() === payload.search.toLowerCase().trim());
+			console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR TITLE", filterResult)
 		}
 		return filterResult
 	}
-	}
+}
 
 const orderPropertyPrice = (state, payload) => {
 	let propertyOrdenated = [...state.properties];

@@ -1,9 +1,6 @@
 
 const SearchBar = ({handleChange, search, handleSubmit, setSearch}) => {
 
-	const handleClearSearch = () => {
-		setSearch("");
-	};
 
 	return (
 		<div className="w-1/3 rounded-full relative top-4">
@@ -23,8 +20,10 @@ const SearchBar = ({handleChange, search, handleSubmit, setSearch}) => {
 					search
 				</button>
 				<button
+					name="searchBar"
 					type="button"
-					onClick={handleClearSearch}
+					onClick={handleChange}
+					value = ""
 					className="bg-blue rounded-full py-1 px-2 ml-2 text-white hover:bg-cyan"
 				>
 					x
