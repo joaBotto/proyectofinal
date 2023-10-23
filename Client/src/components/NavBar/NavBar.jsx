@@ -120,21 +120,21 @@ const NavBar = () => {
                   </Link>
                 </div>
               )}
-               {location.pathname === "/postUser" ? (
+              {location.pathname === "/postUser" ? (
                 <Link to="/">
-                  <button className="pt-2 pb-2 pr-2 pl-2 text-white bg-violet rounded-full mr-1 hover:bg-pink">
+                  <button className="pt-2 pb-2 pr-10 pl-10 text-white bg-grey rounded-full mr-10 hover:bg-violet">
                     <FontAwesomeIcon icon={faHome} /> HOME
                   </button>
                 </Link>
               ) : (
-              <button
-                className="pt-1 pb-1 pr-2 pl-2 text-white bg-grey rounded-full mr-10 hover:bg-violet"
-                onClick={handleLogout}
-              >
-                LogOut-
-                <FontAwesomeIcon icon={faSignOutAlt} />
-              </button>
-                )}
+                <button
+                  className="pt-2 pb-2 pr-10 pl-10 text-white bg-grey rounded-full mr-10 hover:bg-violet"
+                  onClick={handleLogout}
+                >
+                  LogOut-
+                  <FontAwesomeIcon icon={faSignOutAlt} />
+                </button>
+              )}
             </>
           ) : (
             <Link
