@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom"; // Importa
+import { Link, useNavigate } from "react-router-dom"; 
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
 import axios from "axios";
@@ -19,9 +19,6 @@ const SignUpForm = () => {
   const [isFormValid, setFormValid] = useState(false);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
-  const [userCreated, setUserCreated] = useState(false); // Estado para el mensaje de éxito
-  const user = useSelector((state) => state.user);
-  const [isToastVisible, setToastVisibility] = useState(false);
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -46,12 +43,11 @@ const SignUpForm = () => {
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
     country: "",
     address: "",
     city: "",
     phoneNumber: "",
-    image: [],
+    image:"",
   };
 
   const validationSchema = Yup.object({
@@ -60,9 +56,6 @@ const SignUpForm = () => {
     email: Yup.string().email("Invalid email").required("Obligatory field"),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
-      .required("Obligatory field"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Obligatory field"),
     country: Yup.string().required("Obligatory field"),
     address: Yup.string().required("Obligatory field"),
@@ -113,7 +106,6 @@ const SignUpForm = () => {
           },
         }
       );
-      console.log("soydata de uploadcloud", data);
       return data;
     } catch (error) {
       console.error("Error al cargar la imagen:", error);
@@ -123,14 +115,12 @@ const SignUpForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     console.log("Soy el values", values);
-    console.log("Soy la imagen", image);
     try {
       if (image) {
         const cloudinaryResponse = await uploadImagesToCloudinary(image);
         console.log("soyresponsecloud", cloudinaryResponse);
         if (cloudinaryResponse) {
-          values.images = cloudinaryResponse;
-          setImagePreview(values.image);
+          values.image = cloudinaryResponse.imageUrl ;
         } else {
           console.error("Error al cargar la imagen en Cloudinary.");
         }
@@ -147,7 +137,7 @@ const SignUpForm = () => {
       setTimeout(() => {
         // Redirige al usuario a la página de inicio ("/")
         navigate("/login");
-      }, 6000); // El tiempo está en milisegundos 
+      }, 5800); // El tiempo está en milisegundos 
     } catch (error) {
       console.error("Error en la solicitud:", error);
     } finally {
@@ -301,26 +291,6 @@ const SignUpForm = () => {
                   name="password"
                   component="div"
                   className="text-red-600 text-sm "
-                />
-              </div>
-              <div className="relative">
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  {/* Confirmar Contraseña: */}
-                </label>
-                <Field
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  placeholder="Confirm Password"
-                  className="mt-1 p-2 w-full border rounded-full text-black"
-                />
-                <ErrorMessage
-                  name="confirmPassword"
-                  component="div"
-                  className="text-red-600 text-sm absolute top-0 left-3/4 ml-1 mt-1"
                 />
               </div>
 
