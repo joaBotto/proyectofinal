@@ -1,31 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Footer from "../../Footer/Footer";
 import Container from "@mui/material/Container";
 import Paginado from "../../Paginado/paginado";
 import CardsAdmin from "../../Cards/CardsAdmin";
 import { filters } from "../../../redux/actions";
 import NavBarAdmin from "../NavBar/NavBarAdmin";
+import SearchBar from "../../SearchBar/SearchBar";
 
 export default function HomeAdmin() {
+  const dispatch = useDispatch();
   const properties = useSelector((state) => state.properties);
   console.log("Soy prop en el homeAdmin", properties);
 
-  // FILTROS
-  const [type, setType] = useState("");
-  const [orderPrice, setOrderPrice] = useState("");
+	const [type, setType] = useState("default");
+	const [orderPrice, setOrderPrice] = useState("default");
+	const [search, setSearch] = useState("");
+	
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    if (name === "type") {
-      setType(event.target.value);
-      dispatch(filters(event.target.value, orderPrice));
-    }
-    if (name === "price") {
-      setOrderPrice(event.target.value);
-      dispatch(filters(type, event.target.value));
-    }
-  };
+	const handleChange = (event) => {
+		const name = event.target.name;
+
+		if(name === "searchBar"){
+			setSearch(event.target.value)
+			dispatch(filters(type, orderPrice, event.target.value));
+			// console.log("soy el searchBar", event.target.value)
+		}
+		if (name === "type") {
+			setType(event.target.value);
+			dispatch(filters(event.target.value, orderPrice, search));
+			// console.log("SOY LOS FILTROS", type, orderPrice, search)
+		}
+		if (name === "price") {
+			setOrderPrice(event.target.value);
+			dispatch(filters(type, event.target.value, search));
+			// console.log("SOY LOS FILTROS", type, orderPrice, search)
+		}
+	};
 
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(8);
@@ -42,10 +53,17 @@ export default function HomeAdmin() {
 
   return (
     <div className="mt-5 mx-0">
-      <NavBarAdmin/>
-         {/* FILTROS */}
+      <NavBarAdmin />
+      {/* FILTROS */}
+      <div className="w-full absolute top-[400px] flex xl:justify-center md:ml-3">
+        <SearchBar
+          handleChange={handleChange}
+          search={search}
+          setSearch={setSearch}
+        />
+      </div>
 
-         <div className="bg-white shadow py-2 w-1/3 rounded-full absolute top-[350px] left-[50%] transform translate-x-[-50%] -translate-y-[-50%]">
+      <div className="bg-white shadow py-2 w-1/3 rounded-full absolute top-[350px] left-[50%] transform translate-x-[-50%] -translate-y-[-50%]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <p className="text-xl font-semibold text-blue flex items-center justify-center space-x-4">
             <select
