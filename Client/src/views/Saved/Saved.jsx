@@ -6,8 +6,6 @@ import Cards from "../../components/Cards/Cards";
 function SavedProperties() {
   const user = useSelector((state) => state.user);
 
-  console.log("savedProperty:", user.savedProperties);
-
   return (
     <div>
       <h2>My Favorites</h2>

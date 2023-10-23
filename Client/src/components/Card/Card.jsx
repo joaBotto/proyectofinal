@@ -32,7 +32,6 @@ const Card = ({
   const user = useSelector((state)=> state.user)
   const allproperties = useSelector((state)=> state.allproperties)
 
-
   const handleSaveClick = () => {
     if (!savedProperty.find((property) => property._id === _id)) {
       // Buscar el objeto en allproperties por _id
