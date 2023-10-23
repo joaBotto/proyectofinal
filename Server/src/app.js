@@ -8,7 +8,7 @@ const routes = require('./routes/index');
 require('./scheduled tasks/sendEmailAtTheEndOfTheReservation.js')
 const Stripe = require('stripe');
 
-const stripe = new Stripe(process.env.API_KEY_STRIPE);
+const stripe = new Stripe(process.env.API_KEY_STRIPE); 
 
 const passport = require('passport'); //La biblioteca de autenticación para Node.js.
 require('../middlewares/authLocal');
@@ -23,7 +23,7 @@ const storage = multer.memoryStorage(); // Almacenamiento en memoria (puedes cam
 const server = express();
 
 const corsOptions = {
-	origin: 'http://localhost:3000', // Permite solicitudes desde este origen
+	origin: "*", // Permite solicitudes desde este origen
 	methods: 'GET, POST, OPTIONS, PUT, DELETE',
 	allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Solo permite estos encabezados
 	credentials: true, // Permite enviar cookies
@@ -99,8 +99,6 @@ server.post('/api/checkout', async (req, res) => {
 	}
 });
 //back para pasarela de pagos fin
-
-
 
 server.use('/', routes);
 

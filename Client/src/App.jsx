@@ -97,16 +97,16 @@ function App() {
 				<Route path="/create" element={<CreateProperty />} />
 				<Route path="/detail/:id" element={<Detail />} />
 				<Route path="/signUp" element={<SignUpForm />} />
-				<Route path="/admin" element={<HomeAdmin />} />
 				<Route path="/error404" element={<Error404 />} />
-				<Route path="/loginadmin" element={<LoginAdmin />} />
-				<Route path="/admin/property/:id" element={<EditPropertyFromAdmin />} />
-				<Route path="/admin/users" element={<AllUsers />} />
 				<Route path="/detail/reservations/:id" element={<Reservations />} />
 				<Route path="/postUser" element={<Postuser />} />
 				<Route path="/checkout" element={<PaymentForm />} />
 				<Route path="/gestionUser" element={<GestionUser />} />
 				<Route path="/personalEdit" element={<EditAccount />} />
+				<Route path="/admin" element={<HomeAdmin />} />
+				<Route path="/admin/property/:id" element={<EditPropertyFromAdmin />} />
+				<Route path="/loginadmin" element={<LoginAdmin />} />
+				<Route path="/admin/users" element={<AllUsers />} />
 				<Route path="/paymentEdit" element={<EditPaymentInfo />} />
 			</Routes>
 		</div>

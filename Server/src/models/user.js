@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+const imageSchema = new mongoose.Schema({
+	imageUrl: {
+		type: String,
+		required: true,
+	},
+});
+
 const paymentSchema = new mongoose.Schema({
   cardNumber: {
     type: String,
@@ -18,33 +25,41 @@ const paymentSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
+    /* required: true, */
     unique: true,
   },
   password: {
     type: String,
+    /* required: true, */
   },
   name: {
     type: String,
+    /* required: true, */
   },
   lastName: {
     type: String,
+    /* required: true, */
   },
   images:{
     type:String
   },
   country: {
     type: String,
+    /* required: true, */
   },
   city: {
     type: String,
+    /* required: true, */
   },
   address: {
     type: String,
+    /* required: true, */
   },
   phoneNumber: {
     type: String,
+    /* required: true, */
   },
-  
+  images: [imageSchema],
 
 	type: String,
   active:Boolean,
