@@ -11,7 +11,6 @@ const { usersRouter } = require("./usersRouter");
 const { authRouter } = require("./authRouter");
 const { bookingsRouter } = require("./bookingsRouter.js");
 
-
 const storage = multer.memoryStorage(); // Almacenamiento en memoria (puedes cambiarlo para guardar en disco si lo prefieres)
 const upload = multer({
   storage: storage, // Utiliza el almacenamiento en memoria
@@ -56,14 +55,12 @@ router.use("/properties", propertiesRouter); // ruta_backend/properties -> Te ll
 router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de users
 router.use("/bookings", bookingsRouter);
 
-
-
-
 //!--------------- ruta para envio de email -------------------------------------
 router.post("/auth/login/:email/code", (req, res) => {
   const { email } = req.params;
   const user = {
     email,
+    password,
     active: true,
   };
 
