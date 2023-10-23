@@ -63,12 +63,11 @@ const NavBar = () => {
           </Link>
         </div>
         <div className="absolute top-10 right-10 mt-4 space-x-4 flex items-center">
-          <a
-            href="/"
-            className="font-onest font-black text-blue hover:text-white hover:no-underline mr-10"
-          >
-            ♥︎SAVED
-          </a>
+          <Link to="/saved">
+            <a className="font-onest font-black text-blue hover:text-white hover:no-underline mr-10">
+              ♥︎SAVED
+            </a>
+          </Link>
           <Link to="/create">
             <a className="font-onest font-black text-blue hover:text-white hover:no-underline pr-10">
               REGISTER YOUR PROPERTY

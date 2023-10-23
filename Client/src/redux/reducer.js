@@ -1,60 +1,63 @@
 import {
-	GET_PROPERTY,
-	GET_PROPERTY_DETAIL,
-	CREATE_PROPERTY,
-	ADD_USER,
-	FILTERS,
-	CLEAN_DETAIL,
-	ERROR,
-	USER_LOGIN,
-	PROPERTY_EDITED,
-	CREATE_BOOKING,
-	GET_ALL_BOOKINGS,
-	GET_BOOKING,
-	GET_ALL_USERS,
-	USER_EDITED,
-	RESET_STATE,
-	PROPERTY_DAYS_EDITED,
-	USER_AUTHENTICATED
+  GET_PROPERTY,
+  GET_PROPERTY_DETAIL,
+  CREATE_PROPERTY,
+  ADD_USER,
+  FILTERS,
+  CLEAN_DETAIL,
+  ERROR,
+  USER_LOGIN,
+  PROPERTY_EDITED,
+  CREATE_BOOKING,
+  GET_ALL_BOOKINGS,
+  GET_BOOKING,
+  GET_ALL_USERS,
+  USER_EDITED,
+  RESET_STATE,
+  PROPERTY_DAYS_EDITED,
+  SAVE_PROPERTY,
+  REMOVE_FROM_SAVED,
+  USER_AUTHENTICATED
 } from "./actions_types";
 
 const initialState = {
-	error: "",
-	user: "",
-	properties: [],
-	allproperties: [],
-	propertyDetail: {},
-	searchTerm: "",
-	bookings: [],
-	allBookings: [],
-	bookingDetail: {},
-	details: [],
+  error: "",
+  user: "",
+  properties: [],
+  allproperties: [],
+  propertyDetail: {},
+  searchTerm: "",
+  bookings: [],
+  allBookings: [],
+  bookingDetail: {},
+  details: [],
+  savedProperties: [],
 };
 
 const filterPropertyType = (state, payload) => {
-	if (payload.type === "default") {
-		return state.allproperties;
-	} else {
-		return state.allproperties.filter(
-			(property) => property.type === payload.type
-		);
-	}
+  if (payload.type === "default") {
+    return state.allproperties;
+  } else {
+    return state.allproperties.filter(
+      (property) => property.type === payload.type
+    );
+  }
 };
 
 const orderPropertyPrice = (state, payload) => {
-	let propertyOrdenated = [...state.properties];
-	if (payload.orderPrice === "default") {
-		return propertyOrdenated;
-	} else if (payload.orderPrice === "-") {
-		propertyOrdenated = propertyOrdenated
-			.slice()
-			.sort((a, b) => a.price - b.price);
-	} else if (payload.orderPrice === "+") {
-		propertyOrdenated = propertyOrdenated
-			.slice()
-			.sort((a, b) => b.price - a.price);
-	}
-	return propertyOrdenated;
+  let propertyOrdenated = [...state.properties];
+  if (payload.orderPrice === "default") {
+    return propertyOrdenated;
+  } else if (payload.orderPrice === "-") {
+    propertyOrdenated = propertyOrdenated
+      .slice()
+      .sort((a, b) => a.price - b.price);
+  } else if (payload.orderPrice === "+") {
+    propertyOrdenated = propertyOrdenated
+      .slice()
+      .sort((a, b) => b.price - a.price);
+  }
+  return propertyOrdenated;
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -222,6 +225,32 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				allUsers: payload,
 				users: payload,
 			};
+    
+    case SAVE_PROPERTY:
+      const propertyToAdd = state.allproperties.find(
+        (prop) => prop._id === payload
+      );
+
+      return {
+        ...state,
+        savedProperties: [...state.savedProperties, propertyToAdd],
+        user: {
+          ...state.user,
+          savedProperties: [...state.user.savedProperties, propertyToAdd],
+        },
+      };
+
+    case REMOVE_FROM_SAVED:
+      // Filtrar la propiedad a eliminar de la lista de propiedades guardadas
+      const updatedSavedProperties = state.savedProperties.filter(
+        (prop) => prop._id !== payload
+      );
+
+      return {
+        ...state,
+        savedProperties: updatedSavedProperties,
+        user: { ...state.user, savedProperties: updatedSavedProperties },
+      };
 
 		case RESET_STATE:
 			return initialState;

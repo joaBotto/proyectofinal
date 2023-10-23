@@ -75,8 +75,9 @@ import Postuser from "./components/propertiesAdmin/propertyUser";
 import PaymentForm from "./components/PaymentForm/PaymentForm";
 import { AllUsers } from "./components/admin/allUsers/allUsers";
 import EditAccount from "./components/propertiesAdmin/personalEdit";
+import SavedProperties from "./views/Saved/Saved";
 import EditPaymentInfo from "./components/propertiesAdmin/paymentEdit"
-import axios from 'axios'
+import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3001";
 // axios.defaults.baseURL = "https://inmobiliaria360.up.railway.app";
@@ -103,6 +104,7 @@ function App() {
 				<Route path="/checkout" element={<PaymentForm />} />
 				<Route path="/gestionUser" element={<GestionUser />} />
 				<Route path="/personalEdit" element={<EditAccount />} />
+				<Route path="/saved" element={<SavedProperties />} />
 				<Route path="/admin" element={<HomeAdmin />} />
 				<Route path="/admin/property/:id" element={<EditPropertyFromAdmin />} />
 				<Route path="/loginadmin" element={<LoginAdmin />} />
