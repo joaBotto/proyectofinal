@@ -31,28 +31,28 @@ const initialState = {
 	details: [],
 };
 
-const filterSeachBar = (state, payload) => {
-let copyProperties = state.properties
-if (payload.search === "") {
-	return state.allproperties
-} else {
-	let filterResult = copyProperties.filter((prop) => prop.address.state.toLowerCase().trim() === payload.search.toLowerCase().trim());
-	if(!filterResult) {
-		filterResult = copyProperties.filter((prop) => prop.title.toLowerCase().trim() === payload.search.toLowerCase().trim());
-	}
-	return filterResult
-}
-}
-
 const filterPropertyType = (state, payload) => {
 	if (payload.type === "default") {
 		return state.allproperties;
 	} else {
-		return state.properties.filter(
+		return state.allproperties.filter(
 			(property) => property.type === payload.type
 		);
 	}
 };
+
+const filterSeachBar = (state, payload) => {
+	let copyProperties = state.properties
+	if (payload.search === "") {
+		return state.properties
+	} else {
+		let filterResult = copyProperties.filter((prop) => prop.address.state.toLowerCase().trim() === payload.search.toLowerCase().trim());
+		if(!filterResult) {
+			filterResult = copyProperties.filter((prop) => prop.title.toLowerCase().trim() === payload.search.toLowerCase().trim());
+		}
+		return filterResult
+	}
+	}
 
 const orderPropertyPrice = (state, payload) => {
 	let propertyOrdenated = [...state.properties];
@@ -117,15 +117,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case FILTERS:
-			const filterBySearchBar = filterSeachBar(state, payload)
-			const filterPropertyForType = filterPropertyType({
+			const filterPropertyForType = filterPropertyType(state, payload);
+			const filterBySearchBar = filterSeachBar({
 				...state,
-				properties:filterBySearchBar
-			}, payload);
+				properties:filterPropertyForType
+			}, payload)
 			const orderPropertyForPrice = orderPropertyPrice(
 				{
 					...state,
-					properties: filterPropertyForType,
+					properties: filterBySearchBar,
 				},
 				payload
 			);

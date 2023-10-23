@@ -1,17 +1,13 @@
 const creatingProperty = require("../controllers/creatingProperty");
 const getProperties = require("../controllers/getProperties");
-const getSearchedProperties = require("../controllers/getSearchPropertiesByQuery");
 const detailingProperty = require("../controllers/detailingProperty");
 const editingProperty = require("../controllers/editingProperty");
 const updatingAvailableDays = require("../controllers/updatingAvailableDays");
 
 const getPropertiesHandler = async (req, res) => {
-	const { search } = req.query;
-	console.log(search);
+	
 	try {
-		const allProperties = search
-			? await getSearchedProperties(search)
-			: await getProperties();
+		const allProperties = await getProperties();
 		return res.status(200).json(allProperties);
 	} catch (error) {
 		return res.status(500).json({ error: error.message });

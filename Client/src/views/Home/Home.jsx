@@ -21,8 +21,8 @@ export default function Home() {
 
 
 // ----------------FILTROS---------------------------
-	const [type, setType] = useState("");
-	const [orderPrice, setOrderPrice] = useState("");
+	const [type, setType] = useState("default");
+	const [orderPrice, setOrderPrice] = useState("default");
 	const [search, setSearch] = useState("");
 	
 
@@ -75,8 +75,8 @@ export default function Home() {
 			});
 	}, []);
 
-	console.log("soy el user en home", user);
-	console.log("Soy prop en el home", properties);
+	// console.log("soy el user en home", user);
+	// console.log("Soy prop en el home", properties);
 	const activeProperties = properties.filter(
 		(properties) => properties.active === true
 	);
