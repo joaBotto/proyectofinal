@@ -26,6 +26,7 @@ export default function Home() {
 
 	const handleChange = (event) => {
 		const name = event.target.name;
+		setNoResults(false)
 
 		if(name === "searchBar"){
 			setSearch(event.target.value)
@@ -99,7 +100,7 @@ export default function Home() {
 	return (
 		<div className="mt-5 mx-0">
 			<div className="w-full absolute top-[400px] flex xl:justify-center md:ml-3">
-				<SearchBar handleChange={handleChange} search={search} setSearch={setSearch} />
+				<SearchBar handleChange={handleChange} search={search}/>
 			</div>
 			
 				<div className="bg-transparent flex flex-row justify-end py-2 w-full rounded-full">
@@ -138,15 +139,6 @@ export default function Home() {
 					<h1 className="text-3xl font-bold text-violet">
 						There are no active properties
 					</h1>
-					<button
-						onClick={() => {
-							setNoResults(false);
-							dispatch(getProperty());
-						}}
-						className="text-cyan hover:underline"
-					>
-						Show all properties
-					</button>
 				</div>
 			) : (
 				<div className="mt-5 mx-0">
