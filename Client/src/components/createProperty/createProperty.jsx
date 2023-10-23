@@ -192,7 +192,11 @@ export default function CreateProperty() {
                         className="mt-1 p-2 w-full rounded-full border"
                         readOnly
                     />
+
+
+
                 </div>
+
             </div>
         );
     };
@@ -270,9 +274,9 @@ export default function CreateProperty() {
 
         try {
             await dispatch(createProperty(newProperty));
-            setTimeout(() => {
-                navigate("/");
-            }, 7000);
+            // setTimeout(() => {
+            //     navigate("/");
+            // }, 7000);
         } catch (error) {
             console.error("Error creating property:", error);
         } finally {
@@ -847,4 +851,3 @@ export default function CreateProperty() {
         </div>
     );
 }
-
