@@ -32,37 +32,27 @@ export default function Home() {
 		if(name === "searchBar"){
 			setSearch(event.target.value)
 			dispatch(filters(type, orderPrice, event.target.value));
-			console.log("soy el searchBar", event.target.value)
+			// console.log("soy el searchBar", event.target.value)
 		}
 		if (name === "type") {
 			setType(event.target.value);
 			dispatch(filters(event.target.value, orderPrice, search));
-			console.log("SOY LOS FILTROS", type, orderPrice, search)
+			// console.log("SOY LOS FILTROS", type, orderPrice, search)
 		}
 		if (name === "price") {
 			setOrderPrice(event.target.value);
 			dispatch(filters(type, event.target.value, search));
-			console.log("SOY LOS FILTROS", type, orderPrice, search)
+			// console.log("SOY LOS FILTROS", type, orderPrice, search)
 		}
 	};
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		dispatch(filters(type, orderPrice, search));
-		console.log("SOY LOS FILTROS", type, orderPrice, search)
-		setPage(1);
-	};
 
 
 	// -----------------------------------------------------
 
 	useEffect(() => {
-		if (searchQuery) {
-			dispatch(searchByQuery(searchQuery));
-		} else {
 			dispatch(getProperty());
-		}
-	}, [dispatch, searchQuery]);
+	}, [dispatch]);
 
 	useEffect(() => {
 		axios
@@ -78,7 +68,7 @@ export default function Home() {
 			});
 	}, []);
 
-	// console.log("soy el user en home", user);
+	console.log("soy el user en home", user);
 	console.log("Soy prop en el home", properties);
 	const activeProperties = properties.filter(
 		(properties) => properties.active === true
