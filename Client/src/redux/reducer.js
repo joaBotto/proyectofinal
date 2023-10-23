@@ -46,10 +46,16 @@ const filterSeachBar = (state, payload) => {
 	if (payload.search === "") {
 		return state.properties
 	} else {
-		let filterResult = copyProperties.filter((prop) => prop.address.state.toLowerCase().trim() === payload.search.toLowerCase().trim());
+		let filterResult = copyProperties.filter((prop) => {
+			if (prop.address.state.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
+			return prop
+		}});
 		console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR STATE", filterResult)
 		if(filterResult.length === 0) {
-			filterResult = copyProperties.filter((prop) => prop.title.toLowerCase().trim() === payload.search.toLowerCase().trim());
+			filterResult = copyProperties.filter((prop) => {
+				if (prop.title.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
+				return prop
+			}});
 			console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR TITLE", filterResult)
 		}
 		return filterResult

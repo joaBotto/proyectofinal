@@ -31,6 +31,7 @@ export default function Home() {
 
 		if(name === "searchBar"){
 			setSearch(event.target.value)
+			dispatch(filters(type, orderPrice, event.target.value));
 			console.log("soy el searchBar", event.target.value)
 		}
 		if (name === "type") {
