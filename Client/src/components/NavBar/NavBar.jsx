@@ -5,6 +5,7 @@ import {
   faSignInAlt,
   faSignOutAlt,
   faBars,
+  faHome,
   faGears,
   faHouseUser,
   faCalendarCheck,
@@ -73,7 +74,7 @@ const NavBar = () => {
             </a>
           </Link>
           {user && user.role === "admin" && (
-            <Link to="/loginadmin">
+            <Link to="/admin">
               <a className="font-onest font-black text-blue hover:text-white hover:underline mr-10 pr-10">
                 DASHBOARD
               </a>
@@ -119,6 +120,13 @@ const NavBar = () => {
                   </Link>
                 </div>
               )}
+               {location.pathname === "/postUser" ? (
+                <Link to="/">
+                  <button className="pt-2 pb-2 pr-2 pl-2 text-white bg-violet rounded-full mr-1 hover:bg-pink">
+                    <FontAwesomeIcon icon={faHome} /> HOME
+                  </button>
+                </Link>
+              ) : (
               <button
                 className="pt-1 pb-1 pr-2 pl-2 text-white bg-grey rounded-full mr-10 hover:bg-violet"
                 onClick={handleLogout}
@@ -126,6 +134,7 @@ const NavBar = () => {
                 LogOut-
                 <FontAwesomeIcon icon={faSignOutAlt} />
               </button>
+                )}
             </>
           ) : (
             <Link

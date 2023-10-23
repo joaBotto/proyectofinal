@@ -37,14 +37,11 @@ export default function Postuser() {
       {userProperties.length > 0 ? (
         <>
           <h1 className="absolute sm:text-5xl text-xl font-black text-violet mt-10 top-40 left-7 leading-[1.2] font-onest">
-            FIND A HOME THAT
-            <br /> SUITS YOU
+            LOOK AT
+            <br /> YOUR PROPERTIES
           </h1>
           <p className="absolute text-lg font-bold text-white top-[320px] left-7 font-onest">
-            +200 PROPERTIES
-          </p>
-          <p className="absolute text-lg font-bold text-white mt-6 top-[320px] left-7 font-onest">
-            +400 HAPPY CUSTOMERS
+            MODIFY OR DELETE YOUR PROPERTIES.
           </p>
           <Paginado
             page={page}

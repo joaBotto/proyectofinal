@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios'
 
 export default function Login() {
   let regExPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9/*-]{1,15}$/;
@@ -23,6 +24,10 @@ export default function Login() {
     dispatch(userLogin(valores));
   };
 
+  const handleGoogle = () => {
+    window.location.href = "http://localhost:3001/auth/google";
+  }
+  
   useEffect(() => {
     if (user) {
       navigate("/");
@@ -138,7 +143,8 @@ export default function Login() {
                 </button>
                 <div className="flex justify-between">
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleGoogle}
                     className="inline bg-light-blue-800 font-onest text-white px-4 py-2 rounded-full hover:bg-pink"
                   >
                     Login with Google
