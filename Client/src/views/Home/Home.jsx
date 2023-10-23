@@ -6,7 +6,7 @@ import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/Cards";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { FadeLoader } from "react-spinners";
-import { getProperty, searchByQuery, filters } from "../../redux/actions";
+import { getProperty, filters } from "../../redux/actions";
 import { userAuthenticated } from "../../redux/actions";
 import axios from "axios";
 
@@ -68,6 +68,7 @@ export default function Home() {
 
 	console.log("soy el user en home", user);
 	console.log("Soy prop en el home", properties);
+	
 	const activeProperties = properties.filter(
 		(properties) => properties.active === true
 	);
