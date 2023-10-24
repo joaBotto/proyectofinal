@@ -1,4 +1,4 @@
-import CardAdmin from '../Card/CardAdmin';
+import CardAdmin from '../admin/CardAdmin/CardAdmin';
 
 export default function CardsAdmin({ properties }) {
 

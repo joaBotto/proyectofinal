@@ -8,11 +8,12 @@ import {
   faEdit,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import ImageCarousel from "./ImageCarousel";
-import Delete from "../admin/editProperty/modals/Delete"
-import { useState } from "react";
+import ImageCarousel from "../../Card/ImageCarousel";
+import Delete from "../editProperty/modals/Delete"
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { propertyDelete, userLogin } from "../../redux/actions";
+import { propertyDelete } from "../../../redux/actions";
+import Success from "../editProperty/modals/Success"
 
 const CardAdmin = ({
   _id,
@@ -26,12 +27,11 @@ const CardAdmin = ({
   area, 
 }) => {
   const dispatch = useDispatch();
-  const [showModalDelete, setShowModalDelete] = useState(false)
+  const [showModalDelete, setShowModalDelete] = useState(false);
 
   const okDelete = async (_id) => {
       setShowModalDelete(false)
-      dispatch(propertyDelete(_id))
-     
+      dispatch(propertyDelete(_id))   
   }
 
   const cancelDelete = () => {
