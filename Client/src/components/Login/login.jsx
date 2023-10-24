@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import axios from 'axios'
 
 export default function Login() {
   let regExPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9/*-]{1,15}$/;

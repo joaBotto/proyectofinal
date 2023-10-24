@@ -155,12 +155,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				error: null,
 			};
 
-		case USER_LOGIN:
+	
+			case USER_LOGIN:
 			return {
 				...state,
 				user: payload,
-				savedProperties: [...state.user.savedProperties]
+				savedProperties: [...payload.savedProperties]
 			};
+
+
 
 		case PROPERTY_EDITED:
 			const allproperties = state.allproperties;
@@ -266,6 +269,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
           ...state.user,
           savedProperties: [...state.user.savedProperties, propertyToAdd],
         },
+
       };
 
     case REMOVE_FROM_SAVED:
