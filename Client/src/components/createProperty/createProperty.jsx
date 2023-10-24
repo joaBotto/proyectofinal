@@ -19,6 +19,8 @@ import PlacesAutocomplete, {
 	getLatLng,
 } from "react-places-autocomplete";
 
+
+
 export default function CreateProperty() {
 	const user = useSelector((state) => state.user);
 	console.log("soy el usuario en createProperty", user);
@@ -54,37 +56,60 @@ export default function CreateProperty() {
 
 	const LocationSearchInput = ({ field, form: { setFieldValue } }) => {
 		const handleChange = (address, isSuggestion) => {
-		  console.log('handleChange:', address, isSuggestion);
-	  
-		  if (!address) {
-			setFieldValue('address.street', '');
-			setFieldValue('address.city', '');
-			setFieldValue('address.locality', '');
-			setFieldValue('address.state', '');
-		  } else {
-			setFieldValue('address.street', address);
-			if (isSuggestion) {
-			  handleSelect(address);
-			}
-		  }
-		};
-	  
-		const handleSelect = (address) => {
-			console.log('handleSelect:', address);
+			console.log('handleChange:', address, isSuggestion);
 		  
+			if (!address) {
+			  setFieldValue('address.street', '');
+			  setFieldValue('address.city', '');
+			  setFieldValue('address.locality', '');
+			  setFieldValue('address.state', '');
+			  setFieldValue('address.zipcode', ''); // Limpiar el campo del código postal
+			} else {
+			  setFieldValue('address.street', address);
+			  if (isSuggestion) {
+				handleSelect(address);
+			  }
+			}
+		  };
+	  
+		const handleZipcodeChange = (e) => {
+			console.log('handleZipcodeChange:', handleZipcodeChange);
+			const zipcode = e.target.value;
+			setFieldValue('address.zipcode', zipcode);
+		  };
+		
+		  const [zipcode, setZipcode] = useState('');
+
+		  const handleSelect = (address) => {
 			geocodeByAddress(address)
 			  .then((results) => {
 				const result = results[0];
-				return Promise.all([getLatLng(result), result.address_components]);
+				return Promise.all([
+				  getLatLng(result),
+				  result.address_components,
+				  result.formatted_address,
+				]);
 			  })
-			  .then(([latLng, addressComponents]) => {
+			  .then(([latLng, addressComponents, formattedAddress]) => {
 				console.log('Geocoding success', latLng, addressComponents);
-		  
+				
 				setFieldValue('address.locality', extractAddressComponent(addressComponents, 'locality'));
 				setFieldValue('address.city', extractAddressComponent(addressComponents, 'administrative_area_level_1'));
-				setFieldValue('address.state', extractAddressComponent(addressComponents, 'country')); // Nuevo campo para el país
+				setFieldValue('address.state', extractAddressComponent(addressComponents, 'country'));
+				
+				// Obtener codigo postal
+				const zipcode = extractAddressComponent(addressComponents, 'postal_code');
+				setFieldValue('address.zipcode', zipcode);
+				
+				// Guardar el código postal en la variable de estado "zipcode"
+				setZipcode(zipcode);
 			  })
-			  .catch((error) => console.error('Geocoding error', error));
+			  .catch((error) => {
+				console.error('Geocoding error', error);
+				// Limpiar el campo del código postal cuando hay un error en la geocodificación
+				setFieldValue('address.zipcode', '');
+				setZipcode('');
+			  });
 		  };
 		  
 	  
@@ -93,6 +118,9 @@ export default function CreateProperty() {
 		  return component ? component.long_name : '';
 		};
 	  
+
+
+
 		return (
 		  <div>
 			<PlacesAutocomplete
@@ -134,6 +162,8 @@ export default function CreateProperty() {
 						</div>
 					  );
 					})}
+
+    
 				  </div>
 				</div>
 			  )}
@@ -166,6 +196,18 @@ export default function CreateProperty() {
           readOnly
         />
       </div>
+  <div>
+      <label>Zipcode</label>
+      <input
+        type="text"
+        value={field.value.zipcode}
+        onChange={handleZipcodeChange}
+      />
+    </div>
+
+
+
+
     </div>
   );
 };
@@ -173,11 +215,11 @@ export default function CreateProperty() {
 	const initialValues = {
 		address: {
 			street: "",
-			locality:"",
+			locality: "",
 			city: "",
 			state: "",
-			zipcode: "",
-		},
+			zipcode: "", // Agrega el campo zipcode aquí
+		  },
 		bedrooms: 0,
 		bathrooms: 0,
 		price: 0,
@@ -386,7 +428,7 @@ export default function CreateProperty() {
 											className="text-red-600 text-sm"
 										/> */}
 
-										<label htmlFor="address.zipcode"></label>
+										{/* <label htmlFor="address.zipcode"></label>
 										<Field
 											type="number"
 											name="address.zipcode"
@@ -397,7 +439,7 @@ export default function CreateProperty() {
 											name="address.zipcode"
 											component="div"
 											className="text-red-600 text-sm"
-										/>
+										/> */}
 									</div>
 									<p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
 										Property's Characteristics
@@ -496,6 +538,7 @@ export default function CreateProperty() {
 												name="type"
 												className="mt-1 p-2 w-full rounded-full border"
 											>
+												<option value="Select Type">Select Type</option>
 												<option value="House">House</option>
 												<option value="Appartment">Appartment</option>
 												<option value="Horizontal Property">
