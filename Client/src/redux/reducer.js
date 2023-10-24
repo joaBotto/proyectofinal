@@ -47,23 +47,24 @@ const filterPropertyType = (state, payload) => {
 const filterSeachBar = (state, payload) => {
 	let copyProperties = state.properties
 	if (payload.search === "") {
-		return state.properties
+	  return state.properties
 	} else {
-		let filterResult = copyProperties.filter((prop) => {
-			if (prop.address.state.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
-			return prop
-		}});
-		// console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR STATE", filterResult)
-		if(filterResult.length === 0) {
-			filterResult = copyProperties.filter((prop) => {
-				if (prop.title.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
-				return prop
-			}});
-			// console.log("SOY FILTER RESULT DESPUES DE FILTRAR POR TITLE", filterResult)
+	  let filterResult = copyProperties.filter((prop) => {
+		if ((prop.address.state && prop.address.state.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) ||
+		  (prop.address.country && prop.address.country.toLowerCase().trim().includes(payload.search.toLowerCase().trim()))) {
+		  return prop
 		}
-		return filterResult
+	  });
+	  if(filterResult.length === 0) {
+		filterResult = copyProperties.filter((prop) => {
+		  if (prop.title && prop.title.toLowerCase().trim().includes(payload.search.toLowerCase().trim())) {
+			return prop
+		  }
+		});
+	  }
+	  return filterResult
 	}
-}
+  }
 
 const orderPropertyPrice = (state, payload) => {
   let propertyOrdenated = [...state.properties];

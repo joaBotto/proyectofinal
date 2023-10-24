@@ -18,6 +18,7 @@ const propertySchema = new mongoose.Schema({
   },
   address: {
     street: String,
+    locality:String,
     city: String,
     state: String,
     zipcode: String,
