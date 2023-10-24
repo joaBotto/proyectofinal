@@ -18,8 +18,6 @@ export default function Login() {
 
 
   const user = useSelector((state) => state.user);
-
-  console.log("SOY USER EN LOGIN",user)
   
   const userCreated = useSelector((state) => state.userCreated);
   // console.log(user);
