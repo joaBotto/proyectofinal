@@ -9,11 +9,11 @@ function SavedProperties() {
 
   return (
     <div>
-      <h2 className="inline sm:text-5xl text-xl font-black text-violet left-7 leading-[1.2] font-onest">
+      <h2 className="inline sm:text-5xl text-xl font-black text-violet mx-10 left-7 leading-[1.2] font-onest">
         My Favorites
       </h2>
       <Link to={"/"}>
-        <button className="bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-6 self-end hover:bg-pink">
+        <button className="bg-blue text-white font-onest font-light px-4 py-2 ml-0 rounded-full mx-6 self-end hover:bg-pink">
           Home
         </button>
       </Link>
