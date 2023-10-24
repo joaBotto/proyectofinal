@@ -27,22 +27,25 @@ const Card = ({
 	bathrooms,
 	area,
 }) => {
-	const dispatch = useDispatch();
-	const savedProperty = useSelector((state) => state.savedProperties);
-	const user = useSelector((state) => state.user);
-	const allproperties = useSelector((state) => state.allproperties);
 
-	const handleSaveClick = () => {
-		if (!savedProperty.find((property) => property._id === _id)) {
-			// Buscar el objeto en allproperties por _id
-			const propertyToAdd = allproperties.find(
-				(property) => property._id === _id
-			);
+  const dispatch = useDispatch();
+  const savedProperty = useSelector((state) => state.savedProperties);
+  const user = useSelector((state) => state.user);
+  const allproperties = useSelector((state) => state.allproperties);
+
+  const handleSaveClick = () => {
+    if (!savedProperty.find((property) => property._id === _id)) {
+      // Buscar el objeto en allproperties por _id
+      const propertyToAdd = allproperties.find(
+        (property) => property._id === _id
+      );
+
 
 			if (propertyToAdd) {
 				// Dispatch the action to add the property to the saved list
 				console.log("Agregando a favoritos", _id);
 				dispatch(addPropertyToSaved(_id));
+
 
 				// Agregar el objeto al usuario
 				const userEdited = {
@@ -70,6 +73,7 @@ const Card = ({
 	const isSavedClass = savedProperty.find((property) => property._id === _id)
 		? "text-cyan"
 		: "";
+
 
 	const combinedClasses = `${heartClasses} ${isSavedClass}`;
 

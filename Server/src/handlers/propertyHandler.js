@@ -3,6 +3,7 @@ const getProperties = require("../controllers/getProperties");
 const detailingProperty = require("../controllers/detailingProperty");
 const editingProperty = require("../controllers/editingProperty");
 const updatingAvailableDays = require("../controllers/updatingAvailableDays");
+const removingProperty = require('../controllers/removingProperty')
 
 const getPropertiesHandler = async (req, res) => {
 	try {
@@ -123,10 +124,21 @@ const editPropertyHandler = async (req, res) => {
 	}
 };
 
+const deleteProperty = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const propertyEliminated = await removingProperty(id);
+		return res.status(200).json(propertyEliminated)	
+	} catch (error) {
+		return res.status(500).json({ error: error.message });
+	}
+}
+
 module.exports = {
 	getPropertiesHandler,
 	creatingPropertyHandler,
 	getPropertyByIdHandler,
 	editPropertyHandler,
 	editPropertyAvailability,
+	deleteProperty
 };

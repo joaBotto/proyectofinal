@@ -1,13 +1,13 @@
 import "./login.css";
 import { Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import fondo from "../../assets/img/loginRegister.jpg";
 import logo from "../../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import axios from 'axios'
+import ModalError from "./ModalErrorLogin";
 
 export default function Login() {
   let regExPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9/*-]{1,15}$/;
@@ -15,10 +15,16 @@ export default function Login() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
   const user = useSelector((state) => state.user);
+  const errorState = useSelector((state) => state.error)
+  const messageError = useSelector((state) => state.messageError)
   const userCreated = useSelector((state) => state.userCreated);
-  // console.log(user);
-  // console.log(userCreated);
+  console.log("SOY EL ERROR",errorState)
+  
+ const [showModalError, setShowModalError] = useState(true);
+
   const handleSubmit = (valores) => {
     console.log(valores);
     dispatch(userLogin(valores));
@@ -27,12 +33,16 @@ export default function Login() {
   const handleGoogle = () => {
     window.location.href = "http://localhost:3001/auth/google";
   }
+
+  useEffect(()=> {
+    setShowModalError(!showModalError)
+  }, [errorState])
   
   useEffect(() => {
     if (user) {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [user]);
 
   return (
     <div
@@ -43,6 +53,7 @@ export default function Login() {
         backgroundRepeat: "no-repeat",
       }}
     >
+      {showModalError && (<ModalError message={messageError} setShowModalError={setShowModalError}/>)}
       <div className="w-1/3 mt-14">
         <Formik
           // Declaramos los valores iniciales

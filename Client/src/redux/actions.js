@@ -1,26 +1,27 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
-	GET_PROPERTY,
-	GET_PROPERTY_DETAIL,
-	CLEAN_DETAIL,
-	ADD_USER,
-	CREATE_PROPERTY,
-	ERROR,
-	USER_LOGIN,
-	FILTERS,
-	PROPERTY_EDITED,
-	CREATE_BOOKING,
-	GET_ALL_BOOKINGS,
-	GET_BOOKING,
-	GET_ALL_USERS,
-	USER_EDITED,
-	USER_LOGOUT,
-	RESET_STATE,
-	PROPERTY_DAYS_EDITED,
-	SAVE_PROPERTY,
-	REMOVE_FROM_SAVED,
-	USER_AUTHENTICATED,
+  GET_PROPERTY,
+  GET_PROPERTY_DETAIL,
+  CLEAN_DETAIL,
+  ADD_USER,
+  CREATE_PROPERTY,
+  ERROR,
+  USER_LOGIN,
+  FILTERS,
+  PROPERTY_EDITED,
+  CREATE_BOOKING,
+  GET_ALL_BOOKINGS,
+  GET_BOOKING,
+  GET_ALL_USERS,
+  USER_EDITED,
+  USER_LOGOUT,
+  RESET_STATE,
+  PROPERTY_DAYS_EDITED,
+  SAVE_PROPERTY,
+  REMOVE_FROM_SAVED,
+  USER_AUTHENTICATED,
+  DELETE_PROPERTY
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
@@ -158,22 +159,23 @@ export const editPropertyAvailability = (propertyId, newAvailableDays) => {
 };
 
 export const userLogin = (valores) => {
-	const url = "/auth/login";
-	return async (dispatch) => {
-		try {
-			const { data } = await axios.post(url, valores);
-			const { user } = data;
-			dispatch({
-				type: USER_LOGIN,
-				payload: user,
-			});
-		} catch (error) {
-			dispatch({
-				type: ERROR,
-				payload: error.message,
-			});
-		}
-	};
+  const url = "/auth/login";
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(url, valores);
+      const { user } = data;
+      console.log("AUTH",user)
+      return dispatch({
+        type: USER_LOGIN,
+        payload: user
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
 };
 
 //!------- User LogOut ---------------
@@ -292,3 +294,21 @@ export const getAllUsers = () => {
 		}
 	};
 };
+
+export const propertyDelete = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`/properties/${id}`);
+      return dispatch({
+        type: DELETE_PROPERTY,
+        payload: data,
+      });
+      
+    } catch (error) {
+       return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  }
+}

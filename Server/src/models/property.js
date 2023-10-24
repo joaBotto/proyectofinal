@@ -26,6 +26,7 @@ const reviewsSchema = new mongoose.Schema({
 });
 
 const propertySchema = new mongoose.Schema({
+
 	title: {
 		type: String,
 		// required: true,
@@ -44,6 +45,7 @@ const propertySchema = new mongoose.Schema({
 	bathrooms: Number,
 	availableDays: [Date],
 	images: [imageSchema],
+
 
 	type: String,
 	amenities: {
