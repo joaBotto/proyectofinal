@@ -201,7 +201,7 @@ const Detail = () => {
 										</div>
 										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
 											{property.owner.name} from {property.owner.city},{" "}
-											{property.owner.country}
+											{property.owner.state}
 										</p>
 									</div>
 								</div>
@@ -237,7 +237,7 @@ const Detail = () => {
 									</p>
 									<p className="text-md mt-1 pb-0 mb-0 font-noto font-medium text-blue uppercase">
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
-										{property.type || "Property"} in {property.address.state},{" "}
+										{property.type || "Property"} in {property.address.country},{" "}
 										{property.address.city}
 									</p>
 									<div className="h-[500px] w-[500px]">
