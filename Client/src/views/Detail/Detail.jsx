@@ -18,6 +18,7 @@ import ImageCarousel from "../../components/Card/ImageCarousel";
 import ImageGalleryModal from "./Modal";
 import PropertyMap from "./PropertyMap";
 import NavBar from "../../components/NavBar/NavBar";
+import Footer from "../../components/Footer/Footer";
 import { FadeLoader } from "react-spinners";
 import DisplayCharacteristics from "./Display";
 import BookingDetails from "./Booking";
@@ -264,6 +265,9 @@ const Detail = () => {
 					<FadeLoader color="#54086B" />
 				</div>
 			)}
+			<div className="p-0">
+				<Footer />
+			</div>
 		</div>
 	);
 };
