@@ -11,6 +11,7 @@ const removingProperty = async (id) => {
       return propertyRemove;
     } else {
       user.properties = user.properties.filter(propId => propId.toString() !== id.toString());
+      user.savedProperties ? user.savedProperties = user.properties.filter(propId => propId.toString() !== id.toString()) : user.savedProperties = [];
       await user.save(); 
       return propertyRemove;
     }
