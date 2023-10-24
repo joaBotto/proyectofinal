@@ -170,7 +170,7 @@ export const editPropertyAvailability = (propertyId, newAvailableDays) => {
 };
 
 export const userLogin = (valores) => {
-  const url = "/auth/login";
+  const url = "http://localhost:3001/auth/login";
   return async (dispatch) => {
     try {
       const { data } = await axios.post(url, valores);

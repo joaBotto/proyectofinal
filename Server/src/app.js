@@ -23,12 +23,14 @@ const storage = multer.memoryStorage(); // Almacenamiento en memoria (puedes cam
 const server = express();
 
 const corsOptions = {
-	origin: "http://localhost:3000", // Permite solicitudes desde este origen
+	origin: "http://localhost:3000",  // Permite solicitudes desde este origen
 	methods: 'GET, POST, OPTIONS, PUT, DELETE',
 	allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Solo permite estos encabezados
 	credentials: true, // Permite enviar cookies
 	optionsSuccessStatus: 204,
 };
+
+
 
 server.use(express.json());
 server.use(cors(corsOptions));
@@ -96,7 +98,8 @@ server.post('/api/checkout', async (req, res) => {
 		res.send({ message: 'succesfull payment' });
 	} catch (error) {
 		res.json({ message: error.message });
-	}
+	}//Mandar mail que  hizo pago para verificar 
+	//
 });
 //back para pasarela de pagos fin
 

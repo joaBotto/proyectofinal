@@ -159,7 +159,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				user: payload,
-				savedProperties: [...state.user.savedProperties]
+				savedProperties: [...payload.savedProperties]
 			};
 
 		case PROPERTY_EDITED:
