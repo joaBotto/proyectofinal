@@ -45,12 +45,12 @@ const NavBar = () => {
         </div>
         <div className="absolute top-10 right-10 mt-4 space-x-4 flex items-center">
           <Link to="/saved">
-            <a className="font-onest font-black text-blue hover:text-white hover:no-underline mr-10">
+            <a className="font-onest font-black text-blue hover:text-white hover:no-underline mr-10 transition ease-in duration-150">
               ♥︎SAVED
             </a>
           </Link>
           <Link to="/create">
-            <a className="font-onest font-black text-blue hover:text-white hover:no-underline pr-10">
+            <a className="font-onest font-black text-blue hover:text-white hover:no-underline pr-10 transition ease-in duration-150">
               REGISTER YOUR PROPERTY
             </a>
           </Link>
@@ -64,7 +64,7 @@ const NavBar = () => {
           {user && user.name ? (
             <>
               <button
-                className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-10 hover:bg-pink"
+                className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-10 hover:bg-pink transition ease-in duration-150"
                 onClick={toggleMenu}
               >
                 <FontAwesomeIcon icon={faBars} /> MENU
@@ -81,7 +81,7 @@ const NavBar = () => {
                     </a>
                   </Link>
                   <Link to="/postUser">
-                    <a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2">
+                    <a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2 transition ease-in duration-150">
                       <FontAwesomeIcon
                         icon={faHouseUser}
                         style={{ color: "#050833" }}
@@ -90,7 +90,7 @@ const NavBar = () => {
                     </a>
                   </Link>
                   <Link to="/postUser">
-                    <a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2 ml-1">
+                    <a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2 ml-1 transition ease-in duration-100">
                       <FontAwesomeIcon
                         icon={faCalendarCheck}
                         style={{ color: "#050833" }}
@@ -102,13 +102,13 @@ const NavBar = () => {
               )}
               {location.pathname === "/postUser" ? (
                 <Link to="/">
-                  <button className="pt-2 pb-2 pr-5 pl-5 text-white bg-grey rounded-full mr-10 hover:bg-violet">
+                  <button className="pt-2 pb-2 pr-5 pl-5 text-white bg-grey rounded-full mr-10 hover:bg-violet transition ease-in duration-100">
                     <FontAwesomeIcon icon={faHome} /> HOME
                   </button>
                 </Link>
               ) : (
                 <button
-                  className="pt-2 pb-2 pr-4 pl-4 text-white bg-grey rounded-full mr-10 hover:bg-violet"
+                  className="pt-2 pb-2 pr-4 pl-4 text-white bg-grey rounded-full mr-10 hover:bg-violet transition ease-in duration-100"
                   onClick={handleLogout}
                 >
                   LogOut-
@@ -119,7 +119,7 @@ const NavBar = () => {
           ) : (
             <Link
               to="/login"
-              className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full"
+              className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet hover:bg-pink rounded-full transition ease-in duration-100"
             >
               <FontAwesomeIcon icon={faSignInAlt} /> LOGIN
             </Link>
