@@ -283,10 +283,17 @@ const rootReducer = (state = initialState, { type, payload }) => {
 	  case DELETE_PROPERTY:
 		const copyAllProperties = state.allproperties.filter((property) => property._id !== payload._id);
 		const copyProperties = state.properties.filter((property) => property._id !== payload._id);
+		const updatePropertyUser = state.user.properties.filter((e) => e !== payload._id)
+		const updateSavedProperty = state.user.savedProperties.filter((e) => e !== payload._id)
 		return {
 			...state,
 			allproperties: copyAllProperties,
-			properties: copyProperties
+			properties: copyProperties,
+			user: {
+				...state.user,
+				properties: updatePropertyUser,
+				savedProperties: updateSavedProperty
+			}
 		}
 
 		case RESET_STATE:

@@ -11,8 +11,8 @@ import {
 import ImageCarousel from "./ImageCarousel";
 import Delete from "../admin/editProperty/modals/Delete"
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { propertyDelete } from "../../redux/actions"
+import { useDispatch, useSelector } from "react-redux";
+import { propertyDelete, userLogin } from "../../redux/actions";
 
 const CardAdmin = ({
   _id,
@@ -30,8 +30,8 @@ const CardAdmin = ({
 
   const okDelete = async (_id) => {
       setShowModalDelete(false)
-      console.log("SOY EL ID A ELIMINAR", _id)
       dispatch(propertyDelete(_id))
+     
   }
 
   const cancelDelete = () => {
