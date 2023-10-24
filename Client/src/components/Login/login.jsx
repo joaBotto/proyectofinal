@@ -15,10 +15,16 @@ export default function Login() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
   const user = useSelector((state) => state.user);
+
+  console.log("SOY USER EN LOGIN",user)
+  
   const userCreated = useSelector((state) => state.userCreated);
   // console.log(user);
   // console.log(userCreated);
+
   const handleSubmit = (valores) => {
     console.log(valores);
     dispatch(userLogin(valores));
@@ -32,7 +38,7 @@ export default function Login() {
     if (user) {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [user]);
 
   return (
     <div

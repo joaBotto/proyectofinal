@@ -156,6 +156,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case USER_LOGIN:
+			console.log("ESTOY EN REDUCER",payload)
 			return {
 				...state,
 				user: payload,

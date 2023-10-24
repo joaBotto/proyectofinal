@@ -20,9 +20,9 @@ passport.use(
           return done(null, false);
         }
 
-        if(user.active === false) {
+      /*   if(user.active === false) {
           return done(null, false);
-        }
+        } */
 
         console.log("soy user en authLocal", user);
         return done(null, user);
