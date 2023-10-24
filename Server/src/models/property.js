@@ -10,7 +10,7 @@ const imageSchema = new mongoose.Schema({
 const propertySchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    /* required: true, */
   },
   description: String,
   price: {
