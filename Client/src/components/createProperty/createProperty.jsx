@@ -19,6 +19,8 @@ import PlacesAutocomplete, {
 	getLatLng,
 } from "react-places-autocomplete";
 
+
+
 export default function CreateProperty() {
 	const user = useSelector((state) => state.user);
 	console.log("soy el usuario en createProperty", user);
@@ -69,20 +71,37 @@ export default function CreateProperty() {
 		  }
 		};
 	  
-		const handleSelect = (address) => {
-			console.log('handleSelect:', address);
-		  
+		const handleZipcodeChange = (e) => {
+			console.log('handleZipcodeChange:', handleZipcodeChange);
+			const zipcode = e.target.value;
+			setFieldValue('address.zipcode', zipcode);
+		  };
+		
+		  const [zipcode, setZipcode] = useState('');
+
+		  const handleSelect = (address) => {
 			geocodeByAddress(address)
 			  .then((results) => {
 				const result = results[0];
-				return Promise.all([getLatLng(result), result.address_components]);
+				return Promise.all([
+				  getLatLng(result),
+				  result.address_components,
+				  result.formatted_address,
+				]);
 			  })
-			  .then(([latLng, addressComponents]) => {
+			  .then(([latLng, addressComponents, formattedAddress]) => {
 				console.log('Geocoding success', latLng, addressComponents);
-		  
+				
 				setFieldValue('address.locality', extractAddressComponent(addressComponents, 'locality'));
 				setFieldValue('address.city', extractAddressComponent(addressComponents, 'administrative_area_level_1'));
-				setFieldValue('address.state', extractAddressComponent(addressComponents, 'country')); // Nuevo campo para el país
+				setFieldValue('address.state', extractAddressComponent(addressComponents, 'country'));
+				
+				// Obtener codigo postal
+				const zipcode = extractAddressComponent(addressComponents, 'postal_code');
+				setFieldValue('address.zipcode', zipcode);
+				
+				// Guardar el código postal en la variable de estado "zipcode"
+				setZipcode(zipcode);
 			  })
 			  .catch((error) => console.error('Geocoding error', error));
 		  };
@@ -93,6 +112,9 @@ export default function CreateProperty() {
 		  return component ? component.long_name : '';
 		};
 	  
+
+
+
 		return (
 		  <div>
 			<PlacesAutocomplete
@@ -134,6 +156,8 @@ export default function CreateProperty() {
 						</div>
 					  );
 					})}
+
+      Zipcode: {zipcode}
 				  </div>
 				</div>
 			  )}
@@ -166,6 +190,18 @@ export default function CreateProperty() {
           readOnly
         />
       </div>
+  <div>
+      <label>Zipcode</label>
+      <input
+        type="text"
+        value={field.value.zipcode}
+        onChange={handleZipcodeChange}
+      />
+    </div>
+
+
+
+
     </div>
   );
 };
@@ -173,11 +209,11 @@ export default function CreateProperty() {
 	const initialValues = {
 		address: {
 			street: "",
-			locality:"",
+			locality: "",
 			city: "",
 			state: "",
-			zipcode: "",
-		},
+			zipcode: "", // Agrega el campo zipcode aquí
+		  },
 		bedrooms: 0,
 		bathrooms: 0,
 		price: 0,
@@ -386,7 +422,7 @@ export default function CreateProperty() {
 											className="text-red-600 text-sm"
 										/> */}
 
-										<label htmlFor="address.zipcode"></label>
+										{/* <label htmlFor="address.zipcode"></label>
 										<Field
 											type="number"
 											name="address.zipcode"
@@ -397,7 +433,7 @@ export default function CreateProperty() {
 											name="address.zipcode"
 											component="div"
 											className="text-red-600 text-sm"
-										/>
+										/> */}
 									</div>
 									<p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
 										Property's Characteristics

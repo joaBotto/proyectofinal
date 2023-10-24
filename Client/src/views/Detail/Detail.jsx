@@ -239,6 +239,7 @@ const Detail = () => {
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
 										{property.type || "Property"} in {property.address.country},{" "}
 										{property.address.city}
+								
 									</p>
 									<div className="h-[500px] w-[500px]">
 										<PropertyMap property={property} />
