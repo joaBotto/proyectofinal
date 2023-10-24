@@ -30,6 +30,7 @@ const CardAdmin = ({
 
   const okDelete = async (_id) => {
       setShowModalDelete(false)
+      console.log("SOY EL ID A ELIMINAR", _id)
       dispatch(propertyDelete(_id))
   }
 
@@ -39,7 +40,7 @@ const CardAdmin = ({
 
   return (
     <div className="flex-auto rounded-xl py-2">
-      {showModalDelete && (<Delete okDelete={okDelete} cancelDelete={cancelDelete} />)}
+      {showModalDelete && (<Delete okDelete={okDelete} cancelDelete={cancelDelete} _id={_id} />)}
       <div className="px-4 pt-5 sm:px-6">
         <div className="relative rounded-xl h-[300px] shadow overflow-hidden">
           <ImageCarousel images={images} />

@@ -51,6 +51,7 @@ export default function HomeAdmin() {
     page * perPage
   );
 
+
   return (
     <div className="mt-5 mx-0">
       <NavBarAdmin />
