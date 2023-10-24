@@ -22,7 +22,8 @@ import {
 } from "./actions_types";
 
 const initialState = {
-  error: "",
+  messageError: "",
+  error:0,
   user: "",
   properties: [],
   allproperties: [],
@@ -127,7 +128,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case ERROR:
 			return {
 				...state,
-				error: payload,
+				messageError:payload,
+				error: state.error + 1,
 				userCreated: null,
 			};
 
