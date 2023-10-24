@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../redux/actions";
 import { Link } from "react-router-dom";
 import fondo from "../../assets/img/loginRegister.jpg";
-
+ 
 const EditAccount = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
