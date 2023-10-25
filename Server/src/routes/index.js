@@ -1,81 +1,58 @@
 const { Router } = require("express");
 const router = Router();
-const creatingUser = require("../controllers/creatingUser");
-const creatingProperty = require("../controllers/creatingProperty");
-const getProperties = require("../controllers/getProperties")
-// CREANDO USUARIO
-router.post("/users", async (req, res) => {
+const multer = require("multer");
+const cloudinary = require("../cloudinaryConfig.js");
+const fs = require("fs").promises;
+const path = require("path");
+const { propertiesRouter } = require("./propertiesRouter");
+const { usersRouter } = require("./usersRouter");
+const { authRouter } = require("./authRouter");
+const { bookingsRouter } = require("./bookingsRouter.js");
+const mailsRoutes  = require("./MailsRoutes")
+
+const storage = multer.memoryStorage(); // Almacenamiento en memoria (puedes cambiarlo para guardar en disco si lo prefieres)
+const upload = multer({
+  storage: storage, // Utiliza el almacenamiento en memoria
+  limits: { fileSize: 3840 * 2160 }, // Límite de tamaño del archivo en bytes (1MB en este caso)
+});
+
+router.post("/upload", upload.single("file"), async (req, res) => {
   try {
-    const {
-      email,
-      password,
-      name,
-      lastName,
-      country,
-      city,
-      address,
-      phoneNumber,
-    } = req.body
-    const user = {
-        email,
-        password,
-        name,
-        lastName,
-        country,
-        city,
-        address,
-        phoneNumber,
-      }
-    if (email && password && name && lastName && country && city && address && phoneNumber) {
-        const newUser = await creatingUser(user);
-        return res.status(201).json(newUser)
-    } else {
-        return res.status(400).json({ error: 'missing data' });
+    console.log("Recibida solicitud de carga de imagen");
+    if (!req.file) {
+      console.log("No se proporcionó ninguna imagen."); // Agrega un log si no se proporciona ninguna imagen
+      return res
+        .status(400)
+        .json({ message: "No se proporcionó ninguna imagen." });
     }
+    // Guarda el archivo temporalmente en el sistema de archivos local
+    let temporaryFilePath;
+    if (process.platform === "win32") {
+      // Si el sistema operativo es Windows
+      temporaryFilePath = path.join(process.env.TEMP, req.file.originalname);
+    } else {
+      // Si el sistema operativo no es Windows (por ejemplo, Linux o macOS)
+      temporaryFilePath = `/tmp/${req.file.originalname}`;
+    }
+
+    await fs.writeFile(temporaryFilePath, req.file.buffer);
+
+    const result = await cloudinary.uploader.upload(temporaryFilePath, {
+      folder: "c57629ef1b093e38460ef8101c94f36653",
+    });
+
+    await fs.unlink(temporaryFilePath);
+    console.log("Imagen cargada con éxito:", result.secure_url); // Agrega un log si la imagen se carga con éxito
+    return res.status(200).json({ imageUrl: result.secure_url });
   } catch (error) {
-        return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: "Error al cargar la imagen." });
   }
 });
-// CREANDO PROPIEDAD
-router.post("/property", async (req, res) => {
-    try {
-        const {
-            title,
-            price,
-            address,
-            bedrooms,
-            bathrooms,
-            availableDates,
-            images,
-            owner
-        } = req.body
-        const newProperty =  {
-            title,
-            price,
-            address,
-            bedrooms,
-            bathrooms,
-            availableDates,
-            images,
-            owner
-        }
-        const propertyCreated = await creatingProperty(newProperty)
-        return res.status(201).json(propertyCreated);
 
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    } 
-})
-//PEDIDO DE LAS PROPIEDADES
-router.get("/allproperties", async (req,res) => {
-    try {
-        const properties = await getProperties();
-        return res.status(200).json(properties)
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
-})
-
-
+router.use("/auth", authRouter);
+router.use("/properties", propertiesRouter); // ruta_backend/properties -> Te lleva al router de propiedades
+router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de users
+router.use("/bookings", bookingsRouter);
+router.use("/mail", mailsRoutes);
 
 module.exports = router;

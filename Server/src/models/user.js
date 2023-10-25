@@ -18,37 +18,48 @@ const paymentSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
+    /* required: true, */
     unique: true,
   },
   password: {
     type: String,
-    required: true,
+    /* required: true, */
   },
   name: {
     type: String,
-    required: true,
+    /* required: true, */
   },
   lastName: {
     type: String,
-    required: true,
+    /* required: true, */
+  },
+  image:{
+    type:String
   },
   country: {
     type: String,
-    required: true,
+    /* required: true, */
   },
   city: {
     type: String,
-    required: true,
+    /* required: true, */
   },
   address: {
     type: String,
-    required: true,
+    /* required: true, */
   },
   phoneNumber: {
     type: String,
-    required: true,
+    /* required: true, */
   },
+
+
+	type: String,
+  active:Boolean,
+  role: String,
+
+  savedProperties: [],
+
   properties: [
     {
       type: mongoose.Schema.Types.ObjectId,

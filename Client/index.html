@@ -2,12 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <link rel="icon" type="image/svg+xml" href="/public/logoS.ico" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+    <title>Inmuebles360</title>
+   
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      window.myCallbackFunc = function() {
+        window.initOne && window.initOne();
+        window.initTwo && window.initTwo();
+      }
+      </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-jMizTMfYkZOwEgaBdxxKLaC-K9HYI4Q&libraries=places&callback=myCallbackFunc"></script>
+
     <script type="module" src="/src/main.jsx"></script>
+    
   </body>
+  
 </html>
