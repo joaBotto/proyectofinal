@@ -41,10 +41,10 @@ npm start en /Client y lo mismo para /Server
 
 La aplicacion estara disponible en "http://localhost:3000"
 
-## soyHenry
+### soyHenry
 
 Este proyecto fue desarrollado como parte de nuestro bootcamp en "SoyHenry". Durante nuestra formación, hemos adquirido las habilidades y conocimientos necesarios para crear aplicaciones web de alta calidad. Inmuebles 360 es la culminación de nuestro aprendizaje y es un testimonio de nuestro compromiso y dedicación en el campo del desarrollo web.
 
-## Autores
+### Autores
 
 Los integrantes que participaron de este proyecto son: Alina Piccardo, Sergio Vazquez, Lorena Florio, Rodrigo Gamero, Jon Scar, Guillermo Llanos, Federico Rojo y Joaquin Botto.
