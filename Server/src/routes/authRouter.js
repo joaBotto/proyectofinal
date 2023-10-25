@@ -2,6 +2,20 @@ const { Router } = require("express");
 const authRouter = Router();
 const passport = require("passport");
 const ensureAuthenticated = require('../../middlewares/ensureAuthenticated')
+const sendEmail = require("../../middlewares/SendEmail")
+
+
+authRouter.post("/auth/login/:email", (req, res) => {
+  const { email } = req.params;
+  console.log("SOY EL EMAIL QUE LLEGO", email)
+
+  sendEmail(email);
+  res.status(200).json({
+    message: "Registered user successfully!",
+  });
+});
+
+
 
 
 

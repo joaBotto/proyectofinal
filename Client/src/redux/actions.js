@@ -184,6 +184,7 @@ export const userLogin = (valores) => {
 
 //!------- User LogOut ---------------
 export const userLogOut = () => {
+
   return {
     type: USER_LOGOUT,
   };
@@ -226,14 +227,17 @@ export const addUser = (user) => async (dispatch) => {
   try {
     const { data } = await axios.post("/users", user);
     console.log("soy data de user", data);
+    if (data) {
     const { email, password } = data;
+    await axios.post(`/auth/login/${email}`)
     toast.success("User created successfully");
     const userCreated = {
       email,
       password,
     };
     dispatch({ type: ADD_USER, payload: userCreated });
-  } catch (error) {
+  }
+} catch (error) {
     toast.warning("User already exists");
     dispatch({ type: ERROR, payload: error.message });
   }
@@ -316,3 +320,4 @@ export const propertyDelete = (id) => {
     }
   }
 }
+
