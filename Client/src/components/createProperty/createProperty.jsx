@@ -56,20 +56,21 @@ export default function CreateProperty() {
 
 	const LocationSearchInput = ({ field, form: { setFieldValue } }) => {
 		const handleChange = (address, isSuggestion) => {
-		  console.log('handleChange:', address, isSuggestion);
-	  
-		  if (!address) {
-			setFieldValue('address.street', '');
-			setFieldValue('address.city', '');
-			setFieldValue('address.locality', '');
-			setFieldValue('address.state', '');
-		  } else {
-			setFieldValue('address.street', address);
-			if (isSuggestion) {
-			  handleSelect(address);
+			console.log('handleChange:', address, isSuggestion);
+		  
+			if (!address) {
+			  setFieldValue('address.street', '');
+			  setFieldValue('address.city', '');
+			  setFieldValue('address.locality', '');
+			  setFieldValue('address.state', '');
+			  setFieldValue('address.zipcode', ''); // Limpiar el campo del código postal
+			} else {
+			  setFieldValue('address.street', address);
+			  if (isSuggestion) {
+				handleSelect(address);
+			  }
 			}
-		  }
-		};
+		  };
 	  
 		const handleZipcodeChange = (e) => {
 			console.log('handleZipcodeChange:', handleZipcodeChange);
@@ -103,7 +104,12 @@ export default function CreateProperty() {
 				// Guardar el código postal en la variable de estado "zipcode"
 				setZipcode(zipcode);
 			  })
-			  .catch((error) => console.error('Geocoding error', error));
+			  .catch((error) => {
+				console.error('Geocoding error', error);
+				// Limpiar el campo del código postal cuando hay un error en la geocodificación
+				setFieldValue('address.zipcode', '');
+				setZipcode('');
+			  });
 		  };
 		  
 		  const handleSuggestionClick = ( suggestion) => {
@@ -525,6 +531,7 @@ export default function CreateProperty() {
 												name="type"
 												className="mt-1 p-2 w-full rounded-full border"
 											>
+												<option value="Select Type">Select Type</option>
 												<option value="House">House</option>
 												<option value="Appartment">Appartment</option>
 												<option value="Horizontal Property">
