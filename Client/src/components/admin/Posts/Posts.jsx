@@ -53,7 +53,7 @@ export default function HomeAdmin() {
 
 
   return (
-    <div className="mt-5 mx-0">
+    <div className="mx-0">
       <NavBarAdmin />
       {/* FILTROS */}
       <div className="w-full absolute top-[400px] flex xl:justify-center md:ml-3">
@@ -64,31 +64,42 @@ export default function HomeAdmin() {
         />
       </div>
 
-      <div className="bg-white shadow py-2 w-1/3 rounded-full absolute top-[350px] left-[50%] transform translate-x-[-50%] -translate-y-[-50%]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xl font-semibold text-blue flex items-center justify-center space-x-4">
-            <select
-              onChange={handleChange}
-              name="type"
-              className="px-3 py-1 w-full rounded-full"
-            >
-              <option value="default">Search by type</option>
-              <option value="Appartment">Appartment</option>
-              <option value="House">House</option>
-              <option value="Horizontal Property">Horizontal Property</option>
-            </select>
-            <select
-              onChange={handleChange}
-              name="price"
-              className="px-3 py-1 w-full rounded-full"
-            >
-              <option value="default">Search by price</option>
-              <option value="-">Lowest to highest</option>
-              <option value="+">Highest to lowest</option>
-            </select>
-          </p>
-        </div>
-      </div>
+      <div className="bg-transparent flex flex-row justify-end py-2 w-full rounded-full">
+				<div
+					className="w-1/3 mr-4 flex justify-end py-2 px-2"
+					style={{ marginTop: "20px" }}
+				>
+					<p className="text-xl font-semibold text-blue flex space-x-2">
+						<select
+							onChange={handleChange}
+							name="type"
+							className="px-3 py-1 w-full border-blue border-b-4 border-r-2 rounded-full shadow-md"
+						>
+							<option value="default">Search by type</option>
+							<option value="Appartment">Appartment</option>
+							<option value="House">House</option>
+							<option value="Horizontal Property">Horizontal Property</option>
+						</select>
+						<select
+							onChange={handleChange}
+							name="price"
+							className="px-3 py-1 w-full border-blue border-b-4 border-r-2 rounded-full shadow-md"
+						>
+							<option value="default">Search by price</option>
+							<option value="-">Lowest to highest</option>
+							<option value="+">Highest to lowest</option>
+						</select>
+					</p>
+				</div>
+        <h1 className="absolute sm:text-5xl text-xl font-black text-violet mt-10 top-40 left-7 leading-[1.2] font-onest">
+				ADMIN
+				<br /> ZONE
+			</h1>
+			<p className="absolute text-lg font-bold text-white top-[320px] left-7 font-onest">
+				FUN :)
+			</p>
+
+			</div>
 
       <Paginado
         page={page}
