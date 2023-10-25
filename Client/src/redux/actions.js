@@ -220,7 +220,7 @@ export const addUser = (user) => async (dispatch) => {
    
     if (data) {
     const { email } = data;
-    await axios.post("/mail/login", email )
+    await axios.post("/mail/login", {email: email} )
     toast.success("User created successfully");
     const userCreated = {
       email,
