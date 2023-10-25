@@ -159,7 +159,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case USER_LOGIN:
-			console.log("ESTOY EN REDUCER",payload)
+			
 			return {
 				...state,
 				user: payload,
@@ -243,10 +243,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			const index = state.users.indexOf(payload._id);
 			const copyUsers = state.users;
 			copyUsers.splice(index, 1, payload);
-			const userCopy = payload;
+			
 			return {
 				...state,
-				user: userCopy,
+				user: payload,
 				allUsers: copyAllUsers,
 				users: copyUsers,
 			};

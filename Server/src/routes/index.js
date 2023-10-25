@@ -55,46 +55,6 @@ router.use("/properties", propertiesRouter); // ruta_backend/properties -> Te ll
 router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de users
 router.use("/bookings", bookingsRouter);
 
-//!--------------- ruta para envio de email -------------------------------------
-router.post("/auth/login/:email/code", (req, res) => {
-  const { email } = req.params;
-  const { password } = req.query;
-  const user = {
-    email,
-    password,
-    active: true,
-  };
 
-  enviarCorreoConfirmacion(user.email);
-  res.status(200).json({
-    message: "Registered user successfully!",
-  });
-});
 
-async function enviarCorreoConfirmacion(email) {
-  const transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com",
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD,
-    },
-  });
-
-  const mailOptions = {
-    from: process.env.EMAIL,
-    to: email,
-    subject: "Inmuebles 360 --> Successfully register",
-    text: "¡Thanks for register on Inmuebles360! Your account is active now, u can view our properties and find one that suits you :)",
-  };
-  try {
-    console.log(process.env.EMAIL);
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Correo de confirmación enviado: ", info.response);
-  } catch (error) {
-    console.log("Error al enviar el correo de confirmación: ", error);
-  }
-}
-//!--------------------------------------------------------------------------------
 module.exports = router;

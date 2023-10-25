@@ -30,7 +30,7 @@ const createUserHandler = async (req, res) => {
     };
     console.log("Recibida solicitud para crear usuario:", user);
     if (
-      email &&
+      email /* &&
       password &&
       name &&
       lastName &&
@@ -38,7 +38,7 @@ const createUserHandler = async (req, res) => {
       city &&
       address &&
       phoneNumber &&
-      image
+      image */
     ) {
       const newUser = await creatingUser(user);
       // await enviarCorreoConfirmacion(newUser.email);
