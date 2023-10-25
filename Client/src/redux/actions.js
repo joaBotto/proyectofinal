@@ -96,13 +96,6 @@ export const getPropertyDetail = (id) => async (dispatch) => {
   }
 };
 
-export const searchByQuery = (search) => {
-	return {
-		type: SEARCH_BY_QUERY,
-		payload: search.toLowerCase(),
-	};
-};
-
 
 export const cleanDetail = () => {
   return {
@@ -226,7 +219,8 @@ export const updateUser = (userEdited) => {
 export const addUser = (user) => async (dispatch) => {
   try {
     const { data } = await axios.post("/users", user);
-    console.log("soy data de user", data);
+    console.log("SOY LA data de user", data);
+   
     if (data) {
     const { email, password } = data;
     await axios.post(`/auth/login/${email}`)

@@ -5,7 +5,7 @@ const ensureAuthenticated = require('../../middlewares/ensureAuthenticated')
 const sendEmail = require("../../middlewares/SendEmail")
 
 
-authRouter.post("/auth/login/:email", (req, res) => {
+authRouter.post("/login/:email", (req, res) => {
   const { email } = req.params;
   console.log("SOY EL EMAIL QUE LLEGO", email)
 
