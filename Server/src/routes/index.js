@@ -4,8 +4,6 @@ const multer = require("multer");
 const cloudinary = require("../cloudinaryConfig.js");
 const fs = require("fs").promises;
 const path = require("path");
-
-
 const { propertiesRouter } = require("./propertiesRouter");
 const { usersRouter } = require("./usersRouter");
 const { authRouter } = require("./authRouter");
@@ -56,7 +54,5 @@ router.use("/properties", propertiesRouter); // ruta_backend/properties -> Te ll
 router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de users
 router.use("/bookings", bookingsRouter);
 router.use("/mail", mailsRoutes);
-
-
 
 module.exports = router;

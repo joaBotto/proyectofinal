@@ -53,6 +53,7 @@ const userSchema = new mongoose.Schema({
     /* required: true, */
   },
 
+
 	type: String,
   active:Boolean,
   role: String,
