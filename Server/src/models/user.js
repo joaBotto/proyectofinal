@@ -1,12 +1,5 @@
 const mongoose = require("mongoose");
 
-const imageSchema = new mongoose.Schema({
-	imageUrl: {
-		type: String,
-		required: true,
-	},
-});
-
 const paymentSchema = new mongoose.Schema({
   cardNumber: {
     type: String,
@@ -40,7 +33,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     /* required: true, */
   },
-  images:{
+  image:{
     type:String
   },
   country: {
@@ -59,7 +52,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     /* required: true, */
   },
-  images: [imageSchema],
+
 
 	type: String,
   active:Boolean,
