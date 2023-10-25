@@ -42,8 +42,6 @@ const createUserHandler = async (req, res) => {
       image */
     ) {
       const newUser = await creatingUser(user);
-      // await enviarCorreoConfirmacion(newUser.email);
-      console.log("Usuario creado con éxito:", newUser);
       return res.status(201).json(newUser);
     } else {
       console.error("Falta información en la solicitud.");
