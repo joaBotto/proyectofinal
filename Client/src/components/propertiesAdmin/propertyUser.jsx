@@ -4,6 +4,7 @@ import Footer from "../../components/Footer/Footer";
 import Container from "@mui/material/Container";
 import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/CardsAdmin";
+import { FrownOutlined } from "@ant-design/icons";
 
 export default function Postuser() {
   const currentUser = useSelector((state) => state.user);
@@ -62,7 +63,16 @@ export default function Postuser() {
           </Container>
         </>
       ) : (
-        <p>No properties found for this user.</p> // Puedes mostrar un mensaje si el usuario no tiene propiedades.
+<div className="flex flex-col justify-center items-center mt-10">
+					<h1 className="text-3xl text-center font-bold text-violet mb-10 font-onest">
+						<FrownOutlined className="pb-5" />
+						<br /> No properties found, please search again
+					</h1>
+
+					<div className="p-0 mt-10">
+						<Footer />
+					</div>
+				</div>
       )}
       <div className="p-0">
         <Footer />
