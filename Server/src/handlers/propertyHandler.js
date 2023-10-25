@@ -6,7 +6,6 @@ const updatingAvailableDays = require("../controllers/updatingAvailableDays");
 const removingProperty = require('../controllers/removingProperty')
 
 const getPropertiesHandler = async (req, res) => {
-	
 	try {
 		const allProperties = await getProperties();
 		return res.status(200).json(allProperties);
@@ -98,6 +97,7 @@ const editPropertyHandler = async (req, res) => {
 			owner,
 			_id,
 			__v,
+			reviews,
 		} = req.body;
 		const propertyForEdit = {
 			title,
@@ -115,9 +115,9 @@ const editPropertyHandler = async (req, res) => {
 			owner,
 			_id,
 			__v,
+			reviews,
 		};
 		const propertyEdited = await editingProperty(propertyForEdit);
-		console.log("retorno", propertyEdited);
 		return res.status(200).json(propertyEdited);
 	} catch (error) {
 		return res.status(500).json({ error: error.message });
