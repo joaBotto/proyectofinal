@@ -253,7 +253,7 @@ export default function CreateProperty() {
 		title: Yup.string()
 			.required("Title is required")
 			.min(5, "Very short title, must be at least 5 characters long")
-			.max(25, "Title too long"),
+			.max(35, "Title too long"),
 		description: Yup.string().required("Description is required"),
 		address: Yup.object().shape({
 			street: Yup.string().required("The street is required"),
