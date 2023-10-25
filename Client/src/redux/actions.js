@@ -219,8 +219,8 @@ export const addUser = (user) => async (dispatch) => {
     console.log("SOY LA data de user", data);
    
     if (data) {
-    const { email, password } = data;
-    await axios.post(`/auth/login/${email}`)
+    const { email } = data;
+    await axios.post("/mail/login", email )
     toast.success("User created successfully");
     const userCreated = {
       email,

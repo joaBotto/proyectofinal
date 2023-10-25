@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer')
 
 
-const SendEmail = async (email) => {
+const SendEmail = async (mailOptions) => {
 
     const transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com",
@@ -13,12 +13,6 @@ const SendEmail = async (email) => {
       },
     });
   
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: email,
-      subject: "Inmuebles 360 --> Successfully register",
-      text: "¡Thanks for register on Inmuebles360! Your account is active now, u can view our properties and find one that suits you :)",
-    };
     try {
       console.log(process.env.EMAIL);
       const info = await transporter.sendMail(mailOptions);

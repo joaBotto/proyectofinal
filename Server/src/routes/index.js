@@ -4,12 +4,13 @@ const multer = require("multer");
 const cloudinary = require("../cloudinaryConfig.js");
 const fs = require("fs").promises;
 const path = require("path");
-const nodemailer = require("nodemailer");
+
 
 const { propertiesRouter } = require("./propertiesRouter");
 const { usersRouter } = require("./usersRouter");
 const { authRouter } = require("./authRouter");
 const { bookingsRouter } = require("./bookingsRouter.js");
+const mailsRoutes  = require("./MailsRoutes")
 
 const storage = multer.memoryStorage(); // Almacenamiento en memoria (puedes cambiarlo para guardar en disco si lo prefieres)
 const upload = multer({
@@ -54,6 +55,7 @@ router.use("/auth", authRouter);
 router.use("/properties", propertiesRouter); // ruta_backend/properties -> Te lleva al router de propiedades
 router.use("/users", usersRouter); // ruta_backend/users -> Te lleva al router de users
 router.use("/bookings", bookingsRouter);
+router.use("/mail", mailsRoutes);
 
 
 
