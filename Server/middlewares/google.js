@@ -1,7 +1,7 @@
 const Users = require('../src/models/user');
 const passport = require('passport');
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-/* const bcrypt = require('bcrypt'); */
+const axios = require('axios')
 
 
 
@@ -27,6 +27,7 @@ let user = await Users.findOne({ email:profile.emails[0].value});
 
 if (!user) {
   user = await Users.create(userGoogle);
+  await axios.post("http://localhost:3001/mail/login", { email:userGoogle.email })
 }
 
 if (user.active === false) {
