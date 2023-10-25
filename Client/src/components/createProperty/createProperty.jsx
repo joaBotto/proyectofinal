@@ -106,27 +106,33 @@ export default function CreateProperty() {
 			  .catch((error) => console.error('Geocoding error', error));
 		  };
 		  
-	  
+		  const handleSuggestionClick = ( suggestion) => {
+			console.log('Sugerencia clicada:', suggestion);
+			setFieldValue('address.street', suggestion);
+			handleSelect(suggestion);
+		  };
+		  
+
 		const extractAddressComponent = (addressComponents, type) => {
 		  const component = addressComponents.find((comp) => comp.types.includes(type));
 		  return component ? component.long_name : '';
 		};
 	  
 
-
-
 		return (
 		  <div>
 			<PlacesAutocomplete
 			  value={field.value.street}
 			  onChange={(address) => handleChange(address, false)}
+			 
 			  onSelect={(address) => handleSelect(address)}
 			  googleCallbackName="initOne"
 			>
 			  {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
 				<div className="block pt-5 text-left text-gray-700">
-				  <input
+				  <input 
 					{...getInputProps({
+					 
 					  placeholder: 'Street ...',
 					  className:"mt-1 p-2 w-full rounded-full border",
 					})}
@@ -137,8 +143,20 @@ export default function CreateProperty() {
 					className="text-red-600 text-sm"
 				  />
 				  <div className="autocomplete-dropdown-container">
-					{loading && <div>Loading...</div>}
-					{suggestions.map((suggestion) => {
+				  
+				  {loading && (
+					<div className="absolute inset-y-0 right-0 flex items-center pr-2">
+					  <svg
+						style={{ animation: 'spin 1s linear infinite', color: '#ed64a6' }}
+						className="h-5 w-5 mr-3"
+						viewBox="0 0 24 24"
+					  >
+					  </svg>
+					  Processing
+					</div>
+				  )}
+				  
+					{suggestions.map((suggestion) => { 
 					  const className = suggestion.active
 						? 'suggestion-item--active'
 						: 'suggestion-item';
@@ -150,25 +168,29 @@ export default function CreateProperty() {
 						  {...getSuggestionItemProps(suggestion, {
 							className,
 							style,
+							onClick: () => handleSuggestionClick(suggestion.description),
+              
 						  })}
 						>
-						  <span>{suggestion.description}</span>
+						  <span><p class="italic ...">{suggestion.description}</p></span>
+						  
 						</div>
+						
 					  );
 					})}
-
-      Zipcode: {zipcode}
-				  </div>
+					</div> 
 				</div>
 			  )}
 			</PlacesAutocomplete>
 	  
 			<div className="block pt-5 text-left text-gray-700">
-			  <input
+			  <input 
 				type="text"
 				value={field.value.locality}
+				
 				placeholder="Locality"
-				className="mt-1 p-2 w-full rounded-full border"
+			
+				className="mt-1 p-2 w-full rounded-full border "
 				readOnly
 			  />
 			</div>
@@ -190,18 +212,16 @@ export default function CreateProperty() {
           readOnly
         />
       </div>
-  <div>
-      <label>Zipcode</label>
+	  <div className="block pt-5 text-left text-gray-700">
       <input
         type="text"
+		placeholder="Zipcode"
         value={field.value.zipcode}
         onChange={handleZipcodeChange}
+		className="mt-1 p-2 w-full rounded-full border"
+		readOnly
       />
     </div>
-
-
-
-
     </div>
   );
 };
@@ -212,7 +232,7 @@ export default function CreateProperty() {
 			locality: "",
 			city: "",
 			state: "",
-			zipcode: "", // Agrega el campo zipcode aquí
+			zipcode: "", 
 		  },
 		bedrooms: 0,
 		bathrooms: 0,
@@ -293,9 +313,6 @@ export default function CreateProperty() {
 		description: Yup.string().required("Description is required"),
 		address: Yup.object().shape({
 			street: Yup.string().required("The street is required"),
-			// city: Yup.string().required("The city is required"),
-			// state: Yup.string().required("State is required"),
-			// zipcode: Yup.number().required("Zip code is required"),
 		}),
 		amenities: Yup.object().shape({
 			covered_area: Yup.number()
@@ -409,31 +426,7 @@ export default function CreateProperty() {
 											name="address"
 											setFieldValue={setFieldValue}
 										/>
-										{/* <label htmlFor="address.state"></label>
-										<Field
-											type="text"
-											name="address.state"
-											placeholder="State"
-											className="mt-1 p-2 w-full rounded-full border"
-										/>
-										<ErrorMessage
-											name="address.state"
-											component="div"
-											className="text-red-600 text-sm"
-										/> */}
-
-										{/* <label htmlFor="address.zipcode"></label>
-										<Field
-											type="number"
-											name="address.zipcode"
-											placeholder="Zip Code"
-											className="mt-1 p-2 w-full rounded-full border"
-										/>
-										<ErrorMessage
-											name="address.zipcode"
-											component="div"
-											className="text-red-600 text-sm"
-										/> */}
+										
 									</div>
 									<p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
 										Property's Characteristics
