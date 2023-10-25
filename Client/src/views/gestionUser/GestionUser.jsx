@@ -7,7 +7,7 @@ const cardContentStyle = "w-96"; // Aplicamos ancho fijo
 const descriptionStyle = "mt-2";
 
 const backButtonStyle =
-  "bg-violet shadow-md text-white py-2 px-4 rounded-full absolute top-4 left-4 hover:bg-pink";
+  "bg-blue shadow-md text-white py-2 px-4 rounded-full absolute top-4 right-10 hover:bg-pink transition ease-in duration-100";
 
 const mainDivStyle = {
   height: "100vh", // Establece la altura al 100% de la ventana
