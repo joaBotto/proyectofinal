@@ -6,7 +6,8 @@ import CreateProperty from "./components/createProperty/createProperty";
 import SignUpForm from "./components/Singup/singUp";
 import Detail from "../src/views/Detail/Detail";
 import NavBar from "./components/NavBar/NavBar";
-import NavBarAdmin from "./components/admin/NavBar/NavBarAdmin";
+//import NavBarAdmin from "./components/admin/NavBar/NavBarAdmin";
+import ViewAdmin from "./views/viewadmin/viewadmin";
 import HomeAdmin from "../src/components/admin/Posts/Posts";
 import Error404 from "./components/Error/Error404";
 import { EditPropertyFromAdmin } from "./components/admin/editProperty/editProperty";
@@ -45,7 +46,7 @@ function App() {
 				<Route path="/checkout" element={<PaymentForm />} />
 				<Route path="/gestionUser" element={<GestionUser />} />
 				<Route path="/personalEdit" element={<EditAccount />} />
-				<Route path="/admin" element={<NavBarAdmin />} />
+				<Route path="/admin" element={<ViewAdmin />} />
 				<Route path="/admin/properties" element={<HomeAdmin />} />
 				<Route path="/admin/property/:id" element={<EditPropertyFromAdmin />} />
 				<Route path="/admin/users" element={<AllUsers />} />

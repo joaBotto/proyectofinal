@@ -28,31 +28,43 @@ const VisualDashboard = () => {
         <button className={backButtonStyle}>Back to home</button>
       </Link>
       <h2 className="text-4xl font-semibold text-blue mt-8">
-        Account Settings.
+        Admin Settings.
       </h2>
-      <p className="text-blue">Manage your experience on Inmuebles360.com</p>
+      <p className="text-blue">Manage your experience Admin.</p>
       <div className="flex justify-center my-20">
-        <Link to="/personalEdit" className={`mx-4 ${cardStyle}`}>
+        <Link to="/admin/properties" className={`mx-4 ${cardStyle}`}>
           <div className={cardContentStyle}>
             <div className="block text-xl font-semibold text-blue group-hover:text-teal-400">
-              Personal Edit
+              Posts
             </div>
             <p
               className={`text-blue group-hover:text-teal-400 ${descriptionStyle}`}
             >
-              Update your data and change your password.
+              All Posts.
+            </p>
+          </div>
+        </Link>
+        <Link to="/admin/users" className={`mx-4 ${cardStyle}`}>
+          <div className={cardContentStyle}>
+            <div className="block text-xl font-semibold text-blue group-hover:text-teal-400">
+              Users
+            </div>
+            <p
+              className={`text-blue group-hover:text-teal-400 ${descriptionStyle}`}
+            >
+              All Users.
             </p>
           </div>
         </Link>
         <Link to="/paymentEdit" className={`mx-4 ${cardStyle}`}>
           <div className={cardContentStyle}>
             <div className="block text-xl font-semibold text-blue group-hover:text-teal-400">
-              Edit Payment
+              Bookings
             </div>
             <p
               className={`text-blue group-hover:text-teal-400 ${descriptionStyle}`}
             >
-              Add or remove payment methods.
+              All Bookings.
             </p>
           </div>
         </Link>

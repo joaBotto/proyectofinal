@@ -124,31 +124,39 @@ const EditAccount = () => {
           {Object.keys(formData).map((field) => (
             <div key={field}>
               {editMode[field] ? (
-                <div className="  flex justify-between items-center mb-3">
-                  <label htmlFor={field} className="text-sm text-cyan font-bold">
-                    Change your {field}
-                  </label>
-                  <input
-                    type={field === "password" ? "password" : "text"}
-                    name={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className="w-full p-2 rounded border mb-2"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => toggleEditMode(field)}
-                    className="text-blue font-bold hover:text-cyan"
-                  >
-                    Save
-                  </button>
-                
+                <div>
+                  <div className="  flex justify-between items-center mb-3">
+                    <label
+                      htmlFor={field}
+                      className="text-sm text-cyan font-bold"
+                    >
+                      Change your {field}
+                    </label>
+                    <input
+                      type={field === "password" ? "password" : "text"}
+                      name={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      className="w-full p-2 rounded border mb-2"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => toggleEditMode(field)}
+                      className="text-blue font-bold hover:text-cyan"
+                    >
+                      Save
+                    </button>
+                  </div>
+                  {errors[field] && (
+                    <p className="text-red-600">{errors[field]}</p>
+                  )}
                 </div>
-       
               ) : (
                 <div>
                   <div className="  flex justify-between items-center mb-3">
-                    <label className="text-sm text-blue font-bold">{field}:</label>
+                    <label className="text-sm text-blue font-bold">
+                      {field}:
+                    </label>
                     <span>{formData[field]}</span>
                     <button
                       type="button"
@@ -158,11 +166,12 @@ const EditAccount = () => {
                       Edit
                     </button>
                   </div>
-                  {errors[field] && <p className="text-red-600">{errors[field]}</p>}
+                  {errors[field] && (
+                    <p className="text-red-600">{errors[field]}</p>
+                  )}
                 </div>
               )}
             </div>
-      
           ))}
           <button
             type="submit"
