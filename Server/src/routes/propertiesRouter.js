@@ -7,6 +7,7 @@ const {
 	creatingPropertyHandler,
 	editPropertyHandler,
 	editPropertyAvailability,
+  deleteProperty
 } = require("../handlers/propertyHandler");
 
 propertiesRouter.put("/", editPropertyHandler);
@@ -14,6 +15,7 @@ propertiesRouter.put("/:id", editPropertyAvailability);
 propertiesRouter.get("/", getPropertiesHandler);
 propertiesRouter.get("/:id", getPropertyByIdHandler);
 propertiesRouter.post("/", creatingPropertyHandler);
+propertiesRouter.delete("/:id", deleteProperty)
 
  
 /* (req, res, next) => {

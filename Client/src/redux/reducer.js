@@ -17,11 +17,13 @@ import {
   PROPERTY_DAYS_EDITED,
   SAVE_PROPERTY,
   REMOVE_FROM_SAVED,
-  USER_AUTHENTICATED
+  USER_AUTHENTICATED,
+  DELETE_PROPERTY
 } from "./actions_types";
 
 const initialState = {
-  error: "",
+  messageError: "",
+  error:0,
   user: "",
   properties: [],
   allproperties: [],
@@ -126,7 +128,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case ERROR:
 			return {
 				...state,
-				error: payload,
+				messageError:payload,
+				error: state.error + 1,
 				userCreated: null,
 			};
 
@@ -156,6 +159,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case USER_LOGIN:
+			console.log("ESTOY EN REDUCER",payload)
 			return {
 				...state,
 				user: payload,
@@ -279,6 +283,22 @@ const rootReducer = (state = initialState, { type, payload }) => {
         savedProperties: updatedSavedProperties,
         user: { ...state.user, savedProperties: updatedSavedProperties },
       };
+
+	  case DELETE_PROPERTY:
+		const copyAllProperties = state.allproperties.filter((property) => property._id !== payload._id);
+		const copyProperties = state.properties.filter((property) => property._id !== payload._id);
+		const updatePropertyUser = state.user.properties.filter((e) => e !== payload._id)
+		const updateSavedProperty = state.user.savedProperties.filter((e) => e !== payload._id)
+		return {
+			...state,
+			allproperties: copyAllProperties,
+			properties: copyProperties,
+			user: {
+				...state.user,
+				properties: updatePropertyUser,
+				savedProperties: updateSavedProperty
+			}
+		}
 
 		case RESET_STATE:
 			return initialState;

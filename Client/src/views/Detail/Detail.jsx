@@ -2,22 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import {
-	getPropertyDetail,
-	cleanDetail,
-	getAllBookings,
+  getPropertyDetail,
+  cleanDetail,
+  getAllBookings,
 } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faHouse,
-	faLocationDot,
-	faBed,
-	faBath,
-	faRulerCombined,
+  faHouse,
+  faLocationDot,
+  faBed,
+  faBath,
+  faRulerCombined,
 } from "@fortawesome/free-solid-svg-icons";
 import ImageCarousel from "../../components/Card/ImageCarousel";
 import ImageGalleryModal from "./Modal";
 import PropertyMap from "./PropertyMap";
 import NavBar from "../../components/NavBar/NavBar";
+import Footer from "../../components/Footer/Footer";
 import { FadeLoader } from "react-spinners";
 import DisplayCharacteristics from "./Display";
 import BookingDetails from "./Booking";
@@ -25,58 +26,58 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 
 const Detail = () => {
-	const { id } = useParams();
-	const dispatch = useDispatch();
+  const { id } = useParams();
+  const dispatch = useDispatch();
 
-	const property = useSelector((state) => state.propertyDetail);
-	console.log(property);
+  const property = useSelector((state) => state.propertyDetail);
+  console.log(property);
 
-	useEffect(() => {
-		dispatch(getPropertyDetail(id));
-		return () => {
-			dispatch(cleanDetail());
-		};
-	}, [dispatch, id]);
+  useEffect(() => {
+    dispatch(getPropertyDetail(id));
+    return () => {
+      dispatch(cleanDetail());
+    };
+  }, [dispatch, id]);
 
-	useEffect(() => {
-		dispatch(getAllBookings());
-	}, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllBookings());
+  }, [dispatch]);
 
-	const originalStartDate =
-		property && property.availableDays && property.availableDays[0];
-	const formattedStartDate = originalStartDate
-		? new Date(originalStartDate).toLocaleDateString("en-US", {
-				year: "numeric",
-				month: "long",
-				day: "numeric",
-		  })
-		: "N/A";
+  const originalStartDate =
+    property && property.availableDays && property.availableDays[0];
+  const formattedStartDate = originalStartDate
+    ? new Date(originalStartDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "N/A";
 
-	const originalEndDate =
-		property &&
-		property.availableDays &&
-		property.availableDays[property.availableDays.length - 1];
-	const formattedEndDate = originalEndDate
-		? new Date(originalEndDate).toLocaleDateString("en-US", {
-				year: "numeric",
-				month: "long",
-				day: "numeric",
-		  })
-		: "N/A";
+  const originalEndDate =
+    property &&
+    property.availableDays &&
+    property.availableDays[property.availableDays.length - 1];
+  const formattedEndDate = originalEndDate
+    ? new Date(originalEndDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "N/A";
 
-	//*IMAGE GALLERY---------------------------------------------------------------------
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [selectedImage, setSelectedImage] = useState(null);
+  //*IMAGE GALLERY---------------------------------------------------------------------
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-	const openModal = (image) => {
-		setSelectedImage(image);
-		setIsModalOpen(true);
-	};
+  const openModal = (image) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
 
-	const closeModal = () => {
-		setSelectedImage(null);
-		setIsModalOpen(false);
-	};
+  const closeModal = () => {
+    setSelectedImage(null);
+    setIsModalOpen(false);
+  };
 
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
@@ -201,7 +202,7 @@ const Detail = () => {
 										</div>
 										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
 											{property.owner.name} from {property.owner.city},{" "}
-											{property.owner.state}
+											{property.owner.country}
 										</p>
 									</div>
 								</div>
@@ -237,7 +238,7 @@ const Detail = () => {
 									</p>
 									<p className="text-md mt-1 pb-0 mb-0 font-noto font-medium text-blue uppercase">
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
-										{property.type || "Property"} in {property.address.country},{" "}
+										{property.type || "Property"} in {property.address.state},{" "}
 										{property.address.city}
 									</p>
 									<div className="h-[500px] w-[500px]">
@@ -264,6 +265,9 @@ const Detail = () => {
 					<FadeLoader color="#54086B" />
 				</div>
 			)}
+			<div className="p-0">
+				<Footer />
+			</div>
 		</div>
 	);
 };

@@ -8,7 +8,12 @@ import {
   faEdit,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import ImageCarousel from "./ImageCarousel";
+import ImageCarousel from "../../Card/ImageCarousel";
+import Delete from "../editProperty/modals/Delete"
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { propertyDelete } from "../../../redux/actions";
+import Success from "../editProperty/modals/Success"
 
 const CardAdmin = ({
   _id,
@@ -19,12 +24,23 @@ const CardAdmin = ({
   location,
   bedrooms,
   bathrooms,
-  area, // Agregamos "area" como un prop
-  onEdit,
-  onDelete,
+  area, 
 }) => {
+  const dispatch = useDispatch();
+  const [showModalDelete, setShowModalDelete] = useState(false);
+
+  const okDelete = async (_id) => {
+      setShowModalDelete(false)
+      dispatch(propertyDelete(_id))   
+  }
+
+  const cancelDelete = () => {
+    setShowModalDelete(false)
+  }
+
   return (
     <div className="flex-auto rounded-xl py-2">
+      {showModalDelete && (<Delete okDelete={okDelete} cancelDelete={cancelDelete} _id={_id} />)}
       <div className="px-4 pt-5 sm:px-6">
         <div className="relative rounded-xl h-[300px] shadow overflow-hidden">
           <ImageCarousel images={images} />
@@ -70,7 +86,7 @@ const CardAdmin = ({
           </button>
         </Link>
         <button
-          onClick={() => onDelete(_id)}
+          onClick={() => setShowModalDelete(true)}
           className="bg-blue text-white font-onest font-light px-4 py-2 rounded-full mx-4 my-4 self-end hover:bg-pink"
         >
           <FontAwesomeIcon icon={faTrash} /> Delete
