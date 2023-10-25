@@ -11,6 +11,8 @@ import "./createProperty.css";
 import logo from "../../assets/img/logo.png";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
+import NavBar from "../NavBar/NavBar";
+import Footer from "../Footer/Footer";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -54,126 +56,144 @@ export default function CreateProperty() {
 
 	const LocationSearchInput = ({ field, form: { setFieldValue } }) => {
 		const handleChange = (address, isSuggestion) => {
-		  console.log('handleChange:', address, isSuggestion);
-	  
-		  if (!address) {
-			setFieldValue('address.street', '');
-			setFieldValue('address.city', '');
-			setFieldValue('address.locality', '');
-			setFieldValue('address.state', '');
-		  } else {
-			setFieldValue('address.street', address);
-			if (isSuggestion) {
-			  handleSelect(address);
+			console.log("handleChange:", address, isSuggestion);
+
+			if (!address) {
+				setFieldValue("address.street", "");
+				setFieldValue("address.city", "");
+				setFieldValue("address.locality", "");
+				setFieldValue("address.state", "");
+			} else {
+				setFieldValue("address.street", address);
+				if (isSuggestion) {
+					handleSelect(address);
+				}
 			}
-		  }
 		};
-	  
+
 		const handleSelect = (address) => {
-			console.log('handleSelect:', address);
-		  
+			console.log("handleSelect:", address);
+
 			geocodeByAddress(address)
-			  .then((results) => {
-				const result = results[0];
-				return Promise.all([getLatLng(result), result.address_components]);
-			  })
-			  .then(([latLng, addressComponents]) => {
-				console.log('Geocoding success', latLng, addressComponents);
-		  
-				setFieldValue('address.locality', extractAddressComponent(addressComponents, 'locality'));
-				setFieldValue('address.city', extractAddressComponent(addressComponents, 'administrative_area_level_1'));
-				setFieldValue('address.state', extractAddressComponent(addressComponents, 'country')); // Nuevo campo para el país
-			  })
-			  .catch((error) => console.error('Geocoding error', error));
-		  };
-		  
-	  
-		const extractAddressComponent = (addressComponents, type) => {
-		  const component = addressComponents.find((comp) => comp.types.includes(type));
-		  return component ? component.long_name : '';
+				.then((results) => {
+					const result = results[0];
+					return Promise.all([getLatLng(result), result.address_components]);
+				})
+				.then(([latLng, addressComponents]) => {
+					console.log("Geocoding success", latLng, addressComponents);
+
+					setFieldValue(
+						"address.locality",
+						extractAddressComponent(addressComponents, "locality")
+					);
+					setFieldValue(
+						"address.city",
+						extractAddressComponent(
+							addressComponents,
+							"administrative_area_level_1"
+						)
+					);
+					setFieldValue(
+						"address.state",
+						extractAddressComponent(addressComponents, "country")
+					); // Nuevo campo para el país
+				})
+				.catch((error) => console.error("Geocoding error", error));
 		};
-	  
+
+		const extractAddressComponent = (addressComponents, type) => {
+			const component = addressComponents.find((comp) =>
+				comp.types.includes(type)
+			);
+			return component ? component.long_name : "";
+		};
+
 		return (
-		  <div>
-			<PlacesAutocomplete
-			  value={field.value.street}
-			  onChange={(address) => handleChange(address, false)}
-			  onSelect={(address) => handleSelect(address)}
-			  googleCallbackName="initOne"
-			>
-			  {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-				<div className="block pt-5 text-left text-gray-700">
-				  <input
-					{...getInputProps({
-					  placeholder: 'Street ...',
-					  className:"mt-1 p-2 w-full rounded-full border",
-					})}
-				  />
-				  <ErrorMessage
-					name="address.street"
-					component="div"
-					className="text-red-600 text-sm"
-				  />
-				  <div className="autocomplete-dropdown-container">
-					{loading && <div>Loading...</div>}
-					{suggestions.map((suggestion) => {
-					  const className = suggestion.active
-						? 'suggestion-item--active'
-						: 'suggestion-item';
-					  const style = suggestion.active
-						? { backgroundColor: '#fafafa', cursor: 'pointer' }
-						: { backgroundColor: '#ffffff', cursor: 'pointer' };
-					  return (
-						<div
-						  {...getSuggestionItemProps(suggestion, {
-							className,
-							style,
-						  })}
-						>
-						  <span>{suggestion.description}</span>
+			<div>
+				<PlacesAutocomplete
+					value={field.value.street}
+					onChange={(address) => handleChange(address, false)}
+					onSelect={(address) => handleSelect(address)}
+					googleCallbackName="initOne"
+				>
+					{({
+						getInputProps,
+						suggestions,
+						getSuggestionItemProps,
+						loading,
+					}) => (
+						<div className="block pt-5 text-left text-gray-700">
+							<input
+								{...getInputProps({
+									placeholder: "Street ...",
+									className: "mt-1 p-2 w-full rounded-full border",
+								})}
+							/>
+							<ErrorMessage
+								name="address.street"
+								component="div"
+								className="text-red-600 text-sm"
+							/>
+							<div className="autocomplete-dropdown-container">
+								{loading && <div>Loading...</div>}
+								{suggestions.map((suggestion) => {
+									const className = suggestion.active
+										? "suggestion-item--active"
+										: "suggestion-item";
+									const style = suggestion.active
+										? { backgroundColor: "#fafafa", cursor: "pointer" }
+										: { backgroundColor: "#ffffff", cursor: "pointer" };
+									return (
+										<div
+											{...getSuggestionItemProps(suggestion, {
+												className,
+												style,
+											})}
+										>
+											<span>{suggestion.description}</span>
+										</div>
+									);
+								})}
+							</div>
 						</div>
-					  );
-					})}
-				  </div>
+					)}
+				</PlacesAutocomplete>
+
+				<div className="block pt-5 text-left text-gray-700">
+					<input
+						type="text"
+						value={field.value.locality}
+						placeholder="Locality"
+						className="mt-1 p-2 w-full rounded-full border"
+						readOnly
+					/>
 				</div>
-			  )}
-			</PlacesAutocomplete>
-	  
-			<div className="block pt-5 text-left text-gray-700">
-			  <input
-				type="text"
-				value={field.value.locality}
-				placeholder="Locality"
-				className="mt-1 p-2 w-full rounded-full border"
-				readOnly
-			  />
+				<div className="block pt-5 text-left text-gray-700">
+					<input
+						type="text"
+						value={field.value.city}
+						placeholder="City"
+						className="mt-1 p-2 w-full rounded-full border"
+						readOnly
+					/>
+				</div>
+				<div className="block pt-5 text-left text-gray-700">
+					<input
+						type="text"
+						value={field.value.state}
+						placeholder="State"
+						className="mt-1 p-2 w-full rounded-full border"
+						readOnly
+					/>
+				</div>
 			</div>
-			<div className="block pt-5 text-left text-gray-700">
-        <input
-          type="text"
-          value={field.value.city}
-          placeholder="City"
-          className="mt-1 p-2 w-full rounded-full border"
-          readOnly
-        />
-      </div>
-      <div className="block pt-5 text-left text-gray-700">
-        <input
-          type="text"
-          value={field.value.state}
-          placeholder="State"
-          className="mt-1 p-2 w-full rounded-full border"
-          readOnly
-        />
-      </div>
-    </div>
-  );
-};
+		);
+	};
 
 	const initialValues = {
 		address: {
 			street: "",
-			locality:"",
+			locality: "",
 			city: "",
 			state: "",
 			zipcode: "",
@@ -299,15 +319,18 @@ export default function CreateProperty() {
 	});
 
 	return (
-		<div
-			className="w-screen items-center justify-center bg-fuchsia-900"
-			style={{
-				backgroundImage: `url(${fondo})`,
-				backgroundSize: "cover",
-				backgroundRepeat: "no-repeat",
-			}}
-		>
+		<div className="w-screen items-center justify-center bg-white">
 			<div className="flex flex-col">
+				<NavBar />
+				<div className="ml-6 flex flex-col relative">
+					<h1 className="absolute bottom-[130px] text-5xl font-onest font-extrabold uppercase text-violet pb-3">
+						REGISTER YOUR PROPERTY
+					</h1>
+					<h1 className="absolute bottom-[60px] text-3xl font-onest font-extrabold uppercase text-white">
+						START EARNING EXTRA INCOME WITH YOUR HOME <br />
+						AS SIMPLE AS INMUEBLES360
+					</h1>
+				</div>
 				<div className="flex flex-row justify-center w-screen">
 					<Formik
 						initialValues={initialValues}
@@ -315,12 +338,8 @@ export default function CreateProperty() {
 						onSubmit={handleSubmit}
 					>
 						{({ values, isSubmitting, setFieldValue, isValid, dirty }) => (
-							<Form className="flex flex-row justify-center w-2/3 bg-white rounded-lg p-6 shadow-lg my-10">
+							<Form className="flex flex-row justify-center w-3/4 bg-violet bg-opacity-10 rounded-xl shadow-xl p-20 my-10">
 								<div className="flex flex-col w-1/2 space-y-4">
-									<h1 className="text-3xl font-semibold text-left mt-40 mb-4 text-blue font-onest">
-										Register your property
-									</h1>
-
 									{/* TITULO DE LA PUBLICACION */}
 									<ToastContainer />
 									<div className="block text-left text-gray-700">
@@ -506,12 +525,9 @@ export default function CreateProperty() {
 									</div>
 								</div>
 								<div className="w-1/2 flex flex-col ml-11 pt-9">
-									<div className="flex flex-col justify-end pb-11">
-										<img src={logo} alt="Logo" className="w-2/3 ml-40" />
-									</div>
 									{/* COMODIDADES(METROS2-ANTIGUEDAD-GARAGE-GRILL-CALEFACCION) */}
 									<div className="flex flex-col">
-										<p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
+										<p className="pl-1 font-onest text-blue font-semibold text-lg">
 											Amenities
 										</p>
 										<div className="relative">
@@ -763,12 +779,7 @@ export default function CreateProperty() {
 											/>
 										</div>
 									</div>
-									<div className="flex mt-10 justify-end">
-										<Link to="/">
-											<button className="mr-44 block bg-red-600 font-onest text-white px-4 py-2 rounded-full hover:bg-pink mb-2">
-												Back home
-											</button>
-										</Link>
+									<div className="flex mt-24 justify-end">
 										<button
 											type="submit"
 											disabled={
@@ -777,7 +788,7 @@ export default function CreateProperty() {
 												!dirty ||
 												(values.images && values.images.length < 5)
 											}
-											className={`block font-onest font-bold text-white px-4 py-2 bg-violet rounded-full hover:bg-pink mb-2 ${
+											className={`mt-10 block font-onest font-bold text-white px-4 py-2 bg-violet rounded-full hover:bg-pink mb-2 ${
 												(isSubmitting ||
 													!isValid ||
 													!dirty ||
@@ -797,17 +808,12 @@ export default function CreateProperty() {
 										</button>
 									</div>
 								</div>
-								{/* {PropertyCreated && (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-                La propiedad ha sido creada con éxito.
-              </div>
-              
-            )} */}
 							</Form>
 						)}
 					</Formik>
 				</div>
 			</div>
+			<Footer />
 		</div>
 	);
 }

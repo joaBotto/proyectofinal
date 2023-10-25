@@ -101,7 +101,7 @@ export default function Home() {
 
 	return (
 		<div className="mt-5 mx-0">
-			<div className="w-full absolute top-[400px] flex xl:justify-center md:ml-3">
+			<div className="w-full absolute top-[400px] flex xl:justify-center">
 				<SearchBar handleChange={handleChange} search={search} />
 			</div>
 
