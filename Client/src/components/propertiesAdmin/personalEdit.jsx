@@ -4,9 +4,13 @@ import { updateUser } from "../../redux/actions";
 import { Link } from "react-router-dom";
 import fondo from "../../assets/img/loginRegister.jpg";
 import * as Yup from "yup";
+import Success from "./modals/successEditUse";
+import ModalError from "./modals/errorEditUse";
 
 const EditAccount = () => {
   const user = useSelector((state) => state.user);
+  const [showModalSuccess, setShowModalSuccess] = useState(false);
+  const [showModalError, setShowModalError] = useState(false);
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -18,7 +22,7 @@ const EditAccount = () => {
     city: user.city,
     address: user.address,
     phoneNumber: user.phoneNumber,
-    images:user.images
+    //images:user.images
   });
 
   const [editMode, setEditMode] = useState({
@@ -96,11 +100,13 @@ const EditAccount = () => {
       .validate(formData, { abortEarly: false })
       .then(() => {
         dispatch(updateUser(formData));
+        setShowModalSuccess(true); // Mostrar el modal de éxito
       })
       .catch((validationErrors) => {
         // Manejar errores de validación, por ejemplo, mostrarlos al usuario
         validationErrors.inner.forEach((error) => {
           setErrors({ ...errors, [error.path]: error.message });
+          setShowModalError(true);
         });
       });
   };
@@ -186,6 +192,18 @@ const EditAccount = () => {
             Return to User Management
           </button>
         </Link>
+        {showModalSuccess && (
+          <Success
+            message="Changes have been saved successfully!"
+            route="/gestionUser"
+          />
+        )}
+        {showModalError && (
+          <ModalError
+            message="Please fill in the form correctly."
+            onClose={() => setShowModalError(false)}
+          />
+        )}
       </div>
     </div>
   );
