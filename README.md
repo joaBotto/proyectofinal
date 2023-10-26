@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="styles.css">
+
 # "Inmuebles 360" --> Proyecto final (soyHenry)
 
 <style>
