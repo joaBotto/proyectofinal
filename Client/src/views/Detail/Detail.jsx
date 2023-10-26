@@ -206,7 +206,7 @@ const Detail = () => {
 										PROPERTY OWNER
 									</p>
 									<div className="flex flex-col md:flex-row items-center pl-5">
-										<div className="flex  rounded-full">
+										{/* <div className="flex  rounded-full">
 											{property.owner?.images[0]?.imageUrl ? (
 												<Avatar
 													size={{
@@ -232,7 +232,7 @@ const Detail = () => {
 													icon={<UserOutlined />}
 												/>
 											)}
-										</div>
+										</div> */}
 										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
 											{property.owner.name} from {property.owner.city},{" "}
 											{property.owner.country}
