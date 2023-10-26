@@ -128,7 +128,7 @@ const NavBar = () => {
 											<FontAwesomeIcon icon={faHouseUser} className="ml-2" />
 										</a>
 									</Link>
-									<Link to="/postUser">
+									<Link to="/bookings">
 										<a className="font-onest font-normal text-blue hover:text-cyan hover:no-underline text-left mb-2 ml-1 transition ease-in duration-100">
 											My bookings{" "}
 											<FontAwesomeIcon
