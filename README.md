@@ -5,9 +5,9 @@
 
 ## Acerca del proyecto:
 
-![Alt text](Client/src/assets/Readme/bootstrap.jpg)
-![Alt text](Client/src/assets/Readme/CSS.png)
-![Alt text](Client/src/assets/Readme/HTML.png)
+[Alt text](Client/src/assets/Readme/bootstrap.jpg)
+[Alt text](Client/src/assets/Readme/CSS.png)
+[Alt text](Client/src/assets/Readme/HTML.png)
 ![Alt text](Client/src/assets/Readme/JS.png)
 ![Alt text](Client/src/assets/Readme/mongodb.png)
 ![Alt text](Client/src/assets/Readme/node.png)
