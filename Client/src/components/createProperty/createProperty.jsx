@@ -447,7 +447,7 @@ export default function CreateProperty() {
                       name="address"
                       setFieldValue={setFieldValue}
                     />
-                    <label htmlFor="address.zipcode"></label>
+                    {/* <label htmlFor="address.zipcode"></label>
                     <Field
                       type="number"
                       name="address.zipcode"
@@ -458,7 +458,8 @@ export default function CreateProperty() {
                       name="address.zipcode"
                       component="div"
                       className="text-red-600 text-sm"
-                    />
+                    /> */}
+                    
                   </div>
                   <p className="pt-5 pl-1 font-onest text-blue font-semibold text-lg">
                     Property's Characteristics

@@ -147,13 +147,15 @@ const NavBar = () => {
 											</a>
 										</Link>
 									)}
-									<button
-										className="font-onest font-black text-blue bg-grey rounded-full hover:text-cyan transition ease-in duration-100"
-										onClick={handleLogout}
-									>
-										LOGOUT
-										<FontAwesomeIcon icon={faSignOutAlt} className="ml-2" />
-									</button>
+								<Link to="/" onClick={handleLogout}>
+                    <button
+                      className="font-onest font-black text-blue bg-grey rounded-full hover:text-cyan transition ease-in duration-100"
+                      onClick={handleLogout}
+                    >
+                      LOGOUT
+                      <FontAwesomeIcon icon={faSignOutAlt} className="ml-2" />
+                    </button>
+                  </Link>
 								</div>
 							)}
 						</>
