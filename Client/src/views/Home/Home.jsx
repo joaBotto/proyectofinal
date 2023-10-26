@@ -12,6 +12,7 @@ import {
 	filters,
 	errorType,
 	getProperty,
+	getAllUsers
 } from "../../redux/actions";
 import axios from "axios";
 
@@ -53,6 +54,10 @@ export default function Home() {
 	useEffect(() => {
 		dispatch(getProperty());
 	}, [dispatch]);
+
+	useEffect(() => {
+		dispatch(getAllUsers());
+	  }, [dispatch]);
 
 	useEffect(() => {
 		axios
