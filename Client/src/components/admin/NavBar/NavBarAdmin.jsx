@@ -1,74 +1,61 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate en lugar de useHistory
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faHome } from "@fortawesome/free-solid-svg-icons";
 import fondo from "../../../assets/img/fondo1.jpeg";
 import logo from "../../../assets/img/logo.png";
 
-
-
 const NavBarAdmin = () => {
-  
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  const navigate = useNavigate();
-
   return (
-    <div className="bg-dark text-white mb-10">
+    <div className="text-white ">
       <div
         style={{ backgroundImage: `url(${fondo})` }}
-        className="bg-cover bg-center sm:min-h-[400px] min-h-[200px] flex items-center justify-between relative"
+        className="bg-cover bg-center sm:min-h-[400px] min-h-[200px] flex items-center justify-between relative "
       >
-        <h1 className="absolute sm:text-5xl text-xl font-black text-violet mt-10 top-40 left-7 leading-[1.2] font-onest">
-          ADMINISTRATOR VIEW
-        </h1>
-
-        {/* LOGO */}
         <div className="absolute top-0 left-0 mt-4 ml-4">
           <Link to="/">
             <img className="w-60 pt-4 pl-4" src={logo} alt="Your Company" />
           </Link>
         </div>
 
-        {/* MENU DESPLEGABLE */}
-        <div className="relative">
+        <div className="absolute top-10 right-10 mt-4">
+    
           <button
             onClick={toggleMenu}
-            className="absolute top-40 left-0 font-onest font-black bg-violet text-red hover:text-white hover:underline"
+            className="pt-2 pb-2 pr-10 pl-10 text-white bg-violet rounded-full mr-6 hover:bg-pink transition ease-in duration-150"
           >
-            {menuOpen ? "Cerrar Menú" : "Abrir Menú"}
+            <FontAwesomeIcon icon={faBars} /> MENU
           </button>
-          <aside
-        className={`absolute top-0 left-0 bg-gray-200 shadow-lg w-64 h-screen overflow-y-auto ${
-          menuOpen ? "block" : "hidden"
-        }`}
-      >
-            {menuOpen && (
-              <ul className="text-black">
-                <Link to="/admin/properties">
-                  <li value="posts">Posts</li>
-                </Link>
-                <Link to="/admin/users">
-                  <li value="users">Users</li>
-                </Link>
-                <li value="bookings">Booking</li>
-              </ul>
-            )}
-          </aside>
-        </div>
-
-        {/* BOTON BACK TO HOME */}
-        <div className="hidden sm:flex sm:items-center sm:space-x-4 absolute top-10 right-10 mt-4">
-          <button
-            onClick={() => {
-              navigate("/");
-            }}
-            className="font-onest font-black bg-violet text-red hover:text-white hover:underline"
-          >
-            BACK TO HOME
-          </button>
+          {isMenuOpen && (
+           <div className="absolute top-10 right-[108px] mt-2 space-y-2 flex flex-col items-start bg-white p-5 rounded shadow">
+              <Link to="/admin/properties">
+                <a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2">
+                  Posts
+                </a>
+              </Link>
+              <Link to="/admin/users">
+                <a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2 transition ease-in duration-150">
+                  Users
+                </a>
+              </Link>
+              <Link to="/postUser">
+                <a className="font-onest font-black text-blue hover:text-violet hover:no-underline text-left mb-2 ml-1 transition ease-in duration-100">
+                  My bookings
+                </a>
+              </Link>
+            </div>
+          )}
+              <Link to="/">
+            <button className="pt-2 pb-2 pr-5 pl-5 text-white bg-grey rounded-full mr-10 hover:bg-violet transition ease-in duration-100">
+              <FontAwesomeIcon icon={faHome} /> HOME
+            </button>
+          </Link>
         </div>
       </div>
     </div>

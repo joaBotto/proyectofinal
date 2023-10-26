@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Success from "../PaymentForm/PaymentSuccessful"
 
 import {
 	Elements,
@@ -14,10 +15,14 @@ const stripePromise = loadStripe(
 	'pk_test_51O05j9I6gYqlkFFnCH6Jn4JTYyyzAGAZ8fZk2KDKUGzwTTMQ20XhGGuGp7DnkOXLPESmkC5PGBoxHO9MyMyS8KOZ00ld8wpuns'
 );
 
+
+
+
 const CheckoutForm = ({ totalAmount }) => {
 	console.log(totalAmount);
 	const stripe = useStripe();
 	const elements = useElements();
+	const [showModal, setShowModal] = useState(false)
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -34,6 +39,9 @@ const CheckoutForm = ({ totalAmount }) => {
 					id,
 					amount: totalAmount * 100,
 				});
+				if ( data ) {
+					setShowModal(true)
+				}
 				console.log(data);
 
 				elements.getElement(CardElement).clear();
@@ -45,6 +53,7 @@ const CheckoutForm = ({ totalAmount }) => {
 
 	return (
 		<div className='w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg text-center'>
+			{showModal && (< Success setShowModal = {setShowModal} />)} 
 			<h1 className='text-2xl font-semibold mb-4'>Pasarela de Pagos</h1>
 			<h2>USD: {totalAmount}</h2>
 

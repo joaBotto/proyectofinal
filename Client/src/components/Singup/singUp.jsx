@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
 import axios from "axios";
@@ -22,7 +22,7 @@ const SignUpForm = () => {
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
-    console.log("Imagen recibida", file)
+    console.log("Imagen recibida", file);
     setImage(file);
 
     const reader = new FileReader();
@@ -47,7 +47,7 @@ const SignUpForm = () => {
     address: "",
     city: "",
     phoneNumber: "",
-    image:"",
+    image: "",
   };
 
   const validationSchema = Yup.object({
@@ -97,15 +97,11 @@ const SignUpForm = () => {
     formData.append("file", file);
     console.log("FormData:", formData);
     try {
-      const { data } = await axios.post(
-        "/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const { data } = await axios.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return data;
     } catch (error) {
       console.error("Error al cargar la imagen:", error);
@@ -120,7 +116,7 @@ const SignUpForm = () => {
         const cloudinaryResponse = await uploadImagesToCloudinary(image);
         console.log("soyresponsecloud", cloudinaryResponse);
         if (cloudinaryResponse) {
-          values.image = cloudinaryResponse.imageUrl ;
+          values.image = cloudinaryResponse.imageUrl;
         } else {
           console.error("Error al cargar la imagen en Cloudinary.");
         }
@@ -137,7 +133,7 @@ const SignUpForm = () => {
       setTimeout(() => {
         // Redirige al usuario a la página de inicio ("/")
         navigate("/login");
-      }, 5800); // El tiempo está en milisegundos 
+      }, 5800); // El tiempo está en milisegundos
     } catch (error) {
       console.error("Error en la solicitud:", error);
     } finally {
@@ -385,7 +381,6 @@ const SignUpForm = () => {
                   Sign Up
                 </button>
                 <div className="flex justify-between">
-                 
                   <Link to="/">
                     <button className="mt-2 flex justify-end bg-red-500 font-onest text-white px-4 py-2 rounded-full hover:bg-pink">
                       Cancel

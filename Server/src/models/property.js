@@ -22,6 +22,8 @@ const propertySchema = new mongoose.Schema({
     city: String,
     state: String,
     zipcode: String,
+    lat:Number,
+    lng:Number,
   },
   bedrooms: Number,
   bathrooms: Number,

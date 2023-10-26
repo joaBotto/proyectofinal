@@ -27,10 +27,11 @@ const createUserHandler = async (req, res) => {
       city,
       address,
       phoneNumber,
+      active:true
     };
     console.log("Recibida solicitud para crear usuario:", user);
     if (
-      email &&
+      email /* &&
       password &&
       name &&
       lastName &&
@@ -38,11 +39,9 @@ const createUserHandler = async (req, res) => {
       city &&
       address &&
       phoneNumber &&
-      image
+      image */
     ) {
       const newUser = await creatingUser(user);
-      // await enviarCorreoConfirmacion(newUser.email);
-      console.log("Usuario creado con éxito:", newUser);
       return res.status(201).json(newUser);
     } else {
       console.error("Falta información en la solicitud.");

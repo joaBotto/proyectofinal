@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../redux/actions";
 import { Link } from "react-router-dom";
 import fondo from "../../assets/img/loginRegister.jpg";
+import * as Yup from "yup";
 
 const EditAccount = () => {
   const user = useSelector((state) => state.user);
@@ -31,8 +32,57 @@ const EditAccount = () => {
     phoneNumber: false,
   });
 
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    name: "",
+    lastName: "",
+    country: "",
+    city: "",
+    address: "",
+    phoneNumber: "",
+  });
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters")
+      .required("Password is required"),
+    name: Yup.string()
+      .max(15, "Name should be less than 15 characters")
+      .matches(/^[A-Za-z ]*$/, "Name should not contain numbers")
+      .required("Name is required"),
+    lastName: Yup.string()
+      .max(15, "Last name should be less than 15 characters")
+      .matches(/^[A-Za-z ]*$/, "Last name should not contain numbers")
+      .required("Last name is required"),
+    country: Yup.string()
+      .matches(/^[A-Za-z ]*$/, "Country should not contain numbers")
+      .required("Country is required"),
+    city: Yup.string()
+      .matches(/^[A-Za-z ]*$/, "City should not contain numbers")
+      .required("City is required"),
+    address: Yup.string().required("Address is required"),
+    phoneNumber: Yup.string()
+      .matches(/^[0-9]+$/, "Phone number must be numeric")
+      .required("Phone number is required"),
+  });
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // Validar en tiempo real
+    validationSchema
+      .validateAt(name, { [name]: value })
+      .then(() => {
+        setErrors({ ...errors, [name]: "" });
+      })
+      .catch((error) => {
+        setErrors({ ...errors, [name]: error.errors[0] });
+      });
   };
 
   const toggleEditMode = (field) => {
@@ -41,7 +91,18 @@ const EditAccount = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUser(formData));
+
+    validationSchema
+      .validate(formData, { abortEarly: false })
+      .then(() => {
+        dispatch(updateUser(formData));
+      })
+      .catch((validationErrors) => {
+        // Manejar errores de validación, por ejemplo, mostrarlos al usuario
+        validationErrors.inner.forEach((error) => {
+          setErrors({ ...errors, [error.path]: error.message });
+        });
+      });
   };
 
   return (
@@ -64,32 +125,39 @@ const EditAccount = () => {
           {Object.keys(formData).map((field) => (
             <div key={field}>
               {editMode[field] ? (
-                <div className="  flex justify-between items-center mb-3">
-                  <label htmlFor={field} className="text-sm text-cyan font-bold">
-                    Change your {field}
-                  </label>
-                  <input
-                    type={field === "password" ? "password" : "text"}
-                    name={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className="w-full p-2 rounded border mb-2"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => toggleEditMode(field)}
-                    className="text-blue font-bold hover:text-cyan"
-                  >
-                    Save
-                  </button>
+                <div>
+                  <div className="  flex justify-between items-center mb-3">
+                    <label
+                      htmlFor={field}
+                      className="text-sm text-cyan font-bold"
+                    >
+                      Change your {field}
+                    </label>
+                    <input
+                      type={field === "password" ? "password" : "text"}
+                      name={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      className="w-full p-2 rounded border mb-2"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => toggleEditMode(field)}
+                      className="text-blue font-bold hover:text-cyan"
+                    >
+                      Save
+                    </button>
+                  </div>
+                  {errors[field] && (
+                    <p className="text-red-600">{errors[field]}</p>
+                  )}
                 </div>
               ) : (
                 <div>
-                  {/*      <label className="text-sm text-violet ">
-                    {field}
-                  </label> */}
                   <div className="  flex justify-between items-center mb-3">
-                    <label className=" text-sm text-blue font-bold ">{field}:</label>
+                    <label className="text-sm text-blue font-bold">
+                      {field}:
+                    </label>
                     <span>{formData[field]}</span>
                     <button
                       type="button"
@@ -99,6 +167,9 @@ const EditAccount = () => {
                       Edit
                     </button>
                   </div>
+                  {errors[field] && (
+                    <p className="text-red-600">{errors[field]}</p>
+                  )}
                 </div>
               )}
             </div>
