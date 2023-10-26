@@ -22,7 +22,7 @@ const EditAccount = () => {
     city: user.city,
     address: user.address,
     phoneNumber: user.phoneNumber,
-    //images:user.images
+    image:user.image
   });
 
   const [editMode, setEditMode] = useState({
@@ -34,6 +34,7 @@ const EditAccount = () => {
     city: false,
     address: false,
     phoneNumber: false,
+    image: false,
   });
 
   const [errors, setErrors] = useState({
@@ -45,6 +46,7 @@ const EditAccount = () => {
     city: "",
     address: "",
     phoneNumber: "",
+    image: ""
   });
 
   const validationSchema = Yup.object().shape({
