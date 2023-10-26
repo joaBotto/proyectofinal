@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import {
-  getPropertyDetail,
-  cleanDetail,
-  getAllBookings,
+	getPropertyDetail,
+	cleanDetail,
+	getAllBookings,
 } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHouse,
-  faLocationDot,
-  faBed,
-  faBath,
-  faRulerCombined,
+	faHouse,
+	faLocationDot,
+	faBed,
+	faBath,
+	faRulerCombined,
 } from "@fortawesome/free-solid-svg-icons";
 import ImageCarousel from "../../components/Card/ImageCarousel";
 import ImageGalleryModal from "./Modal";
@@ -27,90 +27,90 @@ import { Avatar } from "antd";
 import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
 
 const Detail = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
+	const { id } = useParams();
+	const dispatch = useDispatch();
 
-  const property = useSelector((state) => state.propertyDetail);
-  console.log(property);
+	const property = useSelector((state) => state.propertyDetail);
+	console.log(property);
 
-  useEffect(() => {
-    dispatch(getPropertyDetail(id));
-    return () => {
-      dispatch(cleanDetail());
-    };
-  }, [dispatch, id]);
+	useEffect(() => {
+		dispatch(getPropertyDetail(id));
+		return () => {
+			dispatch(cleanDetail());
+		};
+	}, [dispatch, id]);
 
-  useEffect(() => {
-    dispatch(getAllBookings());
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(getAllBookings());
+	}, [dispatch]);
 
-  const originalStartDate =
-    property && property.availableDays && property.availableDays[0];
-  const formattedStartDate = originalStartDate
-    ? new Date(originalStartDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "N/A";
+	const originalStartDate =
+		property && property.availableDays && property.availableDays[0];
+	const formattedStartDate = originalStartDate
+		? new Date(originalStartDate).toLocaleDateString("en-US", {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+		  })
+		: "N/A";
 
-  const originalEndDate =
-    property &&
-    property.availableDays &&
-    property.availableDays[property.availableDays.length - 1];
-  const formattedEndDate = originalEndDate
-    ? new Date(originalEndDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "N/A";
+	const originalEndDate =
+		property &&
+		property.availableDays &&
+		property.availableDays[property.availableDays.length - 1];
+	const formattedEndDate = originalEndDate
+		? new Date(originalEndDate).toLocaleDateString("en-US", {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+		  })
+		: "N/A";
 
 	const PropertyMap = ({ property }) => {
 		const [map, setMap] = useState(null);
-	  
+
 		const containerStyle = {
-		  width: "100%",
-		  height: "300px",
+			width: "100%",
+			height: "300px",
 		};
-	  
+
 		const center = {
-		  lat: property.address.lat,
-		  lng: property.address.lng,
+			lat: property.address.lat,
+			lng: property.address.lng,
 		};
-	  
+
 		useEffect(() => {
-		  if (map) {
-		  }
+			if (map) {
+			}
 		}, [map]);
-	  
+
 		return (
-		  <LoadScript googleMapsApiKey="AIzaSyCMqyxMkdWUUM4OpLB2iWXZ2c4rsYEfvRo">
-			<GoogleMap
-			  mapContainerStyle={containerStyle}
-			  center={center}
-			  zoom={11}
-			  onLoad={(map) => setMap(map)}
-			>
-			  <Marker position={center} />
-			</GoogleMap>
-		  </LoadScript>
+			<LoadScript googleMapsApiKey="AIzaSyCMqyxMkdWUUM4OpLB2iWXZ2c4rsYEfvRo">
+				<GoogleMap
+					mapContainerStyle={containerStyle}
+					center={center}
+					zoom={11}
+					onLoad={(map) => setMap(map)}
+				>
+					<Marker position={center} />
+				</GoogleMap>
+			</LoadScript>
 		);
-	  };
+	};
 
-  //*IMAGE GALLERY---------------------------------------------------------------------
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+	//*IMAGE GALLERY---------------------------------------------------------------------
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedImage, setSelectedImage] = useState(null);
 
-  const openModal = (image) => {
-    setSelectedImage(image);
-    setIsModalOpen(true);
-  };
+	const openModal = (image) => {
+		setSelectedImage(image);
+		setIsModalOpen(true);
+	};
 
-  const closeModal = () => {
-    setSelectedImage(null);
-    setIsModalOpen(false);
-  };
+	const closeModal = () => {
+		setSelectedImage(null);
+		setIsModalOpen(false);
+	};
 
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
@@ -124,18 +124,14 @@ const Detail = () => {
 									{property.title}
 								</h1>
 							</div>
-							<div className="">
-								<button className=" flex justify-end text-white bg-transparent rounded-full mr-6">
-									<Link
-										to="/"
-										className="mt-1 mr-2 justify-center text-blue font-onest font-semibold"
-									>
-										RETURN
+							<div className="w-full justify-end">
+								<button className="fixed right-2 flex flex-row justify-end text-white bg-transparent rounded-full mr-6">
+									<Link to="/">
+										<FontAwesomeIcon
+											icon={faHouse}
+											className="bg-cyan text-blue text-2xl py-2 px-2 rounded-full justify-center shadow-lg"
+										/>
 									</Link>
-									<FontAwesomeIcon
-										icon={faHouse}
-										className="bg-cyan text-blue  py-2 px-2 rounded-full justify-center shadow-lg"
-									/>
 								</button>
 							</div>
 						</div>
@@ -273,7 +269,7 @@ const Detail = () => {
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
 										{property.type || "Property"} in {property.address.street}
 									</p>
-									<div >
+									<div>
 										<PropertyMap property={property} />
 									</div>
 								</div>
