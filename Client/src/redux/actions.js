@@ -212,7 +212,7 @@ export const updateUser = (userEdited) => {
 	};
 };
 
-export const addUser = (user) => async (dispatch) => {
+export const addUser = (user, setShowSuccessModal, setShowErrorModal) => async (dispatch) => {
 
   try {
     const { data } = await axios.post("/users", user);
@@ -221,17 +221,19 @@ export const addUser = (user) => async (dispatch) => {
     if (data) {
     const { email } = data;
     await axios.post("/mail/login", {email: email} )
-    toast.success("User created successfully");
+    
     const userCreated = {
       email,
       password,
     };
     dispatch({ type: ADD_USER, payload: userCreated });
-  }
+}
+setShowSuccessModal(true);
 } catch (error) {
-    toast.warning("User already exists");
     dispatch({ type: ERROR, payload: error.message });
-  }
+	setShowErrorModal(true);
+}
+
 };
 
 export const addNewBooking = (bookingData) => async (dispatch) => {

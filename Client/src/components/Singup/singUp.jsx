@@ -9,16 +9,35 @@ import { addUser } from "../../redux/actions";
 import register from "../../assets/img/loginRegister.jpg";
 import axios from "axios";
 import logo from "../../assets/img/logo.png";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "../Footer/Footer";
+import Successful from "./Modals/SuccesModal.jsx"
+import Error from "./Modals/ErrorModal";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isFormValid, setFormValid] = useState(false);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+
+
+const handleCloseSuccessModal = () => {
+  setShowSuccessModal(false);
+
+  // Acciones adicionales al cerrar el modal de éxito
+  // Puedes agregar tu lógica aquí
+  console.log("Modal de éxito cerrado");
+};
+
+const handleCloseErrorModal = () => {
+  setShowErrorModal(false);
+
+  // Acciones adicionales al cerrar el modal de error
+  // Puedes agregar tu lógica aquí
+  console.log("Modal de error cerrado");
+};
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -32,6 +51,8 @@ const SignUpForm = () => {
 
     reader.readAsDataURL(file);
   };
+
+
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
@@ -67,31 +88,7 @@ const SignUpForm = () => {
     setFormValid(isValid);
   };
 
-  //----------------------Envio de email----------------------------------
-  // const form = useRef();
-
-  // const sendEmail = (values) => {
-  //   const serviceID = "service_phq6wkb";
-  //   const templateID = "template_d3bst5s";
-  //   const publicID = "A88VMvhYNS70XCfHm";
-
-  //   const templateParams = {
-  //     from_name: values.name,
-  //     to_email: values.email,
-  //     subject: "Inmuebles360 :)",
-  //     message: "Bienvenido a nuestra plataforma!",
-  //   };
-
-  //   emailjs
-  //     .sendForm(serviceID, templateID, templateParams, form.current, publicID)
-  //     .then((result) => {
-  //       alert("Sign Up success: ", result);
-  //     })
-  //     .catch((error) => {
-  //       alert("Something was wrong: ", error);
-  //     });
-  // };
-  //----------------------------------------------------------------------
+  
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -122,18 +119,7 @@ const SignUpForm = () => {
         }
       }
 
-      //? -------------------------------------------------------------------------------
-      // const response = await axios.post("https://localhost:3001/users", values);
-      // console.log(response);
-
-      //? -------------------------------------------------------------------------------
-
-      await dispatch(addUser(values));
-      // Espera 6 segundos antes de redirigir
-      setTimeout(() => {
-        // Redirige al usuario a la página de inicio ("/")
-        navigate("/login");
-      }, 5800); // El tiempo está en milisegundos
+     dispatch(addUser(values,  setShowSuccessModal, setShowErrorModal));
     } catch (error) {
       console.error("Error en la solicitud:", error);
     } finally {
@@ -156,9 +142,12 @@ const SignUpForm = () => {
         Register Now!
       </h1>
       <div className="bg-white w-1/3 mt-5 rounded-lg p-6 shadow-lg">
+        {showSuccessModal && (<Successful setShowSuccessModal = {setShowSuccessModal}/> )}
+        {showErrorModal && (<Error setShowErrorModal = {setShowErrorModal}/> )}
         <div className="flex justify-center my-8">
           <img src={logo} alt="Logo" className="w-1/2" />
         </div>
+        
         <div className="mx-5 mt-8">
           <Formik
             initialValues={initialValues}
@@ -177,6 +166,7 @@ const SignUpForm = () => {
               handleValidation(isValid);
               return errors;
             }}
+            
           >
             <Form className="space-y-2">
               <div className="flex flex-row mb-2">
@@ -246,7 +236,7 @@ const SignUpForm = () => {
                 </div>
               </div>
 
-              <ToastContainer />
+          
 
               <div className="relative">
                 <label
