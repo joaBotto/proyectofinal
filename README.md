@@ -45,10 +45,11 @@ cd ../../../
 3 - Instala las dependencias:
 
 ```git
-npm install
+npm install en la carpeta /Server, y tambien en la carpeta /Client
 ```
 
 4 - Configura las variables de entorno en un archivo .env
+
 5 - Inicia la app:
 
 ```git
@@ -64,3 +65,11 @@ Este proyecto fue desarrollado como parte de nuestro bootcamp en "SoyHenry". Dur
 ### Autores
 
 Los integrantes que participaron de este proyecto son: Alina Piccardo, Sergio Vazquez, Lorena Florio, Rodrigo Gamero, Jon Scar, Guillermo Llanos, Federico Rojo y Joaquin Botto.
+
+## Pequeño recorrido por la pagina
+
+![Alt text](/Client/src/assets/Readme/login.png)
+![Alt text](/Client/src/assets/Readme/home.png)
+![Alt text](/Client/src/assets/Readme/properties.png)
+![Alt text](/Client/src/assets/Readme/detail.png)
+![Alt text](/Client/src/assets/Readme/admin.png)
