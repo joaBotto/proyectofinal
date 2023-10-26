@@ -259,7 +259,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			//copyAllUsers.splice(indexAll, 1, payload);
 			//const index = state.users.indexOf(payload._id);
 			const copyUsers = state.users;
-
 			//copyUsers.splice(index, 1, payload);
 
 			return {
