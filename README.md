@@ -13,7 +13,6 @@
 ![Alt text](Client/src/assets/Readme/mongodb.png)
 ![Alt text](Client/src/assets/Readme/node.png)
 ![Alt text](Client/src/assets/Readme/react.png)
-![Alt text](Client/src/assets/Readme/redux.png)
 
 Inmuebles 360 es nuestra propuesta de proyecto final en el bootcamp de soyHenry. Se trata de una aplicacion de alquiler inmobiliario, ya sea para vivir, o para alojarse durante unas vacaciones. Esta plataforma simplifica el proceso de alquilar y gestionar propiedades, brindando una experiencia amigable tanto para propietarios como para inquilinos.
 
