@@ -232,27 +232,29 @@ export const updateUser = (userEdited) => {
 	};
 };
 
-export const addUser = (user) => async (dispatch) => {
+export const addUser = (user, setShowSuccessModal, setShowErrorModal) => async (dispatch) => {
 
-  try {
-    const { data } = await axios.post("/users", user);
-    console.log("SOY LA data de user", data);
-   
-    if (data) {
-    const { email } = data;
-    await axios.post("/mail/login", {email: email} )
-    toast.success("User created successfully");
-    const userCreated = {
-      email,
-      password,
-    };
-    dispatch({ type: ADD_USER, payload: userCreated });
+	try {
+	  const { data } = await axios.post("/users", user);
+	  console.log("SOY LA data de user", data);
+	 
+	  if (data) {
+	  const { email } = data;
+	  await axios.post("/mail/login", {email: email} )
+	  
+	  const userCreated = {
+		email,
+		password,
+	  };
+	  dispatch({ type: ADD_USER, payload: userCreated });
   }
-} catch (error) {
-    toast.warning("User already exists");
-    dispatch({ type: ERROR, payload: error.message });
+  setShowSuccessModal(true);
+  } catch (error) {
+	  dispatch({ type: ERROR, payload: error.message });
+	  setShowErrorModal(true);
   }
-};
+  
+  };
 
 export const addNewBooking = (bookingData) => async (dispatch) => {
 	try {
