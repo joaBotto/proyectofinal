@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import Paginado from "../../components/Paginado/paginado";
 import Cards from "../../components/Cards/CardsAdmin";
 import { FrownOutlined } from "@ant-design/icons";
-import { filters } from "../../redux/actions";
+import { filters, getProperty } from "../../redux/actions";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
 export default function Postuser() {
@@ -17,6 +17,10 @@ export default function Postuser() {
   const [type, setType] = useState("default");
   const [orderPrice, setOrderPrice] = useState("default");
   const [search, setSearch] = useState("");
+
+  useEffect(()=>{
+    dispatch(getProperty())
+    },[])
 
   useEffect(() => {
     setPage(1);
