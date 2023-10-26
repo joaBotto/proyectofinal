@@ -21,10 +21,30 @@ import {
   SAVE_PROPERTY,
   REMOVE_FROM_SAVED,
   USER_AUTHENTICATED,
-  DELETE_PROPERTY
+  DELETE_PROPERTY,
+  USER_BY_ID
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
+
+export const getUserById = (id) => async (dispatch) => {
+	try {
+		const { data } = await axios.get(`/users/${id}`);
+		return dispatch({ 
+			type: USER_BY_ID,
+			payload: data
+		 });
+	} catch (error) {
+		return dispatch({ 
+			type: ERROR, 
+			payload: error.message
+		 });
+	}
+};
+
+
+
+
 export const addPropertyToSaved = (propertyId) => {
 	return async (dispatch) => {
 		//console.log("pruebajon", propertyId);
