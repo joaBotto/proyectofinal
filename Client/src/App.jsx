@@ -20,6 +20,7 @@ import EditAccount from "./components/propertiesAdmin/personalEdit";
 import SavedProperties from "./views/Saved/Saved";
 import EditPaymentInfo from "./components/propertiesAdmin/paymentEdit";
 import Reviews from "./views/Reviews/Reviews";
+import Bookings from "./views/MyBookings/MyBookings";
 
 import axios from "axios";
 
@@ -53,6 +54,7 @@ function App() {
 				<Route path="/paymentEdit" element={<EditPaymentInfo />} />
 				<Route path="/saved" element={<SavedProperties />} />
 				<Route path="/reviews/:id" element={<Reviews />} />
+				<Route path="/bookings" element={<Bookings />} />
 			</Routes>
 		</div>
 	);
