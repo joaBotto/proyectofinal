@@ -16,6 +16,20 @@ mailsRouter.post("/login", (req, res) => {
     });
   });
 
+  mailsRouter.post("/payments", (req, res) => {
+    const { email } = req.body;
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: email,
+        subject: "Inmuebles 360 --> Payment register",
+        text: "Your payment was successfully registered :)",
+      };  
+    sendEmail(mailOptions);
+    res.status(200).json({
+      message: "Payment regitered successfully!",
+    });
+  });
+
 
   module.exports = mailsRouter
   

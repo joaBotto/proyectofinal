@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'; // Importa Link desde React Router
 import guillermollanos from '../../assets/img/guillermollanos.jpg';
 import joaco from '../../assets/img/joaco.jpg';
 import Jonnathan from '../../assets/img/jonnathan.jpg';
+import emiliano from '../../assets/img/emiliano.jpg';
 
 const teamMembers = [
 	{
@@ -22,8 +23,8 @@ const teamMembers = [
 	},
 	{
 		name: 'Emiliano Rojo',
-		githubOrPortfolio: 'Enlace a GitHub o Portfolio del Miembro 2',
-		image: 'URL de la imagen del Miembro 2',
+		githubOrPortfolio: 'https://github.com/Newhistory92',
+		image: emiliano,
 	},
 	{
 		name: 'Jonnathan Scarpetta',
@@ -45,7 +46,6 @@ const teamMembers = [
 		githubOrPortfolio: 'https://github.com/joaBotto',
 		image: joaco,
 	},
-	// Agrega información similar para los otros miembros aquí
 ];
 
 const About = () => {

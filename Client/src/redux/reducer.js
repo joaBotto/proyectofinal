@@ -19,6 +19,7 @@ import {
   REMOVE_FROM_SAVED,
   USER_AUTHENTICATED,
   DELETE_PROPERTY,
+  USER_BY_ID
 } from "./actions_types";
 
 const initialState = {
@@ -102,6 +103,13 @@ const orderPropertyPrice = (state, payload) => {
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+
+    case USER_BY_ID:
+      return {
+        ...state,
+        user:payload,
+      }
+
     case GET_PROPERTY:
       return {
         ...state,

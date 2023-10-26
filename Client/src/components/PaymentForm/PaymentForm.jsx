@@ -1,7 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserById } from '../../redux/actions';
 import { useEffect, useState } from 'react';
-import Success from "../PaymentForm/PaymentSuccessful"
+import Success from "../PaymentForm/PaymentSuccessful";
+
 
 import {
 	Elements,
@@ -11,6 +14,7 @@ import {
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
+
 const stripePromise = loadStripe(
 	'pk_test_51O05j9I6gYqlkFFnCH6Jn4JTYyyzAGAZ8fZk2KDKUGzwTTMQ20XhGGuGp7DnkOXLPESmkC5PGBoxHO9MyMyS8KOZ00ld8wpuns'
 );
@@ -19,6 +23,9 @@ const stripePromise = loadStripe(
 
 
 const CheckoutForm = ({ totalAmount }) => {
+	const user = useSelector((state) => state.user)
+	const dispatch = useDispatch();
+	console.log("SOY EL USER", user)
 	console.log(totalAmount);
 	const stripe = useStripe();
 	const elements = useElements();
@@ -35,14 +42,18 @@ const CheckoutForm = ({ totalAmount }) => {
 			const { id } = paymentMethod;
 
 			try {
-				const { data } = await axios.post('/api/checkout', {
+				const { status } = await axios.post('/api/checkout', {
 					id,
 					amount: totalAmount * 100,
 				});
-				if ( data ) {
+				if ( status === 200 ) {
 					setShowModal(true)
+					dispatch(getUserById(user._id))
+					console.log("SOY EL EMAIL", user.email)
+					await axios.post("http://localhost:3001/mail/payments", {email:user.email})
+
 				}
-				console.log(data);
+				console.log(status);
 
 				elements.getElement(CardElement).clear();
 			} catch (error) {

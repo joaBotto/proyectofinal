@@ -21,10 +21,30 @@ import {
   SAVE_PROPERTY,
   REMOVE_FROM_SAVED,
   USER_AUTHENTICATED,
-  DELETE_PROPERTY
+  DELETE_PROPERTY,
+  USER_BY_ID
 } from "./actions_types";
 
 // const URL = "http://localhost:3001";
+
+export const getUserById = (id) => async (dispatch) => {
+	try {
+		const { data } = await axios.get(`/users/${id}`);
+		return dispatch({ 
+			type: USER_BY_ID,
+			payload: data
+		 });
+	} catch (error) {
+		return dispatch({ 
+			type: ERROR, 
+			payload: error.message
+		 });
+	}
+};
+
+
+
+
 export const addPropertyToSaved = (propertyId) => {
 	return async (dispatch) => {
 		//console.log("pruebajon", propertyId);
@@ -212,27 +232,29 @@ export const updateUser = (userEdited) => {
 	};
 };
 
-export const addUser = (user) => async (dispatch) => {
+export const addUser = (user, setShowSuccessModal, setShowErrorModal) => async (dispatch) => {
 
-  try {
-    const { data } = await axios.post("/users", user);
-    console.log("SOY LA data de user", data);
-   
-    if (data) {
-    const { email } = data;
-    await axios.post("/mail/login", {email: email} )
-    toast.success("User created successfully");
-    const userCreated = {
-      email,
-      password,
-    };
-    dispatch({ type: ADD_USER, payload: userCreated });
+	try {
+	  const { data } = await axios.post("/users", user);
+	  console.log("SOY LA data de user", data);
+	 
+	  if (data) {
+	  const { email } = data;
+	  await axios.post("/mail/login", {email: email} )
+	  
+	  const userCreated = {
+		email,
+		password,
+	  };
+	  dispatch({ type: ADD_USER, payload: userCreated });
   }
-} catch (error) {
-    toast.warning("User already exists");
-    dispatch({ type: ERROR, payload: error.message });
+  setShowSuccessModal(true);
+  } catch (error) {
+	  dispatch({ type: ERROR, payload: error.message });
+	  setShowErrorModal(true);
   }
-};
+  
+  };
 
 export const addNewBooking = (bookingData) => async (dispatch) => {
 	try {

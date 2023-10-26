@@ -23,8 +23,8 @@ import EditPaymentInfo from "./components/propertiesAdmin/paymentEdit";
 import Reviews from "./views/Reviews/Reviews";
 import Bookings from "./views/MyBookings/MyBookings";
 
-
 import axios from 'axios';
+import About from './components/About/About';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 // axios.defaults.baseURL = "https://inmobiliaria360.up.railway.app";
@@ -38,7 +38,6 @@ function App() {
 			{location.pathname === '/postUser' && <NavBar />}
 
 			<Routes>
-
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/create" element={<CreateProperty />} />
@@ -58,7 +57,7 @@ function App() {
 				<Route path="/saved" element={<SavedProperties />} />
 				<Route path="/reviews/:id" element={<Reviews />} />
 				<Route path="/bookings" element={<Bookings />} />
-
+        <Route path='/about' element={<About />} />
 			</Routes>
 		</div>
 	);

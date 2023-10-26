@@ -95,9 +95,9 @@ server.post('/api/checkout', async (req, res) => {
 			return_url: 'http://localhost:3000',
 		});
 
-		res.send({ message: 'succesfull payment' });
+		res.status(200).send();
 	} catch (error) {
-		res.json({ message: error.message });
+		res.status(500).json({ message: error.message });
 	}//Mandar mail que  hizo pago para verificar 
 	//
 });
