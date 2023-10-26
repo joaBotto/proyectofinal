@@ -12,11 +12,26 @@ function Bookings() {
 	const name = user.name.toUpperCase();
 
 	const [myBookings, setMyBookings] = useState([]);
+	const [userDataBase, setUserDataBase] = useState({});
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const { data } = await axios.get(`/users/${user._id}`);
+				setUserDataBase(data);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchData();
+	}, [user, allBookings]);
+
+	console.log(userDataBase);
 
 	useEffect(() => {
 		const fetchBookings = async () => {
 			try {
-				const bookingPromises = user.bookings.map((booking) =>
+				const bookingPromises = userDataBase.bookings.map((booking) =>
 					axios.get(`http://localhost:3001/bookings/${booking}`)
 				);
 				const bookingResponses = await Promise.all(bookingPromises);
