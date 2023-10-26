@@ -189,7 +189,7 @@ const EditAccount = () => {
             Save Changes
           </button>
         </form>
-        <Link to="/gestionUser">
+        <Link to="/"> {/* aqui va /gestionUser */}
           <button className="bg-blue text-white py-2 px-4 rounded hover:bg-teal-400 w-full">
             Return to User Management
           </button>

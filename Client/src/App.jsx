@@ -13,7 +13,7 @@ import HomeAdmin from "../src/components/admin/Posts/Posts";
 import Error404 from "./components/Error/Error404";
 import { EditPropertyFromAdmin } from "./components/admin/editProperty/editProperty";
 import Reservations from "./views/Reservations/Reservations";
-import GestionUser from "./views/gestionUser/GestionUser";
+//import GestionUser from "./views/gestionUser/GestionUser";
 import Postuser from "./components/propertiesAdmin/propertyUser";
 import PaymentForm from "./components/PaymentForm/PaymentForm";
 import { AllUsers } from "./components/admin/allUsers/allUsers";
@@ -48,8 +48,8 @@ function App() {
 				<Route path="/detail/reservations/:id" element={<Reservations />} />
 				<Route path="/postUser" element={<Postuser />} />
 				<Route path="/checkout" element={<PaymentForm />} />
-				<Route path="/gestionUser" element={<GestionUser />} />
-				<Route path="/personalEdit" element={<EditAccount />} />
+				<Route path="/gestionUser" element={<EditAccount />} />
+			{/* 	<Route path="/personalEdit" element={<EditAccount />} /> */}
 				<Route path="/admin" element={<ViewAdmin />} />
 				<Route path="/admin/properties" element={<HomeAdmin />} />
 				<Route path="/admin/property/:id" element={<EditPropertyFromAdmin />} />
