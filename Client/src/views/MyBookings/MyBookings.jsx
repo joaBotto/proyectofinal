@@ -1,37 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import MyBookingCard from "./MyBookingCard";
+import { getUserById } from "../../redux/actions";
 import axios from "axios";
 
 function Bookings() {
 	const user = useSelector((state) => state.user);
 	const allBookings = useSelector((state) => state.allBookings);
-	console.log("user", user);
+
+	// console.log("user", user);
+	// console.log("SOY ALL BOOKINKGS", allBookings)
+
 	const name = user.name.toUpperCase();
+	const dispatch = useDispatch();
 
 	const [myBookings, setMyBookings] = useState([]);
-	const [userDataBase, setUserDataBase] = useState({});
+
+
+	useEffect(()=>{
+		dispatch(getUserById(user._id))
+	},[allBookings])
+
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const { data } = await axios.get(`/users/${user._id}`);
-				setUserDataBase(data);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		fetchData();
-	}, [user, allBookings]);
-
-	console.log(userDataBase);
-
-	useEffect(() => {
+		
 		const fetchBookings = async () => {
 			try {
-				const bookingPromises = userDataBase.bookings.map((booking) =>
+				const bookingPromises = user.bookings.map((booking) =>
 					axios.get(`http://localhost:3001/bookings/${booking}`)
 				);
 				const bookingResponses = await Promise.all(bookingPromises);
@@ -43,7 +40,7 @@ function Bookings() {
 		};
 
 		fetchBookings();
-	}, [user, allBookings]);
+	}, [allBookings]);
 
 	console.log("myBookings", myBookings);
 	return (
