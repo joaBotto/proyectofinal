@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Success from "../PaymentForm/PaymentSuccessful"
+import Success from "../PaymentForm/PaymentSuccessful";
 
 import {
 	Elements,
@@ -35,12 +35,14 @@ const CheckoutForm = ({ totalAmount }) => {
 			const { id } = paymentMethod;
 
 			try {
-				const { data } = await axios.post('/api/checkout', {
+				const { status } = await axios.post('/api/checkout', {
 					id,
 					amount: totalAmount * 100,
 				});
-				if ( data ) {
+				if ( status === 200 ) {
 					setShowModal(true)
+					await axios.post("http://localhost:3001/mail/payments", {})
+
 				}
 				console.log(data);
 
