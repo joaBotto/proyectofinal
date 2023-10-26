@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cards from "../../components/Cards/Cards";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
@@ -8,11 +8,17 @@ import NavBar from "../../components/NavBar/NavBar";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import {userAuthenticated} from "../../redux/actions"
 
 function SavedProperties() {
-  const user = useSelector((state) => state.user);
   const navigate = useNavigate(); // Obtenemos la función de navegación
-
+  const dispatch = useDispatch();
+  
+  useEffect(()=>{
+    dispatch(userAuthenticated(user))
+  },[dispatch])
+  
+  const user = useSelector((state) => state.user);
   useEffect(() => {
     if (!user) {
       // Si el usuario no está definido, redirige a la página de inicio de sesión
