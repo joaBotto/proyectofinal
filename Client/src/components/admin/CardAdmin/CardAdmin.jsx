@@ -39,7 +39,7 @@ const CardAdmin = ({
   }
 
   return (
-    <div className="flex-auto rounded-xl py-2">
+    <div className="flex-auto rounded-2xl py-2 bg-white bg-opacity-50 border-blue border-2 border-b-4 border-r-4">
       {showModalDelete && (<Delete okDelete={okDelete} cancelDelete={cancelDelete} _id={_id} />)}
       <div className="px-4 pt-5 sm:px-6">
         <div className="relative rounded-xl h-[300px] shadow overflow-hidden">

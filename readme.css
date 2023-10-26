@@ -1,0 +1,6 @@
+img {
+  max-width: 200px; /* Cambia este valor según tus necesidades */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
