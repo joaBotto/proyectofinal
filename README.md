@@ -4,7 +4,7 @@
 
 <style>
 img {
-    max-width: 200px;
+    max-width: 100px;
     height: auto;
     display: block;
     margin: 0 auto;
