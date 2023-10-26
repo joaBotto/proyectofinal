@@ -21,6 +21,8 @@ import PlacesAutocomplete, {
   getLatLng,
 } from "react-places-autocomplete";
 
+
+
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
   console.log("soy el usuario en createProperty", user);
@@ -50,7 +52,6 @@ export default function CreateProperty() {
       console.error("Error al cargar la imagen:", error);
     }
   };
-
   function generateDatesInRange(startDate, endDate) {
     const dates = [];
     let currentDate = new Date(startDate);
@@ -60,151 +61,200 @@ export default function CreateProperty() {
     }
     return dates;
   }
+	const LocationSearchInput = ({ field, form: { setFieldValue } }) => {
+		const handleChange = (address, isSuggestion) => {
+			console.log('handleChange:', address, isSuggestion);
+		  
+			if (!address) {
+			  setFieldValue('address.street', '');
+			  setFieldValue('address.city', '');
+			  setFieldValue('address.locality', '');
+			  setFieldValue('address.state', '');
+			  setFieldValue('address.zipcode', ''); 
+			  setFieldValue('address.lat', ''); 
+              setFieldValue('address.lng', ''); 
+			} else {
+			  setFieldValue('address.street', address);
+			  if (isSuggestion) {
+				handleSelect(address);
+			  }
+			}
+		  };
+	  
+		const handleZipcodeChange = (e) => {
+			console.log('handleZipcodeChange:', handleZipcodeChange);
+			const zipcode = e.target.value;
+			setFieldValue('address.zipcode', zipcode);
+		  };
+		
+		  const [zipcode, setZipcode] = useState('');
 
-  const LocationSearchInput = ({ field, form: { setFieldValue } }) => {
-    const handleChange = (address, isSuggestion) => {
-      console.log("handleChange:", address, isSuggestion);
+		  const handleSelect = (address) => {
+			geocodeByAddress(address)
+			  .then((results) => {
+				const result = results[0];
+				return Promise.all([
+				  getLatLng(result),
+				  result.address_components,
+				  result.formatted_address,
+				]);
+			  })
+			  .then(([latLng, addressComponents, formattedAddress]) => {
+				console.log('Geocoding success', latLng, addressComponents);
+				
+				setFieldValue('address.locality', extractAddressComponent(addressComponents, 'locality'));
+				setFieldValue('address.city', extractAddressComponent(addressComponents, 'administrative_area_level_1'));
+				setFieldValue('address.state', extractAddressComponent(addressComponents, 'country'));
+				setFieldValue('address.lat', latLng.lat);
+				setFieldValue('address.lng', latLng.lng);
+				const zipcode = extractAddressComponent(addressComponents, 'postal_code');
+				setFieldValue('address.zipcode', zipcode);
+				
+				// Guardar el código postal en la variable de estado "zipcode"
+				setZipcode(zipcode);
+			  })
+			  .catch((error) => {
+				console.error('Geocoding error', error);
+				console.error('Geocoding error', error);
+              setFieldValue('address.zipcode', '');
+              setFieldValue('address.lat', '');
+              setFieldValue('address.lng', '');
+              setZipcode('');
+			  });
+		  };
+		  
+		  const handleSuggestionClick = ( suggestion) => {
+			console.log('Sugerencia clicada:', suggestion);
+			setFieldValue('address.street', suggestion);
+			handleSelect(suggestion);
+		  };
+		  
 
-      if (!address) {
-        setFieldValue("address.street", "");
-        setFieldValue("address.city", "");
-        setFieldValue("address.locality", "");
-        setFieldValue("address.state", "");
-      } else {
-        setFieldValue("address.street", address);
-        if (isSuggestion) {
-          handleSelect(address);
-        }
-      }
-    };
+		const extractAddressComponent = (addressComponents, type) => {
+		  const component = addressComponents.find((comp) => comp.types.includes(type));
+		  return component ? component.long_name : '';
+		};
+	  
 
-    const handleSelect = (address) => {
-      console.log("handleSelect:", address);
-
-      geocodeByAddress(address)
-        .then((results) => {
-          const result = results[0];
-          return Promise.all([getLatLng(result), result.address_components]);
-        })
-        .then(([latLng, addressComponents]) => {
-          console.log("Geocoding success", latLng, addressComponents);
-
-          setFieldValue(
-            "address.locality",
-            extractAddressComponent(addressComponents, "locality")
-          );
-          setFieldValue(
-            "address.city",
-            extractAddressComponent(
-              addressComponents,
-              "administrative_area_level_1"
-            )
-          );
-          setFieldValue(
-            "address.state",
-            extractAddressComponent(addressComponents, "country")
-          ); // Nuevo campo para el país
-        })
-        .catch((error) => console.error("Geocoding error", error));
-    };
-
-    const extractAddressComponent = (addressComponents, type) => {
-      const component = addressComponents.find((comp) =>
-        comp.types.includes(type)
-      );
-      return component ? component.long_name : "";
-    };
-
-    return (
-      <div>
-        <PlacesAutocomplete
-          value={field.value.street}
-          onChange={(address) => handleChange(address, false)}
-          onSelect={(address) => handleSelect(address)}
-          googleCallbackName="initOne"
-        >
-          {({
-            getInputProps,
-            suggestions,
-            getSuggestionItemProps,
-            loading,
-          }) => (
-            <div className="block pt-5 text-left text-gray-700">
-              <input
-                {...getInputProps({
-                  placeholder: "Street ...",
-                  className: "mt-1 p-2 w-full rounded-full border",
-                })}
-              />
-              <ErrorMessage
-                name="address.street"
-                component="div"
-                className="text-red-600 text-sm"
-              />
-              <div className="autocomplete-dropdown-container">
-                {loading && <div>Loading...</div>}
-                {suggestions.map((suggestion) => {
-                  const className = suggestion.active
-                    ? "suggestion-item--active"
-                    : "suggestion-item";
-                  const style = suggestion.active
-                    ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                    : { backgroundColor: "#ffffff", cursor: "pointer" };
-                  return (
-                    <div
-                      {...getSuggestionItemProps(suggestion, {
-                        className,
-                        style,
-                      })}
-                    >
-                      <span>{suggestion.description}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </PlacesAutocomplete>
-
-        <div className="block pt-5 text-left text-gray-700">
-          <input
-            type="text"
-            value={field.value.locality}
-            placeholder="Locality"
-            className="mt-1 p-2 w-full rounded-full border"
-            readOnly
-          />
-        </div>
-        <div className="block pt-5 text-left text-gray-700">
-          <input
-            type="text"
-            value={field.value.city}
-            placeholder="City"
-            className="mt-1 p-2 w-full rounded-full border"
-            readOnly
-          />
-        </div>
-        <div className="block pt-5 text-left text-gray-700">
-          <input
-            type="text"
-            value={field.value.state}
-            placeholder="State"
-            className="mt-1 p-2 w-full rounded-full border"
-            readOnly
-          />
-        </div>
+		return (
+		  <div>
+			<PlacesAutocomplete
+			  value={field.value.street}
+			  onChange={(address) => handleChange(address, false)}
+			 
+			  onSelect={(address) => handleSelect(address)}
+			  googleCallbackName="initOne"
+			>
+			  {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+				<div className="block pt-5 text-left text-gray-700">
+				  <input 
+					{...getInputProps({
+					 
+					  placeholder: 'Street ...',
+					  className:"mt-1 p-2 w-full rounded-full border",
+					})}
+				  />
+				  <ErrorMessage
+					name="address.street"
+					component="div"
+					className="text-red-600 text-sm"
+				  />
+				  <div className="autocomplete-dropdown-container">
+				  
+				  {loading && (
+					<div className="absolute inset-y-0 right-0 flex items-center pr-2">
+					  <svg
+						style={{ animation: 'spin 1s linear infinite', color: '#ed64a6' }}
+						className="h-5 w-5 mr-3"
+						viewBox="0 0 24 24"
+					  >
+					  </svg>
+					  Processing
+					</div>
+				  )}
+				  
+					{suggestions.map((suggestion) => { 
+					  const className = suggestion.active
+						? 'suggestion-item--active'
+						: 'suggestion-item';
+					  const style = suggestion.active
+						? { backgroundColor: '#fafafa', cursor: 'pointer' }
+						: { backgroundColor: '#ffffff', cursor: 'pointer' };
+					  return (
+						<div
+						  {...getSuggestionItemProps(suggestion, {
+							className,
+							style,
+							onClick: () => handleSuggestionClick(suggestion.description),
+              
+						  })}
+						>
+						  <span><p class="italic ...">{suggestion.description}</p></span>
+						  
+						</div>
+						
+					  );
+					})}
+					</div> 
+				</div>
+			  )}
+			</PlacesAutocomplete>
+	  
+			<div className="block pt-5 text-left text-gray-700">
+			  <input 
+				type="text"
+				value={field.value.locality}
+				
+				placeholder="Locality"
+			
+				className="mt-1 p-2 w-full rounded-full border "
+				readOnly
+			  />
+			</div>
+			<div className="block pt-5 text-left text-gray-700">
+        <input
+          type="text"
+          value={field.value.city}
+          placeholder="City"
+          className="mt-1 p-2 w-full rounded-full border"
+          readOnly
+        />
       </div>
-    );
-  };
+      <div className="block pt-5 text-left text-gray-700">
+        <input
+          type="text"
+          value={field.value.state}
+          placeholder="State"
+          className="mt-1 p-2 w-full rounded-full border"
+          readOnly
+        />
+      </div>
+	  <div className="block pt-5 text-left text-gray-700">
+      <input
+        type="text"
+		placeholder="Zipcode"
+        value={field.value.zipcode}
+        onChange={handleZipcodeChange}
+		className="mt-1 p-2 w-full rounded-full border"
+		readOnly
+      />
+    </div>
+    </div>
+  );
+};
+
+	
 
   const initialValues = {
     address: {
-      street: "",
-      locality: "",
-      city: "",
-      state: "",
-      zipcode: "",
-    },
+			street: "",
+			locality: "",
+			city: "",
+			state: "",
+			zipcode: "", 
+			lat:"",
+			lng:"",
+		  },
     bedrooms: 0,
     bathrooms: 0,
     price: 0,
@@ -284,9 +334,7 @@ export default function CreateProperty() {
     description: Yup.string().required("Description is required"),
     address: Yup.object().shape({
       street: Yup.string().required("The street is required"),
-      // city: Yup.string().required("The city is required"),
-      // state: Yup.string().required("State is required"),
-      // zipcode: Yup.number().required("Zip code is required"),
+     
     }),
     amenities: Yup.object().shape({
       covered_area: Yup.number()
@@ -399,19 +447,6 @@ export default function CreateProperty() {
                       name="address"
                       setFieldValue={setFieldValue}
                     />
-                    {/* <label htmlFor="address.state"></label>
-										<Field
-											type="text"
-											name="address.state"
-											placeholder="State"
-											className="mt-1 p-2 w-full rounded-full border"
-										/>
-										<ErrorMessage
-											name="address.state"
-											component="div"
-											className="text-red-600 text-sm"
-										/> */}
-
                     <label htmlFor="address.zipcode"></label>
                     <Field
                       type="number"

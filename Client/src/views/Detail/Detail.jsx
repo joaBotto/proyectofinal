@@ -16,7 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ImageCarousel from "../../components/Card/ImageCarousel";
 import ImageGalleryModal from "./Modal";
-import PropertyMap from "./PropertyMap";
+
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import { FadeLoader } from "react-spinners";
@@ -24,6 +24,7 @@ import DisplayCharacteristics from "./Display";
 import BookingDetails from "./Booking";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
+import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
 
 const Detail = () => {
   const { id } = useParams();
@@ -64,6 +65,38 @@ const Detail = () => {
         day: "numeric",
       })
     : "N/A";
+
+	const PropertyMap = ({ property }) => {
+		const [map, setMap] = useState(null);
+	  
+		const containerStyle = {
+		  width: "100%",
+		  height: "300px",
+		};
+	  
+		const center = {
+		  lat: property.address.lat,
+		  lng: property.address.lng,
+		};
+	  
+		useEffect(() => {
+		  if (map) {
+		  }
+		}, [map]);
+	  
+		return (
+		  <LoadScript googleMapsApiKey="AIzaSyCMqyxMkdWUUM4OpLB2iWXZ2c4rsYEfvRo">
+			<GoogleMap
+			  mapContainerStyle={containerStyle}
+			  center={center}
+			  zoom={11}
+			  onLoad={(map) => setMap(map)}
+			>
+			  <Marker position={center} />
+			</GoogleMap>
+		  </LoadScript>
+		);
+	  };
 
   //*IMAGE GALLERY---------------------------------------------------------------------
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -238,10 +271,9 @@ const Detail = () => {
 									</p>
 									<p className="text-md mt-1 pb-0 mb-0 font-noto font-medium text-blue uppercase">
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
-										{property.type || "Property"} in {property.address.state},{" "}
-										{property.address.city}
+										{property.type || "Property"} in {property.address.street}
 									</p>
-									<div className="h-[500px] w-[500px]">
+									<div >
 										<PropertyMap property={property} />
 									</div>
 								</div>

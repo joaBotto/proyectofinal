@@ -18,6 +18,7 @@ const EditAccount = () => {
     city: user.city,
     address: user.address,
     phoneNumber: user.phoneNumber,
+    images:user.images
   });
 
   const [editMode, setEditMode] = useState({
