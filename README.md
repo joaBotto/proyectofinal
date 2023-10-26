@@ -1,21 +1,11 @@
-<link rel="stylesheet" type="text/css" href="styles.css">
 
 # "Inmuebles 360" --> Proyecto final (soyHenry)
-
-<style>
-img {
-    max-width: 100px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-}
-</style>
 
 ![Alt text](Client/src/assets/img/logo.png)
 
 ## Acerca del proyecto:
 
-![Alt text](Client/src/assets/Readme/bootstrap.jpeg)
+![Alt text](Client/src/assets/Readme/bootstrap.jpg)
 ![Alt text](Client/src/assets/Readme/CSS.png)
 ![Alt text](Client/src/assets/Readme/HTML.png)
 ![Alt text](Client/src/assets/Readme/JS.png)
