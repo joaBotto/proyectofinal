@@ -4,16 +4,16 @@
 
 ## Acerca del proyecto:
 
-![Alt text](Client/src/assets/Readme/bootstrap.jpeg)
-![Alt text](Client/src/assets/Readme/CSS.png)
-![Alt text](Client/src/assets/Readme/HTML.png)
-![Alt text](Client/src/assets/Readme/JS.png)
-![Alt text](Client/src/assets/Readme/mongodb.png)
-![Alt text](Client/src/assets/Readme/node.png)
-![Alt text](Client/src/assets/Readme/react.png)
-![Alt text](Client/src/assets/Readme/redux.png)
-![Alt text](Client/src/assets/Readme/tail.png)
-![Alt text](Client/src/assets/Readme/formik.png)
+![Alt text](Client/src/assets/Readme/bootstrap.jpeg){:style="width: 200px; height: 200px;"}
+![Alt text](Client/src/assets/Readme/CSS.png){:style="width: 200px; height: 200px;"}
+![Alt text](Client/src/assets/Readme/HTML.png){:style="width: 200px; height: 200px;"}
+![Alt text](Client/src/assets/Readme/JS.png){:style="width: 200px; height: 200px;"}
+![Alt text](Client/src/assets/Readme/mongodb.png){:style="width: 200px; height: 200px;"}
+![Alt text](Client/src/assets/Readme/node.png){:style="width: 200px; height: 200px;"}
+![Alt text](Client/src/assets/Readme/react.png){:style="width: 200px; height: 200px;"}
+![Alt text](Client/src/assets/Readme/redux.png){:style="width: 200px; height: 200px;"}
+![Alt text](Client/src/assets/Readme/tail.png){:style="width: 200px; height: 200px;"}
+![Alt text](Client/src/assets/Readme/formik.png){:style="width: 200px; height: 200px;"}
 
 Inmuebles 360 es nuestra propuesta de proyecto final en el bootcamp de soyHenry. Se trata de una aplicacion de alquiler inmobiliario, ya sea para vivir, o para alojarse durante unas vacaciones. Esta plataforma simplifica el proceso de alquilar y gestionar propiedades, brindando una experiencia amigable tanto para propietarios como para inquilinos.
 
