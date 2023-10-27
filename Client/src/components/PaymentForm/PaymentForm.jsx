@@ -51,7 +51,6 @@ const CheckoutForm = ({ totalAmount }) => {
 					dispatch(getUserById(user._id))
 					console.log("SOY EL EMAIL", user.email)
 					await axios.post("http://localhost:3001/mail/payments", {email:user.email})
-
 				}
 				console.log(status);
 
