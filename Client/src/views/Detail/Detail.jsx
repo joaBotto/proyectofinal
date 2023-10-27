@@ -35,6 +35,7 @@ const Detail = () => {
 
 	const property = useSelector((state) => state.propertyDetail);
 	console.log(property);
+	const user = useSelector((state)=> state.user)
 
 	useEffect(() => {
 		dispatch(getPropertyDetail(id));
@@ -279,7 +280,7 @@ const Detail = () => {
 								{property && <DisplayCharacteristics property={property} />}
 							</div>
 							<div className="w-full flex flex-col items-end justify-end pr-20 pt-11">
-								{property && <BookingDetails property={property} />}
+								{user && property && (<BookingDetails property={property} />)}
 							</div>
 						</div>
 						{isModalOpen && (
