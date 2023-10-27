@@ -10,11 +10,13 @@ import { Link, useNavigate } from "react-router-dom"; // Importa
 import "./createProperty.css";
 import logo from "../../assets/img/logo.png";
 import { useState } from "react";
-import { ToastContainer } from "react-toastify";
+
+import Successful from "./Modals/SucessModal"
+import Error from "./Modals/ErrorModal";
 import NavBar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -30,6 +32,9 @@ export default function CreateProperty() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [PropertyCreated, setPropertyCreated] = useState(false); // Estado para el mensaje de éxito
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+
 
   useEffect(() => {
     if (!user) {
@@ -315,10 +320,10 @@ export default function CreateProperty() {
     // console.log("soy la info a mandar", newProperty);
 
     try {
-      await dispatch(createProperty(newProperty));
-      setTimeout(() => {
-        navigate("/");
-      }, 7000);
+      await dispatch(createProperty(newProperty, setShowSuccessModal, setShowErrorModal));
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, 7000);
     } catch (error) {
       console.error("Error creating property:", error);
     } finally {
@@ -330,7 +335,7 @@ export default function CreateProperty() {
     title: Yup.string()
       .required("Title is required")
       .min(5, "Very short title, must be at least 5 characters long")
-      .max(25, "Title too long"),
+      .max(47, "Title too long"),
     description: Yup.string().required("Description is required"),
     address: Yup.object().shape({
       street: Yup.string().required("The street is required"),
@@ -386,6 +391,8 @@ export default function CreateProperty() {
             AS SIMPLE AS INMUEBLES360
           </h1>
         </div>
+        {showSuccessModal && (<Successful setShowSuccessModal = {setShowSuccessModal}/> )}
+        {showErrorModal && (<Error setShowErrorModal = {setShowErrorModal}/> )}
         <div className="flex flex-row justify-center w-screen">
           <Formik
             initialValues={initialValues}
@@ -396,7 +403,7 @@ export default function CreateProperty() {
               <Form className="flex flex-row justify-center w-3/4 bg-violet bg-opacity-10 rounded-xl shadow-xl p-20 my-10">
                 <div className="flex flex-col w-1/2 space-y-4">
                   {/* TITULO DE LA PUBLICACION */}
-                  <ToastContainer />
+                  {/* <ToastContainer /> */}
                   <div className="block text-left text-gray-700">
                     <label
                       htmlFor="title"
