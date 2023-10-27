@@ -53,22 +53,27 @@ const About = () => {
 	return (
 		<div className='bg-gradient-to-tr from-purple-100 via-indigo-300 to-indigo-500 p-6'>
 			<div className='text-center'>
-				<h2 className='text-3xl font-bold mb-4 text-violet'>
-					Acerca de Inmuebles 360
-				</h2>
+				<h2 className='text-3xl font-bold mb-4 text-violet'>Inmuebles 360</h2>
 				<p className='text-lg text-white'>
-					Inmuebles 360 es nuestra propuesta de proyecto final en el bootcamp de
-					soyHenry. Se trata de una aplicación de alquiler inmobiliario, ya sea
-					para vivir o para alojarse durante unas vacaciones. Esta plataforma
-					simplifica el proceso de alquilar y gestionar propiedades, brindando
-					una experiencia amigable tanto para propietarios como para inquilinos.
+					This team of 8 individuals, composed of enthusiastic and talented
+					students from Soy Henry, came together to complete their final project
+					during the full stack development bootcamp. Their mission was to
+					create a comprehensive web application that would showcase their
+					ability to apply all the knowledge they had gained throughout the
+					program. Together, they worked tirelessly to design, develop, and
+					deploy a high-level web application that reflected their dedication
+					and commitment. With a combination of expertise in design, database
+					management, frontend and backend development, security, project
+					management, user experience, and server administration, this team
+					succeeded in creating a final application that not only operated
+					efficiently but also provided an exceptional user experience.
 				</p>
-				<h2 className='text-violet'>Tecnologías:</h2>
+				<h2 className='text-violet'>technologies:</h2>
 				<p className='text-white'>
 					React, JavaScript, HTML, Redux, Tailwind, Bootstrap, AntDesign, Node,
 					Cloudinary, Express, MongoDB, Nodemailer, Passport, Stripe, Formik...
 				</p>
-				<h2 className='text-3xl font-bold mb-4 text-violet'>Integrantes</h2>
+				<h2 className='text-3xl font-bold mb-4 text-violet'>Members</h2>
 			</div>
 			<div className='mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-center'>
 				{teamMembers.map((member, index) => (
@@ -85,7 +90,7 @@ const About = () => {
 							rel='noopener noreferrer'
 							className='text-blue-500 hover:underline block mt-2'
 						>
-							Ver GitHub o Portfolio
+							GitHub o Portfolio
 						</a>
 					</div>
 				))}
@@ -93,7 +98,7 @@ const About = () => {
 			<div className='mt-4 text-center'>
 				<Link to={window.location.pathname === '/about' ? '/' : '/about'}>
 					<button className='font-onest rounded-full bg-violet px-3.5 py-2.5 text-m font-medium text-white shadow-sm hover:bg-pink'>
-						{window.location.pathname === '/about' ? 'Inicio' : 'Acerca de'}
+						{window.location.pathname === '/about' ? 'Home' : 'Acerca de'}
 					</button>
 				</Link>
 			</div>
