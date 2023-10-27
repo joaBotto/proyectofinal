@@ -43,7 +43,7 @@ const Card = ({
 
 			if (propertyToAdd) {
 				// Dispatch the action to add the property to the saved list
-				console.log("Agregando a favoritos", _id);
+				// console.log("Agregando a favoritos", _id);
 				dispatch(addPropertyToSaved(_id));
 
 
@@ -55,7 +55,7 @@ const Card = ({
 				dispatch(updateUser(userEdited));
 			}
 		} else {
-			console.log("Eliminando de favoritos", _id);
+			// console.log("Eliminando de favoritos", _id);
 			dispatch(removePropertyFromSaved(_id));
 
 			// Actualizar el usuario sin el objeto eliminado

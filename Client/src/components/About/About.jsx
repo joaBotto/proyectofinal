@@ -4,12 +4,13 @@ import guillermollanos from '../../assets/img/guillermollanos.jpg';
 import joaco from '../../assets/img/joaco.jpg';
 import Jonnathan from '../../assets/img/jonnathan.jpg';
 import emiliano from '../../assets/img/emiliano.jpg';
+import sergio from '../../assets/img/sergio.jpg';
 
 const teamMembers = [
 	{
 		name: 'Sergio Vasquez',
-		githubOrPortfolio: 'Enlace a GitHub o Portfolio del Miembro 1',
-		image: 'URL de la imagen del Miembro 1',
+		githubOrPortfolio: 'https://github.com/Ditrex24',
+		image: sergio,
 	},
 	{
 		name: 'Lorena Florio',

@@ -23,25 +23,25 @@ const SignUpForm = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
 
 
-const handleCloseSuccessModal = () => {
-  setShowSuccessModal(false);
+// const handleCloseSuccessModal = () => {
+//   setShowSuccessModal(false);
 
-  // Acciones adicionales al cerrar el modal de éxito
-  // Puedes agregar tu lógica aquí
-  console.log("Modal de éxito cerrado");
-};
+//   // Acciones adicionales al cerrar el modal de éxito
+//   // Puedes agregar tu lógica aquí
+//   console.log("Modal de éxito cerrado");
+// };
 
-const handleCloseErrorModal = () => {
-  setShowErrorModal(false);
+// const handleCloseErrorModal = () => {
+//   setShowErrorModal(false);
 
-  // Acciones adicionales al cerrar el modal de error
-  // Puedes agregar tu lógica aquí
-  console.log("Modal de error cerrado");
-};
+//   // Acciones adicionales al cerrar el modal de error
+//   // Puedes agregar tu lógica aquí
+//   console.log("Modal de error cerrado");
+// };
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
-    console.log("Imagen recibida", file);
+    // console.log("Imagen recibida", file);
     setImage(file);
 
     const reader = new FileReader();
@@ -92,7 +92,7 @@ const handleCloseErrorModal = () => {
   const uploadImagesToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
-    console.log("FormData:", formData);
+    // console.log("FormData:", formData);
     try {
       const { data } = await axios.post("/upload", formData, {
         headers: {
@@ -107,11 +107,11 @@ const handleCloseErrorModal = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log("Soy el values", values);
+    // console.log("Soy el values", values);
     try {
       if (image) {
         const cloudinaryResponse = await uploadImagesToCloudinary(image);
-        console.log("soyresponsecloud", cloudinaryResponse);
+        // console.log("soyresponsecloud", cloudinaryResponse);
         if (cloudinaryResponse) {
           values.image = cloudinaryResponse.imageUrl;
         } else {

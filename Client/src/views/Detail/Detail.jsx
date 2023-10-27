@@ -31,7 +31,7 @@ const Detail = () => {
 	const dispatch = useDispatch();
 
 	const property = useSelector((state) => state.propertyDetail);
-	console.log(property);
+	// console.log(property);
 
 	useEffect(() => {
 		dispatch(getPropertyDetail(id));

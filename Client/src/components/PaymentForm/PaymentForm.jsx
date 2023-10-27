@@ -25,8 +25,8 @@ const stripePromise = loadStripe(
 const CheckoutForm = ({ totalAmount }) => {
 	const user = useSelector((state) => state.user)
 	const dispatch = useDispatch();
-	console.log("SOY EL USER", user)
-	console.log(totalAmount);
+	// console.log("SOY EL USER", user)
+	// console.log(totalAmount);
 	const stripe = useStripe();
 	const elements = useElements();
 	const [showModal, setShowModal] = useState(false)
@@ -49,7 +49,7 @@ const CheckoutForm = ({ totalAmount }) => {
 				if ( status === 200 ) {
 					setShowModal(true)
 					dispatch(getUserById(user._id))
-					console.log("SOY EL EMAIL", user.email)
+					// console.log("SOY EL EMAIL", user.email)
 					await axios.post("http://localhost:3001/mail/payments", {email:user.email})
 				}
 				console.log(status);

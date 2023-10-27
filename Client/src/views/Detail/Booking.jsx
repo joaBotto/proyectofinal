@@ -21,7 +21,7 @@ import { Steps } from "antd";
 function BookingDetails({ property }) {
 	const dispatch = useDispatch();
 
-	console.log("prop in booking Details", property);
+	// console.log("prop in booking Details", property);
 
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [totalDays, setTotalDays] = useState(0);
@@ -94,14 +94,14 @@ function BookingDetails({ property }) {
 					transactionId: "",
 					status: "reserved",
 				};
-				console.log("booking details", bookingDetails);
+				// console.log("booking details", bookingDetails);
 				await dispatch(addNewBooking(bookingDetails));
 				await dispatch(getAllBookings());
 				setReservationVisible(true);
 				setIsReservationConfirmed(true);
 			}
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 

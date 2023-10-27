@@ -178,7 +178,7 @@ export const userLogin = (valores) => {
     try {
       const { data } = await axios.post(url, valores);
       const { user } = data;
-      console.log("AUTH",user)
+    //   console.log("AUTH",user)
       return dispatch({
         type: USER_LOGIN,
         payload: user
@@ -214,11 +214,11 @@ export const filters = (type, orderPrice, search) => {
 };
 
 export const updateUser = (userEdited) => {
-	console.log("userEdited", userEdited);
+	// console.log("userEdited", userEdited);
 	return async (dispatch) => {
 		try {
 			const { data } = await axios.put("/users", userEdited);
-			console.log("soydataAccion", data);
+			// console.log("soydataAccion", data);
 			return dispatch({
 				type: USER_EDITED,
 				payload: data,
@@ -236,7 +236,7 @@ export const addUser = (user, setShowSuccessModal, setShowErrorModal) => async (
 
 	try {
 	  const { data } = await axios.post("/users", user);
-	  console.log("SOY LA data de user", data);
+	//   console.log("SOY LA data de user", data);
 	 
 	  if (data) {
 	  const { email } = data;
@@ -260,7 +260,7 @@ export const addNewBooking = (bookingData) => async (dispatch) => {
 	try {
 		const { data } = await axios.post("/bookings", bookingData);
 		toast.success("Booking successfull");
-		console.log("Booking successfull");
+		// console.log("Booking successfull");
 		return dispatch({
 			type: CREATE_BOOKING,
 			payload: data,

@@ -35,17 +35,17 @@ export default function Home() {
     if (name === "searchBar") {
       setSearch(event.target.value);
       dispatch(filters(type, orderPrice, event.target.value));
-      // console.log("soy el searchBar", event.target.value)
+     
     }
     if (name === "type") {
       setType(event.target.value);
       dispatch(filters(event.target.value, orderPrice, search));
-      // console.log("SOY LOS FILTROS", type, orderPrice, search)
+      
     }
     if (name === "price") {
       setOrderPrice(event.target.value);
       dispatch(filters(type, event.target.value, search));
-      // console.log("SOY LOS FILTROS", type, orderPrice, search)
+   
     }
   };
 
@@ -64,7 +64,7 @@ export default function Home() {
       .get("http://localhost:3001/auth/user", { withCredentials: true })
       .then((response) => {
         const user = response.data.user;
-        console.log("AUTENTICADO POR GOOGLE", user);
+        
         if (user) {
           dispatch(userAuthenticated(user));
         }
@@ -74,8 +74,7 @@ export default function Home() {
       });
   }, []);
 
-  console.log("soy el user en home", user);
-  console.log("Soy prop en el home", properties);
+
 
   const activeProperties = properties.filter(
     (properties) => properties.active === true

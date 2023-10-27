@@ -42,7 +42,7 @@ function Bookings() {
 		fetchBookings();
 	}, [allBookings]);
 
-	console.log("myBookings", myBookings);
+	// console.log("myBookings", myBookings);
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
 			<NavBar />

@@ -56,7 +56,7 @@ function Reviews() {
 				reviews: [review],
 			};
 		}
-		console.log("esto mando al back", updatedProperty);
+		// console.log("esto mando al back", updatedProperty);
 		dispatch(editProperty(updatedProperty));
 	};
 

@@ -51,19 +51,19 @@ export default function Postuser() {
   const perPage = 8;
   const maxPage = Math.ceil(properties.length / perPage);
 
-  console.log("Usuario actual:", currentUser);
-  console.log("Soy prop en el home", properties);
+  // console.log("Usuario actual:", currentUser);
+  // console.log("Soy prop en el home", properties);
 
   // Obtener todos los IDs de propiedad del usuario
   const userPropertyIds = currentUser.properties; // Suponiendo que user.properties contiene un array de IDs
 
-  console.log("IDs de propiedades del usuario:", userPropertyIds);
+  // console.log("IDs de propiedades del usuario:", userPropertyIds);
 
   // Filtrar las propiedades que coinciden con los IDs en userPropertyIds
   const userProperties = properties.filter((property) =>
     userPropertyIds.includes(property._id)
   );
-  console.log("Propiedades del usuario:", userProperties);
+  // console.log("Propiedades del usuario:", userProperties);
 
   // Renderizar solo cuando userProperties no esté vacío
   return (

@@ -25,7 +25,7 @@ import PlacesAutocomplete, {
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
-  console.log("soy el usuario en createProperty", user);
+  // console.log("soy el usuario en createProperty", user);
   let dates = [];
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ export default function CreateProperty() {
   }
 	const LocationSearchInput = ({ field, form: { setFieldValue } }) => {
 		const handleChange = (address, isSuggestion) => {
-			console.log('handleChange:', address, isSuggestion);
+			// console.log('handleChange:', address, isSuggestion);
 		  
 			if (!address) {
 			  setFieldValue('address.street', '');
@@ -82,7 +82,7 @@ export default function CreateProperty() {
 		  };
 	  
 		const handleZipcodeChange = (e) => {
-			console.log('handleZipcodeChange:', handleZipcodeChange);
+			// console.log('handleZipcodeChange:', handleZipcodeChange);
 			const zipcode = e.target.value;
 			setFieldValue('address.zipcode', zipcode);
 		  };
@@ -100,7 +100,7 @@ export default function CreateProperty() {
 				]);
 			  })
 			  .then(([latLng, addressComponents, formattedAddress]) => {
-				console.log('Geocoding success', latLng, addressComponents);
+				// console.log('Geocoding success', latLng, addressComponents);
 				
 				setFieldValue('address.locality', extractAddressComponent(addressComponents, 'locality'));
 				setFieldValue('address.city', extractAddressComponent(addressComponents, 'administrative_area_level_1'));
@@ -124,7 +124,7 @@ export default function CreateProperty() {
 		  };
 		  
 		  const handleSuggestionClick = ( suggestion) => {
-			console.log('Sugerencia clicada:', suggestion);
+			// console.log('Sugerencia clicada:', suggestion);
 			setFieldValue('address.street', suggestion);
 			handleSelect(suggestion);
 		  };
@@ -312,7 +312,7 @@ export default function CreateProperty() {
       price,
       type,
     };
-    console.log("soy la info a mandar", newProperty);
+    // console.log("soy la info a mandar", newProperty);
 
     try {
       await dispatch(createProperty(newProperty));
@@ -733,7 +733,7 @@ export default function CreateProperty() {
                               const startDate = new Date(startDateValue);
                               const endDate = new Date(endDateValue);
                               dates = generateDatesInRange(startDate, endDate);
-                              console.log(dates);
+                              // console.log(dates);
                             }
                           }}
                         />
@@ -754,10 +754,10 @@ export default function CreateProperty() {
                         const uploadImageUrl = await uploadImagesToCloudinary(
                           acceptedFiles
                         );
-                        console.log(
-                          "soy la devolucion del back",
-                          uploadImageUrl
-                        );
+                        // console.log(
+                        //   "soy la devolucion del back",
+                        //   uploadImageUrl
+                        // );
                         const newImages = [...values.images, uploadImageUrl];
                         setFieldValue("images", newImages);
                       }
@@ -841,10 +841,10 @@ export default function CreateProperty() {
                       onClick={(e) => {
                         e.preventDefault(); // Evitar que el formulario se envíe automáticamente
                         handleSubmit(values, { setSubmitting: () => {} }); // Llamar a la función handleSubmit con los valores y un objeto "setSubmitting" vacío
-                        console.log(
-                          "Soy la info a comprobar por que no funciona",
-                          values
-                        );
+                        // console.log(
+                        //   "Soy la info a comprobar por que no funciona",
+                        //   values
+                        // );
                       }}
                     >
                       Registry your property

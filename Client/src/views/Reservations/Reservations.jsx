@@ -13,7 +13,7 @@ function Reservations() {
 	const dispatch = useDispatch();
 	const booking = useSelector((state) => state.bookingDetail);
 
-	console.log(booking);
+	// console.log(booking);
 
 	useEffect(() => {
 		dispatch(getBooking(id));

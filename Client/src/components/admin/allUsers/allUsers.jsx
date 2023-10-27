@@ -10,7 +10,7 @@ export const AllUsers = () => {
 	const dispatch = useDispatch();
 	const users = useSelector((state) => state.users);
 	const [usersLocal, setUsersLocal] = useState(null);
-	console.log('soy userLocal', usersLocal);
+	// console.log('soy userLocal', usersLocal);
 
 	useEffect(() => {
 		dispatch(getAllUsers());
@@ -34,7 +34,7 @@ export const AllUsers = () => {
 	};
 
 	const handleActive = (id, value) => {
-		console.log(value);
+		// console.log(value);
 		const usersUpdate = usersLocal.map((user) => {
 			if (user._id === id) {
 				return { ...user, active: value };
@@ -44,7 +44,7 @@ export const AllUsers = () => {
 		});
 		setUsersLocal(usersUpdate);
 		const user = usersUpdate.find((user) => user._id === id);
-		console.log('soy user', user);
+		// console.log('soy user', user);
 		dispatch(updateUser(user));
 	};
 
