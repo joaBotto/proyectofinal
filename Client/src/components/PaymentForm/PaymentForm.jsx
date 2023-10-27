@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../redux/actions";
 import { useEffect, useState } from "react";
 import Success from "../PaymentForm/PaymentSuccessful";
+import Loading from "./Loading";
 import { FadeLoader } from "react-spinners";
 
 import {
@@ -18,17 +19,18 @@ const stripePromise = loadStripe(
 	"pk_test_51O05j9I6gYqlkFFnCH6Jn4JTYyyzAGAZ8fZk2KDKUGzwTTMQ20XhGGuGp7DnkOXLPESmkC5PGBoxHO9MyMyS8KOZ00ld8wpuns"
 );
 
-const CheckoutForm = ({ totalAmount, setProcessing }) => {
+const CheckoutForm = ({ totalAmount }) => {
 	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const stripe = useStripe();
 	const elements = useElements();
 	const [showModal, setShowModal] = useState(false);
+	const [showModalLoading, setShowModalLoading] = useState(false);
 	const [error, setError] = useState(false);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		setProcessing(true);
+
 		const { error, paymentMethod } = await stripe.createPaymentMethod({
 			type: "card",
 			card: elements.getElement(CardElement),
@@ -41,6 +43,7 @@ const CheckoutForm = ({ totalAmount, setProcessing }) => {
 					id,
 					amount: totalAmount * 100,
 				});
+
 				if (status === 200) {
 					setShowModal(true);
 					dispatch(getUserById(user._id));
@@ -49,14 +52,11 @@ const CheckoutForm = ({ totalAmount, setProcessing }) => {
 						email: user.email,
 					});
 				}
-				console.log(status);
-
 				elements.getElement(CardElement).clear();
 			} catch (error) {
-				console.log(error);
 				setError(true);
 			} finally {
-				setProcessing(false);
+				setShowModalLoading(false);
 			}
 		}
 	};
@@ -95,7 +95,7 @@ const CheckoutForm = ({ totalAmount, setProcessing }) => {
 						className="w-1/2 bg-violet text-white hover:bg-pink text-onest font-semibold py-2 rounded-full"
 						type="submit"
 					>
-						Book
+						Pay
 					</button>
 				</div>
 			</form>
@@ -114,21 +114,10 @@ const CheckoutForm = ({ totalAmount, setProcessing }) => {
 };
 
 const PaymentForm = ({ totalAmount }) => {
-	const [processing, setProcessing] = useState(false);
-
 	return (
 		<div className="w-full ml-11">
-			<div className="text-center absolute text-blue">
-				{processing ? (
-					<div className="">
-						<FadeLoader color="#54086B" />
-					</div>
-				) : (
-					""
-				)}
-			</div>
 			<Elements stripe={stripePromise}>
-				<CheckoutForm totalAmount={totalAmount} setProcessing={setProcessing} />
+				<CheckoutForm totalAmount={totalAmount} />
 			</Elements>
 		</div>
 	);

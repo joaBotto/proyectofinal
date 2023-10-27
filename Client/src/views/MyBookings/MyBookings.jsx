@@ -44,18 +44,20 @@ function Bookings() {
 					{name}, FIND YOUR BOOKINGS
 				</h1>
 			</div>
-			<div className="w-full">
-				{myBookings.length > 0 ? (
-					myBookings.map((booking) => (
-						<MyBookingCard booking={booking} key={booking._id} />
-					))
-				) : (
-					<div className="flex flex-col justify-center items-center mt-10">
-						<h1 className="text-3xl text-center font-bold text-violet mb-10 font-onest">
-							<br /> No bookings done yet!
-						</h1>
-					</div>
-				)}
+			<div className="w-full flex justify-center">
+				<div className="w-2/3 flex-col-reverse">
+					{myBookings.length > 0 ? (
+						myBookings.map((booking) => (
+							<MyBookingCard booking={booking} key={booking._id} />
+						))
+					) : (
+						<div className="flex flex-col justify-center items-center mt-10">
+							<h1 className="text-3xl text-center font-bold text-violet mb-10 font-onest">
+								<br /> No bookings done yet!
+							</h1>
+						</div>
+					)}
+				</div>
 			</div>
 			<div className="p-0">
 				<Footer />
