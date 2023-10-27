@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link,useNavigate } from "react-router-dom";
 import {
 	getPropertyDetail,
 	cleanDetail,
-	getAllBookings,
+	getAllBookings,addPropertyToSaved,userAuthenticated
 } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -27,12 +27,13 @@ import { Avatar } from "antd";
 import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
 
 const Detail = () => {
+	const navigate = useNavigate();
 	const { id } = useParams();
 	const dispatch = useDispatch();
-
+	const [isPropertySaved, setIsPropertySaved] = useState(false);
 	const property = useSelector((state) => state.propertyDetail);
 	console.log(property);
-
+	const user = useSelector((state) => state.user);
 	useEffect(() => {
 		dispatch(getPropertyDetail(id));
 		return () => {
@@ -42,6 +43,9 @@ const Detail = () => {
 
 	useEffect(() => {
 		dispatch(getAllBookings());
+	}, [dispatch]);
+	useEffect(() => {
+		dispatch(userAuthenticated(user));
 	}, [dispatch]);
 
 	const originalStartDate =
@@ -97,7 +101,29 @@ const Detail = () => {
 			</LoadScript>
 		);
 	};
-
+	const handleSaveProperty = async () => {
+		
+		try {
+		  // Verificar si el usuario está autenticado
+		  if (!user) {
+			navigate("/login");
+			return;
+		  }
+		  if (isPropertySaved) {
+			return;
+		  }
+		  setIsPropertySaved(true); 
+		  const propertyId = property.id; 
+		  dispatch(addPropertyToSaved(propertyId));
+		  console.log(dispatch)
+		} catch (error) {
+		  // Manejar errores aquí (mostrar mensaje de error, etc.)
+		  console.error("Error al guardar la propiedad:", error);
+		}
+	  };
+	
+	 
+	
 	//*IMAGE GALLERY---------------------------------------------------------------------
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
@@ -141,7 +167,11 @@ const Detail = () => {
 									<ImageCarousel images={property.images} />
 								</div>
 								<div className="w-full flex flex-row flex-wrap justify-start overflow-x-hidden overflow-y-scroll">
-									<p className="ml-5 text-blue font-onest font-bold underline pb-3">
+									<p 
+									onClick={handleSaveProperty}
+									className={`ml-5 text-blue font-onest font-bold underline pb-3 ${
+									  isPropertySaved ? 'text-gray-500 cursor-not-allowed' : 'cursor-pointer'
+									}`}>
 										♥︎ SAVE PROPERTY
 									</p>
 									<div className="flex flex-row flex-wrap">
