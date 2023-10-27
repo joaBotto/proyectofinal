@@ -110,7 +110,7 @@ function Reservations() {
 									<p className="text-sm text-blue text-left font-medium py-2 px-2">
 										CONTACT:
 										<br /> {booking.property?.owner.email} <br />{" "}
-										{booking.property?.owner.phoneNumber},{" "}
+										{booking.property?.owner.phoneNumber}{" "}
 									</p>
 								</div>
 							</div>
