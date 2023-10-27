@@ -31,7 +31,7 @@ const Detail = () => {
 	const dispatch = useDispatch();
 
 	const property = useSelector((state) => state.propertyDetail);
-	// console.log(property);
+	console.log(property);
 
 	useEffect(() => {
 		dispatch(getPropertyDetail(id));
@@ -202,8 +202,8 @@ const Detail = () => {
 										PROPERTY OWNER
 									</p>
 									<div className="flex flex-col md:flex-row items-center pl-5">
-										{/* <div className="flex  rounded-full">
-											{property.owner?.images[0]?.imageUrl ? (
+										<div className="flex  rounded-full">
+											{property.owner?.image ? (
 												<Avatar
 													size={{
 														xs: 24,
@@ -213,7 +213,7 @@ const Detail = () => {
 														xl: 80,
 														xxl: 100,
 													}}
-													src={property.owner.images[0].imageUrl}
+													src={property.owner.image}
 												/>
 											) : (
 												<Avatar
@@ -228,8 +228,8 @@ const Detail = () => {
 													icon={<UserOutlined />}
 												/>
 											)}
-										</div> */}
-										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
+										</div>
+										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2 uppercase">
 											{property.owner.name} from {property.owner.city},{" "}
 											{property.owner.country}
 										</p>
@@ -262,10 +262,10 @@ const Detail = () => {
 							</div>
 							<div className="w-full flex flex-row mt-8 pr-20">
 								<div className="w-1/2">
-									<p className="text-4xl text-blue font-onest font-extrabold py-3">
+									<p className="text-4xl text-blue font-onest font-extrabold pt-3">
 										LOCATION
 									</p>
-									<p className="text-md mt-1 pb-0 mb-0 font-noto font-medium text-blue uppercase">
+									<p className="text-md pb-0 mb-0 font-noto font-medium text-blue uppercase">
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
 										{property.type || "Property"} in {property.address.street}
 									</p>

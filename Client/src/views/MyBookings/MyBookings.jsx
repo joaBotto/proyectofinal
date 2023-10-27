@@ -10,22 +10,16 @@ function Bookings() {
 	const user = useSelector((state) => state.user);
 	const allBookings = useSelector((state) => state.allBookings);
 
-	// console.log("user", user);
-	// console.log("SOY ALL BOOKINKGS", allBookings)
-
 	const name = user.name.toUpperCase();
 	const dispatch = useDispatch();
 
 	const [myBookings, setMyBookings] = useState([]);
 
-
-	useEffect(()=>{
-		dispatch(getUserById(user._id))
-	},[allBookings])
-
+	useEffect(() => {
+		dispatch(getUserById(user._id));
+	}, [allBookings]);
 
 	useEffect(() => {
-		
 		const fetchBookings = async () => {
 			try {
 				const bookingPromises = user.bookings.map((booking) =>
@@ -42,7 +36,6 @@ function Bookings() {
 		fetchBookings();
 	}, [allBookings]);
 
-	// console.log("myBookings", myBookings);
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
 			<NavBar />
@@ -57,7 +50,11 @@ function Bookings() {
 						<MyBookingCard booking={booking} key={booking._id} />
 					))
 				) : (
-					<p>No bookings found</p>
+					<div className="flex flex-col justify-center items-center mt-10">
+						<h1 className="text-3xl text-center font-bold text-violet mb-10 font-onest">
+							<br /> No bookings done yet!
+						</h1>
+					</div>
 				)}
 			</div>
 			<div className="p-0">
