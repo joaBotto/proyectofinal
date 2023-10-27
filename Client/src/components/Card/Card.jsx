@@ -78,7 +78,7 @@ const Card = ({
 			};
 			dispatch(updateUser(userEdited));
 		}
-	};
+	};        
 
 	const heartClasses = ``;
 	const isSavedClass = savedProperty.find((property) => property._id === _id)

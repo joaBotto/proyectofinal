@@ -5,6 +5,7 @@ import {
 	getPropertyDetail,
 	cleanDetail,
 	getAllBookings,
+	addPropertyToSaved,removePropertyFromSaved 
 } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,9 +26,6 @@ import BookingDetails from "./Booking";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
-import { addPropertyToSaved } from "../../redux/actions";
-
-
 
 const Detail = () => {
 	const { id } = useParams();
@@ -101,6 +99,24 @@ const Detail = () => {
 		);
 	};
 
+	const savedProperties = useSelector((state) => state.savedProperties);
+	//*SAVE PROPERTY----------------------------------------------------------------------
+	const isPropertySaved = savedProperties.find(
+		(savedProperty) => savedProperty._id === property._id
+	 );
+	 const handleSaveProperty = () => {
+		if (isPropertySaved) {
+		   dispatch(removePropertyFromSaved(property._id));
+		} else {
+		   dispatch(addPropertyToSaved(property._id));
+		}
+	 };
+	const handleRemoveProperty = () => {
+		dispatch(removePropertyFromSaved(property._id));
+	 };
+
+
+
 	//*IMAGE GALLERY---------------------------------------------------------------------
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
@@ -115,13 +131,7 @@ const Detail = () => {
 		setIsModalOpen(false);
 	};
 
-	const handleSaveProperty = () => {
-		dispatch(addPropertyToSaved(property._id));
-	  };
-
-	  const savedProperties = useSelector((state) => state.savedProperties);
-const isPropertySaved = savedProperties.find((savedProperty) => savedProperty._id === property._id);
-
+	
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
 			<NavBar />
@@ -134,16 +144,7 @@ const isPropertySaved = savedProperties.find((savedProperty) => savedProperty._i
 									{property.title}
 								</h1>
 							</div>
-							<div className="w-full justify-end">
-								<button className="fixed right-2 flex flex-row justify-end text-white bg-transparent rounded-full mr-6">
-									<Link to="/">
-										<FontAwesomeIcon
-											icon={faHouse}
-											className="bg-cyan text-blue text-2xl py-2 px-2 rounded-full justify-center shadow-lg"
-										/>
-									</Link>
-								</button>
-							</div>
+						
 						</div>
 						<div className="mb-5">
 							<div className="flex flex-row h-[500px]">
@@ -151,9 +152,31 @@ const isPropertySaved = savedProperties.find((savedProperty) => savedProperty._i
 									<ImageCarousel images={property.images} />
 								</div>
 								<div className="w-full flex flex-row flex-wrap justify-start overflow-x-hidden overflow-y-scroll">
-								<button onClick={handleSaveProperty} className={isPropertySaved ? 'active' : ''}>
-								<p className="ml-5 text-blue font-onest font-bold underline pb-3"> ♥︎ SAVE PROPERTY
-                    </p></button>
+									
+									<div className="w-full justify-end">
+							{isPropertySaved ? (
+   <button onClick={handleRemoveProperty}  ><p className="ml-5 text-blue hover:text-cyan font-onest font-bold underline pb-3">
+   {" "}
+   ♥︎ SAVED
+</p> </button>
+) : (
+   <button onClick={handleSaveProperty}><p className="ml-5 text-blue hover:text-cyan font-onest font-bold underline pb-3">
+											{" "}
+											♥︎ SAVE PROPERTY
+										</p></button>
+)}
+							</div>	
+									
+									
+									
+									
+									{/* <button
+										onClick={handleSaveProperty}
+										className={isPropertySaved ? "active" : ""}
+									>
+										
+									</button>
+									<button onClick={handleRemoveProperty}>Remove Property</button> */}
 									<div className="flex flex-row flex-wrap">
 										{property.images.map((image, index) => (
 											<div className="flex flex-row flex-wrap ">
@@ -212,8 +235,8 @@ const isPropertySaved = savedProperties.find((savedProperty) => savedProperty._i
 										PROPERTY OWNER
 									</p>
 									<div className="flex flex-col md:flex-row items-center pl-5">
-										{/* <div className="flex  rounded-full">
-											{property.owner?.images[0]?.imageUrl ? (
+										<div className="flex  rounded-full">
+											{property.owner?.image ? (
 												<Avatar
 													size={{
 														xs: 24,
@@ -223,7 +246,7 @@ const isPropertySaved = savedProperties.find((savedProperty) => savedProperty._i
 														xl: 80,
 														xxl: 100,
 													}}
-													src={property.owner.images[0].imageUrl}
+													src={property.owner.image}
 												/>
 											) : (
 												<Avatar
@@ -238,8 +261,8 @@ const isPropertySaved = savedProperties.find((savedProperty) => savedProperty._i
 													icon={<UserOutlined />}
 												/>
 											)}
-										</div> */}
-										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
+										</div>
+										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2 uppercase">
 											{property.owner.name} from {property.owner.city},{" "}
 											{property.owner.country}
 										</p>
@@ -272,10 +295,10 @@ const isPropertySaved = savedProperties.find((savedProperty) => savedProperty._i
 							</div>
 							<div className="w-full flex flex-row mt-8 pr-20">
 								<div className="w-1/2">
-									<p className="text-4xl text-blue font-onest font-extrabold py-3">
+									<p className="text-4xl text-blue font-onest font-extrabold pt-3">
 										LOCATION
 									</p>
-									<p className="text-md mt-1 pb-0 mb-0 font-noto font-medium text-blue uppercase">
+									<p className="text-md pb-0 mb-0 font-noto font-medium text-blue uppercase">
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
 										{property.type || "Property"} in {property.address.street}
 									</p>
