@@ -4,7 +4,7 @@ import Footer from "../../Footer/Footer";
 import Container from "@mui/material/Container";
 import Paginado from "../../Paginado/paginado";
 import CardsAdmin from "../../Cards/CardsAdmin";
-import { filters } from "../../../redux/actions";
+import { filters, getProperty } from "../../../redux/actions";
 import NavBarAdmin from "../NavBar/NavBarAdmin";
 import SearchBar from "../../SearchBar/SearchBar";
 
@@ -41,6 +41,10 @@ export default function HomeAdmin() {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(8);
   const maxPage = Math.ceil(properties.length / perPage);
+
+  useEffect(()=>{
+	dispatch(getProperty())
+  },[])
 
   useEffect(() => {
     setPage(1);

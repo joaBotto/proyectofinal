@@ -20,7 +20,7 @@ function DisplayCharacteristics({ property }) {
 			<p className="text-4xl text-blue font-onest font-extrabold pt-3">
 				OTHER CHARACTERISTICS
 			</p>
-			<div className="bg-blue bg-opacity-10 p-5 rounded-t-md flex flex-row ">
+			<div className="bg-blue bg-opacity-10 p-5 rounded-t-md flex flex-row">
 				<p
 					className={`text-md font-bold text-blue font-onest cursor-pointer pr-5 ${
 						showAmenities ? "underline text-cyan cursor-pointer" : ""

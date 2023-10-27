@@ -1,17 +1,35 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Cards from "../../components/Cards/Cards";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
-import { FrownOutlined, HeartFilled } from "@ant-design/icons";
+import { HeartFilled } from "@ant-design/icons";
 import NavBar from "../../components/NavBar/NavBar";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import { updateUser } from "../../redux/actions";
+import { useNavigate } from "react-router-dom";
+import { userAuthenticated } from "../../redux/actions";
 
 function SavedProperties() {
+	const navigate = useNavigate(); // Obtenemos la función de navegación
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(userAuthenticated(user));
+	}, [dispatch]);
+
 	const user = useSelector((state) => state.user);
-	const name = user.name.toUpperCase();
+	useEffect(() => {
+		if (!user) {
+			// Si el usuario no está definido, redirige a la página de inicio de sesión
+			navigate("/login");
+		}
+	}, [user, navigate]);
+
+	const name = user?.name?.toUpperCase() || "";
+
+	// Verificamos si user.savedProperties está definido antes de acceder a 'length'
+	const savedPropertiesLength = user?.savedProperties?.length || 0;
 
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
@@ -30,21 +48,17 @@ function SavedProperties() {
 						<HeartFilled className="mr-3" />
 						SAVED PROPERTIES
 					</h1>
-					<div className="w-full flex justify-end">
-						<button className=" flex justify-end text-white bg-transparent rounded-full mr-6">
-							<Link
-								to="/"
-								className="mt-1 mr-2 justify-center text-blue font-onest font-semibold"
-							>
-								RETURN
+					<div className="w-full justify-end">
+						<button className="fixed right-2 flex flex-row justify-end text-white bg-transparent rounded-full mr-6">
+							<Link to="/">
+								<FontAwesomeIcon
+									icon={faHouse}
+									className="bg-cyan text-blue text-2xl py-2 px-2 rounded-full justify-center shadow-lg"
+								/>
 							</Link>
-							<FontAwesomeIcon
-								icon={faHouse}
-								className="bg-cyan text-blue  py-2 px-2 rounded-full justify-center shadow-lg"
-							/>
 						</button>
 					</div>
-					{user.savedProperties.length === 0 ? (
+					{savedPropertiesLength === 0 ? (
 						<div className="flex flex-col justify-center items-center mt-10">
 							<h1 className="text-3xl text-center font-bold text-violet mb-10 font-onest">
 								<HeartFilled className="pb-5" />

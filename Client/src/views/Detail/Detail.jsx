@@ -2,21 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import {
-  getPropertyDetail,
-  cleanDetail,
-  getAllBookings,
+	getPropertyDetail,
+	cleanDetail,
+	getAllBookings,
+	addPropertyToSaved,
+	removePropertyFromSaved,
 } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHouse,
-  faLocationDot,
-  faBed,
-  faBath,
-  faRulerCombined,
+	faHouse,
+	faLocationDot,
+	faBed,
+	faBath,
+	faRulerCombined,
 } from "@fortawesome/free-solid-svg-icons";
 import ImageCarousel from "../../components/Card/ImageCarousel";
 import ImageGalleryModal from "./Modal";
-import PropertyMap from "./PropertyMap";
+
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import { FadeLoader } from "react-spinners";
@@ -24,60 +26,111 @@ import DisplayCharacteristics from "./Display";
 import BookingDetails from "./Booking";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
+import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
+import ShowReviews from "./ShowReviews";
 
 const Detail = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
+	const { id } = useParams();
+	const dispatch = useDispatch();
 
-  const property = useSelector((state) => state.propertyDetail);
-  console.log(property);
+	const property = useSelector((state) => state.propertyDetail);
+	console.log(property);
 
-  useEffect(() => {
-    dispatch(getPropertyDetail(id));
-    return () => {
-      dispatch(cleanDetail());
-    };
-  }, [dispatch, id]);
+	useEffect(() => {
+		dispatch(getPropertyDetail(id));
+		return () => {
+			dispatch(cleanDetail());
+		};
+	}, [dispatch, id]);
 
-  useEffect(() => {
-    dispatch(getAllBookings());
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(getAllBookings());
+	}, [dispatch]);
 
-  const originalStartDate =
-    property && property.availableDays && property.availableDays[0];
-  const formattedStartDate = originalStartDate
-    ? new Date(originalStartDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "N/A";
+	const originalStartDate =
+		property && property.availableDays && property.availableDays[0];
+	const formattedStartDate = originalStartDate
+		? new Date(originalStartDate).toLocaleDateString("en-US", {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+		  })
+		: "N/A";
 
-  const originalEndDate =
-    property &&
-    property.availableDays &&
-    property.availableDays[property.availableDays.length - 1];
-  const formattedEndDate = originalEndDate
-    ? new Date(originalEndDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "N/A";
+	const originalEndDate =
+		property &&
+		property.availableDays &&
+		property.availableDays[property.availableDays.length - 1];
+	const formattedEndDate = originalEndDate
+		? new Date(originalEndDate).toLocaleDateString("en-US", {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+		  })
+		: "N/A";
 
-  //*IMAGE GALLERY---------------------------------------------------------------------
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+	//*MAP-------------------------------------------------------------------------
+	const PropertyMap = ({ property }) => {
+		const [map, setMap] = useState(null);
 
-  const openModal = (image) => {
-    setSelectedImage(image);
-    setIsModalOpen(true);
-  };
+		const containerStyle = {
+			width: "100%",
+			height: "300px",
+		};
 
-  const closeModal = () => {
-    setSelectedImage(null);
-    setIsModalOpen(false);
-  };
+		const center = {
+			lat: property.address.lat,
+			lng: property.address.lng,
+		};
+
+		useEffect(() => {
+			if (map) {
+			}
+		}, [map]);
+
+		return (
+			<LoadScript googleMapsApiKey="AIzaSyCMqyxMkdWUUM4OpLB2iWXZ2c4rsYEfvRo">
+				<GoogleMap
+					mapContainerStyle={containerStyle}
+					center={center}
+					zoom={11}
+					onLoad={(map) => setMap(map)}
+				>
+					<Marker position={center} />
+				</GoogleMap>
+			</LoadScript>
+		);
+	};
+
+	//*SAVE PROPERTY----------------------------------------------------------------------
+	const savedProperties = useSelector((state) => state.savedProperties);
+	const isPropertySaved = savedProperties.find(
+		(savedProperty) => savedProperty._id === property._id
+	);
+	const handleSaveProperty = () => {
+		if (isPropertySaved) {
+			dispatch(removePropertyFromSaved(property._id));
+		} else {
+			dispatch(addPropertyToSaved(property._id));
+		}
+	};
+	const handleRemoveProperty = () => {
+		dispatch(removePropertyFromSaved(property._id));
+	};
+
+	//*IMAGE GALLERY---------------------------------------------------------------------
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedImage, setSelectedImage] = useState(null);
+
+	const openModal = (image) => {
+		setSelectedImage(image);
+		setIsModalOpen(true);
+	};
+
+	const closeModal = () => {
+		setSelectedImage(null);
+		setIsModalOpen(false);
+	};
 
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
@@ -91,20 +144,6 @@ const Detail = () => {
 									{property.title}
 								</h1>
 							</div>
-							<div className="">
-								<button className=" flex justify-end text-white bg-transparent rounded-full mr-6">
-									<Link
-										to="/"
-										className="mt-1 mr-2 justify-center text-blue font-onest font-semibold"
-									>
-										RETURN
-									</Link>
-									<FontAwesomeIcon
-										icon={faHouse}
-										className="bg-cyan text-blue  py-2 px-2 rounded-full justify-center shadow-lg"
-									/>
-								</button>
-							</div>
 						</div>
 						<div className="mb-5">
 							<div className="flex flex-row h-[500px]">
@@ -112,9 +151,23 @@ const Detail = () => {
 									<ImageCarousel images={property.images} />
 								</div>
 								<div className="w-full flex flex-row flex-wrap justify-start overflow-x-hidden overflow-y-scroll">
-									<p className="ml-5 text-blue font-onest font-bold underline pb-3">
-										♥︎ SAVE PROPERTY
-									</p>
+									<div className="w-full justify-end">
+										{isPropertySaved ? (
+											<button onClick={handleRemoveProperty}>
+												<p className="ml-5 text-cyan hover:text-blue font-onest font-bold underline pb-3">
+													{" "}
+													♥︎ SAVED
+												</p>{" "}
+											</button>
+										) : (
+											<button onClick={handleSaveProperty}>
+												<p className="ml-5 text-blue hover:text-cyan font-onest font-bold underline pb-3">
+													{" "}
+													♥︎ SAVE PROPERTY
+												</p>
+											</button>
+										)}
+									</div>
 									<div className="flex flex-row flex-wrap">
 										{property.images.map((image, index) => (
 											<div className="flex flex-row flex-wrap ">
@@ -174,7 +227,7 @@ const Detail = () => {
 									</p>
 									<div className="flex flex-col md:flex-row items-center pl-5">
 										<div className="flex  rounded-full">
-											{property.owner?.images[0]?.imageUrl ? (
+											{property.owner?.image ? (
 												<Avatar
 													size={{
 														xs: 24,
@@ -184,7 +237,7 @@ const Detail = () => {
 														xl: 80,
 														xxl: 100,
 													}}
-													src={property.owner.images[0].imageUrl}
+													src={property.owner.image}
 												/>
 											) : (
 												<Avatar
@@ -200,48 +253,26 @@ const Detail = () => {
 												/>
 											)}
 										</div>
-										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
+										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2 uppercase">
 											{property.owner.name} from {property.owner.city},{" "}
 											{property.owner.country}
 										</p>
 									</div>
 								</div>
 								<div className="w-1/4 ml-3 h-full border-2 border-cyan rounded-xl mt-3 pb-5">
-									<p className="text-xl text-blue font-onest font-extrabold pt-3 px-5">
-										PROPERTY REVIEWS
-									</p>
-									<div className="flex flex-col md:flex-row items-center pl-5">
-										<div className="flex  rounded-full">
-											<Avatar
-												size={{
-													xs: 24,
-													sm: 32,
-													md: 40,
-													lg: 64,
-													xl: 80,
-													xxl: 100,
-												}}
-												icon={<UserOutlined />}
-											/>
-										</div>
-										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
-											"Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											Facilis possimus neque adipisci maiores."
-										</p>
-									</div>
+									<ShowReviews property={property} />
 								</div>
 							</div>
 							<div className="w-full flex flex-row mt-8 pr-20">
 								<div className="w-1/2">
-									<p className="text-4xl text-blue font-onest font-extrabold py-3">
+									<p className="text-4xl text-blue font-onest font-extrabold pt-3">
 										LOCATION
 									</p>
-									<p className="text-md mt-1 pb-0 mb-0 font-noto font-medium text-blue uppercase">
+									<p className="text-md pb-0 mb-0 font-noto font-medium text-blue uppercase">
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
-										{property.type || "Property"} in {property.address.state},{" "}
-										{property.address.city}
+										{property.type || "Property"} in {property.address.street}
 									</p>
-									<div className="h-[500px] w-[500px]">
+									<div>
 										<PropertyMap property={property} />
 									</div>
 								</div>

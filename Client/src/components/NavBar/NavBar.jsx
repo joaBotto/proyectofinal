@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faSignInAlt,
-	faSignOutAlt,
-	faBars,
-	faHome,
-	faGears,
-	faHouseUser,
-	faCalendarCheck,
+  faSignInAlt,
+  faSignOutAlt,
+  faBars,
+  faHome,
+  faGears,
+  faHouseUser,
+  faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { EditFilled, UserOutlined } from "@ant-design/icons";
 import fondo from "../../assets/img/fondo1.jpeg";
@@ -18,21 +18,21 @@ import { resetState, userLogOut, getProperty } from "../../redux/actions";
 import { Avatar } from "antd";
 
 const NavBar = () => {
-	const dispatch = useDispatch();
-	const location = useLocation();
-	const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const user = useSelector((state) => state.user);
 
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-	const toggleMenu = () => {
-		setIsMenuOpen(!isMenuOpen);
-	};
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-	const handleLogout = () => {
-		dispatch(userLogOut());
-		dispatch(resetState());
-		dispatch(getProperty());
-	};
+  const handleLogout = () => {
+    dispatch(userLogOut());
+    dispatch(resetState());
+    dispatch(getProperty());
+  };
 
 	return (
 		<div className="text-white">
@@ -128,7 +128,7 @@ const NavBar = () => {
 											<FontAwesomeIcon icon={faHouseUser} className="ml-2" />
 										</a>
 									</Link>
-									<Link to="/postUser">
+									<Link to="/bookings">
 										<a className="font-onest font-normal text-blue hover:text-cyan hover:no-underline text-left mb-2 ml-1 transition ease-in duration-100">
 											My bookings{" "}
 											<FontAwesomeIcon
@@ -147,13 +147,15 @@ const NavBar = () => {
 											</a>
 										</Link>
 									)}
-									<button
-										className="font-onest font-black text-blue bg-grey rounded-full hover:text-cyan transition ease-in duration-100"
-										onClick={handleLogout}
-									>
-										LOGOUT
-										<FontAwesomeIcon icon={faSignOutAlt} className="ml-2" />
-									</button>
+								<Link to="/" onClick={handleLogout}>
+                    <button
+                      className="font-onest font-black text-blue bg-grey rounded-full hover:text-cyan transition ease-in duration-100"
+                      onClick={handleLogout}
+                    >
+                      LOGOUT
+                      <FontAwesomeIcon icon={faSignOutAlt} className="ml-2" />
+                    </button>
+                  </Link>
 								</div>
 							)}
 						</>

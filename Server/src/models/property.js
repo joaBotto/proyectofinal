@@ -7,29 +7,10 @@ const imageSchema = new mongoose.Schema({
 	},
 });
 
-const reviewsSchema = new mongoose.Schema({
-	description: {
-		type: String,
-	},
-	calification: {
-		type: Number,
-	},
-	guestName: {
-		type: String,
-	},
-	guestId: {
-		type: String,
-	},
-	guestImage: {
-		type: String,
-	},
-});
-
 const propertySchema = new mongoose.Schema({
-
 	title: {
 		type: String,
-		// required: true,
+		/* required: true, */
 	},
 	description: String,
 	price: {
@@ -37,15 +18,17 @@ const propertySchema = new mongoose.Schema({
 	},
 	address: {
 		street: String,
+		locality: String,
 		city: String,
 		state: String,
 		zipcode: String,
+		lat: Number,
+		lng: Number,
 	},
 	bedrooms: Number,
 	bathrooms: Number,
 	availableDays: [Date],
 	images: [imageSchema],
-
 
 	type: String,
 	amenities: {
@@ -68,7 +51,7 @@ const propertySchema = new mongoose.Schema({
 		balcony_patio: Boolean,
 	},
 	active: Boolean,
-	reviews: [reviewsSchema],
+	reviews: [],
 });
 
 const Property = mongoose.model("Property", propertySchema);

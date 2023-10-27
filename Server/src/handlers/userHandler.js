@@ -2,7 +2,21 @@
 const creatingUser = require("../controllers/creatingUser");
 const getAllUsers = require("../controllers/getUsers");
 const editUser = require("../controllers/editUser");
+const getUserById = require('../controllers/GetUserById')
 // const { enviarCorreoConfirmacion } = require("../routes/index");
+
+
+const getUserByIdHandler = async (req,res) => {
+  try {
+    const { id } = req.params
+    const user = await getUserById(id)
+    return res.status(200).json(user);
+    
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 
 const createUserHandler = async (req, res) => {
   try {
@@ -27,7 +41,8 @@ const createUserHandler = async (req, res) => {
       city,
       address,
       phoneNumber,
-      active:true
+      active:true,
+      role:"user"
     };
     console.log("Recibida solicitud para crear usuario:", user);
     if (
@@ -73,7 +88,7 @@ const editUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      images,
+      image,
       savedProperties,
       country,
       city,
@@ -91,7 +106,7 @@ const editUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      images,
+      image,
       savedProperties,
       country,
       city,
@@ -113,4 +128,4 @@ const editUserHandler = async (req, res) => {
   }
 };
 
-module.exports = { createUserHandler, getAllUsersHandlers, editUserHandler };
+module.exports = { createUserHandler, getAllUsersHandlers, editUserHandler, getUserByIdHandler };

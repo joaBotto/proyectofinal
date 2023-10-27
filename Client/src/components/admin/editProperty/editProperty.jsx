@@ -64,8 +64,8 @@ export function EditPropertyFromAdmin() {
     owner:{}
   });
 
-  console.log("soy property", property);
-  console.log("soy availableDates", property.availableDates);
+  // console.log("soy property", property);
+  // console.log("soy availableDates", property.availableDates);
 
   useEffect(() => {
     axios
@@ -255,7 +255,7 @@ export function EditPropertyFromAdmin() {
               __v 
             }
           }
-            console.log("soy el objeto a mandar", propertyEdited)
+            // console.log("soy el objeto a mandar", propertyEdited)
             setShowModalLoading(true)
             dispatch(editProperty(propertyEdited))
             setSubmitting(false);
@@ -513,7 +513,7 @@ export function EditPropertyFromAdmin() {
                     const startDate = new Date(startDateValue);
                     const endDate = new Date(endDateValue);
                     dates = generateDatesInRange(startDate, endDate);
-                    console.log(dates);
+                    // console.log(dates);
                   }
                 }}
               />
@@ -557,7 +557,7 @@ export function EditPropertyFromAdmin() {
                   const uploadImageUrl = await uploadImagesToCloudinary(
                     acceptedFiles
                   );
-                  console.log("soy la devolucion del back", uploadImageUrl);
+                //  console.log("soy la devolucion del back", uploadImageUrl);
                   const newImages = [...values.images, uploadImageUrl];
                   setFieldValue("images", newImages);    
               }}
