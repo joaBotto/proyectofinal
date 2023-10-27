@@ -10,11 +10,13 @@ import { Link, useNavigate } from "react-router-dom"; // Importa
 import "./createProperty.css";
 import logo from "../../assets/img/logo.png";
 import { useState } from "react";
-import { ToastContainer } from "react-toastify";
+
+import Successful from "./Modals/SucessModal"
+import Error from "./Modals/ErrorModal";
 import NavBar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -25,11 +27,14 @@ import PlacesAutocomplete, {
 
 export default function CreateProperty() {
   const user = useSelector((state) => state.user);
-  console.log("soy el usuario en createProperty", user);
+  // console.log("soy el usuario en createProperty", user);
   let dates = [];
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [PropertyCreated, setPropertyCreated] = useState(false); // Estado para el mensaje de éxito
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+
 
   useEffect(() => {
     if (!user) {
@@ -63,7 +68,7 @@ export default function CreateProperty() {
   }
 	const LocationSearchInput = ({ field, form: { setFieldValue } }) => {
 		const handleChange = (address, isSuggestion) => {
-			console.log('handleChange:', address, isSuggestion);
+			// console.log('handleChange:', address, isSuggestion);
 		  
 			if (!address) {
 			  setFieldValue('address.street', '');
@@ -82,7 +87,7 @@ export default function CreateProperty() {
 		  };
 	  
 		const handleZipcodeChange = (e) => {
-			console.log('handleZipcodeChange:', handleZipcodeChange);
+			// console.log('handleZipcodeChange:', handleZipcodeChange);
 			const zipcode = e.target.value;
 			setFieldValue('address.zipcode', zipcode);
 		  };
@@ -100,7 +105,7 @@ export default function CreateProperty() {
 				]);
 			  })
 			  .then(([latLng, addressComponents, formattedAddress]) => {
-				console.log('Geocoding success', latLng, addressComponents);
+				// console.log('Geocoding success', latLng, addressComponents);
 				
 				setFieldValue('address.locality', extractAddressComponent(addressComponents, 'locality'));
 				setFieldValue('address.city', extractAddressComponent(addressComponents, 'administrative_area_level_1'));
@@ -124,7 +129,7 @@ export default function CreateProperty() {
 		  };
 		  
 		  const handleSuggestionClick = ( suggestion) => {
-			console.log('Sugerencia clicada:', suggestion);
+			// console.log('Sugerencia clicada:', suggestion);
 			setFieldValue('address.street', suggestion);
 			handleSelect(suggestion);
 		  };
@@ -312,13 +317,13 @@ export default function CreateProperty() {
       price,
       type,
     };
-    console.log("soy la info a mandar", newProperty);
+    // console.log("soy la info a mandar", newProperty);
 
     try {
-      await dispatch(createProperty(newProperty));
-      setTimeout(() => {
-        navigate("/");
-      }, 7000);
+      await dispatch(createProperty(newProperty, setShowSuccessModal, setShowErrorModal));
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, 7000);
     } catch (error) {
       console.error("Error creating property:", error);
     } finally {
@@ -330,7 +335,7 @@ export default function CreateProperty() {
     title: Yup.string()
       .required("Title is required")
       .min(5, "Very short title, must be at least 5 characters long")
-      .max(25, "Title too long"),
+      .max(47, "Title too long"),
     description: Yup.string().required("Description is required"),
     address: Yup.object().shape({
       street: Yup.string().required("The street is required"),
@@ -386,6 +391,8 @@ export default function CreateProperty() {
             AS SIMPLE AS INMUEBLES360
           </h1>
         </div>
+        {showSuccessModal && (<Successful setShowSuccessModal = {setShowSuccessModal}/> )}
+        {showErrorModal && (<Error setShowErrorModal = {setShowErrorModal}/> )}
         <div className="flex flex-row justify-center w-screen">
           <Formik
             initialValues={initialValues}
@@ -396,7 +403,7 @@ export default function CreateProperty() {
               <Form className="flex flex-row justify-center w-3/4 bg-violet bg-opacity-10 rounded-xl shadow-xl p-20 my-10">
                 <div className="flex flex-col w-1/2 space-y-4">
                   {/* TITULO DE LA PUBLICACION */}
-                  <ToastContainer />
+                  {/* <ToastContainer /> */}
                   <div className="block text-left text-gray-700">
                     <label
                       htmlFor="title"
@@ -733,7 +740,7 @@ export default function CreateProperty() {
                               const startDate = new Date(startDateValue);
                               const endDate = new Date(endDateValue);
                               dates = generateDatesInRange(startDate, endDate);
-                              console.log(dates);
+                              // console.log(dates);
                             }
                           }}
                         />
@@ -754,10 +761,10 @@ export default function CreateProperty() {
                         const uploadImageUrl = await uploadImagesToCloudinary(
                           acceptedFiles
                         );
-                        console.log(
-                          "soy la devolucion del back",
-                          uploadImageUrl
-                        );
+                        // console.log(
+                        //   "soy la devolucion del back",
+                        //   uploadImageUrl
+                        // );
                         const newImages = [...values.images, uploadImageUrl];
                         setFieldValue("images", newImages);
                       }
@@ -841,10 +848,10 @@ export default function CreateProperty() {
                       onClick={(e) => {
                         e.preventDefault(); // Evitar que el formulario se envíe automáticamente
                         handleSubmit(values, { setSubmitting: () => {} }); // Llamar a la función handleSubmit con los valores y un objeto "setSubmitting" vacío
-                        console.log(
-                          "Soy la info a comprobar por que no funciona",
-                          values
-                        );
+                        // console.log(
+                        //   "Soy la info a comprobar por que no funciona",
+                        //   values
+                        // );
                       }}
                     >
                       Registry your property

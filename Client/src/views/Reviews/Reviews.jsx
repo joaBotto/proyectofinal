@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { editProperty, getBooking } from "../../redux/actions";
-import { Avatar, Rate, Input, Result } from "antd";
+import { Avatar, Rate, Input, Steps, Alert, Space, Spin } from "antd";
 const { TextArea } = Input;
 import { HeartFilled } from "@ant-design/icons";
 import NavBar from "../../components/NavBar/NavBar";
@@ -12,21 +12,36 @@ function Reviews() {
 	const { id } = useParams();
 
 	const dispatch = useDispatch();
-	const booking = useSelector((state) => state.bookingDetail);
-
+	const navigate = useNavigate();
 	useEffect(() => {
 		dispatch(getBooking(id));
-	}, [dispatch]);
+	}, [dispatch, id]);
+	const booking = useSelector((state) => state.bookingDetail);
+	const guest = useSelector((state) => state.bookingDetail.guest);
+
+	const [success, setSuccess] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const property = booking.property;
 
 	const [review, setReview] = useState({
 		calification: 0,
 		description: "",
-		guestId: booking.guest._id,
-		guestName: booking.guest.name,
-		guestImage: booking.guest.image || "https://placehold.co/600x400",
+		guestId: "",
+		guestName: "",
+		guestImage: "https://placehold.co/600x400",
 	});
+
+	useEffect(() => {
+		if (guest) {
+			setReview({
+				...review,
+				guestId: guest._id,
+				guestName: guest.name,
+				guestImage: guest.image || "https://placehold.co/600x400",
+			});
+		}
+	}, [guest]);
 
 	const handleChange = (e) => {
 		setReview({
@@ -56,22 +71,30 @@ function Reviews() {
 				reviews: [review],
 			};
 		}
-		console.log("esto mando al back", updatedProperty);
-		dispatch(editProperty(updatedProperty));
+		// console.log("esto mando al back", updatedProperty);
+		await dispatch(editProperty(updatedProperty));
+		setIsLoading(true);
+		setTimeout(() => {
+			setSuccess(true);
+			setIsLoading(false);
+		}, 3000);
+		setTimeout(() => {
+			navigate(`/`);
+		}, 7000);
 	};
 
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
-			{booking && (
+			{booking && property ? (
 				<div>
 					<NavBar />
 					<div className="w-full">
 						<div className="ml-6 flex flex-col relative">
 							<h1 className="absolute bottom-[120px] text-5xl font-onest font-extrabold uppercase text-violet pb-3">
-								Welcome back {review.guestName} <HeartFilled />
+								Welcome back {review?.guestName} <HeartFilled />
 							</h1>
 							<h1 className="absolute bottom-[50px] text-3xl font-onest font-extrabold uppercase text-white">
-								Hope you had the best stay at <br /> {property.title}!
+								Hope you had the best stay at <br /> {property?.title}!
 							</h1>
 						</div>
 						<p className="ml-6 pt-10 text-4xl text-center font-onest font-extrabold uppercase text-cyan">
@@ -82,7 +105,7 @@ function Reviews() {
 								<div className="w-1/2 p-5 rounded-2xl">
 									<div className="overflow-hidden w-full shadow-md rounded-2xl">
 										<img
-											src={property.images && property.images[0].imageUrl}
+											src={property?.images && property?.images[0].imageUrl}
 											alt="property"
 											className="object-cover rounded-2xl"
 										/>
@@ -105,12 +128,14 @@ function Reviews() {
 												/>
 											)}
 										</div>
-										<p className="pl-1 font-noto text-blue text-xl">
-											{review.guestName}
-										</p>
+										{review && (
+											<p className="pl-1 font-noto text-blue text-xl">
+												{review.guestName}
+											</p>
+										)}
 										<p className="pl-1 font-noto text-blue text-xl">
 											{" "}
-											{booking.guest.lastName}
+											{booking.guest?.lastName}
 										</p>
 									</div>
 
@@ -157,26 +182,38 @@ function Reviews() {
 											</label>
 										</div>
 										<div className="flex w-full justify-end pt-10 mt-10">
-											<button
-												type="submit"
-												disabled={!review.calification || !review.description}
-												className={`bg-violet py-2 px-4 rounded-full shadow font-onest text-white ${
-													!review.calification || !review.description
-														? "bg-opacity-5 cursor-not-allowed"
-														: "hover:bg-pink cursor-pointer"
-												}`}
-											>
-												Submit Review
-											</button>
+											{isLoading && (
+												<div className="flex flex-col justify-center items-center">
+													<Spin size="large" />
+												</div>
+											)}
+											{!isLoading && !success && (
+												<button
+													type="submit"
+													disabled={!review.calification || !review.description}
+													className={`bg-violet py-2 px-4 rounded-full shadow font-onest text-white ${
+														!review.calification || !review.description
+															? "bg-opacity-5 cursor-not-allowed"
+															: "hover:bg-pink cursor-pointer"
+													}`}
+												>
+													Submit Review
+												</button>
+											)}
+											{success && (
+												<div className="flex flex-col justify-center items-center">
+													<Space direction="vertical" style={{ width: "100%" }}>
+														<Alert
+															message="Thank you for your feedback!"
+															description="Redirecting..."
+															type="success"
+															showIcon
+														/>
+													</Space>
+												</div>
+											)}
 										</div>
 									</form>
-									{/* <Link to={`/detail/${id}`}>
-								<Result
-									status="success"
-									title="Successfully Purchased Cloud Server ECS!"
-									subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
-								/>
-							</Link> */}
 								</div>
 							</div>
 						</div>
@@ -184,6 +221,10 @@ function Reviews() {
 					<div className="p-0">
 						<Footer />
 					</div>
+				</div>
+			) : (
+				<div className="flex justify-center items-center">
+					<Spin size="large" />
 				</div>
 			)}
 		</div>

@@ -4,7 +4,9 @@ import { useParams, Link,useNavigate } from "react-router-dom";
 import {
 	getPropertyDetail,
 	cleanDetail,
-	getAllBookings,addPropertyToSaved,userAuthenticated
+	getAllBookings,
+	addPropertyToSaved,
+	removePropertyFromSaved,
 } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,6 +27,7 @@ import BookingDetails from "./Booking";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
+import ShowReviews from "./ShowReviews";
 
 const Detail = () => {
 	const navigate = useNavigate();
@@ -33,7 +36,7 @@ const Detail = () => {
 	const [isPropertySaved, setIsPropertySaved] = useState(false);
 	const property = useSelector((state) => state.propertyDetail);
 	console.log(property);
-	const user = useSelector((state) => state.user);
+
 	useEffect(() => {
 		dispatch(getPropertyDetail(id));
 		return () => {
@@ -70,6 +73,7 @@ const Detail = () => {
 		  })
 		: "N/A";
 
+	//*MAP-------------------------------------------------------------------------
 	const PropertyMap = ({ property }) => {
 		const [map, setMap] = useState(null);
 
@@ -101,29 +105,7 @@ const Detail = () => {
 			</LoadScript>
 		);
 	};
-	const handleSaveProperty = async () => {
-		
-		try {
-		  // Verificar si el usuario está autenticado
-		  if (!user) {
-			navigate("/login");
-			return;
-		  }
-		  if (isPropertySaved) {
-			return;
-		  }
-		  setIsPropertySaved(true); 
-		  const propertyId = property.id; 
-		  dispatch(addPropertyToSaved(propertyId));
-		  console.log(dispatch)
-		} catch (error) {
-		  // Manejar errores aquí (mostrar mensaje de error, etc.)
-		  console.error("Error al guardar la propiedad:", error);
-		}
-	  };
-	
-	 
-	
+
 	//*IMAGE GALLERY---------------------------------------------------------------------
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
@@ -150,16 +132,6 @@ const Detail = () => {
 									{property.title}
 								</h1>
 							</div>
-							<div className="w-full justify-end">
-								<button className="fixed right-2 flex flex-row justify-end text-white bg-transparent rounded-full mr-6">
-									<Link to="/">
-										<FontAwesomeIcon
-											icon={faHouse}
-											className="bg-cyan text-blue text-2xl py-2 px-2 rounded-full justify-center shadow-lg"
-										/>
-									</Link>
-								</button>
-							</div>
 						</div>
 						<div className="mb-5">
 							<div className="flex flex-row h-[500px]">
@@ -167,11 +139,7 @@ const Detail = () => {
 									<ImageCarousel images={property.images} />
 								</div>
 								<div className="w-full flex flex-row flex-wrap justify-start overflow-x-hidden overflow-y-scroll">
-									<p 
-									onClick={handleSaveProperty}
-									className={`ml-5 text-blue font-onest font-bold underline pb-3 ${
-									  isPropertySaved ? 'text-gray-500 cursor-not-allowed' : 'cursor-pointer'
-									}`}>
+									<p className="ml-5 text-blue font-onest font-bold underline pb-3">
 										♥︎ SAVE PROPERTY
 									</p>
 									<div className="flex flex-row flex-wrap">
@@ -232,8 +200,8 @@ const Detail = () => {
 										PROPERTY OWNER
 									</p>
 									<div className="flex flex-col md:flex-row items-center pl-5">
-										{/* <div className="flex  rounded-full">
-											{property.owner?.images[0]?.imageUrl ? (
+										<div className="flex  rounded-full">
+											{property.owner?.image ? (
 												<Avatar
 													size={{
 														xs: 24,
@@ -243,7 +211,7 @@ const Detail = () => {
 														xl: 80,
 														xxl: 100,
 													}}
-													src={property.owner.images[0].imageUrl}
+													src={property.owner.image}
 												/>
 											) : (
 												<Avatar
@@ -258,44 +226,23 @@ const Detail = () => {
 													icon={<UserOutlined />}
 												/>
 											)}
-										</div> */}
-										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
+										</div>
+										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2 uppercase">
 											{property.owner.name} from {property.owner.city},{" "}
 											{property.owner.country}
 										</p>
 									</div>
 								</div>
 								<div className="w-1/4 ml-3 h-full border-2 border-cyan rounded-xl mt-3 pb-5">
-									<p className="text-xl text-blue font-onest font-extrabold pt-3 px-5">
-										PROPERTY REVIEWS
-									</p>
-									<div className="flex flex-col md:flex-row items-center pl-5">
-										<div className="flex  rounded-full">
-											<Avatar
-												size={{
-													xs: 24,
-													sm: 32,
-													md: 40,
-													lg: 64,
-													xl: 80,
-													xxl: 100,
-												}}
-												icon={<UserOutlined />}
-											/>
-										</div>
-										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
-											"Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											Facilis possimus neque adipisci maiores."
-										</p>
-									</div>
+									<ShowReviews property={property} />
 								</div>
 							</div>
 							<div className="w-full flex flex-row mt-8 pr-20">
 								<div className="w-1/2">
-									<p className="text-4xl text-blue font-onest font-extrabold py-3">
+									<p className="text-4xl text-blue font-onest font-extrabold pt-3">
 										LOCATION
 									</p>
-									<p className="text-md mt-1 pb-0 mb-0 font-noto font-medium text-blue uppercase">
+									<p className="text-md pb-0 mb-0 font-noto font-medium text-blue uppercase">
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
 										{property.type || "Property"} in {property.address.street}
 									</p>
@@ -306,7 +253,7 @@ const Detail = () => {
 								{property && <DisplayCharacteristics property={property} />}
 							</div>
 							<div className="w-full flex flex-col items-end justify-end pr-20 pt-11">
-								{property && <BookingDetails property={property} />}
+								{user && property && (<BookingDetails property={property} />)}
 							</div>
 						</div>
 						{isModalOpen && (

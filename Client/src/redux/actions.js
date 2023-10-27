@@ -46,18 +46,25 @@ export const getUserById = (id) => async (dispatch) => {
 
 
 export const addPropertyToSaved = (propertyId) => {
-	return async (dispatch) => {
-		//console.log("pruebajon", propertyId);
-		try {
-			return dispatch({
-				type: SAVE_PROPERTY,
-				payload: propertyId,
-			});
-		} catch (error) {
-			console.error("Error adding property to saved list:", error);
-		}
+	return async (dispatch, getState) => {
+	   try {
+		  const state = getState();
+		  if (!state.user) {
+			//  alert("You must be logged in to add to favorites");
+			 // Redireccionar al usuario al login
+			window.location = "/login"; 
+			 return;
+		  }
+		  
+		  return dispatch({
+			 type: SAVE_PROPERTY,
+			 payload: propertyId,
+		  });   
+	   } catch (error) {
+		  console.error("Error adding property to saved list:", error);
+	   }
 	};
-};
+ };
 
 export const removePropertyFromSaved = (propertyId) => {
 	return async (dispatch) => {
@@ -121,17 +128,23 @@ export const cleanDetail = () => {
 	};
 };
 
-export const createProperty = (values) => {
+export const createProperty = (values, setShowSuccessModal, setShowErrorModal) => {
 	return async (dispatch) => {
 		try {
 			const { data } = await axios.post("/properties", values);
-			toast.success("The property was created successfully");
-			return dispatch({
+			// toast.success("The property was created successfully");
+		 dispatch({
 				type: CREATE_PROPERTY,
 				payload: data,
 			});
+			setShowSuccessModal(true);
 		} catch (error) {
-			toast.error("Error when creating the property, missing fields");
+			dispatch({ type: ERROR, payload: error.message });
+			setShowErrorModal(true);
+		
+			
+			
+			// toast.error("Error when creating the property, missing fields");
 		}
 	};
 };
@@ -178,7 +191,7 @@ export const userLogin = (valores) => {
     try {
       const { data } = await axios.post(url, valores);
       const { user } = data;
-      console.log("AUTH",user)
+    //   console.log("AUTH",user)
       return dispatch({
         type: USER_LOGIN,
         payload: user
@@ -214,11 +227,11 @@ export const filters = (type, orderPrice, search) => {
 };
 
 export const updateUser = (userEdited) => {
-	console.log("userEdited", userEdited);
+	// console.log("userEdited", userEdited);
 	return async (dispatch) => {
 		try {
 			const { data } = await axios.put("/users", userEdited);
-			console.log("soydataAccion", data);
+			// console.log("soydataAccion", data);
 			return dispatch({
 				type: USER_EDITED,
 				payload: data,
@@ -232,33 +245,35 @@ export const updateUser = (userEdited) => {
 	};
 };
 
-export const addUser = (user) => async (dispatch) => {
+export const addUser = (user, setShowSuccessModal, setShowErrorModal) => async (dispatch) => {
 
-  try {
-    const { data } = await axios.post("/users", user);
-    console.log("SOY LA data de user", data);
-   
-    if (data) {
-    const { email } = data;
-    await axios.post("/mail/login", {email: email} )
-    toast.success("User created successfully");
-    const userCreated = {
-      email,
-      password,
-    };
-    dispatch({ type: ADD_USER, payload: userCreated });
+	try {
+	  const { data } = await axios.post("/users", user);
+	//   console.log("SOY LA data de user", data);
+	 
+	  if (data) {
+	  const { email } = data;
+	  await axios.post("/mail/login", {email: email} )
+	  
+	  const userCreated = {
+		email,
+		password,
+	  };
+	  dispatch({ type: ADD_USER, payload: userCreated });
   }
-} catch (error) {
-    toast.warning("User already exists");
-    dispatch({ type: ERROR, payload: error.message });
+  setShowSuccessModal(true);
+  } catch (error) {
+	  dispatch({ type: ERROR, payload: error.message });
+	  setShowErrorModal(true);
   }
-};
+  
+  };
 
 export const addNewBooking = (bookingData) => async (dispatch) => {
 	try {
 		const { data } = await axios.post("/bookings", bookingData);
 		toast.success("Booking successfull");
-		console.log("Booking successfull");
+		// console.log("Booking successfull");
 		return dispatch({
 			type: CREATE_BOOKING,
 			payload: data,

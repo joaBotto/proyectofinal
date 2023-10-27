@@ -16,7 +16,7 @@ export default function ModalError({ message, setShowModalError }) {
         </button>
         <h2 className="text-xl font-semibold mb-4 text-gray-700">Error!</h2>
         <p className="text-gray-700">
-          {message}, please try again!
+          {message} Please try again!
         </p>
         <div className="mt-2 mb-2 flex justify-center">
           <img src={error} alt="error" className="w-16 h-16" />

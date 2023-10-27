@@ -13,7 +13,7 @@ import HomeAdmin from "../src/components/admin/Posts/Posts";
 import Error404 from "./components/Error/Error404";
 import { EditPropertyFromAdmin } from "./components/admin/editProperty/editProperty";
 import Reservations from "./views/Reservations/Reservations";
-import GestionUser from "./views/gestionUser/GestionUser";
+//import GestionUser from "./views/gestionUser/GestionUser";
 import Postuser from "./components/propertiesAdmin/propertyUser";
 import PaymentForm from "./components/PaymentForm/PaymentForm";
 import { AllUsers } from "./components/admin/allUsers/allUsers";
@@ -23,8 +23,8 @@ import EditPaymentInfo from "./components/propertiesAdmin/paymentEdit";
 import Reviews from "./views/Reviews/Reviews";
 import Bookings from "./views/MyBookings/MyBookings";
 
-
 import axios from 'axios';
+import About from './components/About/About';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 // axios.defaults.baseURL = "https://inmobiliaria360.up.railway.app";
@@ -38,7 +38,6 @@ function App() {
 			{location.pathname === '/postUser' && <NavBar />}
 
 			<Routes>
-
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/create" element={<CreateProperty />} />
@@ -48,8 +47,8 @@ function App() {
 				<Route path="/detail/reservations/:id" element={<Reservations />} />
 				<Route path="/postUser" element={<Postuser />} />
 				<Route path="/checkout" element={<PaymentForm />} />
-				<Route path="/gestionUser" element={<GestionUser />} />
-				<Route path="/personalEdit" element={<EditAccount />} />
+				<Route path="/gestionUser" element={<EditAccount />} />
+			{/* 	<Route path="/personalEdit" element={<EditAccount />} /> */}
 				<Route path="/admin" element={<ViewAdmin />} />
 				<Route path="/admin/properties" element={<HomeAdmin />} />
 				<Route path="/admin/property/:id" element={<EditPropertyFromAdmin />} />
@@ -58,7 +57,7 @@ function App() {
 				<Route path="/saved" element={<SavedProperties />} />
 				<Route path="/reviews/:id" element={<Reviews />} />
 				<Route path="/bookings" element={<Bookings />} />
-
+        <Route path='/about' element={<About />} />
 			</Routes>
 		</div>
 	);

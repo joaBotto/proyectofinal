@@ -21,12 +21,12 @@ export default function Login() {
   const errorState = useSelector((state) => state.error)
   const messageError = useSelector((state) => state.messageError)
   const userCreated = useSelector((state) => state.userCreated);
-  console.log("SOY EL ERROR",errorState)
+  // console.log("SOY EL ERROR",errorState)
   
  const [showModalError, setShowModalError] = useState(true);
 
   const handleSubmit = (valores) => {
-    console.log(valores);
+    // console.log(valores);
     dispatch(userLogin(valores));
   };
 

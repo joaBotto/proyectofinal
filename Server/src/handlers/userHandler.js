@@ -41,7 +41,8 @@ const createUserHandler = async (req, res) => {
       city,
       address,
       phoneNumber,
-      active:true
+      active:true,
+      role:"user"
     };
     console.log("Recibida solicitud para crear usuario:", user);
     if (
@@ -87,7 +88,7 @@ const editUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      images,
+      image,
       savedProperties,
       country,
       city,
@@ -105,7 +106,7 @@ const editUserHandler = async (req, res) => {
       password,
       name,
       lastName,
-      images,
+      image,
       savedProperties,
       country,
       city,
