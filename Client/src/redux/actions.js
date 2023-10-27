@@ -46,18 +46,25 @@ export const getUserById = (id) => async (dispatch) => {
 
 
 export const addPropertyToSaved = (propertyId) => {
-	return async (dispatch) => {
-		//console.log("pruebajon", propertyId);
-		try {
-			return dispatch({
-				type: SAVE_PROPERTY,
-				payload: propertyId,
-			});
-		} catch (error) {
-			console.error("Error adding property to saved list:", error);
-		}
+	return async (dispatch, getState) => {
+	   try {
+		  const state = getState();
+		  if (!state.user) {
+			//  alert("You must be logged in to add to favorites");
+			 // Redireccionar al usuario al login
+			window.location = "/login"; 
+			 return;
+		  }
+		  
+		  return dispatch({
+			 type: SAVE_PROPERTY,
+			 payload: propertyId,
+		  });   
+	   } catch (error) {
+		  console.error("Error adding property to saved list:", error);
+	   }
 	};
-};
+ };
 
 export const removePropertyFromSaved = (propertyId) => {
 	return async (dispatch) => {
@@ -121,17 +128,23 @@ export const cleanDetail = () => {
 	};
 };
 
-export const createProperty = (values) => {
+export const createProperty = (values, setShowSuccessModal, setShowErrorModal) => {
 	return async (dispatch) => {
 		try {
 			const { data } = await axios.post("/properties", values);
-			toast.success("The property was created successfully");
-			return dispatch({
+			// toast.success("The property was created successfully");
+		 dispatch({
 				type: CREATE_PROPERTY,
 				payload: data,
 			});
+			setShowSuccessModal(true);
 		} catch (error) {
-			toast.error("Error when creating the property, missing fields");
+			dispatch({ type: ERROR, payload: error.message });
+			setShowErrorModal(true);
+		
+			
+			
+			// toast.error("Error when creating the property, missing fields");
 		}
 	};
 };

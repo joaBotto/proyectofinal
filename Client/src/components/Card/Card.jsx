@@ -16,6 +16,7 @@ import {
 	updateUser,
 } from "../../redux/actions";
 
+
 const Card = ({
 	_id,
 	title,
@@ -32,6 +33,15 @@ const Card = ({
   const savedProperty = useSelector((state) => state.savedProperties);
   const user = useSelector((state) => state.user);
   const allproperties = useSelector((state) => state.allproperties);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+	if (!user)/* Verificar si el usuario está logueado */{
+	  setIsLoggedIn(true);
+	} else {
+	  setIsLoggedIn(false);
+	}
+  }, [dispatch]);
+
 
   const handleSaveClick = () => {
     if (!savedProperty.find((property) => property._id === _id)) {
@@ -55,6 +65,7 @@ const Card = ({
 				dispatch(updateUser(userEdited));
 			}
 		} else {
+			
 			// console.log("Eliminando de favoritos", _id);
 			dispatch(removePropertyFromSaved(_id));
 

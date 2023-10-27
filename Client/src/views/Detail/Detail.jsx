@@ -25,6 +25,9 @@ import BookingDetails from "./Booking";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
+import { addPropertyToSaved } from "../../redux/actions";
+
+
 
 const Detail = () => {
 	const { id } = useParams();
@@ -112,6 +115,13 @@ const Detail = () => {
 		setIsModalOpen(false);
 	};
 
+	const handleSaveProperty = () => {
+		dispatch(addPropertyToSaved(property._id));
+	  };
+
+	  const savedProperties = useSelector((state) => state.savedProperties);
+const isPropertySaved = savedProperties.find((savedProperty) => savedProperty._id === property._id);
+
 	return (
 		<div className="bg-white w-screen h-screen overflow-x-hidden">
 			<NavBar />
@@ -141,9 +151,9 @@ const Detail = () => {
 									<ImageCarousel images={property.images} />
 								</div>
 								<div className="w-full flex flex-row flex-wrap justify-start overflow-x-hidden overflow-y-scroll">
-									<p className="ml-5 text-blue font-onest font-bold underline pb-3">
-										♥︎ SAVE PROPERTY
-									</p>
+								<button onClick={handleSaveProperty} className={isPropertySaved ? 'active' : ''}>
+								<p className="ml-5 text-blue font-onest font-bold underline pb-3"> ♥︎ SAVE PROPERTY
+                    </p></button>
 									<div className="flex flex-row flex-wrap">
 										{property.images.map((image, index) => (
 											<div className="flex flex-row flex-wrap ">
@@ -202,8 +212,8 @@ const Detail = () => {
 										PROPERTY OWNER
 									</p>
 									<div className="flex flex-col md:flex-row items-center pl-5">
-										<div className="flex  rounded-full">
-											{property.owner?.image ? (
+										{/* <div className="flex  rounded-full">
+											{property.owner?.images[0]?.imageUrl ? (
 												<Avatar
 													size={{
 														xs: 24,
@@ -213,7 +223,7 @@ const Detail = () => {
 														xl: 80,
 														xxl: 100,
 													}}
-													src={property.owner.image}
+													src={property.owner.images[0].imageUrl}
 												/>
 											) : (
 												<Avatar
@@ -228,8 +238,8 @@ const Detail = () => {
 													icon={<UserOutlined />}
 												/>
 											)}
-										</div>
-										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2 uppercase">
+										</div> */}
+										<p className="text-xs text-blue font-noto text-left font-light py-2 px-2">
 											{property.owner.name} from {property.owner.city},{" "}
 											{property.owner.country}
 										</p>
@@ -262,10 +272,10 @@ const Detail = () => {
 							</div>
 							<div className="w-full flex flex-row mt-8 pr-20">
 								<div className="w-1/2">
-									<p className="text-4xl text-blue font-onest font-extrabold pt-3">
+									<p className="text-4xl text-blue font-onest font-extrabold py-3">
 										LOCATION
 									</p>
-									<p className="text-md pb-0 mb-0 font-noto font-medium text-blue uppercase">
+									<p className="text-md mt-1 pb-0 mb-0 font-noto font-medium text-blue uppercase">
 										<FontAwesomeIcon icon={faLocationDot} />{" "}
 										{property.type || "Property"} in {property.address.street}
 									</p>
