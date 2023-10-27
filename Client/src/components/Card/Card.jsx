@@ -91,13 +91,14 @@ const Card = ({
 	return (
 		<div className="flex-auto rounded-2xl py-2 bg-white bg-opacity-50 border-blue border-2 border-b-4 border-r-4">
 			<div className="px-4 pt-5 sm:px-6 ">
-				<button onClick={handleSaveClick} className={combinedClasses}>
+				{user && (<button onClick={handleSaveClick} className={combinedClasses}>
 					<FontAwesomeIcon
 						icon={faHeart}
 						size="2x"
 						className="hover:text-cyan"
 					/>
 				</button>
+				)}
 				<div className="relative rounded-xl h-[300px] shadow overflow-hidden">
 					<ImageCarousel images={images} />
 				</div>
