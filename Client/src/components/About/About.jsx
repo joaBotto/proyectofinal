@@ -29,7 +29,7 @@ const teamMembers = [
 	},
 	{
 		name: 'Jonnathan Scarpetta',
-		githubOrPortfolio: 'https://github.com/jonsxscar',
+		githubOrPortfolio: 'https://jonsxscar.github.io/portfolio/',
 		image: Jonnathan,
 	},
 	{
