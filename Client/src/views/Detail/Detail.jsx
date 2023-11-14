@@ -39,9 +39,9 @@ const Detail = () => {
 
 	useEffect(() => {
 		dispatch(getPropertyDetail(id));
-		return () => {
+	/* 	return () => {
 			dispatch(cleanDetail());
-		};
+		}; */
 	}, [dispatch, id]);
 
 	useEffect(() => {

@@ -16,7 +16,7 @@ function Reservations() {
 	const dispatch = useDispatch();
 	const booking = useSelector((state) => state.bookingDetail);
 
-	console.log(booking);
+	console.log("SOY EL BOOKING DETAIL",booking);
 
 	useEffect(() => {
 		dispatch(getBooking(id));

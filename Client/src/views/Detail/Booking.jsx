@@ -68,10 +68,11 @@ function BookingDetails({ property }) {
 		}
 	};
 
-	const bookings = useSelector((state) => state.bookings);
-	const lastBookingId = bookings?.map((booking) => booking._id);
+	const bookings = useSelector((state) => state.bookingDetail);
+	/* const lastBookingId = bookings?.map((booking) => booking._id);
 	const bookingId =
-		bookings?.length > 0 ? lastBookingId[lastBookingId.length - 1] : "";
+		bookings?.length > 0 ? lastBookingId[lastBookingId.length - 1] : ""; */
+		const bookingId = bookings._id
 
 	const guest = useSelector((state) => state.user);
 	const [isReservationVisible, setReservationVisible] = useState(false);
