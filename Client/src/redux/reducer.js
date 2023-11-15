@@ -244,8 +244,9 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case CREATE_BOOKING:
       return {
         ...state,
-        bookings: [...state.bookings, action.payload],
-        allBookings: [...state.allBookings, action.payload],
+        bookings: [...state.bookings, payload],
+        allBookings: [...state.allBookings, payload],
+        bookingDetail: payload
       };
 
     case GET_ALL_BOOKINGS:
